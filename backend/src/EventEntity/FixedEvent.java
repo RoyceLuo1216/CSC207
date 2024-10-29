@@ -1,6 +1,9 @@
 package EventEntity;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A FixedEvent represents an event with a fixed start and end time, name, and priority.
@@ -11,6 +14,7 @@ public class FixedEvent implements Event {
     private LocalDateTime dayEnd;
     private String eventName;
     private int priorityLabel;
+    private List<Task> tasks;
 
     /**
      * Constructor for the FixedEvent class.
@@ -25,6 +29,7 @@ public class FixedEvent implements Event {
         this.dayEnd = dayEnd;
         this.eventName = eventName;
         this.priorityLabel = priorityLabel;
+        this.tasks = new ArrayList<>();
     }
 
     /**
@@ -113,4 +118,35 @@ public class FixedEvent implements Event {
     public void setPriorityLabel(int priorityLabel) {
         this.priorityLabel = priorityLabel;
     }
+
+    /**
+     * Returns the list of tasks associated with the event.
+     *
+     * @return
+     */
+    @Override
+    public List<Task> getTasks() {
+        return this.tasks;
+    }
+
+    /**
+     * Adds a Task to the list
+     *
+     * @param task, task object to add to the event.
+     */
+    @Override
+    public void addTask(Task task) {
+        this.tasks.add(task);
+    }
+
+    /**
+     * Removes a task from the list.
+     *
+     * @param task, task object that gets removed.
+     */
+    @Override
+    public void removeTask(Task task) {
+        this.tasks.remove(task);
+    }
+
 }
