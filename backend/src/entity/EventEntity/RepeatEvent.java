@@ -6,30 +6,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A FixedEvent represents an event with a fixed start and end time, name, and priority.
+ * A RepeatEvent represents a repeated event with  start/end time, name, and priority.
  */
-public class FixedEvent implements Event {
+public class RepeatEvent implements Event {
 
     private LocalDateTime dayStart;
     private LocalDateTime dayEnd;
     private String eventName;
     private int priorityLabel;
     private List<Task> tasks;
+    private List<LocalDateTime> daysRepeated;
 
     /**
-     * Constructor for the FixedEvent class.
+     * Constructor for the RepeatEvent class.
      *
      * @param dayStart      the start date and time of the event
      * @param dayEnd        the end date and time of the event
      * @param eventName     the name of the event
      * @param priorityLabel the priority label of the event
+     * @param daysRepeated  the days that the event is repeated
      */
-    public FixedEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName, int priorityLabel) {
+    public RepeatEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName, int priorityLabel, List<LocalDateTime> daysRepeated) {
         this.dayStart = dayStart;
         this.dayEnd = dayEnd;
         this.eventName = eventName;
         this.priorityLabel = priorityLabel;
         this.tasks = new ArrayList<>();
+        this.daysRepeated = daysRepeated;
     }
 
     /**
