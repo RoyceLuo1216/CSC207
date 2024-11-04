@@ -1,4 +1,4 @@
-package src;
+package schedule;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
