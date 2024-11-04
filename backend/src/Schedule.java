@@ -1,10 +1,11 @@
-import java.time.LocalDateTime;
+package src;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.ArrayList;
 
-import EventEntity.*;
+import EventEntity.Event;
 
 /**
  * Class representing a Schedule with a name, start and end time, and priority.
@@ -12,16 +13,17 @@ import EventEntity.*;
  */
 
 public class Schedule {
-    private List<Event> events; // List of events in the schedule
+    private List<Event> events;
 
     /**
-     * Constructor for the Schedule class
+     * Constructor for the Schedule class.
      */
     public Schedule() {
         this.events = new ArrayList<>();
     }
 
-    /** Method to create a fixed event with specified start and end times.
+    /**
+     * Method to create a fixed event with specified start and end times.
      * @param name              the name of the event
      * @param priority     the priority of the event (on a scale of 1-5)
      * @param dayStart          the date and time the event starts
@@ -31,11 +33,12 @@ public class Schedule {
     public boolean createFixedEvent(String name, int priority, LocalDateTime dayStart,
                                     LocalDateTime dayEnd) {
 
-        FixedEvent event = new FixedEvent(dayStart, dayEnd, name, priority);
+        final FixedEvent event = new FixedEvent(dayStart, dayEnd, name, priority);
         return events.add(event);
     }
 
-    /** Method to create a flexible event that only specifies a time allocation
+    /**
+     * Method to create a flexible event that only specifies a time allocation.
      * @param name              the name of the event
      * @param priority     the priority of the event (on a scale of 1-5)
      * @param dayStart          the date and time the event starts (i.e. monday, tuesday, etc.)
@@ -45,11 +48,12 @@ public class Schedule {
      */
     public boolean createFlexibleEvent(String name, int priority, LocalDateTime dayStart,
                                        LocalDateTime dayEnd, int timeAllocation) {
-        FlexibleEvent event = new FlexibleEvent(name, priority, dayStart, dayEnd, timeAllocation);
+        final FlexibleEvent event = new FlexibleEvent(name, priority, dayStart, dayEnd, timeAllocation);
         return events.add(event);
     }
 
-    /** Method to create a repeat event with specified start and end times
+    /**
+     * Method to create a repeat event with specified start and end times.
      * @param name              the name of the event
      * @param priority     the priority of the event (on a scale of 1-5)
      * @param dayStart          the date and time the event starts (i.e. monday, tuesday, etc.)
@@ -58,61 +62,69 @@ public class Schedule {
      */
     public boolean createRepeatEvent(String name, int priority, LocalDateTime dayStart,
                                       LocalDateTime dayEnd) {
-        RepeatEvent event = new RepeatEvent(name, priority, dayStart, dayEnd);
+        final RepeatEvent event = new RepeatEvent(name, priority, dayStart, dayEnd);
         return events.add(event);
     }
 
-    /** Method to delete an event by name
+    /**
+     * Method to delete an event by name.
      * @param name      name of the event
      * @return True     if the event was successfully deleted
      */
     public boolean deleteEvent(String name) {
+
         return events.remove(name);
     }
 
-    /** Method to automatically schedule events
+    /**
+     * Method to automatically schedule events.
      * @return True     if the event was successfully deleted
      */
     public boolean scheduleEvents() {
         // Logic to schedule events
         // API call
-        return true; // Placeholder return value
+        return true;
     }
 
-    /** Method to get all events in the schedule
+    /**
+     * Method to get all events in the schedule.
      * @return a list of all the events currently in the schedule
      */
     public List<Event> getAllEvents() {
         return events;
     }
 
-    /** Method to find an event by its name
+    /**
+     * Method to find an event by its name.
      * @param name the name of the event we want to find
-     * @return
+     * @return the event with the name or an empty Optional object if the event cannot be found
      */
     public Optional<Event> getEventByName(String name) {
+        Optional<Event> result = Optional.empty();
         for (Event event : events) {
             if (event.getEventName().equals(name)) {
-                return Optional.of(event);
+                result = Optional.of(event);
             }
         }
-        return Optional.empty();
+        return result;
     }
 
-    /** Method to find an event by a specific time
+    /**
+     * Method to find an event by a specific time.
      * @param time      the date/time of the event we want to find
-     * @return the event scheduled at that time or n
+     * @return the event scheduled at that time or an empty Optional object if the event cannot be found
      */
     public Optional<Event> getEventByTime(LocalDateTime time) {
+        Optional<Event> result = Optional.empty();
         for (Event event : events) {
-            LocalDateTime startDate = event.getDayStart();
-            LocalDateTime endDate = event.getDayEnd();
+            final LocalDateTime startDate = event.getDayStart();
+            final LocalDateTime endDate = event.getDayEnd();
 
-            if (startDate.isEqual(time) || endDate.isEqual(time) ||
-                    (startDate.isBefore(time) && (endDate.isAfter(time)))) {
-                return Optional.of(event);
+            if (startDate.isEqual(time) || endDate.isEqual(time)
+                    || startDate.isBefore(time) && (endDate.isAfter(time))) {
+                result = Optional.of(result);
             }
         }
-        return Optional.empty();
+        return result;
     }
 }
