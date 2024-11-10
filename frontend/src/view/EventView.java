@@ -1,11 +1,5 @@
 package view;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -13,12 +7,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  * The View for when the user is adding an event (i.e. its details) into the program.
  */
-public class EventView extends JPanel implements ActionListener, PropertyChangeListener {
+public class EventView extends JPanel {
+    // Data
+    private final EventViewData eventData = new EventViewData();
 
+    // Constants
     private final String[] eventTypes = {"Fixed", "Flexible", "Repeat"};
     private final String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
     private final String[] times = {"12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM",
@@ -27,6 +26,7 @@ public class EventView extends JPanel implements ActionListener, PropertyChangeL
                                     "9:00 PM", "10:00 PM", "11:00 PM"};
     private final String[] priorities = {"1", "2", "3", "4", "5"};
 
+    // Fillable Components
     private final JTextField eventNameField = new JTextField(20);
     private final JComboBox<String> eventTypeComboBox = new JComboBox<>(eventTypes);
     private final JComboBox<String> dayStartComboBox = new JComboBox<>(daysOfWeek);
@@ -34,8 +34,13 @@ public class EventView extends JPanel implements ActionListener, PropertyChangeL
     private final JComboBox<String> timeStartComboBox = new JComboBox<>(times);
     private final JComboBox<String> timeEndComboBox = new JComboBox<>(times);
     private final JComboBox eventPriorityComboBox = new JComboBox<>(priorities);
+    private final JLabel saveLabel = new JLabel();
+    private final JButton saveButton = new JButton("Save");
+
+    // Data
 
     public EventView() {
+        // LAYOUT
         // Create the fixed frame (main)
         final JFrame fixedFrame = new JFrame("Create Event Page");
         fixedFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,7 +85,9 @@ public class EventView extends JPanel implements ActionListener, PropertyChangeL
         eventPriorityPanel.add(eventPriorityComboBox);
 
         // Save Button
-        final JButton saveButton = new JButton("Save");
+        final JPanel savePanel = new JPanel();
+        savePanel.add(saveButton);
+        savePanel.add(saveLabel);
 
         // Add panels to frame
         fixedFrame.add(eventNamePanel);
@@ -90,18 +97,53 @@ public class EventView extends JPanel implements ActionListener, PropertyChangeL
         fixedFrame.add(timeStartPanel);
         fixedFrame.add(timeEndPanel);
         fixedFrame.add(eventPriorityPanel);
-        fixedFrame.add(saveButton);
+        fixedFrame.add(savePanel);
 
         // Display the frame
         fixedFrame.setVisible(true);
-    }
 
-    @Override
-    public void actionPerformed(ActionEvent evt) {
-    }
+        // LISTENERS
+        // DocumentListener for eventNameField
+        eventNameField.getDocument().addDocumentListener(new DocumentListener() {
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+            private void documentListenerHelper() {
+                eventData.setEventName(eventNameField.getText());
+            }
 
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+        });
+
+        // ActionListener for save button
+        saveButton.addActionListener(
+            // This creates an anonymous subclass of ActionListener and instantiates it.
+            evt -> {
+                if (evt.getSource().equals(saveButton)) {
+
+                    eventData.setEventName(eventNameField.getText());
+                    eventData.setEventType((String) eventTypeComboBox.getSelectedItem());
+                    eventData.setDayStart((String) dayStartComboBox.getSelectedItem());
+                    eventData.setDayEnd((String) dayEndComboBox.getSelectedItem());
+                    eventData.setTimeStart((String) timeStartComboBox.getSelectedItem());
+                    eventData.setTimeEnd((String) timeEndComboBox.getSelectedItem());
+                    eventData.setEventPriority((String) eventPriorityComboBox.getSelectedItem());
+
+                    eventData.getAll();
+                    saveLabel.setText("Saved!");
+                }
+            }
+        );
     }
 }
