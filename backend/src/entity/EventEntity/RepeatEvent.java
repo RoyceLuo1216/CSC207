@@ -15,7 +15,7 @@ public class RepeatEvent implements Event {
     private String eventName;
     private int priorityLabel;
     private List<Task> tasks;
-    private List<LocalDateTime> daysRepeated;
+    private List<String> daysRepeated;
 
     /**
      * Constructor for the RepeatEvent class.
@@ -152,4 +152,7 @@ public class RepeatEvent implements Event {
         this.tasks.remove(task);
     }
 
+    public List<LocalDateTime> getDaysRepeated() {
+        return daysRepeated;
+    }
 }

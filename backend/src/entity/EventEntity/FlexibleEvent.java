@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.Duration;
 
 /**
  * A FlexibleEvent represents an event with a flexible start and end time, name, and priority.
@@ -157,11 +158,15 @@ public class FlexibleEvent implements Event {
      *
      * @param time, the estimated time to complete this event.
      */
-    public float estimateTime() {
+    public long estimateTime() {
         float totalTime = 0;
         for (Task task: tasks) {
-            totalTime += task.time
+            totalTime += Duration.between(task.getStartTime(), task.getEndTime()).toMinutes();
         }
         return min(totalTime, timeAllocation)
+    }
+
+    public float getTimeAllocation() {
+        return timeAllocation;
     }
 }

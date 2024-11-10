@@ -25,12 +25,8 @@ public class FixedEvent implements Event {
      * @param dayEnd        the end date and time of the event
      * @param eventName     the name of the event
      * @param priorityLabel the priority label of the event
-     * @param timeStart      the start date and time of the event
-     * @param timeEnd        the end date and time of the event
      */
-    public FixedEvent(LocalDateTime dayStart, LocalDateTime dayEnd, LocalDateTime timeStart, LocalDateTime timeEnd, String eventName, int priorityLabel) {
-        this.timeStart = timeStart;
-        this.timeEnd = timeEnd;
+    public FixedEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName, int priorityLabel) {
         this.dayStart = dayStart;
         this.dayEnd = dayEnd;
         this.eventName = eventName;
