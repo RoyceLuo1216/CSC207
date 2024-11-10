@@ -126,6 +126,31 @@ public class EventView extends JPanel {
             }
         });
 
+//        // PropertyChangeListener for eventTypeComboBox
+//        // TODO: add collapsible pages for flexible and repeat here
+//        eventTypeComboBox.addPropertyChangeListener("selectedItem", evt ->
+//                eventData.setEventType((String) evt.getNewValue()));
+//
+//        // PropertyChangeListener for dayStart
+//        dayStartComboBox.addPropertyChangeListener("selectedItem", evt ->
+//                eventData.setDayStart((String) evt.getNewValue()));
+//
+//        // PropertyChangeListener for dayEnd
+//        dayEndComboBox.addPropertyChangeListener("selectedItem", evt ->
+//                eventData.setDayEnd((String) evt.getNewValue()));
+//
+//        // PropertyChangeListener for timeStart
+//        timeStartComboBox.addPropertyChangeListener("selectedItem", evt ->
+//                eventData.setTimeStart((String) evt.getNewValue()));
+//
+//        // PropertyChangeListener for timeEnd
+//        timeEndComboBox.addPropertyChangeListener("selectedItem", evt ->
+//                eventData.setTimeEnd((String) evt.getNewValue()));
+//
+//        // PropertyChangeListener for eventPriority
+//        eventPriorityComboBox.addPropertyChangeListener("selectedItem", evt ->
+//                eventData.setEventPriority((String) evt.getNewValue()));
+
         // ActionListener for save button
         saveButton.addActionListener(
             // This creates an anonymous subclass of ActionListener and instantiates it.

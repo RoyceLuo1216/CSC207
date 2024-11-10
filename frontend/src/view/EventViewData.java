@@ -87,5 +87,5 @@ public class EventViewData {
 //        this.priority = priority;
 
         // TODO: Format dayStart/End and timeStart/End to LocalDateTime and then put that logic in a new class
-    // }
+//     }
 }
