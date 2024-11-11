@@ -2,6 +2,7 @@ package usecase;
 
 import EventEntity.Event;
 import EventEntity.RepeatEvent;
+import java.util.stream.Collectors;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -133,6 +134,19 @@ public class Schedule {
             }
         }
         return Optional.empty();
+    }
+
+    /**
+     * Method to get all events of a specified type in the schedule.
+     *
+     * @param eventType the class type of events to filter by (e.g., FixedEvent.class)
+     * @return a list of events of the specified type
+     */
+    public <T extends Event> List<T> getEventsByType(Class<T> eventType) {
+        return events.stream()
+                .filter(eventType::isInstance)
+                .map(eventType::cast)
+                .collect(Collectors.toList());
     }
 
     /**

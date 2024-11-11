@@ -2,7 +2,7 @@ package usecase.flexible;
 
 import com.google.ortools.Loader;
 import com.google.ortools.sat.*;
-import main.java.EventEntity.FlexibleEvent;
+import EventEntity.FlexibleEvent;
 
 import java.util.List;
 

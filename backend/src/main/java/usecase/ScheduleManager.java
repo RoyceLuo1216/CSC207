@@ -1,5 +1,6 @@
 package usecase;
 
+import EventEntity.Event;
 import usecase.fixed.FixedEventUseCase;
 import usecase.flexible.FlexibleEventUseCase;
 import usecase.repeat.*;
@@ -14,13 +15,13 @@ public class ScheduleManager {
     private final Schedule schedule;
     private final FixedEventUseCase fixedEventUseCase;
     private final FlexibleEventUseCase flexibleEventUseCase;
-    private final RepeatEventUseCase repeatEventUseCase;
+    //private final RepeatEventUseCase repeatEventUseCase;
 
     public ScheduleManager() {
         this.schedule = new Schedule();
         this.fixedEventUseCase = new FixedEventUseCase(schedule);
         this.flexibleEventUseCase = new FlexibleEventUseCase(schedule);
-        this.repeatEventUseCase = new RepeatEventUseCase(schedule);
+        //this.repeatEventUseCase = new RepeatEventUseCase(schedule);
     }
 
     public boolean addFixedEvent(String name, int priority, LocalDateTime dayStart, LocalDateTime dayEnd) {
@@ -32,7 +33,8 @@ public class ScheduleManager {
     }
 
     public boolean addRepeatEvent(String name, int priority, LocalDateTime dayStart, LocalDateTime dayEnd) {
-        return repeatEventUseCase.addRepeatEvent(name, priority, dayStart, dayEnd);
+        //return repeatEventUseCase.addRepeatEvent(name, priority, dayStart, dayEnd);
+        return true;
     }
 
     public boolean removeEvent(String name) {
