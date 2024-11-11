@@ -53,36 +53,6 @@ public class eventStorage {
             System.out.println("error msg: " + e.getMessage());
         }
     }
-    public void editEvent(String eventName, Event updatedEvent) {
-        JSONParser parser = new JSONParser();
-        FileReader reader = new FileReader("events.json");
-        JSONObject eventsObject = (JSONObject) parser.parse(reader);
-
-        JSONObject updatedEventJson = new JSONObject();
-        updatedEventJson.put("eventName", updatedEvent.getEventName());
-        updatedEventJson.put("dayStart", updatedEvent.getDayStart().toString());
-        updatedEventJson.put("dayEnd", updatedEvent.getDayEnd().toString());
-        updatedEventJson.put("priorityLabel", updatedEvent.getPriorityLabel());
-
-        if (event instanceof FixedEvent) {
-            updatedEventJson.put("eventLabel", "fixed");
-        } else if (event instanceof FlexibleEvent) {
-            updatedEventJson.put("eventLabel", "flexible");
-            updatedEventJson.put("timeAllocation", updatedEvent.getTimeAllocation());
-        } else if (event instanceof RepeatEvent) {
-            updatedEventJson.put("eventLabel", "repeat");
-            updatedEventJson.put("daysRepeated", updatedEvent.getDaysRepeated());
-        }
-
-        eventsObject.put(eventName, updatedEventJson);
-
-        try (FileWriter file = new FileWriter("events.json")) {
-            file.write(eventsObject.toJSONString());
-            file.flush();
-        } catch (java.lang.Exception e) {
-            System.out.println("error msg: " + e.getMessage());
-        }
-    }
     public Schedule getSchedule () {
         JSONParser parser = new JSONParser();
         FileReader reader = new FileReader("events.json");
@@ -103,40 +73,8 @@ public class eventStorage {
                 updatedEventJson.put("eventLabel", "repeat");
                 updatedEventJson.put("daysRepeated", updatedEvent.getDaysRepeated());
             }
-
-
         }
     }
-    public List<Event> getEventsByType (String type) {
-        JSONParser parser = new JSONParser();
-        FileReader reader = new FileReader("events.json");
-        JSONObject schedule = (JSONObject) parser.parse(reader);
-        List <Event> events = new ArrayList<>();
-        for (Object key : schedule.keySet()) {
-            String eventName = (String) key;
-            JSONObject eventDetails = (JSONObject) jsonObject.get(eventName);
-
-            String dayStart = (String) eventDetails.get("dayStart");
-            String dayEnd = (String) eventDetails.get("dayEnd");
-            int priorityLabel = (int) eventDetails.get("priorityLabel");
-
-            if (type == eventDetails.get("eventLabel")) {
-                if (eventLabel == "flexible") {
-                    float timeAllocation = eventDetails.get("timeAllocation")
-                    FlexibleEvent event = new FlexibleEvent(dayStart, dayEnd, eventName, priorityLabel, timeAllocation)
-                    events.add(event);
-                } else if (eventLabel == "repeat") {
-                    List<String> daysRepeated = eventDetails.get("daysRepeated");
-                    FlexibleEvent event = new RepeatedEvent(FlexibleEvent(dayStart, dayEnd, eventName, priorityLabel, daysRepeated))
-                    events.add(event);
-                } else {
-                    FixedEvent event = new RepeatedEvent(FlexibleEvent(dayStart, dayEnd, eventName, priorityLabel))
-                    events.add(event);
-                }
-            }
 
 
-
-        }
-    }
 }
