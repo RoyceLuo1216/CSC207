@@ -1,6 +1,5 @@
 package EventEntity;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +9,11 @@ import java.util.List;
  */
 public class FixedEvent implements Event {
 
+    private final List<Task> tasks;
     private LocalDateTime dayStart;
     private LocalDateTime dayEnd;
     private String eventName;
     private int priorityLabel;
-    private final List<Task> tasks;
 
     /**
      * Constructor for the FixedEvent class.
@@ -30,6 +29,7 @@ public class FixedEvent implements Event {
         this.eventName = eventName;
         this.priorityLabel = priorityLabel;
         this.tasks = new ArrayList<>();
+
     }
 
     /**
