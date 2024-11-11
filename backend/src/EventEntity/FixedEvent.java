@@ -14,7 +14,7 @@ public class FixedEvent implements Event {
     private LocalDateTime dayEnd;
     private String eventName;
     private int priorityLabel;
-    private List<Task> tasks;
+    private final List<Task> tasks;
 
     /**
      * Constructor for the FixedEvent class.
