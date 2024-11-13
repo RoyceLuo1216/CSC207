@@ -8,11 +8,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.io.File;
 
 public class eventStorage {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+    /**
+     * Method to save schedule to events.json. Will override the previous events.json
+     * @param Schedule schedule
+     * @return saved schedule
+     */
     public void saveSchedule(Schedule schedule) {
         JSONObject eventsObject = new JSONObject();
 
@@ -50,15 +56,25 @@ public class eventStorage {
             file.write(eventsObject.toJSONString());
             file.flush();
         } catch (IOException e) {
-            System.out.println("error msg: " + e.getMessage());
+            System.out.println("error " + e.getMessage());
         }
     }
+
+    /**
+     * Method to retrieve saved json schedule. If there is no events.json file, returns an empty schedule class.
+     * @return saved schedule
+     */
     public Schedule getSchedule () {
+        Schedule loadedSchedule = new Schedule()
+        if (!Files.exists(Paths.get("events.json"))) {
+            return loadedSchedule;
+        }
+
         JSONParser parser = new JSONParser();
         FileReader reader = new FileReader("events.json");
-        JSONObject schedule = (JSONObject) parser.parse(reader);
-        Schedule schedule = new Schedule()
-        for (Object key : schedule.keySet()) {
+        JSONObject savedSchedule = (JSONObject) parser.parse(reader);
+
+        for (Object key : savedSchedule.keySet()) {
             String eventName = (String) key;
             JSONObject eventDetails = (JSONObject) jsonObject.get(eventName);
 
@@ -66,14 +82,20 @@ public class eventStorage {
             String dayEnd = (String) eventDetails.get("dayEnd");
             int priorityLabel = (int) eventDetails.get("priorityLabel");
             String eventLabel = (String) eventDetails.get("eventLabel");
+            List<Task> tasks = (List<Task>) eventDetails.get("tasks")
 
-            if (event instanceof FlexibleEvent) {
-                updatedEventJson.put("timeAllocation", updatedEvent.getTimeAllocation());
-            } else if (event instanceof RepeatEvent) {
-                updatedEventJson.put("eventLabel", "repeat");
-                updatedEventJson.put("daysRepeated", updatedEvent.getDaysRepeated());
+            if (eventName == "flexible") {
+                int timeAllocation = eventDetails.get("timeAllocation")
+                loadedSchedule.createFlexibleEvent(eventName, priorityLabel, dayStart, dayEnd, tasks, timeAllocation);
+            } else if (eventName == "repeat") {
+                List<String> daysRepeated = eventDetails.get("daysRepeated")
+                loadedSchedule.createRepeatedEvent(eventName, priorityLabel, dayStart, dayEnd, tasks, daysRepeated)
+            } else {
+                loadedSchedule.createFixedEvent(eventName, priorityLabel, dayStart, dayEnd, tasks)
             }
         }
+
+        return loadedSchedule;
     }
 
 
