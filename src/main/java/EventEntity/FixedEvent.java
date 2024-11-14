@@ -1,22 +1,19 @@
 package EventEntity;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.Duration;
 
 /**
- * A FlexibleEvent represents an event with a flexible start and end time, name, and priority.
+ * A FixedEvent represents an event with a fixed start and end time, name, and priority.
  */
-public class FlexibleEvent implements Event {
+public class FixedEvent implements Event {
 
+    private final List<Task> tasks;
     private LocalDateTime dayStart;
     private LocalDateTime dayEnd;
     private String eventName;
     private int priorityLabel;
-    private List<Task> tasks;
-    private float timeAllocation
 
     /**
      * Constructor for the FixedEvent class.
@@ -25,15 +22,14 @@ public class FlexibleEvent implements Event {
      * @param dayEnd        the end date and time of the event
      * @param eventName     the name of the event
      * @param priorityLabel the priority label of the event
-     * @param timeAllocation the time allocated for the event
      */
-    public FlexibleEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName, int priorityLabel, float timeAllocation) {
+    public FixedEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName, int priorityLabel) {
         this.dayStart = dayStart;
         this.dayEnd = dayEnd;
         this.eventName = eventName;
         this.priorityLabel = priorityLabel;
         this.tasks = new ArrayList<>();
-        this.timeAllocation = timeAllocation;
+
     }
 
     /**
@@ -153,20 +149,4 @@ public class FlexibleEvent implements Event {
         this.tasks.remove(task);
     }
 
-    /**
-     * Estimate the total time to complete this event.
-     *
-     * @param time, the estimated time to complete this event.
-     */
-    public long estimateTime() {
-        float totalTime = 0;
-        for (Task task: tasks) {
-            totalTime += Duration.between(task.getStartTime(), task.getEndTime()).toMinutes();
-        }
-        return min(totalTime, timeAllocation)
-    }
-
-    public float getTimeAllocation() {
-        return timeAllocation;
-    }
 }

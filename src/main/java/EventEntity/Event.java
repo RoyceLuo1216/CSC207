@@ -1,7 +1,5 @@
 package EventEntity;
 
-import com.sun.source.util.TaskListener;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -70,18 +68,21 @@ public interface Event {
 
     /**
      * Returns the list of tasks associated with the event.
-      * @return
+     *
+     * @return
      */
     List<Task> getTasks();
 
     /**
      * Adds a Task to the list
+     *
      * @param task, task that you want to add.
      */
     void addTask(Task task);
 
     /**
      * Removes a task from the list.
+     *
      * @param task, task to be removed.
      */
     void removeTask(Task task);
