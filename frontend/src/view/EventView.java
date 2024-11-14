@@ -3,12 +3,11 @@ package view;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 /**
  * The View for when the user is adding an event (i.e. its details) into the program.
@@ -34,7 +33,6 @@ public class EventView extends JPanel {
     private final JComboBox<String> dayEndComboBox = new JComboBox<>(daysOfWeek);
     private final JComboBox<String> timeStartComboBox = new JComboBox<>(times);
     private final JComboBox<String> timeEndComboBox = new JComboBox<>(times);
-    private final JComboBox eventPriorityComboBox = new JComboBox<>(priorities);
     private final JLabel saveLabel = new JLabel();
     private final JButton saveButton = new JButton("Save");
 
@@ -49,13 +47,12 @@ public class EventView extends JPanel {
         eventFrame.setLayout(new BoxLayout(eventFrame.getContentPane(), BoxLayout.Y_AXIS));
 
         // LAYOUT
-        final JPanel eventNamePanel = createPanel("Event Name:", eventNameField)
-        final JPanel eventTypePanel = createPanel("Event Type:", eventTypeComboBox)
-        final JPanel dayStartPanel = createPanel("Day Start:", dayStartComboBox)
-        final JPanel dayEndPanel = createPanel("Day End:", dayEndComboBox)
-        final JPanel timeStartPanel = createPanel("Time Start:", timeStartComboBox)
+        final JPanel eventNamePanel = createPanel("Event Name:", eventNameField);
+        final JPanel eventTypePanel = createPanel("Event Type:", eventTypeComboBox);
+        final JPanel dayStartPanel = createPanel("Day Start:", dayStartComboBox);
+        final JPanel dayEndPanel = createPanel("Day End:", dayEndComboBox);
+        final JPanel timeStartPanel = createPanel("Time Start:", timeStartComboBox);
         final JPanel timeEndPanel = createPanel("Time End:", timeEndComboBox);
-        final JPanel eventPriorityPanel = createPanel("Event Priority:", eventPriorityComboBox);
 
         // Save Button
         final JPanel savePanel = new JPanel();
@@ -69,7 +66,6 @@ public class EventView extends JPanel {
         eventFrame.add(dayEndPanel);
         eventFrame.add(timeStartPanel);
         eventFrame.add(timeEndPanel);
-        eventFrame.add(eventPriorityPanel);
         eventFrame.add(savePanel);
 
         // Display the frame
@@ -77,29 +73,32 @@ public class EventView extends JPanel {
 
         // ActionListener for save button
         saveButton.addActionListener(
-            evt -> {if (evt.getSource().equals(saveButton)) {save()}}
+            evt -> {
+                if (evt.getSource().equals(saveButton)) {
+                    save();
+                }
+            }
         );
     }
 
     private JPanel createPanel(String label, JComponent component) {
-        JPanel panel = new JPanel();
+        final JPanel panel = new JPanel();
         panel.add(new JLabel(label));
         panel.add(component);
         return panel;
     }
 
     private void save() {
-        String name = eventNameField.getText();
-        String type = (String) eventTypeComboBox.getSelectedItem();
-        String dayStart = (String) dayStartComboBox.getSelectedItem();
-        String dayEnd = (String) dayEndComboBox.getSelectedItem();
-        String timeStart = (String) timeStartComboBox.getSelectedItem();
-        String timeEnd = (String) timeEndComboBox.getSelectedItem();
-        String priority = (String) eventPriorityComboBox.getSelectedItem();
+        final String name = eventNameField.getText();
+        final String type = (String) eventTypeComboBox.getSelectedItem();
+        final String dayStart = (String) dayStartComboBox.getSelectedItem();
+        final String dayEnd = (String) dayEndComboBox.getSelectedItem();
+        final String timeStart = (String) timeStartComboBox.getSelectedItem();
+        final String timeEnd = (String) timeEndComboBox.getSelectedItem();
 
-        controller.saveEvent(name, type, dayStart, dayEnd, timeStart, timeEnd, priority);
+        controller.saveEvent(name, type, dayStart, dayEnd, timeStart, timeEnd);
 
-        eventData.getAll();
+        controller.getAll();
         saveLabel.setText("Saved!");
     }
 }

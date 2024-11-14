@@ -1,7 +1,8 @@
 package view;
 
-import java.time.LocalDateTime;
-
+/**
+ * The Controller for the add to schedule use case (Team story, basic functionality).
+ */
 public class EventViewController {
     private String eventName;
     private String eventType;
@@ -9,17 +10,24 @@ public class EventViewController {
     private String dayEnd;
     private String timeStart;
     private String timeEnd;
-    private String priority;
 
-    public void saveEvent(String eventName, String eventType, String dayStart, String dayEnd,
-                         String timeStart, String timeEnd, String priority) {
-        this.eventName = eventName;
-        this.eventType = eventType;
-        this.dayStart = dayStart;
-        this.dayEnd = dayEnd;
-        this.timeStart = timeStart;
-        this.timeEnd = timeEnd;
-        this.priority = priority;
+    /**
+     * Method that takes user input and assigns each to its corresponding instance variable.
+     * @param name     the name of the event
+     * @param type     the type of the event (fixed, repeat)
+     * @param startDay      the start day of the event
+     * @param endDay        the end day of the event
+     * @param startTime     the start time of the event
+     * @param endTime   the end time of the event
+     */
+    public void saveEvent(String name, String type, String startDay, String endDay,
+                         String startTime, String endTime) {
+        eventName = name;
+        eventType = type;
+        dayStart = startDay;
+        dayEnd = endDay;
+        timeStart = startTime;
+        timeEnd = endTime;
     }
 
     public String getEventName() {
@@ -46,29 +54,15 @@ public class EventViewController {
         return timeEnd;
     }
 
-    public String getPriority() {
-        return priority;
-    }
-
-    public void getAll(){
+    /**
+     * Prints all instance variables.
+     */
+    public void getAll() {
         System.out.println(getEventName());
         System.out.println(getEventType());
         System.out.println(getDayStart());
         System.out.println(getDayEnd());
         System.out.println(getTimeStart());
         System.out.println(getTimeEnd());
-        System.out.println(getPriority());
     }
-
-//    public EventViewData(String eventName, String eventType, String dayStart, String dayEnd, String timeStart, String timeEnd, String priority) {
-//        this.eventName = eventName;
-//        this.eventType = eventType;
-//        this.dayStart = dayStart;
-//        this.dayEnd = dayEnd;
-//        this.timeStart = timeStart;
-//        this.timeEnd = timeEnd;
-//        this.priority = priority;
-
-        // TODO: Format dayStart/End and timeStart/End to LocalDateTime and then put that logic in a new class
-//     }
 }
