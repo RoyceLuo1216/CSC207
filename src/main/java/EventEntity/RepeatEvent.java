@@ -1,5 +1,6 @@
 package EventEntity;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,7 @@ public class RepeatEvent implements Event {
      * @param priorityLabel the priority label of the event
      * @param daysRepeated  the days that the event is repeated
      */
-    public RepeatEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName, int priorityLabel,
-                       List<LocalDateTime> daysRepeated) {
+    public RepeatEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName, int priorityLabel, List<LocalDateTime> daysRepeated) {
         this.dayStart = dayStart;
         this.dayEnd = dayEnd;
         this.eventName = eventName;
@@ -152,7 +152,4 @@ public class RepeatEvent implements Event {
         this.tasks.remove(task);
     }
 
-    public List<LocalDateTime> getDaysRepeated() {
-        return daysRepeated;
-    }
 }
