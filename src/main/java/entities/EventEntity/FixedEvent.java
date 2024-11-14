@@ -1,38 +1,35 @@
-package EventEntity;
+package entities.EventEntity;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A RepeatEvent represents a repeated event with  start/end time, name, and priority.
+ * A FixedEvent represents an event with a fixed start and end time, name, and priority.
  */
-public class RepeatEvent implements Event {
+public class FixedEvent implements Event {
 
+    private final List<Task> tasks;
     private LocalDateTime dayStart;
     private LocalDateTime dayEnd;
     private String eventName;
     private int priorityLabel;
-    private final List<Task> tasks;
-    private final List<LocalDateTime> daysRepeated;
 
     /**
-     * Constructor for the RepeatEvent class.
+     * Constructor for the FixedEvent class.
      *
      * @param dayStart      the start date and time of the event
      * @param dayEnd        the end date and time of the event
      * @param eventName     the name of the event
      * @param priorityLabel the priority label of the event
-     * @param daysRepeated  the days that the event is repeated
      */
-    public RepeatEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName, int priorityLabel, List<LocalDateTime> daysRepeated) {
+    public FixedEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName, int priorityLabel) {
         this.dayStart = dayStart;
         this.dayEnd = dayEnd;
         this.eventName = eventName;
         this.priorityLabel = priorityLabel;
         this.tasks = new ArrayList<>();
-        this.daysRepeated = daysRepeated;
+
     }
 
     /**

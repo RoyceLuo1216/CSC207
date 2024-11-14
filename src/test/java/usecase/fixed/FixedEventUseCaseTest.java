@@ -1,8 +1,8 @@
 package usecase.fixed;
 
-import EventEntity.Event;
-import EventEntity.FixedEvent;
-import usecase.Schedule;
+import entities.EventEntity.Event;
+import entities.EventEntity.FixedEvent;
+import entities.ScheduleEntity.Schedule;
 import org.junit.Before;
 import org.junit.Test;
 

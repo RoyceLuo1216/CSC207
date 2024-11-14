@@ -1,7 +1,7 @@
 package usecase.flexible;
 
-import EventEntity.FlexibleEvent;
-import usecase.Schedule;
+import entities.EventEntity.FlexibleEvent;
+import entities.ScheduleEntity.Schedule;
 
 import java.time.LocalDateTime;
 

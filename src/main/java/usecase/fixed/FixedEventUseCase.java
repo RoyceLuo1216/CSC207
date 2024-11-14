@@ -1,7 +1,7 @@
 package usecase.fixed;
 
-import EventEntity.FixedEvent;
-import usecase.Schedule;
+import entities.EventEntity.FixedEvent;
+import entities.ScheduleEntity.Schedule;
 
 import java.time.LocalDateTime;
 

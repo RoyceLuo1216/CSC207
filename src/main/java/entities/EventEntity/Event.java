@@ -1,4 +1,4 @@
-package EventEntity;
+package entities.EventEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;

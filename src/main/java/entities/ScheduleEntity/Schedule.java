@@ -1,7 +1,7 @@
-package usecase;
+package entities.ScheduleEntity;
 
-import EventEntity.Event;
-import EventEntity.RepeatEvent;
+import entities.EventEntity.Event;
+import entities.EventEntity.RepeatEvent;
 import java.util.stream.Collectors;
 
 import java.time.LocalDateTime;

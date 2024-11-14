@@ -1,6 +1,6 @@
-package usecase;
+package entities.ScheduleEntity;
 
-import EventEntity.Event;
+import entities.EventEntity.Event;
 import usecase.fixed.FixedEventUseCase;
 import usecase.flexible.FlexibleEventUseCase;
 

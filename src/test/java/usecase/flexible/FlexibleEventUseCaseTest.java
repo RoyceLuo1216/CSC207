@@ -1,9 +1,9 @@
 package usecase.flexible;
 
-import EventEntity.FlexibleEvent;
+import entities.EventEntity.FlexibleEvent;
 import org.junit.Before;
 import org.junit.Test;
-import usecase.Schedule;
+import entities.ScheduleEntity.Schedule;
 
 import java.time.LocalDateTime;
 import java.util.List;

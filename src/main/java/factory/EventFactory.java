@@ -1,9 +1,9 @@
 package factory;
 
-import EventEntity.Event;
-import EventEntity.FixedEvent;
-import EventEntity.FlexibleEvent;
-import EventEntity.RepeatEvent;
+import entities.EventEntity.Event;
+import entities.EventEntity.FixedEvent;
+import entities.EventEntity.FlexibleEvent;
+import entities.EventEntity.RepeatEvent;
 
 import java.time.LocalDateTime;
 import java.util.List;

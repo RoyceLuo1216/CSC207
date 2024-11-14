@@ -1,7 +1,7 @@
 package adapter;
     
 import org.json.JSONObject;
-import usecase.Schedule;
+import entities.ScheduleEntity.Schedule;
 
 /**
  * Parses responses from Cohere to create Schedule objects.
