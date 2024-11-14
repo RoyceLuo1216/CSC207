@@ -1,5 +1,7 @@
 package entities.EventEntity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +11,18 @@ import java.util.List;
  */
 public class FlexibleEvent implements Event {
 
-    private LocalDateTime dayStart;
-    private LocalDateTime dayEnd;
-    private String eventName;
-    private int priorityLabel;
-    private final float timeAllocation;
+    @JsonProperty("tasks")
     private final List<Task> tasks;
+    @JsonProperty("dayStart")
+    private LocalDateTime dayStart;
+    @JsonProperty("dayEnd")
+    private LocalDateTime dayEnd;
+    @JsonProperty("eventName")
+    private String eventName;
+    @JsonProperty("priorityLabel")
+    private int priorityLabel;
+    @JsonProperty("timeAllocation")
+    private int timeAllocation;
 
 
     public FlexibleEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName, int priorityLabel, float timeAllocation) {

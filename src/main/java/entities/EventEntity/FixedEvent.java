@@ -3,16 +3,21 @@ package entities.EventEntity;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A FixedEvent represents an event with a fixed start and end time, name, and priority.
  */
 public class FixedEvent implements Event {
-
+    @JsonProperty("tasks")
     private final List<Task> tasks;
+    @JsonProperty("dayStart")
     private LocalDateTime dayStart;
+    @JsonProperty("dayEnd")
     private LocalDateTime dayEnd;
+    @JsonProperty("eventName")
     private String eventName;
+    @JsonProperty("priorityLabel")
     private int priorityLabel;
 
     /**

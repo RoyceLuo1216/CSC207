@@ -1,5 +1,7 @@
 package entities.EventEntity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +11,17 @@ import java.util.List;
  */
 public class RepeatEvent implements Event {
 
-    private LocalDateTime dayStart;
-    private LocalDateTime dayEnd;
-    private String eventName;
-    private int priorityLabel;
+    @JsonProperty("tasks")
     private final List<Task> tasks;
+    @JsonProperty("dayStart")
+    private LocalDateTime dayStart;
+    @JsonProperty("dayEnd")
+    private LocalDateTime dayEnd;
+    @JsonProperty("eventName")
+    private String eventName;
+    @JsonProperty("priorityLabel")
+    private int priorityLabel;
+    @JsonProperty("daysRepeated")
     private final List<LocalDateTime> daysRepeated;
 
     /**
@@ -149,6 +157,11 @@ public class RepeatEvent implements Event {
     @Override
     public void removeTask(Task task) {
         this.tasks.remove(task);
+    }
+
+
+    public List<LocalDateTime> getDaysRepeated() {
+        return this.daysRepeated;
     }
 
 }

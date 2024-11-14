@@ -1,15 +1,10 @@
 package data;
 
-import entities.EventEntity.FixedEvent;
-import entities.EventEntity.RepeatEvent;
 import entities.ScheduleEntity.Schedule;
-import entities.EventEntity.Event;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.io.File;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class EventStorage {
 
@@ -21,41 +16,15 @@ public class EventStorage {
      * @return saved schedule
      */
     public void saveSchedule(Schedule schedule) {
-        JSONObject eventsObject = new JSONObject();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        for (Event event : schedule.getAllEvents()) {
-            JSONObject eventJson = new JSONObject();
+        try {
+            File file = new File("schedule.json");
 
-            String eventName = event.getEventName();
-            if (eventName == null || eventName.isEmpty()) {
-                eventName = "Unnamed Event";
-            }
+            objectMapper.writeValue(file, schedule);
 
-            eventJson.put("dayStart", event.getDayStart().format(formatter));
-            eventJson.put("dayEnd", event.getDayEnd().format(formatter));
-            eventJson.put("priorityLabel", event.getPriorityLabel());
-
-            if (event instanceof FixedEvent) {
-                eventJson.put("eventLabel", "fixed");
-            }
-            else if (event instanceof RepeatEvent) {
-                eventJson.put("eventLabel", "repeat");
-                eventJson.put("daysRepeated", event.getDaysRepeated());
-            }
-
-            JSONArray tasksJson = new JSONArray();
-            event.getTasks().forEach(task -> tasksJson.add(task.toString()));
-
-            eventJson.put("tasks", tasksJson);
-
-            eventsObject.put(taskName, eventJson);
-        }
-
-        try (FileWriter file = new FileWriter("events.json")) {
-            file.write(eventsObject.toJSONString());
-            file.flush();
         } catch (IOException e) {
-            System.out.println("error " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -64,37 +33,21 @@ public class EventStorage {
      * @return saved schedule
      */
     public Schedule getSchedule () {
-        Schedule loadedSchedule = new Schedule()
-        if (!Files.exists(Paths.get("events.json"))) {
-            return loadedSchedule;
+        File file = new File("schedule.json");
+        if (!file.exists()) {
+            return new Schedule();
         }
 
-        JSONParser parser = new JSONParser();
-        FileReader reader = new FileReader("events.json");
-        JSONObject savedSchedule = (JSONObject) parser.parse(reader);
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        for (Object key : savedSchedule.keySet()) {
-            String eventName = (String) key;
-            JSONObject eventDetails = (JSONObject) jsonObject.get(eventName);
+        try {
 
-            String dayStart = (String) eventDetails.get("dayStart");
-            String dayEnd = (String) eventDetails.get("dayEnd");
-            int priorityLabel = (int) eventDetails.get("priorityLabel");
-            String eventLabel = (String) eventDetails.get("eventLabel");
-            List<Task> tasks = (List<Task>) eventDetails.get("tasks")
+            return objectMapper.readValue(file, Schedule.class);
 
-            if (eventName == "flexible") {
-                int timeAllocation = eventDetails.get("timeAllocation")
-                loadedSchedule.createFlexibleEvent(eventName, priorityLabel, dayStart, dayEnd, tasks, timeAllocation);
-            } else if (eventName == "repeat") {
-                List<String> daysRepeated = eventDetails.get("daysRepeated")
-                loadedSchedule.createRepeatedEvent(eventName, priorityLabel, dayStart, dayEnd, tasks, daysRepeated)
-            } else {
-                loadedSchedule.createFixedEvent(eventName, priorityLabel, dayStart, dayEnd, tasks)
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        return loadedSchedule;
+        return new Schedule();
     }
 
 
