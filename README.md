@@ -18,27 +18,28 @@ weekly and monthly calendar views, offering flexibility for comprehensive time m
 
 ## User Stories
 
-### 1. [General - Team story] 
+### 1. [Schedule Event - Team Story] 
 Given a list of tasks, I will use the auto-scheduler to create a weekly schedule to manage my time. I can input a fixed 
 task, which is a task that must happen at a set day and time. I can also input a flexible task which is a task that 
 will be chunked into time-blocks that will happen throughout the week. The auto-scheduler outputs a schedule created 
-using the information given about these tasks.
+using the information given about these tasks. When adding this new event, if there is already another event scheduled 
+at the time, I will get an error message and not be able to schedule at that time.
 
-### 2. [Flexible Events - Royce’s Story] 
+### 2. [Event Conflicts - Elaine’s Story] 
 Jennie has a CSC207 assignment due on November 1st, and she would like to allocate time for completing this task, and 
 she would like to know how to schedule time for working on her assignment. To do this, she inputs the priority of the 
 task, the name of the task, and the estimated amount of time she thinks this will take, and the scheduler will create a 
 timeframe for how she can schedule her time to work on this task. The task will be scheduled over tasks of a lower 
 priority, but be deferred for a task/event with a higher priority. 
 
-### 3. [Priority Events - Vennise’s Story] 
+### 3. [Edit Event - Vennise’s Story] 
 Alex has a statistics problem set due Friday but hopes to finish their math practice problems Wednesday before class. 
 They estimate it will take 10 hours to finish the problem set and 4 hours to complete the practice problems. To do 
 this, they input the name of the tasks, the estimated amount of time to complete the tasks, and their priorities 
 (highest priority and lowest priority, respectively) into the auto-scheduler. The auto-scheduler will then output the 
 optimal timeframe to complete both tasks, given their priorities. 
 
-### 4. [Delete/Edit Events - Elaine’s Story]
+### 4. [Delete Event - Royce’s Story]
 On Sunday, Skye used the auto-scheduler to create a studying schedule to prepare for her Math and English tests on 
 Friday. She was scheduled to study Math for 1 hour and English for 1 hour every day until Friday. On Wednesday, her 
 Math teacher announces that the Math test is canceled. Skye now has the option to either delete her remaining Math 
@@ -46,7 +47,7 @@ study tasks or to adjust the priority level and time needed for her remaining Ma
 study for Math anymore. The scheduler outputs a new schedule for the rest of the week (Wednesday to Sunday) where Skye 
 now only studies English for an hour on Wednesday, Thursday, Friday.
 
-### 5. [Repeating Event - Ryan’s Story]
+### 5. [Repeat Event - Ryan’s Story]
 Edward has orchestra practice every Tuesday from 8-10. He wants to add this as a repeating event so he doesn't have to 
 add the event every single week. If practice is missed, he can manually delete the event and specify if it’s a 
 permanent delete (he quits forever), or a one time delete.
