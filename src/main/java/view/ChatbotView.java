@@ -16,8 +16,7 @@ public class ChatbotView extends JPanel {
                 "Welcome to the schedule chatbot! Ask me about your schedule.",
                 "I can help you schedule events," +
                     " estimate time for a task, and inform you about scheduling conflicts!",
-                "Press ENTER or the 'Ask' button to ask a question.",
-                "Please be nice and clear, thank you!!! :)"
+                "Press ENTER or the 'Ask' button to ask a question. :)"
             };
     private static final JLabel askLabel = new JLabel("Ask me about your schedule:");
     private static final JTextField askField = new JTextField(30);
