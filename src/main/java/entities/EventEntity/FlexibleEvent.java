@@ -22,7 +22,7 @@ public class FlexibleEvent implements Event {
     @JsonProperty("priorityLabel")
     private int priorityLabel;
     @JsonProperty("timeAllocation")
-    private int timeAllocation;
+    private float timeAllocation;
 
 
     public FlexibleEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName, int priorityLabel, float timeAllocation) {
