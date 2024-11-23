@@ -30,7 +30,7 @@ public class FlexibleEvent implements Event {
         this.dayEnd = dayEnd;
         this.eventName = eventName;
         this.priorityLabel = priorityLabel;
-        this.timeAllocation = timeAllocation;
+        this.timeAllocation = (int) timeAllocation;
         this.tasks = new ArrayList<>();
     }
 

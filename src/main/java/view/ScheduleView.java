@@ -74,7 +74,7 @@ public class ScheduleView extends JPanel implements ActionListener, PropertyChan
     }
 
     /**
-     * Make shceudle invisible
+     * Make schedule invisible
      */
     public void setInvisible() {
         visible = false;
