@@ -95,4 +95,28 @@ public class EditDeleteView extends JPanel {
 
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
+    public static void main(String[] args) {
+        // Create a frame to test EditDeleteView
+        JFrame frame = new JFrame("Edit/Delete Event");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Test event details
+        String testEventName = "Test Event";
+        int testStartTime = 10;
+        int testEndTime = 12;
+
+        // Add the EditDeleteView to the frame
+        EditDeleteView view = new EditDeleteView(
+                testEventName,
+                testStartTime,
+                testEndTime,
+                e -> System.out.println("Back button clicked!"),
+                e -> System.out.println("Delete button clicked!")
+        );
+
+        frame.add(view);
+        frame.setSize(500, 300);
+        frame.setVisible(true);
+    }
+
 }
