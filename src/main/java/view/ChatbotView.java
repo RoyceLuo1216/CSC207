@@ -8,7 +8,7 @@ import java.awt.*;
  */
 public class ChatbotView extends JPanel {
     // Initialize controller
-    private final ChatbotViewController controller = new ChatbotViewController();
+    private final ChatbotEventConflictController controller = new ChatbotEventConflictController();
 
     // Setup Components
     private static final String[] chatIntro =

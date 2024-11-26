@@ -1,6 +1,9 @@
 package view;
 
-public class ChatbotViewController {
+/**
+ * The Controller for the Chatbot Event Conflict Use Case.
+ */
+public class ChatbotEventConflictController {
     private String question;
 
     /**
