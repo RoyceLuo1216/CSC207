@@ -1,5 +1,7 @@
 package view;
 
+import usecase.chatbot_event_conflict.EventConflictInteractor;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,7 +10,7 @@ import java.awt.*;
  */
 public class ChatbotView extends JPanel {
     // Initialize controller
-    private final ChatbotEventConflictController controller = new ChatbotEventConflictController();
+    private EventConflictController eventConflictController;
 
     // Setup Components
     private static final String[] chatIntro =
@@ -107,8 +109,8 @@ public class ChatbotView extends JPanel {
         String question = askField.getText();
         askError.setText("");   // Clear askError if any previous errors
 
-        controller.askQuestion(question);
-        controller.printQuestion();
+        // eventConflictController.askQuestion(question);
+        // eventConflictController.printQuestion();
 
         // Make question appear in chat area
         chatArea.append("You: " + question + "\n"); // Append to chat area
@@ -123,5 +125,10 @@ public class ChatbotView extends JPanel {
     private void back() {
         // TODO: implement return to main calendar page
         backLabel.setText("Pressed!");
+        eventConflictController.backToMainView();
+    }
+
+    public void setChatbotController(EventConflictController controller) {
+        this.eventConflictController = controller;
     }
 }
