@@ -1,4 +1,6 @@
 import adapter.CohereClient;
+import entities.EventEntity.FixedEvent;
+import entities.ScheduleEntity.Schedule;
 import usecase.chatbot_event_conflict.EventConflictInteractor;
 import view.ChatbotView;
 import view.EventConflictController;
@@ -14,13 +16,6 @@ public class Main {
 //    final EventConflictController controller = new EventConflictController(eventConflictInteractor);
 //    eventConflictController = new EventConflictController(controller);
     // TODO: end
-    public void eventConflictInteractorTest() {
-        LocalDateTime start = LocalDateTime.of(2024, 8, 28, 18, 0);
-        LocalDateTime end = LocalDateTime.of(2024, 8, 28, 21, 0);
-
-        EventConflictInteractor i = new EventConflictInteractor();
-        i.getTasksDuring(start, end);
-    }
 
     public static void main(String[] args) {
         ChatbotView c = new ChatbotView();
@@ -29,8 +24,7 @@ public class Main {
 //        String response = c.getTimeForEventConflictWithCohere("I want an event on wednesday 6pm to 9pm.");
 //        System.out.println("cohere response: " + response);
 
-        // Main m = new Main();
-        // m.eventConflictInteractorTest();
+//         Main m = new Main();
 
     }
 }

@@ -27,12 +27,13 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
     public String execute(ChatbotInputData chatbotInputData) {
         // TODO: If success: return response "Yes, your event at [time] can be scheduled without any conflicts"
         //          EXTRA (Create and schedule)
-        //          else: return Error message
 
         CohereClient client = new CohereClient();
         LocalDateTime[] timePeriod = client.getTimePeriodForEventConflict(chatbotInputData.getQuestion());
 
-        ArrayList<String> tasksDuring = getTasksDuring(timePeriod[0], timePeriod[1]);
+        Schedule schedule = new Schedule();
+
+        ArrayList<String> tasksDuring = getTasksDuring(timePeriod[0], timePeriod[1], schedule);
 
         if (tasksDuring.isEmpty()) {
             // TODO: change presenter such that output data is changed
@@ -43,6 +44,7 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
             // TODO: change presenter such that output data is changed
             return schedulePresenter.setResponse("You have an event conflict, where the following events are already " +
                     "scheduled:  " + tasksDuring);
+            // TODO: add error message
         }
     }
 
@@ -57,9 +59,9 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
      *
      * @return a list of tasks during the requested time period, if there are none, return an empty list
      */
-    public ArrayList<String> getTasksDuring(LocalDateTime start, LocalDateTime end) {
+    public ArrayList<String> getTasksDuring(LocalDateTime start, LocalDateTime end, Schedule schedule) {
         ArrayList<String> tasks = new ArrayList<>();
-        Schedule schedule = new Schedule();
+        ArrayList<Event> events = new ArrayList<>();
         ArrayList<LocalDateTime> hours = getHourlyIntervals(start, end);
 
         // Add tasks in time period to a string
@@ -69,16 +71,18 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
             // If the event exists, add it to the tasks list
             if (possibleEvent.isPresent()) {
                 Event event = possibleEvent.get();
-                String eventString = event.getEventName();
-                // TODO: add times details to the event
-                tasks.add(eventString);  // Add event details to the tasks list
+                if (!events.contains(event)) {
+                    events.add(event);
+                    // TODO: add times details to the event
+                    tasks.add(event.getEventName());  // Add event details to the tasks list
+                }
             }
         }
         return tasks;
     }
 
     /**
-     * Generate a list of each hour from start to end
+     * Generate a list of each hour from start to end (not including end)
      *
      * @param start of interval hour
      * @param end of interval hour
@@ -98,6 +102,8 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
             hourlyIntervals.add(current);
             current = current.plusHours(1); // Move to the next hour
         }
+
+        hourlyIntervals.remove(hourlyIntervals.size() - 1);  // Remove the end time
 
         return hourlyIntervals;
     }

@@ -7,8 +7,6 @@ import com.cohere.api.types.NonStreamedChatResponse;
 import view.ChatbotView;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class CohereClient {
     private final Cohere cohere;
@@ -29,7 +27,7 @@ public class CohereClient {
     /**
      * Sends a request to Cohere to extract the start and end time of an event conflict inquiry.
      *
-     * Example response from cohere with the question: "I want an event on wednesday 6pm to 9pm"
+     * Example response from cohere with the question "I want an event on wednesday 6pm to 9pm":
      * "2024-05-15T18:00:00, 2024-05-15T21:00:00"
      *
      * @param userChatInput the user input into the chat
