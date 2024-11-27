@@ -53,7 +53,7 @@ public class ChatbotView extends JPanel {
 
         // Ask Panel
         JPanel askPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        askPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0)); // Top, left, bottom, right
+        askPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0)); // Top, left, bottom, right
         askPanel.add(askLabel);
         askPanel.add(askField);
         askPanel.add(askError);

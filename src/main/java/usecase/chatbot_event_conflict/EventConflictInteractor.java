@@ -7,6 +7,7 @@ import entities.EventEntity.FixedEvent;
 import entities.ScheduleEntity.Schedule;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -51,21 +52,28 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
         if (tasksDuring.isEmpty()) {
             // TODO: change presenter such that output data is changed
             // TODO: EXTRA (Create and schedule the event)
-            return schedulePresenter.setResponse("Yes, you can schedule your task from " + Arrays.toString(timePeriod));
+            String[] timePeriodString = toStringTime(timePeriod[0], timePeriod[1]);
+            return schedulePresenter.setResponse("Yes, you can schedule your task on " + timePeriodString[0] +
+                    " from " + timePeriodString[1] + " to " + timePeriodString[2] + ".");
         }
         else {
             // TODO: change presenter such that output data is changed
             String[] article = new String[2];
             if (tasksDuring.size() == 1) {
-                article[0] = "an event conflict";
+                article[0] = "event conflict";
                 article[1] = "is";
             } else {
                 article[0] = "event conflicts";
                 article[1] = "are";
             }
 
-            return schedulePresenter.setResponse("You have " + article[0] + ", where " + tasksDuring +
-                    " " + article[1] + " already scheduled.");
+            String tasksDuringString = "\n";
+
+            for (String task : tasksDuring) {
+                tasksDuringString += "\t" + task + "\n";
+            }
+
+            return schedulePresenter.setResponse("You have the following " + article[0] + ": \n" + tasksDuringString);
             // TODO: add error message
         }
     }
@@ -95,8 +103,10 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
                 Event event = possibleEvent.get();
                 if (!events.contains(event)) {
                     events.add(event);
-                    // TODO: add times details to the event
-                    tasks.add(event.getEventName());  // Add event details to the tasks list
+
+                    // Add event details to the tasks list
+                    String[] taskTime = toStringTime(event.getDayStart(), event.getDayEnd());
+                    tasks.add(event.getEventName() + ": " + taskTime[0] + "  " + taskTime[1] + " - " + taskTime[2]);
                 }
             }
         }
@@ -128,5 +138,32 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
         hourlyIntervals.remove(hourlyIntervals.size() - 1);  // Remove the end time
 
         return hourlyIntervals;
+    }
+
+    /**
+     * Convert two LocalDateTime objects (start and end) into a list of string representations
+     *
+     * Example output: [Nov 27, 02:30 PM, 04:45 PM]
+     *
+     * @param start LocalDateTime object
+     * @param end LocalDateTime object
+     * @return an array of string representation (Day, Start, End)
+     */
+    public String[] toStringTime(LocalDateTime start, LocalDateTime end) {
+        // Validate input
+        if (start == null || end == null) {
+            throw new IllegalArgumentException("Input must be two non-null LocalDateTime objects.");
+        }
+
+        // Formatters
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a");
+
+        // Extract and format Date, Start, and End
+        String date = start.format(dateFormatter);
+        String startTime = start.format(timeFormatter);
+        String endTime = end.format(timeFormatter);
+
+        return new String[] { date, startTime, endTime };
     }
 }
