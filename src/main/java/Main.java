@@ -1,4 +1,5 @@
 import adapter.CohereClient;
+import entities.EventEntity.Event;
 import entities.EventEntity.FixedEvent;
 import entities.ScheduleEntity.Schedule;
 import usecase.chatbot_event_conflict.EventConflictInteractor;

@@ -31,19 +31,41 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
         CohereClient client = new CohereClient();
         LocalDateTime[] timePeriod = client.getTimePeriodForEventConflict(chatbotInputData.getQuestion());
 
+        //// TEST
         Schedule schedule = new Schedule();
+        LocalDateTime start = LocalDateTime.of(2024, 11, 27, 18, 0);
+        LocalDateTime end = LocalDateTime.of(2024, 11, 27, 20, 0);
+
+        LocalDateTime start2 = LocalDateTime.of(2024, 11, 27, 15, 0);
+        LocalDateTime end2 = LocalDateTime.of(2024, 11, 27, 18, 0);
+        //// TEST
+
+        // Creating and adding the FixedEvent from 6 to 8pm
+        FixedEvent event = new FixedEvent(start, end, "Naptime", 1);
+        schedule.addEvent(event);
+        FixedEvent event2 = new FixedEvent(start2, end2, "258 Lab", 1);
+        schedule.addEvent(event2);
 
         ArrayList<String> tasksDuring = getTasksDuring(timePeriod[0], timePeriod[1], schedule);
 
         if (tasksDuring.isEmpty()) {
             // TODO: change presenter such that output data is changed
             // TODO: EXTRA (Create and schedule the event)
-            return schedulePresenter.setResponse("Yes, you can schedule your task at " + Arrays.toString(timePeriod));
+            return schedulePresenter.setResponse("Yes, you can schedule your task from " + Arrays.toString(timePeriod));
         }
         else {
             // TODO: change presenter such that output data is changed
-            return schedulePresenter.setResponse("You have an event conflict, where the following events are already " +
-                    "scheduled:  " + tasksDuring);
+            String[] article = new String[2];
+            if (tasksDuring.size() == 1) {
+                article[0] = "an event conflict";
+                article[1] = "is";
+            } else {
+                article[0] = "event conflicts";
+                article[1] = "are";
+            }
+
+            return schedulePresenter.setResponse("You have " + article[0] + ", where " + tasksDuring +
+                    " " + article[1] + " already scheduled.");
             // TODO: add error message
         }
     }

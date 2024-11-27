@@ -1,5 +1,6 @@
 package view;
 
+import entities.ScheduleEntity.Schedule;
 import usecase.chatbot_event_conflict.EventConflictInteractor;
 
 import javax.swing.*;
@@ -10,7 +11,7 @@ import java.awt.*;
  */
 public class ChatbotView extends JPanel {
     // Initialize controller
-    private EventConflictController eventConflictController = new EventConflictController();;
+    private EventConflictController eventConflictController = new EventConflictController();
 
     // Setup Components
     private static final String[] chatIntro =
@@ -18,10 +19,10 @@ public class ChatbotView extends JPanel {
                 "Welcome to the schedule chatbot! Ask me about your schedule.",
                 "I can help you schedule events," +
                     " estimate time for a task, and inform you about scheduling conflicts!",
-                "Press ENTER or the 'Ask' button to ask a question. :)"
+                "Press ENTER or the 'Ask!' button to ask a question. :)"
             };
     private static final JLabel askLabel = new JLabel("Ask me about your schedule:");
-    private static final JTextField askField = new JTextField(30);
+    private static final JTextField askField = new JTextField(45);
     private static final JLabel askError = new JLabel();
     private static final JTextArea chatArea = new JTextArea(15, 30);
     private static final JButton backButton = new JButton("Back");
@@ -38,11 +39,13 @@ public class ChatbotView extends JPanel {
         // Main panel (Center)
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Top, left, bottom, right
 
         // Chat Panel
         chatArea.setLineWrap(true);
         chatArea.setWrapStyleWord(true);
         chatArea.setEditable(false);
+        chatArea.setMargin(new Insets(10, 10, 10, 10)); // Add margin inside the text box
         JScrollPane chatScrollPane = new JScrollPane(chatArea);
         chatScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         chatScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -50,6 +53,7 @@ public class ChatbotView extends JPanel {
 
         // Ask Panel
         JPanel askPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        askPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0)); // Top, left, bottom, right
         askPanel.add(askLabel);
         askPanel.add(askField);
         askPanel.add(askError);
@@ -99,7 +103,7 @@ public class ChatbotView extends JPanel {
     // Print chatbot lines in chatArea
     private void addChat(String[] output) {
         for (String line: output){
-            chatArea.append("Chatbot: " + line + "\n");
+            chatArea.append("Chatbot: " + line + "\n\n");
         }
         // auto scroll to the bottom of chat
         chatArea.setCaretPosition(chatArea.getDocument().getLength());
@@ -113,7 +117,7 @@ public class ChatbotView extends JPanel {
         // eventConflictController.printQuestion();
 
         // Make question appear in chat area
-        chatArea.append("You: " + question + "\n"); // Append to chat area
+        chatArea.append("You: " + question + "\n\n"); // Append to chat area
         askField.setText(""); // Clear input field
 
         // TODO: Connect to COHERE and display chat response in chat area after question
