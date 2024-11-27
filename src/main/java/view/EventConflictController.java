@@ -2,47 +2,29 @@ package view;
 
 import usecase.chatbot_event_conflict.EventConflictInputBoundary;
 import usecase.chatbot_event_conflict.ChatbotInputData;
+import usecase.chatbot_event_conflict.EventConflictInteractor;
 
 /**
  * The Controller for the Chatbot Event Conflict Use Case.
  */
 public class EventConflictController {
-    // private String question;
 
-    private final EventConflictInputBoundary eventConflictUseCaseInteractor;
+    // private final EventConflictInputBoundary eventConflictUseCaseInteractor;
 
-    public EventConflictController(EventConflictInputBoundary eventConflictUseCaseInteractor) {
-        this.eventConflictUseCaseInteractor = eventConflictUseCaseInteractor;
-    }
+//    public EventConflictController(EventConflictInputBoundary eventConflictUseCaseInteractor) {
+//        this.eventConflictUseCaseInteractor = eventConflictUseCaseInteractor;
+//    }
 
-//    /**
-//     * Method that takes user inputted question and assigns each to a corresponding instance variable.
-//     * @param question  user asked
-//     */
-//    public void askQuestion(String question) {
-//        this.question = question;
-//    }
-//
-//    public String getQuestion() {
-//        return question;
-//    }
-//
-//    /**
-//     * Prints the user inputted question.
-//     */
-//    public void printQuestion(){
-//        System.out.println("Question: " + getQuestion());
-//    }
+    EventConflictInputBoundary eventConflictUseCaseInteractor = new EventConflictInteractor();
 
     /**
      * Executes the Chatbot Event Conflict Use Case.
      * @param question the username to sign up
      */
-    public void execute(String question) {
-        final ChatbotInputData chatbotInputData = new ChatbotInputData(
-                question);
+    public String execute(String question) {
+        final ChatbotInputData chatbotInputData = new ChatbotInputData(question);
 
-        eventConflictUseCaseInteractor.execute(chatbotInputData);
+        return eventConflictUseCaseInteractor.execute(chatbotInputData);
     }
 
     /**

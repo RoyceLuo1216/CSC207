@@ -8,6 +8,7 @@ import view.ChatbotView;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CohereClient {
     private final Cohere cohere;
@@ -26,27 +27,19 @@ public class CohereClient {
     }
 
     /**
-     * Sends the extracted start and end time of an event conflict inquiry.
-     *
-     * @param userChatInput the user input into the chat
-     * @return list of 2 LocalDateTime objects representing the start and end times
-     */
-    public ArrayList<LocalDateTime> getTimePeriodForEventConflict(String userChatInput) {
-        String timePeriod = getTimePeriodForEventConflictString(userChatInput);
-        System.out.println(timePeriod);
-        return toLocalDateTimeList(timePeriod);
-    }
-
-    /**
      * Sends a request to Cohere to extract the start and end time of an event conflict inquiry.
      *
+     * Example response from cohere with the question: "I want an event on wednesday 6pm to 9pm"
+     * "2024-05-15T18:00:00, 2024-05-15T21:00:00"
+     *
      * @param userChatInput the user input into the chat
-     * @return String response from Cohere of the start and end times or an error message
+     * @return an array of 2 LocalDateTime objects from Cohere or null indicating error
      */
-    public String getTimePeriodForEventConflictString(String userChatInput) {
-        String prompt = "Extract and return only the start time and end time as a list of 2 LocalDateTime " +
-                "objects in Java for the event described below. If the date is not specified, assume today's date. " +
-                "Event description: " + userChatInput + ".";
+    public LocalDateTime[] getTimePeriodForEventConflict(String userChatInput) {
+        LocalDateTime now = LocalDateTime.now();
+        String prompt = "Extract and return only 2 strings in ISO-8601 format separated by a comma representing the " +
+                "start time and end time of the event described below. If the date is not specified, assume the " +
+                "current time of, " + now + ". Event description:" + userChatInput;
 
         try {
             NonStreamedChatResponse response = this.cohere.chat(
@@ -54,25 +47,33 @@ public class CohereClient {
                             .message(prompt).build());
 
             if (response != null && response.getText() != null) {
-                return response.getText();
+                System.out.println(response.getText());
+                return toLocalDateTimeList(response.getText());
             } else {
-                return "No valid response received from the API.";
+                System.out.println("No valid response received from the API.");
+                return null;
             }
         } catch (Exception e) {
-            return "Error occurred while making API request: " + e.getMessage();
+            System.out.println("Error occurred while making API request: " + e.getMessage());
+            return null;
         }
     }
 
     /**
-     * Convert a string into a list of 2 LocalDateTime objects
+     * Convert a string of two values in ISO-8601 format into a list of 2 LocalDateTime objects
+     *
      * @param textResponse of the Cohere client, should be a string version of a list of 2 LocalDateTime objects
-     * @return a list of 2 LocalDateTime objects
+     * @return an array of 2 LocalDateTime objects
      */
-    private ArrayList<LocalDateTime> toLocalDateTimeList(String textResponse) {
-        // TODO: implement conversion function properly (see what format cohere returns)
-        ArrayList<LocalDateTime> localDateTimeList = new ArrayList<>();
-        localDateTimeList.add(LocalDateTime.parse(textResponse));
-        return localDateTimeList;
+    private LocalDateTime[] toLocalDateTimeList(String textResponse) {
+        String[] stringLocalDateTimeList = textResponse.split(",");
+
+        LocalDateTime[] dateTimes = new LocalDateTime[2];
+
+        dateTimes[0] = LocalDateTime.parse(stringLocalDateTimeList[0]);
+        dateTimes[1] = LocalDateTime.parse(stringLocalDateTimeList[1]);
+
+        return dateTimes;
     }
 
 }

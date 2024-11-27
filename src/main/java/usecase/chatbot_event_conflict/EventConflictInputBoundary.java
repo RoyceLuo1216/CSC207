@@ -8,7 +8,8 @@ public interface EventConflictInputBoundary {
      * Executes the chatbotEventConflict use case.
      * @param chatbotInputData the input data
      */
-    void execute(ChatbotInputData chatbotInputData);
+    // TODO: change back to void
+    String execute(ChatbotInputData chatbotInputData);
 
     /**
      * Returns the back to main schedule view.

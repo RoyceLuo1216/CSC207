@@ -1,38 +1,48 @@
 package usecase.chatbot_event_conflict;
 
 import adapter.CohereClient;
+import adapter.chatbot_event_conflict.EventConflictPresenter;
+import entities.EventEntity.Event;
+import entities.EventEntity.FixedEvent;
+import entities.ScheduleEntity.Schedule;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * The Chatbot Event Conflict Interactor.
  */
 public class EventConflictInteractor implements EventConflictInputBoundary {
-    private final EventConflictOutputBoundary schedulePresenter;
+//    private final EventConflictOutputBoundary schedulePresenter;
+//
+//    public EventConflictInteractor(EventConflictOutputBoundary eventConflictOutputBoundary) {
+//        this.schedulePresenter = eventConflictOutputBoundary;
+//    }
 
-    public EventConflictInteractor(EventConflictOutputBoundary eventConflictOutputBoundary) {
-        this.schedulePresenter = eventConflictOutputBoundary;
-    }
+    private final EventConflictOutputBoundary schedulePresenter = new EventConflictPresenter();
 
     @Override
-    public void execute(ChatbotInputData chatbotInputData) {
-        // TODO: If success: return True, return Yes, your event at [time] can be scheduled without any conflicts
+    public String execute(ChatbotInputData chatbotInputData) {
+        // TODO: If success: return response "Yes, your event at [time] can be scheduled without any conflicts"
         //          EXTRA (Create and schedule)
+        //          else: return Error message
 
         CohereClient client = new CohereClient();
-        ArrayList<LocalDateTime> timePeriod = client.getTimePeriodForEventConflict(chatbotInputData.getQuestion());
+        LocalDateTime[] timePeriod = client.getTimePeriodForEventConflict(chatbotInputData.getQuestion());
 
-        ArrayList<String> tasksDuring = getTasksDuring(timePeriod.get(0), timePeriod.get(1));
+        ArrayList<String> tasksDuring = getTasksDuring(timePeriod[0], timePeriod[1]);
 
-        if (tasksDuring.isEmpty()) { // No tasks in array returned means empty
+        if (tasksDuring.isEmpty()) {
             // TODO: change presenter such that output data is changed
             // TODO: EXTRA (Create and schedule the event)
-            // "yes you can schedule your task at [time]";
+            return schedulePresenter.setResponse("Yes, you can schedule your task at " + Arrays.toString(timePeriod));
         }
         else {
             // TODO: change presenter such that output data is changed
-            // "you have an event conflict at [time] where [event name(s)] is already scheduled";
+            return schedulePresenter.setResponse("You have an event conflict, where the following events are already " +
+                    "scheduled:  " + tasksDuring);
         }
     }
 
@@ -47,14 +57,48 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
      *
      * @return a list of tasks during the requested time period, if there are none, return an empty list
      */
-    private ArrayList<String> getTasksDuring(LocalDateTime start, LocalDateTime end) {
+    public ArrayList<String> getTasksDuring(LocalDateTime start, LocalDateTime end) {
         ArrayList<String> tasks = new ArrayList<>();
+        Schedule schedule = new Schedule();
+        ArrayList<LocalDateTime> hours = getHourlyIntervals(start, end);
 
-        // TODO: Loop through every hour from start to end
-        for (int i = 0; i < 5; i++) {
-            // TODO: If there tasks, add to them to the list of tasks as a string
-            tasks.add("dummy task");
+        // Add tasks in time period to a string
+        for (LocalDateTime hour : hours) {
+            Optional<Event> possibleEvent = schedule.getEventByTime(hour);
+
+            // If the event exists, add it to the tasks list
+            if (possibleEvent.isPresent()) {
+                Event event = possibleEvent.get();
+                String eventString = event.getEventName();
+                // TODO: add times details to the event
+                tasks.add(eventString);  // Add event details to the tasks list
+            }
         }
         return tasks;
+    }
+
+    /**
+     * Generate a list of each hour from start to end
+     *
+     * @param start of interval hour
+     * @param end of interval hour
+     * @return a list of each hour from start to end in LocalDateTime objects
+     */
+    public static ArrayList<LocalDateTime> getHourlyIntervals(LocalDateTime start, LocalDateTime end) {
+        ArrayList<LocalDateTime> hourlyIntervals = new ArrayList<>();
+
+        // Validate that start is before or equal to end
+        if (start.isAfter(end)) {
+            throw new IllegalArgumentException("Start time must be before or equal to end time.");
+        }
+
+        // Add each hour to the list
+        LocalDateTime current = start;
+        while (!current.isAfter(end)) {
+            hourlyIntervals.add(current);
+            current = current.plusHours(1); // Move to the next hour
+        }
+
+        return hourlyIntervals;
     }
 }

@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public class ChatbotView extends JPanel {
     // Initialize controller
-    private EventConflictController eventConflictController;
+    private EventConflictController eventConflictController = new EventConflictController();;
 
     // Setup Components
     private static final String[] chatIntro =
@@ -117,7 +117,9 @@ public class ChatbotView extends JPanel {
         askField.setText(""); // Clear input field
 
         // TODO: Connect to COHERE and display chat response in chat area after question
-        String[] dummyChat = {"[Chat Response]"};
+        // eventConflictController.execute(question);
+
+        String[] dummyChat = {eventConflictController.execute(question)};
         addChat(dummyChat);
     }
 
