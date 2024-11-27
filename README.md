@@ -33,11 +33,10 @@ timeframe for how she can schedule her time to work on this task. The task will 
 priority, but be deferred for a task/event with a higher priority. 
 
 ### 3. [Edit Event - Vennise’s Story] 
-Alex has a statistics problem set due Friday but hopes to finish their math practice problems Wednesday before class. 
-They estimate it will take 10 hours to finish the problem set and 4 hours to complete the practice problems. To do 
-this, they input the name of the tasks, the estimated amount of time to complete the tasks, and their priorities 
-(highest priority and lowest priority, respectively) into the auto-scheduler. The auto-scheduler will then output the 
-optimal timeframe to complete both tasks, given their priorities. 
+On Monday, Alex uses the scheduler to add a study block from 6-9 PM on Friday for their statistics final. However, 
+on Wednesday, they learn that their favourite artist is holding a last-minute pop-up concert at the same time as their 
+scheduled study block. Alex decides to move their study block to 4-7 PM of the next day and edits the scheduler accordingly.
+The scheduler outputs a new schedule according to Alex's changes.
 
 ### 4. [Delete Event - Royce’s Story]
 On Sunday, Skye used the auto-scheduler to create a studying schedule to prepare for her Math and English tests on 
