@@ -48,15 +48,4 @@ public class EditInputData {
         return timeEnd;
     }
 
-//    /**
-//     * Prints all instance variables.
-//     */
-//    public void getAll() {
-//        System.out.println(getEventName());
-//        System.out.println(getEventType());
-//        System.out.println(getDayStart());
-//        System.out.println(getDayEnd());
-//        System.out.println(getTimeStart());
-//        System.out.println(getTimeEnd());
-//    }
 }

@@ -14,7 +14,7 @@ import javax.swing.JTextField;
  */
 public class EventView extends JPanel {
     // Initialise the controller
-    private final EventViewController controller = new EventViewController();
+//    private final EventViewController controller = new EventViewController();
 
     // TODO: add viewModel
 
@@ -75,7 +75,7 @@ public class EventView extends JPanel {
         saveButton.addActionListener(
             evt -> {
                 if (evt.getSource().equals(saveButton)) {
-                    save();
+                    // TODO add functionality
                 }
             }
         );
@@ -88,17 +88,17 @@ public class EventView extends JPanel {
         return panel;
     }
 
-    private void save() {
-        final String name = eventNameField.getText();
-        final String type = (String) eventTypeComboBox.getSelectedItem();
-        final String dayStart = (String) dayStartComboBox.getSelectedItem();
-        final String dayEnd = (String) dayEndComboBox.getSelectedItem();
-        final String timeStart = (String) timeStartComboBox.getSelectedItem();
-        final String timeEnd = (String) timeEndComboBox.getSelectedItem();
-
-        controller.saveEvent(name, type, dayStart, dayEnd, timeStart, timeEnd);
-
-        controller.getAll();
-        saveLabel.setText("Saved!");
-    }
+//    private void save() {
+//        final String name = eventNameField.getText();
+//        final String type = (String) eventTypeComboBox.getSelectedItem();
+//        final String dayStart = (String) dayStartComboBox.getSelectedItem();
+//        final String dayEnd = (String) dayEndComboBox.getSelectedItem();
+//        final String timeStart = (String) timeStartComboBox.getSelectedItem();
+//        final String timeEnd = (String) timeEndComboBox.getSelectedItem();
+//
+//        controller.saveEvent(name, type, dayStart, dayEnd, timeStart, timeEnd);
+//
+//        controller.getAll();
+//        saveLabel.setText("Saved!");
+//    }
 }
