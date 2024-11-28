@@ -26,11 +26,7 @@ using the information given about these tasks. When adding this new event, if th
 at the time, I will get an error message and not be able to schedule at that time.
 
 ### 2. [Event Conflicts - Elaine’s Story] 
-Jennie has a CSC207 assignment due on November 1st, and she would like to allocate time for completing this task, and 
-she would like to know how to schedule time for working on her assignment. To do this, she inputs the priority of the 
-task, the name of the task, and the estimated amount of time she thinks this will take, and the scheduler will create a 
-timeframe for how she can schedule her time to work on this task. The task will be scheduled over tasks of a lower 
-priority, but be deferred for a task/event with a higher priority. 
+Jennie has a CSC207 assignment due on Friday, and she would like to know when she has time for completing this task. To do this, she asks the scheduler chatbot if she can schedule a work period from 2-4 PM on Thursday. The chatbot then replies with whether or not Jennie if free during this time. If Jennie has already scheduled Lunch from 2-3 PM and a Math class from 3-4 PM, the chatbot will let Jennie know that she cannot put her studying event from 2-4 PM because she has Lunch and a Math class during that time.
 
 ### 3. [Edit Event - Vennise’s Story] 
 On Monday, Alex uses the scheduler to add a study block from 6-9 PM on Friday for their statistics final. However, 
