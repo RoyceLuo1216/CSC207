@@ -6,19 +6,16 @@ package usecase.chatbot_event_conflict;
 public interface EventConflictOutputBoundary {
 
     /**
-     * Gets the response from the chatbot for the Event Conflict Use Case.
+     * Prepares the success view for the Event Conflict Use Case.
      * @param outputData the output data
      */
-    // TODO: change back to void
-    String setResponse(String outputData);
+    void prepareSuccessView(ChatbotOutputData outputData);
 
-    // TODO: connect to fixed event view to create a fixed task
-//    /**
-//     * Prepares the chatbot view for the Fixed Event Use Case.
-//     * @param outputData the output data
-//     */
-//    void prepareFixedEventView(ChatbotOutputData outputData);
-
+    /**
+     * Prepares the failure view for the Signup Use Case.
+     * @param errorMessage the explanation of the failure
+     */
+    void prepareFailView(String errorMessage);
 
     /**
      * Switches back to the Main Schedule View.

@@ -1,12 +1,5 @@
-import adapter.CohereClient;
-import entities.EventEntity.Event;
-import entities.EventEntity.FixedEvent;
-import entities.ScheduleEntity.Schedule;
-import usecase.chatbot_event_conflict.EventConflictInteractor;
+import interface_adapter.chatbot_event_conflict.ChatbotViewModel;
 import view.ChatbotView;
-import view.EventConflictController;
-
-import java.time.LocalDateTime;
 
 public class Main {
     // TODO: move this into main / app builder from chatbot view
@@ -19,7 +12,7 @@ public class Main {
     // TODO: end
 
     public static void main(String[] args) {
-        ChatbotView c = new ChatbotView();
+        ChatbotView c = new ChatbotView(new ChatbotViewModel());
 //        CohereClient c = new CohereClient();
 //
 //        String response = c.getTimeForEventConflictWithCohere("I want an event on wednesday 6pm to 9pm.");

@@ -1,10 +1,11 @@
 package usecase.chatbot_event_conflict;
 
 import adapter.CohereClient;
-import adapter.chatbot_event_conflict.EventConflictPresenter;
 import entities.EventEntity.Event;
 import entities.EventEntity.FixedEvent;
 import entities.ScheduleEntity.Schedule;
+import factory.EventFactory;
+import interface_adapter.chatbot_event_conflict.EventConflictPresenter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,72 +17,93 @@ import java.util.Optional;
  * The Chatbot Event Conflict Interactor.
  */
 public class EventConflictInteractor implements EventConflictInputBoundary {
-//    private final EventConflictOutputBoundary schedulePresenter;
-//
-//    public EventConflictInteractor(EventConflictOutputBoundary eventConflictOutputBoundary) {
-//        this.schedulePresenter = eventConflictOutputBoundary;
-//    }
+    private final Schedule scheduleDataObject;
+    private final EventConflictOutputBoundary eventConflictPresenter;
+    private final EventFactory eventFactory;
 
-    private final EventConflictOutputBoundary schedulePresenter = new EventConflictPresenter();
+    public EventConflictInteractor(Schedule schedule,
+                            EventConflictOutputBoundary eventConflictOutputBoundary,
+                            EventFactory eventFactory) {
+        this.scheduleDataObject = schedule;
+        this.eventConflictPresenter = eventConflictOutputBoundary;
+        this.eventFactory = eventFactory;
+    }
 
     @Override
-    public String execute(ChatbotInputData chatbotInputData) {
-        // TODO: If success: return response "Yes, your event at [time] can be scheduled without any conflicts"
-        //          EXTRA (Create and schedule)
-
+    public void execute(ChatbotInputData chatbotInputData) {
+        // TODO: Create and schedule event?
+        System.out.println("EventConflictInteractor.execute(chatbotInputData);");
         CohereClient client = new CohereClient();
-        LocalDateTime[] timePeriod = client.getTimePeriodForEventConflict(chatbotInputData.getQuestion());
+        Optional<String> timePeriod = client.getTimePeriodForEventConflict(chatbotInputData.getQuestion());
 
-        //// TEST
-        Schedule schedule = new Schedule();
-        LocalDateTime start = LocalDateTime.of(2024, 11, 27, 18, 0);
-        LocalDateTime end = LocalDateTime.of(2024, 11, 27, 20, 0);
 
-        LocalDateTime start2 = LocalDateTime.of(2024, 11, 27, 15, 0);
-        LocalDateTime end2 = LocalDateTime.of(2024, 11, 27, 18, 0);
-        //// TEST
+        if (timePeriod.isPresent()) {
 
-        // Creating and adding the FixedEvent from 6 to 8pm
-        FixedEvent event = new FixedEvent(start, end, "Naptime", 1);
-        schedule.addEvent(event);
-        FixedEvent event2 = new FixedEvent(start2, end2, "258 Lab", 1);
-        schedule.addEvent(event2);
+            if (timePeriod.get().charAt(0) == 'e') {
+                // Error from COHERE:
+                eventConflictPresenter.prepareFailView("No time period found");
+                System.out.println("Error: No time period found");
+                return;
+            }
 
-        ArrayList<String> tasksDuring = getTasksDuring(timePeriod[0], timePeriod[1], schedule);
+            LocalDateTime[] timePeriodList = toLocalDateTimeList(timePeriod.get());
+            ArrayList<String> tasksDuring = getTasksDuring(timePeriodList[0], timePeriodList[1], scheduleDataObject);
 
-        if (tasksDuring.isEmpty()) {
-            // TODO: change presenter such that output data is changed
-            // TODO: EXTRA (Create and schedule the event)
-            String[] timePeriodString = toStringTime(timePeriod[0], timePeriod[1]);
-            return schedulePresenter.setResponse("Yes, you can schedule your task on " + timePeriodString[0] +
-                    " from " + timePeriodString[1] + " to " + timePeriodString[2] + ".");
-        }
-        else {
-            // TODO: change presenter such that output data is changed
-            String[] article = new String[2];
-            if (tasksDuring.size() == 1) {
-                article[0] = "event conflict";
-                article[1] = "is";
+            if (tasksDuring.isEmpty()) {
+                // TODO: (Create and schedule the event)
+                String[] timePeriodString = toStringTime(timePeriodList[0], timePeriodList[1]);
+                String response = "Yes, you can schedule your task on " + timePeriodString[0] +
+                        " from " + timePeriodString[1] + " to " + timePeriodString[2] + ".";
+
+                final ChatbotOutputData chatbotOutputData = new ChatbotOutputData(response, false);
+                eventConflictPresenter.prepareSuccessView(chatbotOutputData);
             } else {
-                article[0] = "event conflicts";
-                article[1] = "are";
+                String[] article = new String[2];
+                if (tasksDuring.size() == 1) {
+                    article[0] = "event conflict";
+                    article[1] = "is";
+                } else {
+                    article[0] = "event conflicts";
+                    article[1] = "are";
+                }
+
+                String tasksDuringString = "\n";
+                for (String task : tasksDuring) {
+                    tasksDuringString += "\t" + task + "\n";
+                }
+                String response = "You have the following " + article[0] + ": \n" + tasksDuringString;
+
+                final ChatbotOutputData chatbotOutputData = new ChatbotOutputData(response, false);
+                eventConflictPresenter.prepareSuccessView(chatbotOutputData);
             }
-
-            String tasksDuringString = "\n";
-
-            for (String task : tasksDuring) {
-                tasksDuringString += "\t" + task + "\n";
-            }
-
-            return schedulePresenter.setResponse("You have the following " + article[0] + ": \n" + tasksDuringString);
-            // TODO: add error message
+        } else {
+            eventConflictPresenter.prepareFailView("Error occured during API call");
+            System.out.println("Error occured during API call");
         }
     }
 
     @Override
     public void backToMainView() {
-        schedulePresenter.backToMainView();
+        eventConflictPresenter.backToMainView();
     }
+
+    /**
+     * Convert a string of two values in ISO-8601 format into a list of 2 LocalDateTime objects
+     *
+     * @param textResponse of the Cohere client, should be a string version of a list of 2 LocalDateTime objects
+     * @return an array of 2 LocalDateTime objects
+     */
+    private LocalDateTime[] toLocalDateTimeList(String textResponse) {
+        String[] stringLocalDateTimeList = textResponse.split(",");
+
+        LocalDateTime[] dateTimes = new LocalDateTime[2];
+
+        dateTimes[0] = LocalDateTime.parse(stringLocalDateTimeList[0]);
+        dateTimes[1] = LocalDateTime.parse(stringLocalDateTimeList[1]);
+
+        return dateTimes;
+    }
+
 
     /**
      * @param start of time to be checked for event conflicts
@@ -166,4 +188,59 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
 
         return new String[] { date, startTime, endTime };
     }
+    //
+    //
+    //Methods from non CA code
+//    @Override
+//    public String execute(ChatbotInputData chatbotInputData) {
+//        //          EXTRA (Create and schedule)
+//
+//        CohereClient client = new CohereClient();
+//        LocalDateTime[] timePeriod = client.getTimePeriodForEventConflict(chatbotInputData.getQuestion());
+//
+//        //// TEST
+//        Schedule schedule = new Schedule();
+//        LocalDateTime start = LocalDateTime.of(2024, 11, 27, 18, 0);
+//        LocalDateTime end = LocalDateTime.of(2024, 11, 27, 20, 0);
+//
+//        LocalDateTime start2 = LocalDateTime.of(2024, 11, 27, 15, 0);
+//        LocalDateTime end2 = LocalDateTime.of(2024, 11, 27, 18, 0);
+//
+//        // Creating and adding the FixedEvent from 6 to 8pm
+//        FixedEvent event = new FixedEvent(start, end, "Naptime", 1);
+//        schedule.addEvent(event);
+//        FixedEvent event2 = new FixedEvent(start2, end2, "258 Lab", 1);
+//        schedule.addEvent(event2);
+//        //// TEST
+//
+//        ArrayList<String> tasksDuring = getTasksDuring(timePeriod[0], timePeriod[1], scheduleDataObject);
+//
+//        if (tasksDuring.isEmpty()) {
+//            String[] timePeriodString = toStringTime(timePeriod[0], timePeriod[1]);
+//            return eventConflictPresenter.setResponse("Yes, you can schedule your task on " + timePeriodString[0] +
+//                    " from " + timePeriodString[1] + " to " + timePeriodString[2] + ".");
+//        }
+//        else {
+//            String[] article = new String[2];
+//            if (tasksDuring.size() == 1) {
+//                article[0] = "event conflict";
+//                article[1] = "is";
+//            } else {
+//                article[0] = "event conflicts";
+//                article[1] = "are";
+//            }
+//
+//            String tasksDuringString = "\n";
+//
+//            for (String task : tasksDuring) {
+//                tasksDuringString += "\t" + task + "\n";
+//            }
+//
+//            return eventConflictPresenter.setResponse("You have the following " + article[0] + ": \n" + tasksDuringString);
+//        }
+//    }
+
+
+
+
 }

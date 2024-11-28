@@ -3,6 +3,8 @@ package usecase.chatbot_event_conflict;
 import entities.EventEntity.Event;
 import entities.EventEntity.FixedEvent;
 import entities.ScheduleEntity.Schedule;
+import factory.EventFactory;
+import interface_adapter.chatbot_event_conflict.EventConflictPresenter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,10 +25,14 @@ public class EventConflictUseCaseTest {
     @Before
     public void setUp() {
         schedule = new Schedule();
-        interactor = new EventConflictInteractor();
+        // interactor = new EventConflictInteractor(schedule, eventConflictPresenter, eventFactory);
     }
 
     // TODO: make Event Conflict Use Case test into CA
+
+    /**
+     * Test for getTasksDuring method in EventConflictInteractor class (tasks exist)
+     */
     @Test
     public void eventConflictOccurs() {
         LocalDateTime start = LocalDateTime.of(2024, 11, 9, 18, 0);
@@ -45,11 +51,14 @@ public class EventConflictUseCaseTest {
         // Verify there is an event conflict at specified time
         ArrayList<String> actual =  interactor.getTasksDuring(start, end, schedule);
         ArrayList<String> result = new ArrayList<String>();
-        result.add("Naptime");
+        result.add("Naptime: Nov 9  6:00 p.m. - 8:00 p.m.");
 
         assertEquals(result, actual);
     }
 
+    /**
+     * Test for getTasksDuring method in EventConflictInteractor class (no tasks exist)
+     */
     @Test
     public void noEventConflict() {
         LocalDateTime start = LocalDateTime.of(2024, 11, 9, 18, 0);
