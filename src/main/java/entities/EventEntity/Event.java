@@ -1,6 +1,7 @@
 package entities.EventEntity;
 
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -25,46 +26,60 @@ public interface Event {
     void setEventName(String name);
 
     /**
-     * Gets the start date and time of the event.
+     * Gets the starting day of the event.
      *
-     * @return the start time of the event as a LocalDateTime object.
+     * @return the start date of the event as a DayOfWeek object.
      */
-    LocalDateTime getDayStart();
+    DayOfWeek getDayStart();
 
     /**
-     * Sets the start date and time of the event.
+     * Sets the starting day of the event.
      *
-     * @param dayStart the new start date and time of the event.
+     * @param dayStart the new start date of the event.
      */
-    void setDayStart(LocalDateTime dayStart);
+    void setDayStart(DayOfWeek dayStart);
 
     /**
-     * Gets the end date and time of the event.
+     * Gets the ending day of the event.
      *
-     * @return the end time of the event as a LocalDateTime object.
+     * @return the end time of the event as a DayOfWeek object.
      */
-    LocalDateTime getDayEnd();
+    DayOfWeek getDayEnd();
+
+    /**
+     * Sets the ending day of the event.
+     *
+     * @param dayEnd the new end date of the event.
+     */
+    void setDayEnd(DayOfWeek dayEnd);
+
+    /**
+     * Gets the start time of the event.
+     *
+     * @return the start time of the event as a DayOfWeek.
+     */
+    LocalTime getTimeStart();
 
     /**
      * Sets the end date and time of the event.
      *
-     * @param dayEnd the new end date and time of the event.
+     * @param timeStart the new start time of the event.
      */
-    void setDayEnd(LocalDateTime dayEnd);
+    void setTimeStart(LocalTime timeStart);
 
     /**
-     * Gets the priority label of the event.
+     * Gets the end time of the event.
      *
-     * @return the priority label of the event as an integer.
+     * @return the end time of the event as a DayOfWeek.
      */
-    int getPriorityLabel();
+    LocalTime getTimeEnd();
 
     /**
-     * Sets the priority label of the event.
+     * Sets the end date and time of the event.
      *
-     * @param priorityLabel the new priority label of the event.
+     * @param timeEnd the new end time of the event.
      */
-    void setPriorityLabel(int priorityLabel);
+    void setTimeEnd(LocalTime timeEnd);
 
     /**
      * Returns the list of tasks associated with the event.
@@ -86,4 +101,5 @@ public interface Event {
      * @param task, task to be removed.
      */
     void removeTask(Task task);
+
 }
