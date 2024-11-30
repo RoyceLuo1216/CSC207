@@ -16,7 +16,7 @@ public class EditState {
     private String timeEnd;
     private List<String> daysRepeated;
 
-    private String editError;
+    private String outputMessage;
 
     String getEventName() {
         return eventName;
@@ -44,7 +44,7 @@ public class EditState {
 
     List<String> getDaysRepeated() { return daysRepeated;}
 
-    String getEditError() { return editError; }
+    String getOutputMessage() { return outputMessage; }
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
@@ -74,7 +74,7 @@ public class EditState {
         this.daysRepeated = daysRepeated;
     }
 
-    public void setEditError(String editError) {
-        this.editError = editError;
+    public void setOutputMessage(String outputMessage) {
+        this.outputMessage = outputMessage;
     }
 }

@@ -14,6 +14,8 @@ public class EditPresenter implements EditOutputBoundary {
     public void prepareSuccessView(EditOutputData outputData) {
         // output data doesn't need to change, just need to let the view know,
         // so it can alert the user that their updated information was saved.
+        final EditState editState = editViewModel.getState();
+        editState.setOutputMessage(outputData.getOutputMessage());
         editViewModel.firePropertyChanged("edit");
     }
 
@@ -21,7 +23,7 @@ public class EditPresenter implements EditOutputBoundary {
     public void prepareFailView(String errorMessage) {
         // returns an error message if the event was not updated properly
         final EditState editState = editViewModel.getState();
-        editState.setEditError(errorMessage);
+        editState.setOutputMessage(errorMessage);
         editViewModel.firePropertyChanged();
     }
 }

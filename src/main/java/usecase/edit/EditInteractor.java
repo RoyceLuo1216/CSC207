@@ -40,14 +40,16 @@ public class EditInteractor implements EditInputBoundary {
                 RepeatEvent repeatEvent = (RepeatEvent) event;
                 repeatEvent.setDaysRepeated(editInputData.getDaysRepeated());
 
-                final EditOutputData editOutputData = new EditOutputData(eventName, false);
+                final EditOutputData editOutputData = new EditOutputData(eventName, false,
+                                                    "Successfully updated repeat event!");
                 presenter.prepareSuccessView(editOutputData);
 
             } else {
                 // event is present and type has not been changed, so we can update
                 updateFixedEventData(editInputData, event);
 
-                final EditOutputData editOutputData = new EditOutputData(eventName, false);
+                final EditOutputData editOutputData = new EditOutputData(eventName, false,
+                                                            "successfully update event!");
                 presenter.prepareSuccessView(editOutputData);
             }
         }
