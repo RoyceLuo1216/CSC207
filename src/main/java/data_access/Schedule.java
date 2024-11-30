@@ -1,7 +1,10 @@
-package entities.ScheduleEntity;
+package data_access;
 
 import entities.EventEntity.Event;
 import entities.EventEntity.RepeatEvent;
+import usecase.delete.*;
+
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import java.time.LocalDateTime;
@@ -14,7 +17,7 @@ import java.util.Optional;
  * creation, deletion, and retrieval of events, and also provides a framework
  * for scheduling flexible events around fixed ones.
  */
-public class Schedule {
+public class Schedule implements DeleteEventDataAccessInterface {
     private final List<Event> events;
 
     /**
@@ -90,6 +93,7 @@ public class Schedule {
      * @param name the name of the event to be deleted
      * @return true if the event was successfully deleted
      */
+    @Override
     public boolean deleteEvent(String name) {
         Optional<Event> eventToRemove = getEventByName(name);
         return eventToRemove.map(events::remove).orElse(false);
@@ -127,6 +131,7 @@ public class Schedule {
      * @param name the name of the event to find
      * @return an Optional containing the event if found, or an empty Optional
      */
+    @Override
     public Optional<Event> getEventByName(String name) {
         for (Event event : events) {
             if (event.getEventName().equalsIgnoreCase(name)) {
@@ -165,5 +170,10 @@ public class Schedule {
             }
         }
         return Optional.empty();
+    }
+
+
+    public List<Event> getEvents() {
+        return this.events;
     }
 }

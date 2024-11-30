@@ -2,7 +2,7 @@ package usecase.fixed;
 
 import entities.EventEntity.Event;
 import entities.EventEntity.FixedEvent;
-import entities.ScheduleEntity.Schedule;
+import data_access.Schedule;
 import org.junit.Before;
 import org.junit.Test;
 
