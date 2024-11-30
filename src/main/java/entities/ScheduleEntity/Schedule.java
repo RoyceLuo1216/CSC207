@@ -2,6 +2,9 @@ package entities.ScheduleEntity;
 
 import entities.EventEntity.Event;
 import entities.EventEntity.RepeatEvent;
+
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.stream.Collectors;
 
 import java.time.LocalDateTime;
@@ -73,14 +76,15 @@ public class Schedule {
      * Method to create a repeat event with specified start and end times.
      *
      * @param name     the name of the event
-     * @param priority the priority of the event (on a scale of 1-5)
-     * @param dayStart the date and time the event starts
-     * @param dayEnd   the date and time the event ends
+     * @param dayStart the date the event starts
+     * @param dayEnd   the date the event ends
+     * @param timeStart the time the event starts
+     * @param timeEnd   the time the event ends
      * @return true if the event was successfully added
      */
-    public boolean createRepeatEvent(String name, int priority, LocalDateTime dayStart,
-                                     LocalDateTime dayEnd, List<LocalDateTime> daysRepeated) {
-        RepeatEvent event = new RepeatEvent(dayStart, dayEnd, name, priority, daysRepeated);
+    public boolean createRepeatEvent(String name, DayOfWeek dayStart,
+                                     DayOfWeek dayEnd, LocalTime timeStart, LocalTime timeEnd, List<DayOfWeek> daysRepeated) {
+        RepeatEvent event = new RepeatEvent(dayStart, dayEnd, name, timeStart, timeEnd, daysRepeated);
         return events.add(event);
     }
 
