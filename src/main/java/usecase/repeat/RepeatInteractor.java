@@ -27,13 +27,20 @@ public class RepeatInteractor implements RepeatInputBoundary {
             presenter.prepareFailView("Please enter more than 0 repeat days");
 
         } else {
-            userSchedule.createRepeatEvent(repeatInputData.getEventName(), repeatInputData.getDayStart(),
+            boolean repeatAdd = userSchedule.createRepeatEvent(repeatInputData.getEventName(), repeatInputData.getDayStart(),
                     repeatInputData.getDayEnd(), repeatInputData.getTimeStart(), repeatInputData.getTimeEnd(),
                     repeatInputData.getDaysRepeated());
 
-            final RepeatOutputData repeatOutputData = new RepeatOutputData(eventName, false);
+            if (!repeatAdd) {
+                presenter.prepareFailView("Unable to add repeat event");
+            }
 
-            presenter.prepareSuccessView(repeatOutputData);
+            else {
+
+                final RepeatOutputData repeatOutputData = new RepeatOutputData(eventName, false);
+
+                presenter.prepareSuccessView(repeatOutputData);
+            }
         }
     }
 }
