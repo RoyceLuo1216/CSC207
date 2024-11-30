@@ -1,4 +1,4 @@
-package data;
+package data_access;
 
 import entities.ScheduleEntity.Schedule;
 import java.io.IOException;
