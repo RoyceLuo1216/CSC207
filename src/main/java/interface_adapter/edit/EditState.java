@@ -2,6 +2,7 @@ package interface_adapter.edit;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.List;
 
 /**
  * The state for the Edit View Model.
@@ -13,6 +14,7 @@ public class EditState {
     private String dayEnd;
     private String timeStart;
     private String timeEnd;
+    private List<String> daysRepeated;
 
     private String editError;
 
@@ -40,6 +42,8 @@ public class EditState {
         return timeEnd;
     }
 
+    List<String> getDaysRepeated() { return daysRepeated;}
+
     String getEditError() { return editError; }
 
     public void setEventName(String eventName) {
@@ -64,6 +68,10 @@ public class EditState {
 
     public void setTimeEnd(String timeEnd) {
         this.timeEnd = timeEnd;
+    }
+
+    public void setDaysRepeated(List<String> daysRepeated) {
+        this.daysRepeated = daysRepeated;
     }
 
     public void setEditError(String editError) {

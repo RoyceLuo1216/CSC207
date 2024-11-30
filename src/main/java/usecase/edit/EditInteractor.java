@@ -1,8 +1,11 @@
 package usecase.edit;
 
+import entities.EventEntity.FixedEvent;
+import entities.EventEntity.RepeatEvent;
 import entities.ScheduleEntity.Schedule;
 import entities.EventEntity.Event;
 
+import java.time.DayOfWeek;
 import java.util.Optional;
 
 public class EditInteractor implements EditInputBoundary {
@@ -25,22 +28,40 @@ public class EditInteractor implements EditInputBoundary {
 
         } else {
             Event event = optionalEvent.get();
+            String eventType = editInputData.getEventType() + "Event";
 
-            if (!editInputData.getEventType().equals(event.getClass().getName())) {
+            if (!eventType.equals(event.getClass().getSimpleName())) {
                 // event type is being changed, tell user that the event type cannot be changed
                 presenter.prepareFailView("The event type cannot be changed.");
 
-            } else {
-                // event is present and type has not been changed, so we can update
-                event.setDayStart(editInputData.getDayStart());
-                event.setDayEnd(editInputData.getDayEnd());
-                event.setTimeStart(editInputData.getTimeStart());
-                event.setTimeEnd(editInputData.getTimeEnd());
+            } else if (eventType.equals("RepeatEvent")) {
+                 // event is a repeat event and thus has one extra parameter then fixed event
+                updateFixedEventData(editInputData, event);
+                RepeatEvent repeatEvent = (RepeatEvent) event;
+                repeatEvent.setDaysRepeated(editInputData.getDaysRepeated());
 
                 final EditOutputData editOutputData = new EditOutputData(eventName, false);
+                presenter.prepareSuccessView(editOutputData);
 
+            } else {
+                // event is present and type has not been changed, so we can update
+                updateFixedEventData(editInputData, event);
+
+                final EditOutputData editOutputData = new EditOutputData(eventName, false);
                 presenter.prepareSuccessView(editOutputData);
             }
         }
+    }
+
+    /**
+     * Updates fixed event data (dayStart, dayEnd, timeStart, timeEnd)
+     * @param editInputData     the input data containing the updated information
+     * @param event             the event to edit
+     */
+    private static void updateFixedEventData(EditInputData editInputData, Event event) {
+        event.setDayStart(editInputData.getDayStart());
+        event.setDayEnd(editInputData.getDayEnd());
+        event.setTimeStart(editInputData.getTimeStart());
+        event.setTimeEnd(editInputData.getTimeEnd());
     }
 }
