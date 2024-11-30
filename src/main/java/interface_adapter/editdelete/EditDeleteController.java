@@ -21,17 +21,6 @@ public class EditDeleteController {
         return currentEvent;
     }
 
-    public boolean updateEvent(String name, LocalDateTime start, LocalDateTime end) {
-        try {
-            currentEvent.setEventName(name);
-            currentEvent.setDayStart(start);
-            currentEvent.setDayEnd(end);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     public boolean deleteEvent() {
         return schedule.removeEvent(currentEvent.getEventName());
     }
