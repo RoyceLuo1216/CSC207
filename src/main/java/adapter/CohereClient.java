@@ -1,18 +1,12 @@
 package adapter;
 
 import com.cohere.api.Cohere;
-import com.cohere.api.resources.v2.requests.V2ChatRequest;
-import com.cohere.api.types.ChatMessageV2;
-import com.cohere.api.types.ChatResponse;
-import com.cohere.api.types.UserMessage;
-import com.cohere.api.types.UserMessageContent;
 import io.github.cdimascio.dotenv.Dotenv;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.cohere.api.requests.ChatRequest;
+import com.cohere.api.types.NonStreamedChatResponse;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class CohereClient {
     private final Cohere cohere;
@@ -21,101 +15,50 @@ public class CohereClient {
         // Load API key from .env
         Dotenv dotenv = Dotenv.load();
         String apiKey = dotenv.get("COHERE_API_KEY");
+        // System.out.println("API Key: " + apiKey);  // Check if the API key is loaded correctly
+
+        if (apiKey == null || apiKey.isEmpty()) {
+            throw new IllegalArgumentException("API key is missing or invalid.");
+        }
+
         this.cohere = Cohere.builder().token(apiKey).clientName("scheduling-app").build();
     }
 
-    public static void main(String[] args) {
-        CohereClient client = new CohereClient();
-
-        // Define event information prompt here
-        String eventInfo = "Fixed Event: MAT237 Midterm on 2024-11-09 from 18:00 to 20:00, Recurring Event: Sleep daily from 00:00 to 08:00, Flexible Event: Stats Studying needing 10 hours from 2024-11-09 to 2024-11-12.";
-
-        // Get the schedule JSON from Cohere
-        JSONObject scheduleJson = client.scheduleWithCohere(eventInfo);
-
-        // Save to JSON file for OR-Tools use
-        client.saveScheduleToFile(scheduleJson, "schedule.json");
-    }
-
     /**
-     * Sends a request to Cohere to process scheduling.
+     * Sends a request to Cohere to extract the start and end time of an event conflict inquiry.
      *
-     * @param eventInfo the formatted event information string
-     * @return the response from Cohere as a structured JSON
-     */
-    public JSONObject scheduleWithCohere(String eventInfo) {
-        ChatResponse response =
-                cohere.v2()
-                        .chat(
-                                V2ChatRequest.builder()
-                                        .model("command-r-plus")
-                                        .messages(
-                                                List.of(
-                                                        ChatMessageV2.user(
-                                                                UserMessage.builder()
-                                                                        .content(
-                                                                                UserMessageContent.of(eventInfo))
-                                                                        .build())))
-                                        .build());
-
-        // Extract text response from Cohere
-        String responseText = String.valueOf(response.getMessage());
-
-        // Parse the response text to JSON format (assuming JSON response is provided)
-        return parseResponseToJSON(responseText);
-    }
-
-    /**
-     * Parses the response text from Cohere into a structured JSON format for flexible scheduling.
-     * This method assumes the response is formatted in a structured way for parsing.
+     * Prompt: Extract and return only 2 strings in ISO-8601 format separated by a comma representing the start time
+     * and end time of the event described below. If the date is not specified, assume the current time of "now".
+     * If there is no time/day mentioned at all, return: eNoTimeSpecified. Event description: "description"
      *
-     * @param responseText the response text from Cohere
-     * @return a JSON object containing the structured schedule
+     * Example response from cohere with the question "I want an event on wednesday 6pm to 9pm":
+     * "2024-05-15T18:00:00, 2024-05-15T21:00:00"
+     *
+     * @param userChatInput the user input into the chat
+     * @return a string response from Cohere or null indicating error with API call
      */
-    private JSONObject parseResponseToJSON(String responseText) {
-        JSONObject scheduleJson = new JSONObject();
-        JSONArray eventsArray = new JSONArray();
+    public Optional<String> getTimePeriodForEventConflict(String userChatInput) {
+        LocalDateTime now = LocalDateTime.now();
+        String prompt = "Extract and return only 2 strings in ISO-8601 format separated by a comma representing the " +
+                "start time and end time of the event described below. If the date is not specified, assume the " +
+                "current time of, " + now + ". If there no time/day mentioned at all, return: eNoTimeSpecified." +
+                "Event description:" + userChatInput;
 
-        // Here, we'll mock the parsed response assuming Cohere returns details in a readable way.
-        // Example parsing logic for demonstration purposes:
-        String[] lines = responseText.split("\n");
-        for (String line : lines) {
-            if (line.contains("Event:")) {
-                JSONObject eventJson = new JSONObject();
-                String[] parts = line.split(", ");
+        try {
+            NonStreamedChatResponse response = this.cohere.chat(
+                    ChatRequest.builder()
+                            .message(prompt).build());
 
-                for (String part : parts) {
-                    if (part.contains("Event Name:")) {
-                        eventJson.put("event_name", part.split(":")[1].trim());
-                    } else if (part.contains("Start Time:")) {
-                        eventJson.put("start_time", part.split(":")[1].trim());
-                    } else if (part.contains("End Time:")) {
-                        eventJson.put("end_time", part.split(":")[1].trim());
-                    } else if (part.contains("Type:")) {
-                        eventJson.put("type", part.split(":")[1].trim());
-                    }
-                }
-                eventsArray.put(eventJson);
+            if (response != null && response.getText() != null) {
+                System.out.println("Cohere response: " + response.getText());
+                return Optional.of(response.getText());
+            } else {
+                System.out.println("No valid response received from the API.");
+                return Optional.empty();
             }
-        }
-
-        scheduleJson.put("schedule", eventsArray);
-        return scheduleJson;
-    }
-
-    /**
-     * Saves the structured schedule JSON to a file.
-     *
-     * @param scheduleJson The JSON object representing the schedule
-     * @param filename     The filename where the schedule will be saved
-     */
-    public void saveScheduleToFile(JSONObject scheduleJson, String filename) {
-        try (FileWriter file = new FileWriter(filename)) {
-            file.write(scheduleJson.toString(4)); // Pretty-print with indentation
-            file.flush();
-            System.out.println("Schedule saved to " + filename);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Error occurred while making API request: " + e.getMessage());
+            return Optional.empty();
         }
     }
 }
