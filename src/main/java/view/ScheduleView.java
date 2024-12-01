@@ -13,6 +13,12 @@ import java.beans.PropertyChangeListener;
  */
 public class ScheduleView extends JPanel implements PropertyChangeListener {
 
+    private static final int FRAME_WIDTH = 800;
+    private static final int FRAME_HEIGHT = 600;
+    private static final int GRID_ROWS = 24;
+    private static final int GRID_COLUMNS = 7;
+    private static final int LABEL_FONT_SIZE = 14;
+
     private final ScheduleViewModel scheduleViewModel;
     private final JFrame mainFrame;
     private final JPanel mainPanel;
@@ -37,7 +43,7 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
         // Set up frame
         mainFrame.setContentPane(mainPanel);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(800, 600);
+        mainFrame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 
         // Constraints for GridBagLayout
         GridBagConstraints constraints = new GridBagConstraints();
@@ -79,27 +85,31 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
     }
 
     private void addTimePanel(GridBagConstraints constraints) {
-        final JPanel timePanel = new JPanel(new GridLayout(24, 1));
-        for (int i = 0; i < 24; i++) {
-            timePanel.add(new JLabel(i + ":00"));
+        final JPanel timePanel = new JPanel(new GridLayout(GRID_ROWS, 1));
+        for (int i = 0; i < GRID_ROWS; i++) {
+            JLabel timeLabel = new JLabel(i + ":00");
+            timeLabel.setFont(new Font("Arial", Font.PLAIN, LABEL_FONT_SIZE));
+            timePanel.add(timeLabel);
         }
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.gridheight = 24;
+        constraints.gridheight = GRID_ROWS;
         mainPanel.add(timePanel, constraints);
     }
 
     private void addWeekdayPanel(GridBagConstraints constraints) {
-        final JPanel weekdayPanel = new JPanel(new GridLayout(1, 7));
+        final JPanel weekdayPanel = new JPanel(new GridLayout(1, GRID_COLUMNS));
         final String[] weekdays = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
         for (String weekday : weekdays) {
-            weekdayPanel.add(new JLabel(weekday, SwingConstants.CENTER));
+            JLabel weekdayLabel = new JLabel(weekday, SwingConstants.CENTER);
+            weekdayLabel.setFont(new Font("Arial", Font.BOLD, LABEL_FONT_SIZE));
+            weekdayPanel.add(weekdayLabel);
         }
 
         constraints.gridx = 1;
         constraints.gridy = 0;
-        constraints.gridwidth = 7;
+        constraints.gridwidth = GRID_COLUMNS;
         constraints.gridheight = 1;
         mainPanel.add(weekdayPanel, constraints);
     }
