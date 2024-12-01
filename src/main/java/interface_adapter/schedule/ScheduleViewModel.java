@@ -1,4 +1,17 @@
 package interface_adapter.schedule;
 
-public class ScheduleViewModel {
+import interface_adapter.ViewModel;
+
+/**
+ * ViewModel for the Schedule Use Case.
+ */
+public class ScheduleViewModel extends ViewModel<ScheduleState> {
+
+    /**
+     * Constructs the ScheduleViewModel with the "schedule" view name.
+     */
+    public ScheduleViewModel() {
+        super("schedule");
+        setState(new ScheduleState());
+    }
 }

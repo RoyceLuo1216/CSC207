@@ -1,31 +1,13 @@
 package usecase.schedule;
 
-import entities.EventEntity.Event;
-import java.time.DayOfWeek;
-import java.time.LocalTime;
-import java.util.List;
-
 /**
- * Input Boundary for Schedule.
+ * Input Boundary for schedule-related actions.
  */
 public interface ScheduleInputBoundary {
     /**
-     * Adds an event to the schedule
-     * @param event event to be added.
+     * Retrieves events based on the given input data.
+     *
+     * @param inputData the input data containing optional event names to retrieve.
      */
-    void addEvent(Event event);
-
-    /**
-     * removes an event by its name.
-     * @param eventName name of the event.
-     */
-    void removeEvent(String eventName);
-
-    /**
-     * Returns a list of events by day and time.
-     * @param day
-     * @param time
-     * @return
-     */
-    List<Event> getEventsByDayAndTime(DayOfWeek day, LocalTime time);
+    void execute(ScheduleInputData inputData);
 }

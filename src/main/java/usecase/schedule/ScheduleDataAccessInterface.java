@@ -1,8 +1,15 @@
 package usecase.schedule;
 
+import java.util.List;
+
 /**
- * Interface for accessing data related to the schedule View.
+ * Data Access Interface for schedule-related operations.
  */
 public interface ScheduleDataAccessInterface {
-
+    /**
+     * Retrieves all event names.
+     *
+     * @return a list of all event names.
+     */
+    List<String> getAllEventNames();
 }
