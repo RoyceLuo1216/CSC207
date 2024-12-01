@@ -107,4 +107,5 @@ public class DeleteEventView extends JPanel {
             backToScheduleCallback.run();
         }
     }
+
 }

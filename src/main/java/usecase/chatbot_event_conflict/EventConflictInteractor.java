@@ -3,7 +3,7 @@ package usecase.chatbot_event_conflict;
 import adapter.CohereClient;
 import data_access.InMemoryDataAccessObject;
 import entities.EventEntity.Event;
-import factory.EventFactory;
+import entities.EventEntity.EventFactory;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;

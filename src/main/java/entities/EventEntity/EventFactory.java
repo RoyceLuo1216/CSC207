@@ -1,12 +1,8 @@
-package factory;
+package entities.EventEntity;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
-
-import entities.EventEntity.Event;
-import entities.EventEntity.FixedEvent;
-import entities.EventEntity.RepeatEvent;
 
 /**
  * EventFactory to create events.

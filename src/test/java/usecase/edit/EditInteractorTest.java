@@ -3,7 +3,7 @@ package usecase.edit;
 import data_access.InMemoryDataAccessObject;
 import entities.EventEntity.Event;
 import entities.EventEntity.RepeatEvent;
-import factory.EventFactory;
+import entities.EventEntity.EventFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
