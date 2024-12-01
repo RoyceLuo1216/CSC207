@@ -23,12 +23,10 @@ class DeleteEventInteractorTest {
         }
 
         @Override
-        public boolean deleteEvent(String eventName) {
+        public void deleteEvent(String eventName) {
             if (eventExists) {
                 deleteCalled = true;
-                return true;
             }
-            return false;
         }
 
         @Override

@@ -4,13 +4,10 @@ import entities.EventEntity.Event;
 import entities.EventEntity.RepeatEvent;
 import usecase.delete.*;
 
-import java.lang.reflect.Array;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -99,12 +96,11 @@ public class Schedule implements DeleteEventDataAccessInterface {
      * Method to delete an event by name.
      *
      * @param name the name of the event to be deleted
-     * @return true if the event was successfully deleted
      */
     @Override
-    public boolean deleteEvent(String name) {
+    public void deleteEvent(String name) {
         Optional<Event> eventToRemove = getEventByName(name);
-        return eventToRemove.map(events::remove).orElse(false);
+        eventToRemove.map(events::remove);
     }
 
     /**

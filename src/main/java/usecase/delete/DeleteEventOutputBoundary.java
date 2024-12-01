@@ -1,5 +1,8 @@
 package usecase.delete;
 
+/**
+ *  DeleteEvent Output Boundary.
+ */
 public interface DeleteEventOutputBoundary {
 
     /**

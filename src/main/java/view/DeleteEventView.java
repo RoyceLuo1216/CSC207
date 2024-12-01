@@ -1,21 +1,37 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
 import interface_adapter.delete.DeleteEventController;
 import interface_adapter.delete.DeleteEventViewModel;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * The DeleteEventView renders the event deletion interface and delegates logic to the Controller and ViewModel.
  */
 public class DeleteEventView extends JPanel {
-    private final DeleteEventViewModel viewModel;
-    private final DeleteEventController controller;
-    private final Runnable backToScheduleCallback;
-    private final Runnable refreshScheduleCallback;
+    private static final String CANCEL_BUTTON_TEXT = "Cancel";
+    private static final String DELETE_BUTTON_TEXT = "Delete";
+    private static final int EVENT_NAME_FONT_SIZE = 14;
+    private static final String FONT_NAME = "Arial";
+    private static final String INSTRUCTION_TEXT = "Are you sure you want to delete this event?";
+    private static final Color MESSAGE_FONT_COLOR = Color.RED;
+    private static final int MESSAGE_FONT_SIZE = 12;
+    private static final String TITLE_TEXT = "Delete Event";
+    private static final int TITLE_FONT_SIZE = 18;
 
+    private final Runnable backToScheduleCallback;
+    private final DeleteEventController controller;
     private JLabel messageLabel;
+    private final Runnable refreshScheduleCallback;
+    private final DeleteEventViewModel viewModel;
 
     public DeleteEventView(DeleteEventController controller, DeleteEventViewModel viewModel,
                            Runnable backToScheduleCallback, Runnable refreshScheduleCallback) {
@@ -32,37 +48,37 @@ public class DeleteEventView extends JPanel {
         this.setLayout(new BorderLayout());
 
         // Title
-        JLabel titleLabel = new JLabel("Delete Event", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        final JLabel titleLabel = new JLabel(TITLE_TEXT, SwingConstants.CENTER);
+        titleLabel.setFont(new Font(FONT_NAME, Font.BOLD, TITLE_FONT_SIZE));
         this.add(titleLabel, BorderLayout.NORTH);
 
         // Instruction Panel
-        JPanel instructionPanel = new JPanel();
+        final JPanel instructionPanel = new JPanel();
         instructionPanel.setLayout(new BoxLayout(instructionPanel, BoxLayout.Y_AXIS));
-        JLabel instructionLabel = new JLabel("Are you sure you want to delete this event?");
+        final JLabel instructionLabel = new JLabel(INSTRUCTION_TEXT);
         instructionPanel.add(instructionLabel);
 
-        JLabel eventNameLabel = new JLabel("Event: " + viewModel.getState().getEventName());
-        eventNameLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        final JLabel eventNameLabel = new JLabel("Event: " + viewModel.getState().getEventName());
+        eventNameLabel.setFont(new Font(FONT_NAME, Font.BOLD, EVENT_NAME_FONT_SIZE));
         instructionPanel.add(eventNameLabel);
 
         this.add(instructionPanel, BorderLayout.CENTER);
 
         // Message Label
         messageLabel = new JLabel("", SwingConstants.CENTER);
-        messageLabel.setFont(new Font("Arial", Font.ITALIC, 12));
-        messageLabel.setForeground(Color.RED);
+        messageLabel.setFont(new Font(FONT_NAME, Font.ITALIC, MESSAGE_FONT_SIZE));
+        messageLabel.setForeground(MESSAGE_FONT_COLOR);
         this.add(messageLabel, BorderLayout.SOUTH);
 
         // Button Panel
-        JPanel buttonPanel = new JPanel();
-        JButton deleteButton = new JButton("Delete");
-        JButton backButton = new JButton("Cancel");
+        final JPanel buttonPanel = new JPanel();
+        final JButton deleteButton = new JButton(DELETE_BUTTON_TEXT);
+        final JButton backButton = new JButton(CANCEL_BUTTON_TEXT);
 
         // Delete Button Action
         deleteButton.addActionListener(e -> {
-            String eventName = viewModel.getState().getEventName();
-            controller.execute(eventName); // Trigger the deletion process
+            final String eventName = viewModel.getState().getEventName();
+            controller.execute(eventName);
         });
 
         // Back Button Action
@@ -83,44 +99,12 @@ public class DeleteEventView extends JPanel {
     }
 
     private void updateView() {
-        String message = viewModel.getState().getMessage();
+        final String message = viewModel.getState().getMessage();
         messageLabel.setText(message);
 
         if (viewModel.getState().getMessage().contains("successfully")) {
-            refreshScheduleCallback.run(); // Refresh the schedule on success
-            backToScheduleCallback.run(); // Navigate back to the schedule view
+            refreshScheduleCallback.run();
+            backToScheduleCallback.run();
         }
-    }
-
-    /**
-     * Main method for testing DeleteEventView.
-     */
-    public static void main(String[] args) {
-        // Mock ViewModel and Controller
-        DeleteEventViewModel viewModel = new DeleteEventViewModel("delete");
-        viewModel.getState().setEventName("Christmas Brunch");
-
-        DeleteEventController controller = new DeleteEventController(inputData -> {
-            if (inputData.getEventName().equals("Christmas Brunch")) {
-                viewModel.getState().setMessage("Event \"Christmas Brunch\" deleted successfully.");
-            } else {
-                viewModel.getState().setMessage("Failed to delete event.");
-            }
-            viewModel.firePropertyChanged("state");
-        });
-
-        DeleteEventView deleteEventView = new DeleteEventView(
-                controller,
-                viewModel,
-                () -> System.out.println("Back to schedule"), // Dummy callback
-                () -> System.out.println("Schedule refreshed") // Dummy callback
-        );
-
-        // Set up a JFrame for testing
-        JFrame frame = new JFrame("Delete Event");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(deleteEventView);
-        frame.setSize(400, 200);
-        frame.setVisible(true);
     }
 }

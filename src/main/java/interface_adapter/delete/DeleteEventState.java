@@ -7,7 +7,6 @@ public class DeleteEventState {
     private String eventName;
     private String message;
 
-
     public DeleteEventState() {
     }
 

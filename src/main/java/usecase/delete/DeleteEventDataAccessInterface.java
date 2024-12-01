@@ -13,9 +13,8 @@ public interface DeleteEventDataAccessInterface {
      * Deletes a specificied event from schedule.
      *
      * @param eventName (name of the event to be deleted).
-     * @return boolean representing if a feature was successfully deleted or not.
      */
-    boolean deleteEvent(String eventName);
+    void deleteEvent(String eventName);
 
     /**
      * Method to find an event by its name.
