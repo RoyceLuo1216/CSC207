@@ -1,5 +1,11 @@
 package data_access;
 
+import entities.EventEntity.Event;
+import entities.EventEntity.RepeatEvent;
+import usecase.delete.DeleteEventDataAccessInterface;
+import usecase.edit.EditDataAccessInterface;
+
+import java.lang.reflect.Array;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -7,15 +13,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import entities.EventEntity.Event;
-import usecase.delete.*;
-
 /**
  * Class representing a ScheduleUseCase with a list of events. This class handles the
  * creation, deletion, and retrieval of events, and also provides a framework
  * for scheduling flexible events around fixed ones.
  */
-public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface {
+public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
+                                                        EditDataAccessInterface {
     private final List<Event> events;
 
     /**

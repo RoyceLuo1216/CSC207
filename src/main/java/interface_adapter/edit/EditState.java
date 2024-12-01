@@ -1,7 +1,5 @@
 package interface_adapter.edit;
 
-import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -42,9 +40,13 @@ public class EditState {
         return timeEnd;
     }
 
-    List<String> getDaysRepeated() { return daysRepeated;}
+    List<String> getDaysRepeated() {
+        return daysRepeated;
+    }
 
-    String getOutputMessage() { return outputMessage; }
+    String getOutputMessage() {
+        return outputMessage;
+    }
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
