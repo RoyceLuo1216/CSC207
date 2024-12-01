@@ -1,39 +1,47 @@
-package entities.EventEntity;
+package entities.eventEntity;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * A FixedEvent represents an event with a fixed start and end time, name.
+ * A RepeatEvent represents a repeated event with  start/end time, name, and priority.
  */
-public class FixedEvent implements Event {
+public class RepeatEvent implements Event {
+
     @JsonProperty("dayStart")
     private DayOfWeek dayStart;
     @JsonProperty("dayEnd")
     private DayOfWeek dayEnd;
     @JsonProperty("eventName")
     private String eventName;
+    @JsonProperty("daysRepeated")
+    private List<DayOfWeek> daysRepeated;
     @JsonProperty("timeStart")
     private LocalTime timeStart;
     @JsonProperty("timeEnd")
     private LocalTime timeEnd;
 
     /**
-     * Constructor for fixed event class.
+     * Constructor for the RepeatEvent class.
+     *
      * @param dayStart      the start date of the event
      * @param dayEnd        the end date of the event
-     * @param eventName     the name of the event
      * @param timeStart     the start time of the event
      * @param timeEnd       the end time of the event
+     * @param eventName     the name of the event
+     * @param daysRepeated  the days that the event is repeated.
      */
-    public FixedEvent(DayOfWeek dayStart, DayOfWeek dayEnd, String eventName, LocalTime timeStart, LocalTime timeEnd) {
+    public RepeatEvent(DayOfWeek dayStart, DayOfWeek dayEnd, String eventName, LocalTime timeStart, LocalTime timeEnd,
+                                                                                    List<DayOfWeek> daysRepeated) {
         this.dayStart = dayStart;
         this.dayEnd = dayEnd;
-        this.eventName = eventName;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
+        this.eventName = eventName;
+        this.daysRepeated = daysRepeated;
     }
 
     /**
@@ -66,10 +74,11 @@ public class FixedEvent implements Event {
     }
 
     /**
-     * Sets the start day to another value.
+     * Sets the starting day of the event.
      *
-     * @param dayStart represents the new start day for this event.
+     * @param dayStart the new start date of the event.
      */
+    @Override
     public void setDayStart(DayOfWeek dayStart) {
         this.dayStart = dayStart;
     }
@@ -134,4 +143,19 @@ public class FixedEvent implements Event {
         this.timeEnd = timeEnd;
     }
 
+    /**
+     * Returns a list of days that the event is repeated.
+     * @return list of type DayOfWeek of days that the event repeats. 
+     */
+    public List<DayOfWeek> getDaysRepeated() {
+        return daysRepeated;
+    }
+
+    /**
+     * Sets the days that the event repeats.
+     * @param daysRepeated new set of repeat days.
+     */
+    public void setDaysRepeated(List<DayOfWeek> daysRepeated) {
+        this.daysRepeated = daysRepeated;
+    }
 }

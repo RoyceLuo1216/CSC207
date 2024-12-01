@@ -1,8 +1,8 @@
 package usecase.fixed;
 
 import data_access.InMemoryDataAccessObject;
-import entities.EventEntity.Event;
-import entities.EventEntity.FixedEvent;
+import entities.eventEntity.Event;
+import entities.eventEntity.FixedEvent;
 import org.junit.Before;
 import org.junit.Test;
 

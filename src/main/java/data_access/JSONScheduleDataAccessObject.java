@@ -1,9 +1,9 @@
 package data_access;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.File;
 import java.io.IOException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 // TODO: ASK IF WE CAN DELETE EVENTSTORAGE
 
@@ -18,20 +18,20 @@ public class JSONScheduleDataAccessObject {
 
     /**
      * Method to save schedule to events.json. Will override the previous events.json
-     * @param schedule schedule
-     * @return saved schedule
+     * @param dataAccessObject schedule
      */
-    public void saveSchedule(InMemoryDataAccessObject schedule) {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public void saveSchedule(InMemoryDataAccessObject dataAccessObject) {
+        final ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            File file = new File(SCHEDULE_FILE_PATH);
+            final File file = new File(SCHEDULE_FILE_PATH);
 
-            objectMapper.writeValue(file, schedule);
+            objectMapper.writeValue(file, dataAccessObject);
 
-        } catch (IOException e) {
-            System.err.println("Error writing to file " + SCHEDULE_FILE_PATH + ": " + e.getMessage());
-            e.printStackTrace();
+        }
+        catch (IOException error) {
+            System.err.println("Error writing to file " + SCHEDULE_FILE_PATH + ": " + error.getMessage());
+            error.printStackTrace();
         }
     }
 
@@ -39,24 +39,24 @@ public class JSONScheduleDataAccessObject {
      * Method to retrieve saved json schedule. If there is no events.json file, returns an empty schedule class.
      * @return saved schedule
      */
-    public InMemoryDataAccessObject getSchedule () {
-        File file = new File(SCHEDULE_FILE_PATH);
+    public InMemoryDataAccessObject getSchedule() {
+        final File file = new File(SCHEDULE_FILE_PATH);
+        InMemoryDataAccessObject dataAccessObject = new InMemoryDataAccessObject();
         if (!file.exists()) {
             System.out.println("No saved schedule found, returning empty schedule.");
-            return new Schedule();
         }
+        else {
+            final ObjectMapper objectMapper = new ObjectMapper();
 
-        ObjectMapper final objectMapper = new ObjectMapper();
-
-        try {
-
-            return objectMapper.readValue(file, InMemoryDataAccessObject.class);
-
-        } catch (IOException e) {
-            System.err.println("Error reading from file " + SCHEDULE_FILE_PATH + ": " + e.getMessage());
-            e.printStackTrace();
+            try {
+                dataAccessObject = objectMapper.readValue(file, InMemoryDataAccessObject.class);
+            }
+            catch (IOException error) {
+                System.err.println("Error reading from file " + SCHEDULE_FILE_PATH + ": " + error.getMessage());
+                error.printStackTrace();
+            }
         }
-        return new InMemoryDataAccessObject();
+        return dataAccessObject;
     }
 
 }

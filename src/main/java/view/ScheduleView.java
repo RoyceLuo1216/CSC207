@@ -1,22 +1,34 @@
 package view;
 
-import data_access.InMemoryDataAccessObject;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
+
+import javax.swing.*;
+
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import data_access.InMemoryDataAccessObject;
+
 
 /**
  * A ScheudleView class to visually display our schedule.
  */
 public class ScheduleView extends JPanel implements ActionListener, PropertyChangeListener {
-
+    private static final Map<String, Integer> WEEKDAY_NUMBERS = Map.of(
+            "Sunday", 1,
+            "Monday", 4,
+            "Tuesday", 7,
+            "Wednesday", 10,
+            "Thursday", 13,
+            "Friday", 16,
+            "Saturday", 19
+    );
     private final InMemoryDataAccessObject inMemoryDataAccessObject;
     private boolean visible;
     private final JFrame mainFrame;
@@ -29,14 +41,17 @@ public class ScheduleView extends JPanel implements ActionListener, PropertyChan
         mainFrame = new JFrame("Schedule Viewer");
     }
 
+    /**
+     * Schedule view main class.
+     */
     public static void main(String[] args) {
-        ScheduleView scheduleView = new ScheduleView();
+        final ScheduleView scheduleView = new ScheduleView();
         scheduleView.setVisible();
         scheduleView.displaySchedule();
     }
 
     /**
-     * Create a panel of times ont he left side
+     * Create a panel of times ont he left side.
      *
      * @param panel The main panel we want to add to
      * @param c     Constraints for our grid
@@ -69,19 +84,19 @@ public class ScheduleView extends JPanel implements ActionListener, PropertyChan
     }
 
     /**
-     * Create a panel of weekdays ont he left side
+     * Create a panel of weekdays on the left side.
      *
      * @param panel The main panel we want to add to
      * @param c     Constraints for our grid
      */
     private static void createWeekdaysPanel(JPanel panel, GridBagConstraints c) {
 
-        List<String> weekdays =
+        final List<String> weekdays =
                 Arrays.asList("Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun");
-        List<JButton> result = new ArrayList<>();
+        final List<JButton> result = new ArrayList<>();
 
         for (int i = 0; i < weekdays.size(); i++) {
-            JButton weekdayLabel = new JButton(weekdays.get(i));
+            final JButton weekdayLabel = new JButton(weekdays.get(i));
             result.add(weekdayLabel);
         }
 
@@ -105,10 +120,10 @@ public class ScheduleView extends JPanel implements ActionListener, PropertyChan
     }
 
     /**
-     * Create an event button
+     * Create an event button.
      *
      * @param panel   The main panel we want to add to
-     * @param c       Constraints for our grid
+     * @param constraints       Constraints for our grid
      * @param name    Name of event
      * @param weekday Weekday
      * @param start   Start time
@@ -116,38 +131,25 @@ public class ScheduleView extends JPanel implements ActionListener, PropertyChan
      */
     // TODO: This method assumes event happens on same day, update so it can do an event over multiple dayss
     // TODO: Update this class to use event class. Had trouble importing classes so this was not possible
-    private static void createEventButton(JPanel panel, GridBagConstraints c,
-                                          String name, String weekday, int start, int end) {
-        int weekdayNum = 0;
-        if (weekday.equals("Sunday")) {
-            weekdayNum = 1;
-        }
-        if (weekday.equals("Monday")) {
-            weekdayNum = 4;
-        }
-        if (weekday.equals("Tuesday")) {
-            weekdayNum = 7;
-        }
-        if (weekday.equals("Wednesday")) {
-            weekdayNum = 10;
-        }
-        if (weekday.equals("Thursday")) {
-            weekdayNum = 13;
-        }
-        if (weekday.equals("Friday")) {
-            weekdayNum = 16;
-        }
-        if (weekday.equals("Saturday")) {
-            weekdayNum = 19;
-        }
 
-        c.fill = GridBagConstraints.BOTH;
-        c.gridx = weekdayNum;
-        c.gridy = start * 2 + 2;
-        c.gridwidth = 3;
-        c.gridheight = (end - start) * 2 + 2;
-        JButton result = new JButton(name);
-        panel.add(result, c);
+    private static void createEventButton(JPanel panel, GridBagConstraints constraints, String name, String weekday, int start, int end) {
+        final int weekdayNum = getWeekdayNumber(weekday);
+
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = weekdayNum;
+        constraints.gridy = start * 2 + 2;
+        constraints.gridwidth = 3;
+        constraints.gridheight = (end - start) * 2 + 2;
+
+        final JButton result = new JButton(name);
+        panel.add(result, constraints);
+    }
+
+    private static int getWeekdayNumber(String weekday) {
+        if (!WEEKDAY_NUMBERS.containsKey(weekday)) {
+            throw new IllegalArgumentException("Invalid weekday: " + weekday);
+        }
+        return WEEKDAY_NUMBERS.get(weekday);
     }
 
     /**
@@ -158,21 +160,21 @@ public class ScheduleView extends JPanel implements ActionListener, PropertyChan
         JPanel main = new JPanel();
         main.setLayout(new GridBagLayout());
 
-        //Constraints parameter for our grid
-        GridBagConstraints c = new GridBagConstraints();
+        // Constraints parameter for our grid
+        GridBagConstraints constraints = new GridBagConstraints();
 
-        //Create the panel of time labels
-        createTimesPanel(main, c);
+        // Create the panel of time labels
+        createTimesPanel(main, constraints);
 
-        //Create the panel of weekday labels
-        createWeekdaysPanel(main, c);
+        // Create the panel of weekday labels
+        createWeekdaysPanel(main, constraints);
 
-        //Create the panel of events
-        createEventButton(main, c);
+        // Create the panel of events
+        createEventButton(main, constraints);
 
-        //Tests to create an event
-        createEventButton(main, c, "Homework", "Tuesday", 9, 13);
-        createEventButton(main, c, "Midterm", "Wednesday", 14, 17);
+        // Tests to create an event
+        createEventButton(main, constraints, "Homework", "Tuesday", 9, 13);
+        createEventButton(main, constraints, "Midterm", "Wednesday", 14, 17);
 
         mainFrame.setContentPane(main);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -181,14 +183,14 @@ public class ScheduleView extends JPanel implements ActionListener, PropertyChan
     }
 
     /**
-     * Make shceudle visible
+     * Make schedule visible.
      */
     public void setVisible() {
         visible = true;
     }
 
     /**
-     * Make schedule invisible
+     * Make schedule invisible.
      */
     public void setInvisible() {
         visible = false;
