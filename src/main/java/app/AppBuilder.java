@@ -1,7 +1,7 @@
 package app;
 
 import data_access.InMemoryDataAccessObject;
-import factory.EventFactory;
+import entities.EventEntity.EventFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationController;
