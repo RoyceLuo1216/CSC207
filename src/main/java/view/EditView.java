@@ -4,9 +4,17 @@ import static interface_adapter.edit.EditViewModel.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import interface_adapter.edit.EditController;
 import interface_adapter.edit.EditState;
@@ -22,7 +30,17 @@ public class EditView extends JPanel implements PropertyChangeListener {
 
     private EditController editController;
 
+
     private JFrame eventFrame;
+
+//     // Setup Components
+//     private final String[] eventTypes = {"Fixed", "Repeat"};
+//     private final String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+//     private final String[] times = {"12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM",
+//             "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM",
+//             "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM",
+//             "9:00 PM", "10:00 PM", "11:00 PM"};
+
     private final JTextField eventNameField = new JTextField(20);
     private final JComboBox<String> eventTypeComboBox = new JComboBox<>(eventTypes);
     private final JComboBox<String> dayStartComboBox = new JComboBox<>(daysOfWeek);
@@ -33,7 +51,6 @@ public class EditView extends JPanel implements PropertyChangeListener {
 
     private final ArrayList<JCheckBox> checkBoxes = initialiseCheckBoxes();
 
-    // Data
     public EditView(EditViewModel editViewModel) {
 
         this.editViewModel = editViewModel;
@@ -104,7 +121,8 @@ public class EditView extends JPanel implements PropertyChangeListener {
 
     private JFrame setupUi(String eventType) {
         // Create the fixed frame (main)
-        eventFrame = new JFrame("Create Event Page");
+        eventFrame = new JFrame("Event Page");
+
         eventFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         eventFrame.setSize(500, 500);
         eventFrame.setLayout(new BoxLayout(eventFrame.getContentPane(), BoxLayout.Y_AXIS));
@@ -150,16 +168,8 @@ public class EditView extends JPanel implements PropertyChangeListener {
         panel.add(component);
         return panel;
     }
-
-    public String getViewName() {
-        return viewName;
-    }
-
-    public void setEditController(EditController editController) {
-        this.editController = editController;
-    }
-
-    /**
+  
+  /**
      * Initialise checkboxes with labels of daysOfWeek.
      * @return the list of checkboxes
      */
@@ -170,5 +180,13 @@ public class EditView extends JPanel implements PropertyChangeListener {
             newCheckBoxes.add(checkBox);
         }
         return newCheckBoxes;
+    }
+
+    public String getViewName() {
+        return viewName;
+    }
+
+    public void setEditController(EditController editController) {
+        this.editController = editController;
     }
 }

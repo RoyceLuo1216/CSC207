@@ -8,10 +8,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import entities.eventEntity.Event;
+import usecase.chatbot_event_conflict.EventConflictDataAccessInterface;
 import usecase.delete.DeleteEventDataAccessInterface;
 import usecase.edit.EditDataAccessInterface;
 import usecase.event.EventDataAccessInterface;
 import usecase.repeat.RepeatEventDataAccessInterface;
+import usecase.schedule.ScheduleDataAccessInterface;
 
 /**
  * Class representing a ScheduleUseCase with a list of events. This class handles the
@@ -19,9 +21,11 @@ import usecase.repeat.RepeatEventDataAccessInterface;
  * for scheduling flexible events around fixed ones.
  */
 public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
+                                                        EditDataAccessInterface, ScheduleDataAccessInterface {
                                                         EditDataAccessInterface,
                                                         EventDataAccessInterface,
-                                                        RepeatEventDataAccessInterface {
+                                                        RepeatEventDataAccessInterface,
+                                                        EventConflictDataAccessInterface {
     private final List<Event> events;
 
     /**
@@ -36,7 +40,6 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
      *
      * @param event event object to be added.
      */
-    @Override
     public void addEvent(Event event) {
         events.add(event);
     }
@@ -140,6 +143,13 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<String> getAllEventNames() {
+        return events.stream()
+                .map(Event::getEventName)
+                .collect(Collectors.toList());
     }
 
     public List<Event> getEvents() {
