@@ -52,7 +52,7 @@ public class EditView extends JPanel implements PropertyChangeListener {
         this.editViewModel = editViewModel;
         this.editViewModel.addPropertyChangeListener(this);
 
-        final JFrame eventFrame = setupUI();
+        final JFrame eventFrame = setupUi();
         eventFrame.setVisible(true);
 
         // ActionListener for save button
@@ -69,7 +69,7 @@ public class EditView extends JPanel implements PropertyChangeListener {
         );
     }
 
-    private @NotNull JFrame setupUI() {
+    private @NotNull JFrame setupUi() {
         // Create the fixed frame (main)
         final JFrame eventFrame = new JFrame("Create Event Page");
         eventFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
