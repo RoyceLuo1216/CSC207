@@ -1,6 +1,6 @@
-# CSC207 Final Project - AutoScheduler
+# CSC207 Final Project - Weekly Planner
 
-AutoScheduler enables users to create and manage weekly schedules by automatically allocating time to tasks based on 
+Weekly Planner enables users to create and manage weekly schedules by automatically allocating time to tasks based on 
 priority, deadlines, and estimated completion time. Users can input both flexible tasks, which are scheduled around 
 other events, and fixed tasks, which must occur at specific times. The program helps users adjust their schedules 
 dynamically, allowing for reprioritization and rescheduling as new tasks or changes arise. For instance, users can 
