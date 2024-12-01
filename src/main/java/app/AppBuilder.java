@@ -52,13 +52,11 @@ public class AppBuilder {
     private ScheduleView scheduleView;
 //    private EditView
     private EditViewModel editViewModel;
-    private RepeatViewModel;
+    private RepeatViewModel repeatViewModel;
 //    private RepeatView
-    private ScheduleView;
-    private ScheduleViewModel
+    //private ScheduleViewModel scheduleViewModel;
     // TODO: ADD EDIT (NOT MERGED YET)
 
-    private ScheduleView scheduleView;
     // TODO: FIND WHERE SCHEDULE VIEW MODEL IS
 
     public AppBuilder() {
