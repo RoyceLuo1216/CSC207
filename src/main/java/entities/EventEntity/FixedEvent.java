@@ -1,17 +1,14 @@
 package entities.EventEntity;
 
-import java.time.LocalTime;
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalTime;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A FixedEvent represents an event with a fixed start and end time, name.
  */
 public class FixedEvent implements Event {
-    @JsonProperty("tasks")
-    private final List<Task> tasks;
     @JsonProperty("dayStart")
     private DayOfWeek dayStart;
     @JsonProperty("dayEnd")
@@ -23,9 +20,8 @@ public class FixedEvent implements Event {
     @JsonProperty("timeEnd")
     private LocalTime timeEnd;
 
-
     /**
-     * Constructor for fixed event class
+     * Constructor for fixed event class.
      * @param dayStart      the start date of the event
      * @param dayEnd        the end date of the event
      * @param eventName     the name of the event
@@ -38,19 +34,7 @@ public class FixedEvent implements Event {
         this.eventName = eventName;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
-        this.tasks = new ArrayList<>();
     }
-
-    /**
-     * Gets the name of the event.
-     *
-     * @return the name of the event as a String.
-     */
-    @Override
-    public String setEventName() {
-        return this.eventName;
-    }
-
 
     /**
      * Gets the name of the event.
@@ -148,36 +132,6 @@ public class FixedEvent implements Event {
     @Override
     public void setTimeEnd(LocalTime timeEnd) {
         this.timeEnd = timeEnd;
-    }
-
-    /**
-     * Returns the list of tasks associated with the event.
-     *
-     * @return
-     */
-    @Override
-    public List<Task> getTasks() {
-        return this.tasks;
-    }
-
-    /**
-     * Adds a Task to the list
-     *
-     * @param task, task object to add to the event.
-     */
-    @Override
-    public void addTask(Task task) {
-        this.tasks.add(task);
-    }
-
-    /**
-     * Removes a task from the list.
-     *
-     * @param task, task object that gets removed.
-     */
-    @Override
-    public void removeTask(Task task) {
-        this.tasks.remove(task);
     }
 
 }

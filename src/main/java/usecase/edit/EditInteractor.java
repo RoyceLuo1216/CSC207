@@ -1,7 +1,7 @@
 package usecase.edit;
 
-import java.util.Optional;
 
+import data_access.InMemoryDataAccessObject;
 import entities.EventEntity.Event;
 import entities.EventEntity.RepeatEvent;
 

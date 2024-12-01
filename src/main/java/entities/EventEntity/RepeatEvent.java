@@ -1,19 +1,16 @@
 package entities.EventEntity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A RepeatEvent represents a repeated event with  start/end time, name, and priority.
  */
 public class RepeatEvent implements Event {
 
-    @JsonProperty("tasks")
-    private final List<Task> tasks;
     @JsonProperty("dayStart")
     private DayOfWeek dayStart;
     @JsonProperty("dayEnd")
@@ -30,10 +27,12 @@ public class RepeatEvent implements Event {
     /**
      * Constructor for the RepeatEvent class.
      *
-     * @param dayStart      the start date and time of the event
-     * @param dayEnd        the end date and time of the event
+     * @param dayStart      the start date of the event
+     * @param dayEnd        the end date of the event
+     * @param timeStart     the start time of the event
+     * @param timeEnd       the end time of the event
      * @param eventName     the name of the event
-     * @param daysRepeated  the days that the event is repeated
+     * @param daysRepeated  the days that the event is repeated.
      */
     public RepeatEvent(DayOfWeek dayStart, DayOfWeek dayEnd, String eventName, LocalTime timeStart, LocalTime timeEnd,
                                                                                     List<DayOfWeek> daysRepeated) {
@@ -42,20 +41,8 @@ public class RepeatEvent implements Event {
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.eventName = eventName;
-        this.tasks = new ArrayList<>();
         this.daysRepeated = daysRepeated;
     }
-
-    /**
-     * Gets the name of the event.
-     *
-     * @return the name of the event as a String.
-     */
-    @Override
-    public String setEventName() {
-        return this.eventName;
-    }
-
 
     /**
      * Gets the name of the event.
@@ -154,46 +141,6 @@ public class RepeatEvent implements Event {
     @Override
     public void setTimeEnd(LocalTime timeEnd) {
         this.timeEnd = timeEnd;
-    }
-
-
-    /**
-     * Returns the list of tasks associated with the event.
-     *
-     * @return
-     */
-    @Override
-    public List<Task> getTasks() {
-        return this.tasks;
-    }
-
-    /**
-     * Adds a Task to the list
-     *
-     * @param task, task object to add to the event.
-     */
-    @Override
-    public void addTask(Task task) {
-        this.tasks.add(task);
-    }
-
-    /**
-     * Removes a task from the list.
-     *
-     * @param task, task object that gets removed.
-     */
-    @Override
-    public void removeTask(Task task) {
-        this.tasks.remove(task);
-    }
-
-
-    public List<DayOfWeek> getDaysRepeated() {
-        return this.daysRepeated;
-    }
-
-    public void setDaysRepeated(List<DayOfWeek> daysRepeated) {
-        this.daysRepeated = daysRepeated;
     }
 
 }
