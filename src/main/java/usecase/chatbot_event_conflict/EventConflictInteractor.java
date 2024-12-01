@@ -1,7 +1,7 @@
 package usecase.chatbot_event_conflict;
 
 import adapter.CohereClient;
-import data_access.Schedule;
+import data_access.InMemoryDataAccessObject;
 import entities.EventEntity.Event;
 import factory.EventFactory;
 
@@ -16,14 +16,14 @@ import java.util.Optional;
  * The Chatbot Event Conflict Interactor.
  */
 public class EventConflictInteractor implements EventConflictInputBoundary {
-    private final Schedule scheduleDataObject;
+    private final InMemoryDataAccessObject inMemoryDataAccessObjectDataObject;
     private final EventConflictOutputBoundary eventConflictPresenter;
     private final EventFactory eventFactory;
 
-    public EventConflictInteractor(Schedule schedule,
+    public EventConflictInteractor(InMemoryDataAccessObject inMemoryDataAccessObject,
                                    EventConflictOutputBoundary eventConflictOutputBoundary,
                                    EventFactory eventFactory) {
-        this.scheduleDataObject = schedule;
+        this.inMemoryDataAccessObjectDataObject = inMemoryDataAccessObject;
         this.eventConflictPresenter = eventConflictOutputBoundary;
         this.eventFactory = eventFactory;
     }
@@ -49,7 +49,7 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
             DayOfWeek startDay = (DayOfWeek) timePeriodList[0][0];
             LocalTime startTime = (LocalTime) timePeriodList[0][1];
             LocalTime endTime = (LocalTime) timePeriodList[1][1];
-            ArrayList<String> tasksDuring = getTasksDuring(startDay, startTime, endTime, scheduleDataObject);
+            ArrayList<String> tasksDuring = getTasksDuring(startDay, startTime, endTime, inMemoryDataAccessObjectDataObject);
 
             if (tasksDuring.isEmpty()) {
                 // TODO: (Create and schedule the event)
@@ -121,18 +121,18 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
      * @param startDay  the start day of the period
      * @param startTime the start time of the period
      * @param endTime   the end time of the period
-     * @param schedule  the schedule containing the events
+     * @param inMemoryDataAccessObject  the schedule containing the events
      * @return a list of task descriptions for tasks that occur during the specified period
      */
     public ArrayList<String> getTasksDuring(DayOfWeek startDay, LocalTime startTime,
-                                            LocalTime endTime, Schedule schedule) {
+                                            LocalTime endTime, InMemoryDataAccessObject inMemoryDataAccessObject) {
         ArrayList<String> tasks = new ArrayList<>();
         ArrayList<Event> events = new ArrayList<>();
         ArrayList<LocalTime> hourlyIntervals = getHourlyIntervals(startTime, endTime);
 
         // Add tasks in the time period to a list
         for (LocalTime hour : hourlyIntervals) {
-            Optional<Event> possibleEvent = schedule.getEventByDayAndTime(startDay, hour);
+            Optional<Event> possibleEvent = inMemoryDataAccessObject.getEventByDayAndTime(startDay, hour);
 
             // If the event exists, add it to the tasks list
             if (possibleEvent.isPresent()) {

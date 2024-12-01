@@ -1,8 +1,8 @@
 package usecase.chatbot_event_conflict;
 
+import data_access.InMemoryDataAccessObject;
 import entities.EventEntity.Event;
 import entities.EventEntity.FixedEvent;
-import data_access.Schedule;
 import factory.EventFactory;
 import interface_adapter.chatbot_event_conflict.EventConflictPresenter;
 import org.junit.Before;
@@ -22,13 +22,13 @@ import static org.mockito.Mockito.mock;
  * Test for the Chatbot Event Conflict Use Case
  */
 public class EventConflictUseCaseTest {
-    private Schedule schedule;
+    private InMemoryDataAccessObject inMemoryDataAccessObject;
     private EventConflictInteractor interactor;
 
     @Before
     public void setUp() {
 
-        schedule = new Schedule();
+        inMemoryDataAccessObject = new InMemoryDataAccessObject();
 
 
         // Mock dependencies
@@ -36,7 +36,7 @@ public class EventConflictUseCaseTest {
         EventFactory mockFactory = mock(EventFactory.class);
 
         // Initialize the interactor
-        interactor = new EventConflictInteractor(schedule, mockPresenter, mockFactory);
+        interactor = new EventConflictInteractor(inMemoryDataAccessObject, mockPresenter, mockFactory);
 
     }
 
@@ -60,18 +60,18 @@ public class EventConflictUseCaseTest {
 
 // Creating and adding the FixedEvent from 6 to 8 PM
         FixedEvent event = new FixedEvent(startDay, endDay, "Naptime", startTime, endTime);
-        schedule.addEvent(event);
+        inMemoryDataAccessObject.addEvent(event);
 
 
 
         // Verify event has been added
-        Optional<Event> retrievedEvent = schedule.getEventByDayAndTime(startDay, startTime);
+        Optional<Event> retrievedEvent = inMemoryDataAccessObject.getEventByDayAndTime(startDay, startTime);
 
         assertTrue(retrievedEvent.isPresent());
         assertEquals("Naptime", retrievedEvent.get().getEventName());
 
         // Verify there is an event conflict at specified time
-        ArrayList<String> actual =  interactor.getTasksDuring(startDay,startTime, endTime, schedule);
+        ArrayList<String> actual =  interactor.getTasksDuring(startDay,startTime, endTime, inMemoryDataAccessObject);
         ArrayList<String> result = new ArrayList<String>();
         result.add("Naptime: Saturday 6:00 p.m. - 8:00 p.m.");
 
@@ -94,17 +94,17 @@ public class EventConflictUseCaseTest {
 
         // Creating and adding the FixedEvent from 6 to 8pm
         FixedEvent event = new FixedEvent(startDay, endDay, "Naptime", startTime, endTime);
-        schedule.addEvent(event);
+        inMemoryDataAccessObject.addEvent(event);
 
 
         // Verify event has been added
-        Optional<Event> retrievedEvent = schedule.getEventByDayAndTime(startDay, startTime);
+        Optional<Event> retrievedEvent = inMemoryDataAccessObject.getEventByDayAndTime(startDay, startTime);
 
         assertTrue(retrievedEvent.isPresent());
         assertEquals("Naptime", retrievedEvent.get().getEventName());
 
         // Verify there is no event conflict at specified time
-        ArrayList<String> actual =  interactor.getTasksDuring(startDay, startIntervalTime, endIntervalTime, schedule);
+        ArrayList<String> actual =  interactor.getTasksDuring(startDay, startIntervalTime, endIntervalTime, inMemoryDataAccessObject);
         ArrayList<String> result = new ArrayList<String>();
 
 

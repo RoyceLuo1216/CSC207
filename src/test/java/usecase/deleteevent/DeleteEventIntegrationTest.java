@@ -1,11 +1,11 @@
 package usecase.deleteevent;
 
+import data_access.InMemoryDataAccessObject;
 import org.junit.jupiter.api.Test;
 import interface_adapter.delete.DeleteEventController;
 import interface_adapter.delete.DeleteEventPresenter;
 import interface_adapter.delete.DeleteEventViewModel;
 import entities.EventEntity.FixedEvent;
-import data_access.Schedule;
 import usecase.delete.DeleteEventOutputData;
 import view.DeleteEventView;
 
@@ -19,7 +19,7 @@ class DeleteEventIntegrationTest {
     @Test
     void testFullDeletionProcess() {
         // Arrange: Create entities
-        Schedule schedule = new Schedule();
+        InMemoryDataAccessObject inMemoryDataAccessObject = new InMemoryDataAccessObject();
         FixedEvent event = new FixedEvent(
                 DayOfWeek.WEDNESDAY,               // Start day
                 DayOfWeek.WEDNESDAY,               // End day
@@ -27,13 +27,13 @@ class DeleteEventIntegrationTest {
                 LocalTime.of(10, 0),               // Start time
                 LocalTime.of(12, 0)                // End time
         );
-        schedule.addEvent(event);
+        inMemoryDataAccessObject.addEvent(event);
 
         // Arrange: Create adapter layers
         DeleteEventViewModel viewModel = new DeleteEventViewModel("delete");
         DeleteEventPresenter presenter = new DeleteEventPresenter(viewModel);
         DeleteEventController controller = new DeleteEventController(inputData -> {
-            boolean success = schedule.removeEvent(inputData.getEventName());
+            boolean success = inMemoryDataAccessObject.removeEvent(inputData.getEventName());
             if (success) {
                 presenter.presentSuccess(new DeleteEventOutputData(inputData.getEventName()));
             } else {
@@ -51,7 +51,7 @@ class DeleteEventIntegrationTest {
         controller.execute("Christmas Brunch");
 
         // Assert: Validate results
-        assertTrue(schedule.getEvents().isEmpty(), "Event should be removed from the schedule.");
+        assertTrue(inMemoryDataAccessObject.getEvents().isEmpty(), "Event should be removed from the schedule.");
         assertEquals("Event \"Christmas Brunch\" deleted successfully.", viewModel.getState().getMessage(),
                 "Success message should match the expected output.");
     }

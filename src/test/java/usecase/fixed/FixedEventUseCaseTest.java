@@ -1,8 +1,8 @@
 package usecase.fixed;
 
+import data_access.InMemoryDataAccessObject;
 import entities.EventEntity.Event;
 import entities.EventEntity.FixedEvent;
-import data_access.Schedule;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,11 +14,11 @@ import static org.junit.Assert.*;
 
 public class FixedEventUseCaseTest {
 
-    private Schedule schedule;
+    private InMemoryDataAccessObject inMemoryDataAccessObject;
 
     @Before
     public void setUp() {
-        schedule = new Schedule();
+        inMemoryDataAccessObject = new InMemoryDataAccessObject();
     }
 
     @Test
@@ -30,10 +30,10 @@ public class FixedEventUseCaseTest {
 
         // Creating and adding the FixedEvent
         FixedEvent event = new FixedEvent(startDay, endDay, "MAT237 Midterm", startTime, endTime);
-        schedule.addEvent(event);
+        inMemoryDataAccessObject.addEvent(event);
 
         // Verify the event has been added
-        Optional<Event> retrievedEvent = schedule.getEventByName("MAT237 Midterm");
+        Optional<Event> retrievedEvent = inMemoryDataAccessObject.getEventByName("MAT237 Midterm");
         assertTrue(retrievedEvent.isPresent());
         assertEquals("MAT237 Midterm", retrievedEvent.get().getEventName());
         assertEquals(startDay, retrievedEvent.get().getDayStart());
@@ -51,15 +51,15 @@ public class FixedEventUseCaseTest {
 
         // Adding the FixedEvent
         FixedEvent event = new FixedEvent(startDay, endDay, "MAT237 Midterm", startTime, endTime);
-        schedule.addEvent(event);
+        inMemoryDataAccessObject.addEvent(event);
 
         // Verify the event is in the schedule
-        assertTrue(schedule.getEventByName("MAT237 Midterm").isPresent());
+        assertTrue(inMemoryDataAccessObject.getEventByName("MAT237 Midterm").isPresent());
 
         // Remove the event
-        schedule.removeEvent("MAT237 Midterm");
+        inMemoryDataAccessObject.removeEvent("MAT237 Midterm");
 
         // Verify the event has been removed
-        assertFalse(schedule.getEventByName("MAT237 Midterm").isPresent());
+        assertFalse(inMemoryDataAccessObject.getEventByName("MAT237 Midterm").isPresent());
     }
 }

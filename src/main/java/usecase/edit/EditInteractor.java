@@ -1,18 +1,18 @@
 package usecase.edit;
 
 
-import data_access.Schedule;
+import data_access.InMemoryDataAccessObject;
 import entities.EventEntity.Event;
 import entities.EventEntity.RepeatEvent;
 
 import java.util.Optional;
 
 public class EditInteractor implements EditInputBoundary {
-    private final Schedule userSchedule;
+    private final InMemoryDataAccessObject userInMemoryDataAccessObject;
     private final EditOutputBoundary presenter;
 
-    public EditInteractor(Schedule userSchedule, EditOutputBoundary editOutputBoundary) {
-        this.userSchedule = userSchedule;
+    public EditInteractor(InMemoryDataAccessObject userInMemoryDataAccessObject, EditOutputBoundary editOutputBoundary) {
+        this.userInMemoryDataAccessObject = userInMemoryDataAccessObject;
         this.presenter = editOutputBoundary;
     }
 
@@ -32,7 +32,7 @@ public class EditInteractor implements EditInputBoundary {
     @Override
     public void execute(EditInputData editInputData) {
         final String eventName = editInputData.getEventName();
-        Optional<Event> optionalEvent = userSchedule.getEventByName(editInputData.getEventName());
+        Optional<Event> optionalEvent = userInMemoryDataAccessObject.getEventByName(editInputData.getEventName());
 
         if (!optionalEvent.isPresent()) {
             // event is not present, tell user that the event does not exist

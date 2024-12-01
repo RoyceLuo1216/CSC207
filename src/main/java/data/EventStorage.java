@@ -1,7 +1,7 @@
 package data;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import data_access.Schedule;
+import data_access.InMemoryDataAccessObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,16 +14,16 @@ public class EventStorage {
     /**
      * Method to save schedule to events.json. Will override the previous events.json
      *
-     * @param schedule schedule
+     * @param inMemoryDataAccessObject schedule
      * @return saved schedule
      */
-    public void saveSchedule(Schedule schedule) {
+    public void saveSchedule(InMemoryDataAccessObject inMemoryDataAccessObject) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
             File file = new File("schedule.json");
 
-            objectMapper.writeValue(file, schedule);
+            objectMapper.writeValue(file, inMemoryDataAccessObject);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,22 +35,22 @@ public class EventStorage {
      *
      * @return saved schedule
      */
-    public Schedule getSchedule() {
+    public InMemoryDataAccessObject getSchedule() {
         File file = new File("schedule.json");
         if (!file.exists()) {
-            return new Schedule();
+            return new InMemoryDataAccessObject();
         }
 
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
 
-            return objectMapper.readValue(file, Schedule.class);
+            return objectMapper.readValue(file, InMemoryDataAccessObject.class);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new Schedule();
+        return new InMemoryDataAccessObject();
     }
 
 

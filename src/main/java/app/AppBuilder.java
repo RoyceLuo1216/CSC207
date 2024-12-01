@@ -1,6 +1,6 @@
 package app;
 
-import data_access.Schedule;
+import data_access.InMemoryDataAccessObject;
 import factory.EventFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.chatbot_event_conflict.ChatbotViewModel;
@@ -30,7 +30,7 @@ public class AppBuilder {
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    private final Schedule scheduleDataObject = new Schedule();
+    private final InMemoryDataAccessObject inMemoryDataAccessObjectDataObject = new InMemoryDataAccessObject();
 
     private ChatbotView chatbotView;
     private ChatbotViewModel chatbotViewModel;
@@ -60,7 +60,7 @@ public class AppBuilder {
         final EventConflictOutputBoundary eventConflictOutputBoundary = new EventConflictPresenter(
                 viewManagerModel, chatbotViewModel);
         final EventConflictInputBoundary eventConflictInteractor = new EventConflictInteractor(
-                scheduleDataObject, eventConflictOutputBoundary, eventFactory);
+                inMemoryDataAccessObjectDataObject, eventConflictOutputBoundary, eventFactory);
 
         final EventConflictController controller = new EventConflictController(eventConflictInteractor);
         chatbotView.setChatbotController(controller);

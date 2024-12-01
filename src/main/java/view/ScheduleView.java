@@ -1,6 +1,6 @@
 package view;
 
-import data_access.Schedule;
+import data_access.InMemoryDataAccessObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ScheduleView extends JPanel implements ActionListener, PropertyChangeListener {
 
-    private final Schedule schedule;
+    private final InMemoryDataAccessObject inMemoryDataAccessObject;
     private boolean visible;
     private final JFrame mainFrame;
 
@@ -25,7 +25,7 @@ public class ScheduleView extends JPanel implements ActionListener, PropertyChan
      * Constructor for the ScheuldeView class.
      */
     public ScheduleView() {
-        schedule = new Schedule();
+        inMemoryDataAccessObject = new InMemoryDataAccessObject();
         mainFrame = new JFrame("Schedule Viewer");
     }
 

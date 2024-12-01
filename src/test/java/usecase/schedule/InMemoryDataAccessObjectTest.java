@@ -1,6 +1,6 @@
 package usecase.schedule;
 
-import data_access.Schedule;
+import data_access.InMemoryDataAccessObject;
 import entities.EventEntity.FixedEvent;
 
 import org.junit.jupiter.api.Test;
@@ -11,12 +11,12 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ScheduleTest {
+class InMemoryDataAccessObjectTest {
 
     @Test
     void testAddEvent() {
         // Arrange
-        Schedule schedule = new Schedule();
+        InMemoryDataAccessObject inMemoryDataAccessObject = new InMemoryDataAccessObject();
         FixedEvent event = new FixedEvent(
                 DayOfWeek.MONDAY,                   // Start day
                 DayOfWeek.MONDAY,                   // End day
@@ -26,17 +26,17 @@ class ScheduleTest {
         );
 
         // Act
-        schedule.addEvent(event);
+        inMemoryDataAccessObject.addEvent(event);
 
         // Assert
-        assertEquals(1, schedule.getEvents().size());
-        assertEquals(event, schedule.getEvents().get(0));
+        assertEquals(1, inMemoryDataAccessObject.getEvents().size());
+        assertEquals(event, inMemoryDataAccessObject.getEvents().get(0));
     }
 
     @Test
     void testRemoveEvent() {
         // Arrange
-        Schedule schedule = new Schedule();
+        InMemoryDataAccessObject inMemoryDataAccessObject = new InMemoryDataAccessObject();
         FixedEvent event = new FixedEvent(
                 DayOfWeek.MONDAY,                   // Start day
                 DayOfWeek.MONDAY,                   // End day
@@ -46,18 +46,18 @@ class ScheduleTest {
         );
 
         // Act
-        schedule.addEvent(event);
-        boolean removed = schedule.removeEvent("Christmas Brunch");
+        inMemoryDataAccessObject.addEvent(event);
+        boolean removed = inMemoryDataAccessObject.removeEvent("Christmas Brunch");
 
         // Assert
         assertTrue(removed);
-        assertEquals(0, schedule.getEvents().size());
+        assertEquals(0, inMemoryDataAccessObject.getEvents().size());
     }
 
     @Test
     void testGetEventByDayAndTime() {
         // Arrange
-        Schedule schedule = new Schedule();
+        InMemoryDataAccessObject inMemoryDataAccessObject = new InMemoryDataAccessObject();
         FixedEvent event1 = new FixedEvent(
                 DayOfWeek.MONDAY,                   // Start day
                 DayOfWeek.MONDAY,                   // End day
@@ -74,12 +74,12 @@ class ScheduleTest {
                 LocalTime.of(13, 0)                 // End time
         );
 
-        schedule.addEvent(event1);
-        schedule.addEvent(event2);
+        inMemoryDataAccessObject.addEvent(event1);
+        inMemoryDataAccessObject.addEvent(event2);
 
         // Act
-        Optional<entities.EventEntity.Event> foundEvent = schedule.getEventByDayAndTime(DayOfWeek.MONDAY, LocalTime.of(9, 30));
-        Optional<entities.EventEntity.Event> noEvent = schedule.getEventByDayAndTime(DayOfWeek.TUESDAY, LocalTime.of(9, 30));
+        Optional<entities.EventEntity.Event> foundEvent = inMemoryDataAccessObject.getEventByDayAndTime(DayOfWeek.MONDAY, LocalTime.of(9, 30));
+        Optional<entities.EventEntity.Event> noEvent = inMemoryDataAccessObject.getEventByDayAndTime(DayOfWeek.TUESDAY, LocalTime.of(9, 30));
 
         // Assert
         assertTrue(foundEvent.isPresent());
