@@ -8,10 +8,10 @@ import usecase.chatbot_event_conflict.EventConflictOutputBoundary;
  * The Presenter for the Chatbot Event Conflict Use Case.
  */
 public class EventConflictPresenter implements EventConflictOutputBoundary {
-    private final ChatbotViewModel chatbotViewModel;
+    private final EventConflictChatbotViewModel chatbotViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public EventConflictPresenter(ViewManagerModel viewManagerModel, ChatbotViewModel chatbotViewModel) {
+    public EventConflictPresenter(ViewManagerModel viewManagerModel, EventConflictChatbotViewModel chatbotViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.chatbotViewModel = chatbotViewModel;
     }
@@ -19,7 +19,7 @@ public class EventConflictPresenter implements EventConflictOutputBoundary {
     @Override
     public void prepareSuccessView(ChatbotOutputData outputData) {
         // On success, send the response to the chatbot view.
-        final ChatbotState chatbotState = chatbotViewModel.getState();
+        final EventConflictChatbotState chatbotState = chatbotViewModel.getState();
         chatbotState.setResponse(outputData.getResponse());
         System.out.println("chatbotState.setResponse(" + outputData.getResponse() + ")");
         this.chatbotViewModel.setState(chatbotState);
@@ -31,7 +31,7 @@ public class EventConflictPresenter implements EventConflictOutputBoundary {
 
     @Override
     public void prepareFailView(String error) {
-        final ChatbotState chatbotState = chatbotViewModel.getState();
+        final EventConflictChatbotState chatbotState = chatbotViewModel.getState();
         chatbotState.setResponseError(error);
         chatbotViewModel.firePropertyChanged();
     }

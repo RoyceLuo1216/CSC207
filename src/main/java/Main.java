@@ -1,4 +1,4 @@
-import interface_adapter.chatbot_event_conflict.ChatbotViewModel;
+import interface_adapter.chatbot_event_conflict.EventConflictChatbotViewModel;
 import view.ChatbotView;
 
 public class Main {
@@ -12,7 +12,7 @@ public class Main {
     // TODO: end
 
     public static void main(String[] args) {
-        ChatbotView c = new ChatbotView(new ChatbotViewModel());
+        ChatbotView c = new ChatbotView(new EventConflictChatbotViewModel());
 //        CohereClient c = new CohereClient();
 //
 //        String response = c.getTimeForEventConflictWithCohere("I want an event on wednesday 6pm to 9pm.");
