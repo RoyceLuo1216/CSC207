@@ -143,4 +143,19 @@ public class RepeatEvent implements Event {
         this.timeEnd = timeEnd;
     }
 
+    /**
+     * Returns a list of days that the event is repeated.
+     * @return list of type DayOfWeek of days that the event repeats. 
+     */
+    public List<DayOfWeek> getDaysRepeated() {
+        return daysRepeated;
+    }
+
+    /**
+     * Sets the days that the event repeats.
+     * @param daysRepeated new set of repeat days.
+     */
+    public void setDaysRepeated(List<DayOfWeek> daysRepeated) {
+        this.daysRepeated = daysRepeated;
+    }
 }
