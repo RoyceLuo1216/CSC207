@@ -1,11 +1,11 @@
 package adapter;
 
 import com.cohere.api.Cohere;
-import io.github.cdimascio.dotenv.Dotenv;
 import com.cohere.api.requests.ChatRequest;
 import com.cohere.api.types.NonStreamedChatResponse;
 
-import javax.swing.text.html.Option;
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -78,7 +78,7 @@ public class CohereClient {
      */
     public Optional<String> timeAllocationWithCohere(String userQuery) {
         String prompt = "Give me a time estimate on how long it would take to \" " + userQuery + " \". Return only the time " +
-                "estimate and nothing else. If the given user prompt does not make sense, return \"invalid user prompt! \" ";
+                "estimate and nothing else. If the given user prompt is not relevant or does not make sense, return \"invalid user prompt! \" ";
         try {
             NonStreamedChatResponse response = this.cohere.chat(
                     ChatRequest.builder()

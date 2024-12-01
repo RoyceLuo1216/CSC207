@@ -1,9 +1,9 @@
 package usecase.edit;
 
 import data_access.InMemoryDataAccessObject;
-import entities.EventEntity.Event;
-import entities.EventEntity.RepeatEvent;
-import entities.EventEntity.EventFactory;
+import entities.eventEntity.Event;
+import entities.eventEntity.RepeatEvent;
+import factory.EventFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -146,6 +146,32 @@ public class EditInteractorTest {
         };
 
         EditInputBoundary interactor = new EditInteractor(dataAccessObject, failurePresenter);
+        interactor.execute(inputData);
+    }
+
+    @Test
+    void failEditFixedEvent(){
+        event = EventFactory.createFixedEvent("Study for CSC207 Exam", DayOfWeek.MONDAY, DayOfWeek.TUESDAY,
+                LocalTime.of(22, 0), LocalTime.of(0, 0));
+        dataAccessObject.addEvent(event);
+
+        EditInputData inputData = new EditInputData("Study for CSC207 Exam", "Fixed",
+                DayOfWeek.TUESDAY, DayOfWeek.TUESDAY, LocalTime.of(21, 0), LocalTime.of(1, 0),
+                new ArrayList<>());
+
+        EditOutputBoundary successPresenter = new EditOutputBoundary() {
+
+            @Override
+            public void prepareSuccessView(EditOutputData outputData) {
+                fail("Use case failure is unexpected.");
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                assertEquals("Event can't be added, due to incompatible times", error);
+            }
+        };
+        EditInputBoundary interactor = new EditInteractor(dataAccessObject, successPresenter);
         interactor.execute(inputData);
     }
 }

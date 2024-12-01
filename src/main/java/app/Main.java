@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         final AppBuilder appBuilder = new AppBuilder();
         final JFrame application = appBuilder
-                .addChatbotView()
+                .addEventConflictChatbotView()
                 .addEventConflictUseCase()
                 .build();
 

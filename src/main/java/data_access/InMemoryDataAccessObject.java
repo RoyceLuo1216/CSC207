@@ -7,9 +7,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import entities.EventEntity.Event;
+import entities.eventEntity.Event;
+import usecase.chatbot_event_conflict.EventConflictDataAccessInterface;
 import usecase.delete.DeleteEventDataAccessInterface;
 import usecase.edit.EditDataAccessInterface;
+import usecase.event.EventDataAccessInterface;
+import usecase.repeat.RepeatEventDataAccessInterface;
 import usecase.schedule.ScheduleDataAccessInterface;
 
 /**
@@ -19,6 +22,10 @@ import usecase.schedule.ScheduleDataAccessInterface;
  */
 public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
                                                         EditDataAccessInterface, ScheduleDataAccessInterface {
+                                                        EditDataAccessInterface,
+                                                        EventDataAccessInterface,
+                                                        RepeatEventDataAccessInterface,
+                                                        EventConflictDataAccessInterface {
     private final List<Event> events;
 
     /**
