@@ -18,7 +18,7 @@ import usecase.repeat.RepeatEventDataAccessInterface;
  * creation, deletion, and retrieval of events, and also provides a framework
  * for scheduling flexible events around fixed ones.
  */
-public class InMemoryAddDataAccessObject implements DeleteEventDataAccessInterface,
+public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
                                                         EditDataAccessInterface,
         EventAddDataAccessInterface,
                                                         RepeatEventDataAccessInterface {
@@ -27,7 +27,7 @@ public class InMemoryAddDataAccessObject implements DeleteEventDataAccessInterfa
     /**
      * Constructor for the ScheduleUseCase class.
      */
-    public InMemoryAddDataAccessObject() {
+    public InMemoryDataAccessObject() {
         this.events = new ArrayList<>();
     }
 

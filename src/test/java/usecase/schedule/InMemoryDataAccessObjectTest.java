@@ -1,6 +1,6 @@
 package usecase.schedule;
 
-import data_access.InMemoryAddDataAccessObject;
+import data_access.InMemoryDataAccessObject;
 import entities.eventEntity.FixedEvent;
 
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ class InMemoryDataAccessObjectTest {
     @Test
     void testAddEvent() {
         // Arrange
-        InMemoryAddDataAccessObject inMemoryDataAccessObject = new InMemoryAddDataAccessObject();
+        InMemoryDataAccessObject inMemoryDataAccessObject = new InMemoryDataAccessObject();
         FixedEvent event = new FixedEvent(
                 DayOfWeek.MONDAY,                   // Start day
                 DayOfWeek.MONDAY,                   // End day
@@ -36,7 +36,7 @@ class InMemoryDataAccessObjectTest {
     @Test
     void testRemoveEvent() {
         // Arrange
-        InMemoryAddDataAccessObject inMemoryDataAccessObject = new InMemoryAddDataAccessObject();
+        InMemoryDataAccessObject inMemoryDataAccessObject = new InMemoryDataAccessObject();
         FixedEvent event = new FixedEvent(
                 DayOfWeek.MONDAY,                   // Start day
                 DayOfWeek.MONDAY,                   // End day
@@ -57,7 +57,7 @@ class InMemoryDataAccessObjectTest {
     @Test
     void testGetEventByDayAndTime() {
         // Arrange
-        InMemoryAddDataAccessObject inMemoryDataAccessObject = new InMemoryAddDataAccessObject();
+        InMemoryDataAccessObject inMemoryDataAccessObject = new InMemoryDataAccessObject();
         FixedEvent event1 = new FixedEvent(
                 DayOfWeek.MONDAY,                   // Start day
                 DayOfWeek.MONDAY,                   // End day

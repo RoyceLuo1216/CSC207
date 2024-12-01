@@ -1,6 +1,6 @@
 package usecase.event;
 
-import data_access.InMemoryAddDataAccessObject;
+import data_access.InMemoryDataAccessObject;
 import entities.eventEntity.FixedEvent;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
@@ -12,11 +12,11 @@ import java.time.LocalTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EventAddInteractorTest {
-    private InMemoryAddDataAccessObject dataAccessObject;
+    private InMemoryDataAccessObject dataAccessObject;
 
     @BeforeEach
     void setUp() {
-        dataAccessObject = new InMemoryAddDataAccessObject();
+        dataAccessObject = new InMemoryDataAccessObject();
     }
 
     @AfterEach
@@ -46,7 +46,7 @@ public class EventAddInteractorTest {
             @Override
             public void backToMainView(){return;}
         };
-        dataAccessObject = new InMemoryAddDataAccessObject();
+        dataAccessObject = new InMemoryDataAccessObject();
         EventAddInputBoundary interactor = new EventAddInteractor(dataAccessObject, successPresenter);
         interactor.execute(eventAddInputData);
 
@@ -79,7 +79,7 @@ public class EventAddInteractorTest {
             public void backToMainView(){return;}
         };
 
-        dataAccessObject = new InMemoryAddDataAccessObject();
+        dataAccessObject = new InMemoryDataAccessObject();
         EventAddInputBoundary interactor = new EventAddInteractor(dataAccessObject, successPresenter);
         interactor.execute(eventAddInputData);
     }
@@ -107,7 +107,7 @@ public class EventAddInteractorTest {
             public void backToMainView(){return;}
         };
 
-        dataAccessObject = new InMemoryAddDataAccessObject();
+        dataAccessObject = new InMemoryDataAccessObject();
         EventAddInputBoundary interactor = new EventAddInteractor(dataAccessObject, successPresenter);
         interactor.execute(eventAddInputData);
 

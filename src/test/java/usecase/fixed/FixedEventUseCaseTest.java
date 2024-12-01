@@ -1,6 +1,6 @@
 package usecase.fixed;
 
-import data_access.InMemoryAddDataAccessObject;
+import data_access.InMemoryDataAccessObject;
 import entities.eventEntity.Event;
 import entities.eventEntity.FixedEvent;
 import org.junit.Before;
@@ -14,11 +14,11 @@ import static org.junit.Assert.*;
 
 public class FixedEventUseCaseTest {
 
-    private InMemoryAddDataAccessObject inMemoryDataAccessObject;
+    private InMemoryDataAccessObject inMemoryDataAccessObject;
 
     @Before
     public void setUp() {
-        inMemoryDataAccessObject = new InMemoryAddDataAccessObject();
+        inMemoryDataAccessObject = new InMemoryDataAccessObject();
     }
 
     @Test

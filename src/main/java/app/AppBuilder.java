@@ -4,7 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import data_access.InMemoryAddDataAccessObject;
+import data_access.InMemoryDataAccessObject;
 import factory.EventFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.chatbot_event_conflict.ChatbotViewModel;
@@ -45,7 +45,7 @@ public class AppBuilder {
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    private final InMemoryAddDataAccessObject inMemoryDataAccessObjectDataObject = new InMemoryAddDataAccessObject();
+    private final InMemoryDataAccessObject inMemoryDataAccessObjectDataObject = new InMemoryDataAccessObject();
 
     private ChatbotView chatbotView;
     private ChatbotViewModel chatbotViewModel;

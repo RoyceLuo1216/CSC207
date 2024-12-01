@@ -12,7 +12,7 @@ import java.util.Map;
 
 import javax.swing.*;
 
-import data_access.InMemoryAddDataAccessObject;
+import data_access.InMemoryDataAccessObject;
 
 /**
  * A ScheudleView class to visually display our schedule.
@@ -27,7 +27,7 @@ public class ScheduleView extends JPanel implements ActionListener, PropertyChan
             "Friday", 16,
             "Saturday", 19
     );
-    private final InMemoryAddDataAccessObject inMemoryDataAccessObject;
+    private final InMemoryDataAccessObject inMemoryDataAccessObject;
     private boolean visible;
     private final JFrame mainFrame;
 
@@ -35,7 +35,7 @@ public class ScheduleView extends JPanel implements ActionListener, PropertyChan
      * Constructor for the ScheuldeView class.
      */
     public ScheduleView() {
-        inMemoryDataAccessObject = new InMemoryAddDataAccessObject();
+        inMemoryDataAccessObject = new InMemoryDataAccessObject();
         mainFrame = new JFrame("Schedule Viewer");
     }
 

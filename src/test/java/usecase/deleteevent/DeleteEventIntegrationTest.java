@@ -1,6 +1,6 @@
 package usecase.deleteevent;
 
-import data_access.InMemoryAddDataAccessObject;
+import data_access.InMemoryDataAccessObject;
 import org.junit.jupiter.api.Test;
 import interface_adapter.delete.DeleteEventController;
 import interface_adapter.delete.DeleteEventPresenter;
@@ -19,7 +19,7 @@ class DeleteEventIntegrationTest {
     @Test
     void testFullDeletionProcess() {
         // Arrange: Create entities
-        InMemoryAddDataAccessObject inMemoryDataAccessObject = new InMemoryAddDataAccessObject();
+        InMemoryDataAccessObject inMemoryDataAccessObject = new InMemoryDataAccessObject();
         FixedEvent event = new FixedEvent(
                 DayOfWeek.WEDNESDAY,               // Start day
                 DayOfWeek.WEDNESDAY,               // End day
