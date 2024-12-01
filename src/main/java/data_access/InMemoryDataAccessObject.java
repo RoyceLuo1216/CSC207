@@ -1,11 +1,9 @@
 package data_access;
 
-import entities.EventEntity.Event;
-import entities.EventEntity.RepeatEvent;
+import entities.eventEntity.Event;
 import usecase.delete.DeleteEventDataAccessInterface;
 import usecase.edit.EditDataAccessInterface;
 
-import java.lang.reflect.Array;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;

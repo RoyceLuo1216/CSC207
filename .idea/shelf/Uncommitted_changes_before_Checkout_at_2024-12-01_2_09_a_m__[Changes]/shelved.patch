@@ -1,0 +1,34 @@
+Index: src/main/java/interface_adapter/event/EventPresenter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package interface_adapter.event;\r\n\r\nimport usecase.event.EventOutputBoundary;\r\nimport usecase.event.EventOutputData;\r\n\r\n/**\r\n * Presenter for the Add Event Use Case.\r\n */\r\npublic class EventPresenter implements EventOutputBoundary {\r\n    private final EventViewModel eventViewModel;\r\n\r\n    public EventPresenter(EventViewModel eventViewModel) {\r\n        this.eventViewModel = eventViewModel;\r\n    }\r\n\r\n    @Override\r\n    public void prepareSuccessView(EventOutputData outputData) {\r\n        // output data doesn't need to change, just need to let the view know,\r\n        // so it can alert the user that their updated information was saved.\r\n        eventViewModel.firePropertyChanged(\"edit\");\r\n    }\r\n\r\n    @Override\r\n    public void prepareFailView(String errorMessage) {\r\n        // returns an error message if the event was not updated properly\r\n        final EventState eventState = eventViewModel.getState();\r\n        eventState.setEditError(errorMessage);\r\n        eventViewModel.firePropertyChanged();\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/interface_adapter/event/EventPresenter.java b/src/main/java/interface_adapter/event/EventPresenter.java
+--- a/src/main/java/interface_adapter/event/EventPresenter.java	(revision 3292b4aceaa5a777c2fb7b4cecba169814df4d32)
++++ b/src/main/java/interface_adapter/event/EventPresenter.java	(date 1733035073667)
+@@ -17,7 +17,7 @@
+     public void prepareSuccessView(EventOutputData outputData) {
+         // output data doesn't need to change, just need to let the view know,
+         // so it can alert the user that their updated information was saved.
+-        eventViewModel.firePropertyChanged("edit");
++        eventViewModel.firePropertyChanged("add");
+     }
+ 
+     @Override
+Index: src/main/java/interface_adapter/event/EventViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package interface_adapter.event;\r\n\r\nimport interface_adapter.ViewModel;\r\n\r\n/**\r\n * The ViewModel for the Event Add Use Case.\r\n */\r\npublic class EventViewModel extends ViewModel<EventState> {\r\n\r\n    public EventViewModel(String viewName) {\r\n        super(\"edit\");\r\n        setState(new EventState());\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/interface_adapter/event/EventViewModel.java b/src/main/java/interface_adapter/event/EventViewModel.java
+--- a/src/main/java/interface_adapter/event/EventViewModel.java	(revision 3292b4aceaa5a777c2fb7b4cecba169814df4d32)
++++ b/src/main/java/interface_adapter/event/EventViewModel.java	(date 1733035038397)
+@@ -8,7 +8,7 @@
+ public class EventViewModel extends ViewModel<EventState> {
+ 
+     public EventViewModel(String viewName) {
+-        super("edit");
++        super("add");
+         setState(new EventState());
+     }
+ }

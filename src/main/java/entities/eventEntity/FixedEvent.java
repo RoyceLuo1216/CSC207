@@ -1,4 +1,4 @@
-package entities.EventEntity;
+package entities.eventEntity;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;

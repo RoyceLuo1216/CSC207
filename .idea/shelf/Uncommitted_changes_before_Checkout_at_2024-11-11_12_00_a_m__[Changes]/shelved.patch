@@ -1,0 +1,68 @@
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_22\" default=\"true\" project-jdk-name=\"openjdk-22\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 6d6160b1ff8bf17653e624eeb42b0211ba6c6b48)
++++ b/.idea/misc.xml	(date 1731301184203)
+@@ -1,5 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="ExternalStorageConfigurationManager" enabled="true" />
+   <component name="ProjectRootManager" version="2" languageLevel="JDK_22" default="true" project-jdk-name="openjdk-22" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+Index: backend/src/entity/EventEntity/FlexibleEvent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package EventEntity;\r\n\r\nimport java.lang.reflect.Array;\r\nimport java.time.LocalDateTime;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n/**\r\n * A FlexibleEvent represents an event with a flexible start and end time, name, and priority.\r\n */\r\npublic class FlexibleEvent implements Event {\r\n\r\n    private LocalDateTime dayStart;\r\n    private LocalDateTime dayEnd;\r\n    private String eventName;\r\n    private int priorityLabel;\r\n    private List<Task> tasks;\r\n    private float timeAllocation\r\n\r\n    /**\r\n     * Constructor for the FixedEvent class.\r\n     *\r\n     * @param dayStart      the start date and time of the event\r\n     * @param dayEnd        the end date and time of the event\r\n     * @param eventName     the name of the event\r\n     * @param priorityLabel the priority label of the event\r\n     * @param timeAllocation the time allocated for the event\r\n     */\r\n    public FlexibleEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName, int priorityLabel, float timeAllocation) {\r\n        this.dayStart = dayStart;\r\n        this.dayEnd = dayEnd;\r\n        this.eventName = eventName;\r\n        this.priorityLabel = priorityLabel;\r\n        this.tasks = new ArrayList<>();\r\n        this.timeAllocation = timeAllocation;\r\n    }\r\n\r\n    /**\r\n     * Gets the name of the event.\r\n     *\r\n     * @return the name of the event as a String.\r\n     */\r\n    @Override\r\n    public String setEventName() {\r\n        return this.eventName;\r\n    }\r\n\r\n\r\n    /**\r\n     * Gets the name of the event.\r\n     *\r\n     * @return the name of the event as a String.\r\n     */\r\n    @Override\r\n    public String getEventName() {\r\n        return this.eventName;\r\n    }\r\n\r\n    /**\r\n     * Sets the event name to a new value.\r\n     *\r\n     * @param eventName the new name for the event.\r\n     */\r\n    public void setEventName(String eventName) {\r\n        this.eventName = eventName;\r\n    }\r\n\r\n    /**\r\n     * Gets the start date and time of the event.\r\n     *\r\n     * @return the start time of the event as a LocalDateTime object.\r\n     */\r\n    @Override\r\n    public LocalDateTime getDayStart() {\r\n        return this.dayStart;\r\n    }\r\n\r\n    /**\r\n     * Sets the start day to another value.\r\n     *\r\n     * @param dayStart represents the new start day for this event.\r\n     */\r\n    public void setDayStart(LocalDateTime dayStart) {\r\n        this.dayStart = dayStart;\r\n    }\r\n\r\n    /**\r\n     * Gets the end date and time of the event.\r\n     *\r\n     * @return the end time of the event as a LocalDateTime object.\r\n     */\r\n    @Override\r\n    public LocalDateTime getDayEnd() {\r\n        return this.dayEnd;\r\n    }\r\n\r\n    /**\r\n     * Sets the end day to a new value.\r\n     *\r\n     * @param dayEnd represents the new end day for this event.\r\n     */\r\n    public void setDayEnd(LocalDateTime dayEnd) {\r\n        this.dayEnd = dayEnd;\r\n    }\r\n\r\n    /**\r\n     * Gets the priority label of the event.\r\n     *\r\n     * @return the priority label of the event as an integer.\r\n     */\r\n    @Override\r\n    public int getPriorityLabel() {\r\n        return this.priorityLabel;\r\n    }\r\n\r\n    /**\r\n     * Sets the priority label to a new value.\r\n     *\r\n     * @param priorityLabel the new priority label for this event.\r\n     */\r\n    public void setPriorityLabel(int priorityLabel) {\r\n        this.priorityLabel = priorityLabel;\r\n    }\r\n\r\n    /**\r\n     * Returns the list of tasks associated with the event.\r\n     *\r\n     * @return\r\n     */\r\n    @Override\r\n    public List<Task> getTasks() {\r\n        return this.tasks;\r\n    }\r\n\r\n    /**\r\n     * Adds a Task to the list\r\n     *\r\n     * @param task, task object to add to the event.\r\n     */\r\n    @Override\r\n    public void addTask(Task task) {\r\n        this.tasks.add(task);\r\n    }\r\n\r\n    /**\r\n     * Removes a task from the list.\r\n     *\r\n     * @param task, task object that gets removed.\r\n     */\r\n    @Override\r\n    public void removeTask(Task task) {\r\n        this.tasks.remove(task);\r\n    }\r\n\r\n    /**\r\n     * Estimate the total time to complete this event.\r\n     *\r\n     * @param time, the estimated time to complete this event.\r\n     */\r\n    public float estimateTime() {\r\n        float totalTime = 0;\r\n        for (Task task: tasks) {\r\n            totalTime += task.time\r\n        }\r\n        return min(totalTime, timeAllocation)\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend/src/entity/EventEntity/FlexibleEvent.java b/backend/src/entity/EventEntity/FlexibleEvent.java
+--- a/backend/src/entity/EventEntity/FlexibleEvent.java	(revision 6d6160b1ff8bf17653e624eeb42b0211ba6c6b48)
++++ b/backend/src/entity/EventEntity/FlexibleEvent.java	(date 1731301183883)
+@@ -26,7 +26,8 @@
+      * @param priorityLabel the priority label of the event
+      * @param timeAllocation the time allocated for the event
+      */
+-    public FlexibleEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName, int priorityLabel, float timeAllocation) {
++    public FlexibleEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName,
++                         int priorityLabel, float timeAllocation) {
+         this.dayStart = dayStart;
+         this.dayEnd = dayEnd;
+         this.eventName = eventName;
+@@ -162,6 +163,6 @@
+         for (Task task: tasks) {
+             totalTime += task.time
+         }
+-        return min(totalTime, timeAllocation)
++        return min(totalTime, timeAllocation);
+     }
+ }
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"CompilerConfiguration\">\r\n    <annotationProcessing>\r\n      <profile name=\"Maven default annotation processors profile\" enabled=\"true\">\r\n        <sourceOutputDir name=\"target/generated-sources/annotations\" />\r\n        <sourceTestOutputDir name=\"target/generated-test-sources/test-annotations\" />\r\n        <outputRelativeToContentRoot value=\"true\" />\r\n        <module name=\"lab3\" />\r\n      </profile>\r\n    </annotationProcessing>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--- a/.idea/compiler.xml	(revision 6d6160b1ff8bf17653e624eeb42b0211ba6c6b48)
++++ b/.idea/compiler.xml	(date 1731301184205)
+@@ -6,8 +6,10 @@
+         <sourceOutputDir name="target/generated-sources/annotations" />
+         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+         <outputRelativeToContentRoot value="true" />
+-        <module name="lab3" />
+       </profile>
+     </annotationProcessing>
++    <bytecodeTargetLevel>
++      <module name="lab3" target="11" />
++    </bytecodeTargetLevel>
+   </component>
+ </project>
+\ No newline at end of file

@@ -1,7 +1,7 @@
 package usecase.schedule;
 
 import data_access.InMemoryDataAccessObject;
-import entities.EventEntity.FixedEvent;
+import entities.eventEntity.FixedEvent;
 
 import org.junit.jupiter.api.Test;
 
@@ -78,8 +78,8 @@ class InMemoryDataAccessObjectTest {
         inMemoryDataAccessObject.addEvent(event2);
 
         // Act
-        Optional<entities.EventEntity.Event> foundEvent = inMemoryDataAccessObject.getEventByDayAndTime(DayOfWeek.MONDAY, LocalTime.of(9, 30));
-        Optional<entities.EventEntity.Event> noEvent = inMemoryDataAccessObject.getEventByDayAndTime(DayOfWeek.TUESDAY, LocalTime.of(9, 30));
+        Optional<entities.eventEntity.Event> foundEvent = inMemoryDataAccessObject.getEventByDayAndTime(DayOfWeek.MONDAY, LocalTime.of(9, 30));
+        Optional<entities.eventEntity.Event> noEvent = inMemoryDataAccessObject.getEventByDayAndTime(DayOfWeek.TUESDAY, LocalTime.of(9, 30));
 
         // Assert
         assertTrue(foundEvent.isPresent());

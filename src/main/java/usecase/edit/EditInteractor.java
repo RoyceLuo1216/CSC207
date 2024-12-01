@@ -1,7 +1,7 @@
 package usecase.edit;
 
-import entities.EventEntity.Event;
-import entities.EventEntity.RepeatEvent;
+import entities.eventEntity.Event;
+import entities.eventEntity.RepeatEvent;
 
 import java.util.Optional;
 

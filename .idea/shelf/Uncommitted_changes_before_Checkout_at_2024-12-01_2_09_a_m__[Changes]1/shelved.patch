@@ -1,0 +1,64 @@
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"MavenProjectsManager\">\r\n    <option name=\"originalFiles\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/pom.xml\" />\r\n        <option value=\"$PROJECT_DIR$/backend/pom.xml\" />\r\n        <option value=\"$PROJECT_DIR$/Final Project Root/pom.xml\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_23\" default=\"true\" project-jdk-name=\"openjdk-22\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 3292b4aceaa5a777c2fb7b4cecba169814df4d32)
++++ b/.idea/misc.xml	(date 1733034878646)
+@@ -10,7 +10,7 @@
+       </list>
+     </option>
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="openjdk-22" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_22" default="true" project-jdk-name="openjdk-22" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: src/main/java/usecase/schedule/ScheduleInputBoundary.java
+===================================================================
+diff --git a/src/main/java/usecase/schedule/ScheduleInputBoundary.java b/src/main/java/usecase/schedule/ScheduleInputBoundary.java
+new file mode 100644
+--- /dev/null	(date 1733036945359)
++++ b/src/main/java/usecase/schedule/ScheduleInputBoundary.java	(date 1733036945359)
+@@ -0,0 +1,4 @@
++package usecase.schedule;
++
++public class ScheduleInputBoundary {
++}
+Index: src/main/java/interface_adapter/schedule/ScheduleState.java
+===================================================================
+diff --git a/src/main/java/interface_adapter/schedule/ScheduleState.java b/src/main/java/interface_adapter/schedule/ScheduleState.java
+new file mode 100644
+--- /dev/null	(date 1733036924249)
++++ b/src/main/java/interface_adapter/schedule/ScheduleState.java	(date 1733036924249)
+@@ -0,0 +1,4 @@
++package interface_adapter.schedule;
++
++public class ScheduleState {
++}
+Index: src/main/java/interface_adapter/schedule/SchedulePresenter.java
+===================================================================
+diff --git a/src/main/java/interface_adapter/schedule/SchedulePresenter.java b/src/main/java/interface_adapter/schedule/SchedulePresenter.java
+new file mode 100644
+--- /dev/null	(date 1733036917131)
++++ b/src/main/java/interface_adapter/schedule/SchedulePresenter.java	(date 1733036917131)
+@@ -0,0 +1,4 @@
++package interface_adapter.schedule;
++
++public class SchedulePresenter {
++}
+Index: src/main/java/interface_adapter/schedule/ScheduleViewModel.java
+===================================================================
+diff --git a/src/main/java/interface_adapter/schedule/ScheduleViewModel.java b/src/main/java/interface_adapter/schedule/ScheduleViewModel.java
+new file mode 100644
+--- /dev/null	(date 1733036905324)
++++ b/src/main/java/interface_adapter/schedule/ScheduleViewModel.java	(date 1733036905324)
+@@ -0,0 +1,4 @@
++package interface_adapter.schedule;
++
++public class ScheduleViewModel {
++}

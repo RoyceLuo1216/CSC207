@@ -1,0 +1,827 @@
+Index: src/main/java/entities/ScheduleEntity/ScheduleManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package entities.ScheduleEntity;\r\n\r\nimport entities.EventEntity.Event;\r\nimport usecase.fixed.FixedEventUseCase;\r\nimport usecase.flexible.FlexibleEventUseCase;\r\n\r\nimport java.time.LocalDateTime;\r\nimport java.util.List;\r\n\r\n/**\r\n * Manages interactions between the schedule and various event use cases.\r\n */\r\npublic class ScheduleManager {\r\n    private final Schedule schedule;\r\n    private final FixedEventUseCase fixedEventUseCase;\r\n    private final FlexibleEventUseCase flexibleEventUseCase;\r\n    //private final RepeatEventUseCase repeatEventUseCase;\r\n\r\n    public ScheduleManager() {\r\n        this.schedule = new Schedule();\r\n        this.fixedEventUseCase = new FixedEventUseCase(schedule);\r\n        this.flexibleEventUseCase = new FlexibleEventUseCase(schedule);\r\n        //this.repeatEventUseCase = new RepeatEventUseCase(schedule);\r\n    }\r\n\r\n    public boolean addFixedEvent(String name, int priority, LocalDateTime dayStart, LocalDateTime dayEnd) {\r\n        return fixedEventUseCase.addFixedEvent(name, priority, dayStart, dayEnd);\r\n    }\r\n\r\n    public boolean addFlexibleEvent(String name, int priority, LocalDateTime dayStart, LocalDateTime dayEnd, float timeAllocation) {\r\n        return flexibleEventUseCase.addFlexibleEvent(name, priority, dayStart, dayEnd, timeAllocation);\r\n    }\r\n\r\n    public boolean addRepeatEvent(String name, int priority, LocalDateTime dayStart, LocalDateTime dayEnd) {\r\n        //return repeatEventUseCase.addRepeatEvent(name, priority, dayStart, dayEnd);\r\n        return true;\r\n    }\r\n\r\n    public boolean removeEvent(String name) {\r\n        return schedule.removeEvent(name);\r\n    }\r\n\r\n    public List<Event> getAllEvents() {\r\n        return schedule.getAllEvents();\r\n    }\r\n\r\n    public void optimizeFlexibleEvents() {\r\n        flexibleEventUseCase.optimizeFlexibleEvents();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/entities/ScheduleEntity/ScheduleManager.java b/src/main/java/entities/ScheduleEntity/ScheduleManager.java
+--- a/src/main/java/entities/ScheduleEntity/ScheduleManager.java	(revision 5f1b39eb9c4088bb55bb848003dfe510809a0f70)
++++ b/src/main/java/entities/ScheduleEntity/ScheduleManager.java	(date 1733002992679)
+@@ -1,5 +1,6 @@
+ package entities.ScheduleEntity;
+ 
++import data_access.Schedule;
+ import entities.EventEntity.Event;
+ import usecase.fixed.FixedEventUseCase;
+ import usecase.flexible.FlexibleEventUseCase;
+Index: src/main/java/interface_adapter/editdelete/EditDeleteController.java
+===================================================================
+diff --git a/src/main/java/interface_adapter/editdelete/EditDeleteController.java b/src/main/java/interface_adapter/editdelete/EditDeleteController.java
+deleted file mode 100644
+--- a/src/main/java/interface_adapter/editdelete/EditDeleteController.java	(revision 5f1b39eb9c4088bb55bb848003dfe510809a0f70)
++++ /dev/null	(revision 5f1b39eb9c4088bb55bb848003dfe510809a0f70)
+@@ -1,38 +0,0 @@
+-package interface_adapter.editdelete;
+-
+-import entities.EventEntity.Event;
+-import entities.ScheduleEntity.Schedule;
+-
+-import java.time.LocalDateTime;
+-
+-/**
+- * The EditDeleteController handles logic for editing or deleting events.
+- */
+-public class EditDeleteController {
+-    private final Schedule schedule;
+-    private Event currentEvent;
+-
+-    public EditDeleteController(Schedule schedule, Event currentEvent) {
+-        this.schedule = schedule;
+-        this.currentEvent = currentEvent;
+-    }
+-
+-    public Event getCurrentEvent() {
+-        return currentEvent;
+-    }
+-
+-    public boolean updateEvent(String name, LocalDateTime start, LocalDateTime end) {
+-        try {
+-            currentEvent.setEventName(name);
+-            currentEvent.setDayStart(start);
+-            currentEvent.setDayEnd(end);
+-            return true;
+-        } catch (Exception e) {
+-            return false;
+-        }
+-    }
+-
+-    public boolean deleteEvent() {
+-        return schedule.removeEvent(currentEvent.getEventName());
+-    }
+-}
+Index: src/main/java/interface_adapter/editdelete/EditDeleteViewModel.java
+===================================================================
+diff --git a/src/main/java/interface_adapter/editdelete/EditDeleteViewModel.java b/src/main/java/interface_adapter/editdelete/EditDeleteViewModel.java
+deleted file mode 100644
+--- a/src/main/java/interface_adapter/editdelete/EditDeleteViewModel.java	(revision 5f1b39eb9c4088bb55bb848003dfe510809a0f70)
++++ /dev/null	(revision 5f1b39eb9c4088bb55bb848003dfe510809a0f70)
+@@ -1,30 +0,0 @@
+-package interface_adapter.editdelete;
+-
+-import java.time.LocalDateTime;
+-
+-/**
+- * The EditDeleteViewModel handles logic for the EditDeleteView.
+- */
+-public class EditDeleteViewModel {
+-    private final EditDeleteController controller;
+-    private final EditDeletePresenter presenter;
+-
+-    public EditDeleteViewModel(EditDeleteController controller, EditDeletePresenter presenter) {
+-        this.controller = controller;
+-        this.presenter = presenter;
+-    }
+-
+-    public EditDeleteState getEditDeleteState() {
+-        return presenter.presentEvent(controller.getCurrentEvent());
+-    }
+-
+-    public boolean updateEvent(String name, String startTime, String endTime) {
+-        LocalDateTime start = LocalDateTime.parse(startTime);
+-        LocalDateTime end = LocalDateTime.parse(endTime);
+-        return controller.updateEvent(name, start, end);
+-    }
+-
+-    public boolean deleteEvent() {
+-        return controller.deleteEvent();
+-    }
+-}
+Index: src/main/java/interface_adapter/schedule/ScheduleViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package interface_adapter.schedule;\r\n\r\nimport entities.EventEntity.Event;\r\n\r\nimport java.util.List;\r\n\r\n/**\r\n * The ScheduleViewModel communicates with the ScheduleController and SchedulePresenter.\r\n */\r\npublic class ScheduleViewModel {\r\n    private final ScheduleController controller;\r\n    private final SchedulePresenter presenter;\r\n\r\n    public ScheduleViewModel(ScheduleController controller, SchedulePresenter presenter) {\r\n        this.controller = controller;\r\n        this.presenter = presenter;\r\n    }\r\n\r\n    public ScheduleState getScheduleState() {\r\n        List<Event> events = controller.getAllEvents();\r\n        return presenter.presentEvents(events);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/interface_adapter/schedule/ScheduleViewModel.java b/src/main/java/interface_adapter/schedule/ScheduleViewModel.java
+--- a/src/main/java/interface_adapter/schedule/ScheduleViewModel.java	(revision 5f1b39eb9c4088bb55bb848003dfe510809a0f70)
++++ b/src/main/java/interface_adapter/schedule/ScheduleViewModel.java	(date 1732510407889)
+@@ -2,6 +2,8 @@
+ 
+ import entities.EventEntity.Event;
+ 
++import java.beans.PropertyChangeListener;
++import java.beans.PropertyChangeSupport;
+ import java.util.List;
+ 
+ /**
+@@ -10,14 +12,49 @@
+ public class ScheduleViewModel {
+     private final ScheduleController controller;
+     private final SchedulePresenter presenter;
++    private final PropertyChangeSupport support;
++
++    private ScheduleState scheduleState;
+ 
+     public ScheduleViewModel(ScheduleController controller, SchedulePresenter presenter) {
+         this.controller = controller;
+         this.presenter = presenter;
++        this.support = new PropertyChangeSupport(this);
++        refreshState();
++    }
++
++    // Add listeners for state changes
++    public void addPropertyChangeListener(PropertyChangeListener listener) {
++        support.addPropertyChangeListener(listener);
+     }
+ 
+-    public ScheduleState getScheduleState() {
++    // Refresh state from controller
++    public void refreshState() {
+         List<Event> events = controller.getAllEvents();
+-        return presenter.presentEvents(events);
++        ScheduleState newState = presenter.presentEvents(events);
++
++        ScheduleState oldState = this.scheduleState;
++        this.scheduleState = newState;
++
++        // Notify listeners of state change
++        support.firePropertyChange("scheduleState", oldState, newState);
++    }
++
++    public ScheduleState getScheduleState() {
++        return scheduleState;
++    }
++
++    // Add an event
++    public boolean addEvent(Event event) {
++        boolean success = controller.addEvent(event);
++        if (success) refreshState();
++        return success;
++    }
++
++    // Remove an event
++    public boolean removeEvent(String eventName) {
++        boolean success = controller.removeEvent(eventName);
++        if (success) refreshState();
++        return success;
+     }
+ }
+Index: src/main/java/interface_adapter/ViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/interface_adapter/ViewModel.java b/src/main/java/interface_adapter/ViewModel.java
+new file mode 100644
+--- /dev/null	(date 1732999673442)
++++ b/src/main/java/interface_adapter/ViewModel.java	(date 1732999673442)
+@@ -0,0 +1,64 @@
++package interface_adapter;
++
++import java.beans.PropertyChangeListener;
++import java.beans.PropertyChangeSupport;
++
++/**
++ * The ViewModel for our CA implementation.
++ * This class delegates work to a PropertyChangeSupport object for
++ * managing the property change events.
++ *
++ * @param <T> The type of state object contained in the model.
++ */
++public class ViewModel<T> {
++
++    private final String viewName;
++
++    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
++
++    private T state;
++
++    public ViewModel(String viewName) {
++        this.viewName = viewName;
++    }
++
++    public String getViewName() {
++        return this.viewName;
++    }
++
++    public T getState() {
++        return this.state;
++    }
++
++    public void setState(T state) {
++        this.state = state;
++    }
++
++    /**
++     * Fires a property changed event for the state of this ViewModel.
++     */
++    public void firePropertyChanged() {
++        this.support.firePropertyChange("state", null, this.state);
++    }
++
++    /**
++     * Fires a property changed event for the state of this ViewModel, which
++     * allows the user to specify a different propertyName. This can be useful
++     * when a class is listening for multiple kinds of property changes.
++     * <p/>
++     * For example, the LoggedInView listens for two kinds of property changes;
++     * it can use the property name to distinguish which property has changed.
++     * @param propertyName the label for the property that was changed
++     */
++    public void firePropertyChanged(String propertyName) {
++        this.support.firePropertyChange(propertyName, null, this.state);
++    }
++
++    /**
++     * Adds a PropertyChangeListener to this ViewModel.
++     * @param listener The PropertyChangeListener to be added
++     */
++    public void addPropertyChangeListener(PropertyChangeListener listener) {
++        this.support.addPropertyChangeListener(listener);
++    }
++}
+Index: src/main/java/interface_adapter/schedule/SchedulePresenter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package interface_adapter.schedule;\r\n\r\nimport entities.EventEntity.Event;\r\n\r\nimport java.util.List;\r\n\r\n/**\r\n * The SchedulePresenter formats data from the ScheduleController for the ScheduleView.\r\n */\r\npublic class SchedulePresenter {\r\n    public ScheduleState presentEvents(List<Event> events) {\r\n        return new ScheduleState(events);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/interface_adapter/schedule/SchedulePresenter.java b/src/main/java/interface_adapter/schedule/SchedulePresenter.java
+--- a/src/main/java/interface_adapter/schedule/SchedulePresenter.java	(revision 5f1b39eb9c4088bb55bb848003dfe510809a0f70)
++++ b/src/main/java/interface_adapter/schedule/SchedulePresenter.java	(date 1732510368448)
+@@ -5,10 +5,11 @@
+ import java.util.List;
+ 
+ /**
+- * The SchedulePresenter formats data from the ScheduleController for the ScheduleView.
++ * The SchedulePresenter formats data from the ScheduleController for the ScheduleViewModel.
+  */
+ public class SchedulePresenter {
+     public ScheduleState presentEvents(List<Event> events) {
++        // Converts list of events into a ScheduleState
+         return new ScheduleState(events);
+     }
+ }
+Index: src/main/java/usecase/flexible/FlexibleEventUseCase.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package usecase.flexible;\r\n\r\nimport entities.EventEntity.FlexibleEvent;\r\nimport entities.ScheduleEntity.Schedule;\r\n\r\nimport java.time.LocalDateTime;\r\n\r\n/**\r\n * Use case for managing Flexible Events.\r\n */\r\npublic class FlexibleEventUseCase {\r\n    private final Schedule schedule;\r\n    private final FlexibleEventOptimizer optimizer;\r\n\r\n    public FlexibleEventUseCase(Schedule schedule) {\r\n        this.schedule = schedule;\r\n        this.optimizer = new FlexibleEventOptimizer();\r\n    }\r\n\r\n    /**\r\n     * Method to create a flexible event that specifies a time allocation.\r\n     *\r\n     * @param name           the name of the event\r\n     * @param priority       the priority of the event (on a scale of 1-5)\r\n     * @param dayStart       the date and time the event starts\r\n     * @param dayEnd         the date and time the event ends\r\n     * @param timeAllocation the amount of time allocated for the event (in hours)\r\n     * @return true if the event was successfully added\r\n     */\r\n    public boolean addFlexibleEvent(String name, int priority, LocalDateTime dayStart, LocalDateTime dayEnd, float timeAllocation) {\r\n        FlexibleEvent event = new FlexibleEvent(dayStart, dayEnd, name, priority, timeAllocation);\r\n        return schedule.addEvent(event);\r\n    }\r\n\r\n    /**\r\n     * Method to delete an event by name.\r\n     *\r\n     * @param name the name of the event to be deleted\r\n     * @return true if the event was successfully deleted\r\n     */\r\n    public boolean removeFlexibleEvent(String name) {\r\n        return schedule.removeEvent(name);\r\n    }\r\n\r\n    public void optimizeFlexibleEvents() {\r\n        optimizer.optimizeFlexibleEvents(schedule.getEventsByType(FlexibleEvent.class));\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/usecase/flexible/FlexibleEventUseCase.java b/src/main/java/usecase/flexible/FlexibleEventUseCase.java
+--- a/src/main/java/usecase/flexible/FlexibleEventUseCase.java	(revision 5f1b39eb9c4088bb55bb848003dfe510809a0f70)
++++ b/src/main/java/usecase/flexible/FlexibleEventUseCase.java	(date 1733002992736)
+@@ -1,7 +1,7 @@
+ package usecase.flexible;
+ 
+ import entities.EventEntity.FlexibleEvent;
+-import entities.ScheduleEntity.Schedule;
++import data_access.Schedule;
+ 
+ import java.time.LocalDateTime;
+ 
+Index: src/main/java/interface_adapter/schedule/ScheduleController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package interface_adapter.schedule;\r\n\r\nimport entities.EventEntity.Event;\r\nimport entities.ScheduleEntity.Schedule;\r\n\r\nimport java.util.List;\r\n\r\n/**\r\n * The ScheduleController handles requests from the ScheduleView\r\n * and interacts with the use case layer (Schedule).\r\n */\r\npublic class ScheduleController {\r\n    private final Schedule schedule;\r\n\r\n    public ScheduleController(Schedule schedule) {\r\n        this.schedule = schedule;\r\n    }\r\n\r\n    public List<Event> getAllEvents() {\r\n        return schedule.getAllEvents();\r\n    }\r\n\r\n    public boolean addEvent(Event event) {\r\n        return schedule.addEvent(event);\r\n    }\r\n\r\n    public boolean removeEvent(String eventName) {\r\n        return schedule.removeEvent(eventName);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/interface_adapter/schedule/ScheduleController.java b/src/main/java/interface_adapter/schedule/ScheduleController.java
+--- a/src/main/java/interface_adapter/schedule/ScheduleController.java	(revision 5f1b39eb9c4088bb55bb848003dfe510809a0f70)
++++ b/src/main/java/interface_adapter/schedule/ScheduleController.java	(date 1733002992740)
+@@ -1,12 +1,12 @@
+ package interface_adapter.schedule;
+ 
+ import entities.EventEntity.Event;
+-import entities.ScheduleEntity.Schedule;
++import data_access.Schedule;
+ 
+ import java.util.List;
+ 
+ /**
+- * The ScheduleController handles requests from the ScheduleView
++ * The ScheduleController handles requests from the ScheduleViewModel
+  * and interacts with the use case layer (Schedule).
+  */
+ public class ScheduleController {
+@@ -16,15 +16,24 @@
+         this.schedule = schedule;
+     }
+ 
++    // Fetch all events
+     public List<Event> getAllEvents() {
+         return schedule.getAllEvents();
+     }
+ 
++    // Add a new event
+     public boolean addEvent(Event event) {
+         return schedule.addEvent(event);
+     }
+ 
++    // Remove an event by name
+     public boolean removeEvent(String eventName) {
+         return schedule.removeEvent(eventName);
+     }
++
++    // Modify an event (e.g., update details)
++    public boolean updateEvent(String eventName, Event updatedEvent) {
++        schedule.removeEvent(eventName);
++        return schedule.addEvent(updatedEvent);
++    }
+ }
+Index: src/test/java/usecase/flexible/FlexibleEventUseCaseTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package usecase.flexible;\r\n\r\nimport entities.EventEntity.FlexibleEvent;\r\nimport org.junit.Before;\r\nimport org.junit.Test;\r\nimport entities.ScheduleEntity.Schedule;\r\n\r\nimport java.time.LocalDateTime;\r\nimport java.util.List;\r\nimport java.util.Optional;\r\n\r\nimport static org.junit.Assert.*;\r\n\r\npublic class FlexibleEventUseCaseTest {\r\n\r\n    private Schedule schedule;\r\n\r\n    @Before\r\n    public void setUp() {\r\n        schedule = new Schedule();\r\n    }\r\n\r\n    @Test\r\n    public void testAddFlexibleEvent() {\r\n        LocalDateTime start = LocalDateTime.of(2024, 11, 9, 0, 0);\r\n        LocalDateTime end = LocalDateTime.of(2024, 11, 12, 23, 59);\r\n        float timeAllocation = 10.0f;\r\n\r\n        // Create and add the FlexibleEvent\r\n        FlexibleEvent event = new FlexibleEvent(start, end, \"Stats Studying\", 2, timeAllocation);\r\n        boolean isAdded = schedule.addEvent(event);\r\n\r\n        // Verify that the event was successfully added\r\n        assertTrue(isAdded);\r\n        Optional<FlexibleEvent> retrievedEvent = schedule.getEventsByType(FlexibleEvent.class).stream()\r\n                .filter(e -> e.getEventName().equals(\"Stats Studying\"))\r\n                .findFirst();\r\n\r\n        assertTrue(retrievedEvent.isPresent());\r\n        assertEquals(\"Stats Studying\", retrievedEvent.get().getEventName());\r\n        assertEquals(start, retrievedEvent.get().getDayStart());\r\n        assertEquals(end, retrievedEvent.get().getDayEnd());\r\n        assertEquals(timeAllocation, retrievedEvent.get().getTimeAllocation(), 0.0f);\r\n    }\r\n\r\n    @Test\r\n    public void testRemoveFlexibleEvent() {\r\n        LocalDateTime start = LocalDateTime.of(2024, 11, 9, 0, 0);\r\n        LocalDateTime end = LocalDateTime.of(2024, 11, 12, 23, 59);\r\n        float timeAllocation = 10.0f;\r\n\r\n        // Create and add the FlexibleEvent\r\n        FlexibleEvent event = new FlexibleEvent(start, end, \"Stats Studying\", 2, timeAllocation);\r\n        schedule.addEvent(event);\r\n\r\n        // Verify that the event was added\r\n        Optional<FlexibleEvent> addedEvent = schedule.getEventsByType(FlexibleEvent.class).stream()\r\n                .filter(e -> e.getEventName().equals(\"Stats Studying\"))\r\n                .findFirst();\r\n        assertTrue(addedEvent.isPresent());\r\n\r\n        // Remove the event and verify it no longer exists\r\n        boolean isRemoved = schedule.removeEvent(\"Stats Studying\");\r\n        assertTrue(isRemoved);\r\n        Optional<FlexibleEvent> removedEvent = schedule.getEventsByType(FlexibleEvent.class).stream()\r\n                .filter(e -> e.getEventName().equals(\"Stats Studying\"))\r\n                .findFirst();\r\n        assertFalse(removedEvent.isPresent());\r\n    }\r\n\r\n    @Test\r\n    public void testRetrieveFlexibleEvents() {\r\n        // Adding multiple FlexibleEvents\r\n        FlexibleEvent event1 = new FlexibleEvent(\r\n                LocalDateTime.of(2024, 11, 10, 9, 0),\r\n                LocalDateTime.of(2024, 11, 12, 23, 59),\r\n                \"Stats Studying\", 2, 10.0f);\r\n\r\n        FlexibleEvent event2 = new FlexibleEvent(\r\n                LocalDateTime.of(2024, 11, 10, 14, 0),\r\n                LocalDateTime.of(2024, 11, 12, 16, 0),\r\n                \"Project Work\", 3, 5.0f);\r\n\r\n        schedule.addEvent(event1);\r\n        schedule.addEvent(event2);\r\n\r\n        // Retrieve all FlexibleEvents and verify the correct number is returned\r\n        List<FlexibleEvent> flexibleEvents = schedule.getEventsByType(FlexibleEvent.class);\r\n        assertEquals(2, flexibleEvents.size());\r\n\r\n        // Verify specific events in the list\r\n        assertTrue(flexibleEvents.stream().anyMatch(e -> e.getEventName().equals(\"Stats Studying\")));\r\n        assertTrue(flexibleEvents.stream().anyMatch(e -> e.getEventName().equals(\"Project Work\")));\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/usecase/flexible/FlexibleEventUseCaseTest.java b/src/test/java/usecase/flexible/FlexibleEventUseCaseTest.java
+--- a/src/test/java/usecase/flexible/FlexibleEventUseCaseTest.java	(revision 5f1b39eb9c4088bb55bb848003dfe510809a0f70)
++++ b/src/test/java/usecase/flexible/FlexibleEventUseCaseTest.java	(date 1733002992720)
+@@ -1,95 +1,95 @@
+-package usecase.flexible;
+-
+-import entities.EventEntity.FlexibleEvent;
+-import org.junit.Before;
+-import org.junit.Test;
+-import entities.ScheduleEntity.Schedule;
+-
+-import java.time.LocalDateTime;
+-import java.util.List;
+-import java.util.Optional;
+-
+-import static org.junit.Assert.*;
+-
+-public class FlexibleEventUseCaseTest {
+-
+-    private Schedule schedule;
+-
+-    @Before
+-    public void setUp() {
+-        schedule = new Schedule();
+-    }
+-
+-    @Test
+-    public void testAddFlexibleEvent() {
+-        LocalDateTime start = LocalDateTime.of(2024, 11, 9, 0, 0);
+-        LocalDateTime end = LocalDateTime.of(2024, 11, 12, 23, 59);
+-        float timeAllocation = 10.0f;
+-
+-        // Create and add the FlexibleEvent
+-        FlexibleEvent event = new FlexibleEvent(start, end, "Stats Studying", 2, timeAllocation);
+-        boolean isAdded = schedule.addEvent(event);
+-
+-        // Verify that the event was successfully added
+-        assertTrue(isAdded);
+-        Optional<FlexibleEvent> retrievedEvent = schedule.getEventsByType(FlexibleEvent.class).stream()
+-                .filter(e -> e.getEventName().equals("Stats Studying"))
+-                .findFirst();
+-
+-        assertTrue(retrievedEvent.isPresent());
+-        assertEquals("Stats Studying", retrievedEvent.get().getEventName());
+-        assertEquals(start, retrievedEvent.get().getDayStart());
+-        assertEquals(end, retrievedEvent.get().getDayEnd());
+-        assertEquals(timeAllocation, retrievedEvent.get().getTimeAllocation(), 0.0f);
+-    }
+-
+-    @Test
+-    public void testRemoveFlexibleEvent() {
+-        LocalDateTime start = LocalDateTime.of(2024, 11, 9, 0, 0);
+-        LocalDateTime end = LocalDateTime.of(2024, 11, 12, 23, 59);
+-        float timeAllocation = 10.0f;
+-
+-        // Create and add the FlexibleEvent
+-        FlexibleEvent event = new FlexibleEvent(start, end, "Stats Studying", 2, timeAllocation);
+-        schedule.addEvent(event);
+-
+-        // Verify that the event was added
+-        Optional<FlexibleEvent> addedEvent = schedule.getEventsByType(FlexibleEvent.class).stream()
+-                .filter(e -> e.getEventName().equals("Stats Studying"))
+-                .findFirst();
+-        assertTrue(addedEvent.isPresent());
+-
+-        // Remove the event and verify it no longer exists
+-        boolean isRemoved = schedule.removeEvent("Stats Studying");
+-        assertTrue(isRemoved);
+-        Optional<FlexibleEvent> removedEvent = schedule.getEventsByType(FlexibleEvent.class).stream()
+-                .filter(e -> e.getEventName().equals("Stats Studying"))
+-                .findFirst();
+-        assertFalse(removedEvent.isPresent());
+-    }
+-
+-    @Test
+-    public void testRetrieveFlexibleEvents() {
+-        // Adding multiple FlexibleEvents
+-        FlexibleEvent event1 = new FlexibleEvent(
+-                LocalDateTime.of(2024, 11, 10, 9, 0),
+-                LocalDateTime.of(2024, 11, 12, 23, 59),
+-                "Stats Studying", 2, 10.0f);
+-
+-        FlexibleEvent event2 = new FlexibleEvent(
+-                LocalDateTime.of(2024, 11, 10, 14, 0),
+-                LocalDateTime.of(2024, 11, 12, 16, 0),
+-                "Project Work", 3, 5.0f);
+-
+-        schedule.addEvent(event1);
+-        schedule.addEvent(event2);
+-
+-        // Retrieve all FlexibleEvents and verify the correct number is returned
+-        List<FlexibleEvent> flexibleEvents = schedule.getEventsByType(FlexibleEvent.class);
+-        assertEquals(2, flexibleEvents.size());
+-
+-        // Verify specific events in the list
+-        assertTrue(flexibleEvents.stream().anyMatch(e -> e.getEventName().equals("Stats Studying")));
+-        assertTrue(flexibleEvents.stream().anyMatch(e -> e.getEventName().equals("Project Work")));
+-    }
+-}
++//package usecase.flexible;
++//
++//import entities.EventEntity.FlexibleEvent;
++//import org.junit.Before;
++//import org.junit.Test;
++//import data_access.Schedule;
++//
++//import java.time.LocalDateTime;
++//import java.util.List;
++//import java.util.Optional;
++//
++//import static org.junit.Assert.*;
++//
++//public class FlexibleEventUseCaseTest {
++//
++//    private Schedule schedule;
++//
++//    @Before
++//    public void setUp() {
++//        schedule = new Schedule();
++//    }
++//
++//    @Test
++//    public void testAddFlexibleEvent() {
++//        LocalDateTime start = LocalDateTime.of(2024, 11, 9, 0, 0);
++//        LocalDateTime end = LocalDateTime.of(2024, 11, 12, 23, 59);
++//        float timeAllocation = 10.0f;
++//
++//        // Create and add the FlexibleEvent
++//        FlexibleEvent event = new FlexibleEvent(start, end, "Stats Studying", 2, timeAllocation);
++//        boolean isAdded = schedule.addEvent(event);
++//
++//        // Verify that the event was successfully added
++//        assertTrue(isAdded);
++//        Optional<FlexibleEvent> retrievedEvent = schedule.getEventsByType(FlexibleEvent.class).stream()
++//                .filter(e -> e.getEventName().equals("Stats Studying"))
++//                .findFirst();
++//
++//        assertTrue(retrievedEvent.isPresent());
++//        assertEquals("Stats Studying", retrievedEvent.get().getEventName());
++//        assertEquals(start, retrievedEvent.get().getDayStart());
++//        assertEquals(end, retrievedEvent.get().getDayEnd());
++//        assertEquals(timeAllocation, retrievedEvent.get().getTimeAllocation(), 0.0f);
++//    }
++//
++//    @Test
++//    public void testRemoveFlexibleEvent() {
++//        LocalDateTime start = LocalDateTime.of(2024, 11, 9, 0, 0);
++//        LocalDateTime end = LocalDateTime.of(2024, 11, 12, 23, 59);
++//        float timeAllocation = 10.0f;
++//
++//        // Create and add the FlexibleEvent
++//        FlexibleEvent event = new FlexibleEvent(start, end, "Stats Studying", 2, timeAllocation);
++//        schedule.addEvent(event);
++//
++//        // Verify that the event was added
++//        Optional<FlexibleEvent> addedEvent = schedule.getEventsByType(FlexibleEvent.class).stream()
++//                .filter(e -> e.getEventName().equals("Stats Studying"))
++//                .findFirst();
++//        assertTrue(addedEvent.isPresent());
++//
++//        // Remove the event and verify it no longer exists
++//        boolean isRemoved = schedule.removeEvent("Stats Studying");
++//        assertTrue(isRemoved);
++//        Optional<FlexibleEvent> removedEvent = schedule.getEventsByType(FlexibleEvent.class).stream()
++//                .filter(e -> e.getEventName().equals("Stats Studying"))
++//                .findFirst();
++//        assertFalse(removedEvent.isPresent());
++//    }
++//
++//    @Test
++//    public void testRetrieveFlexibleEvents() {
++//        // Adding multiple FlexibleEvents
++//        FlexibleEvent event1 = new FlexibleEvent(
++//                LocalDateTime.of(2024, 11, 10, 9, 0),
++//                LocalDateTime.of(2024, 11, 12, 23, 59),
++//                "Stats Studying", 2, 10.0f);
++//
++//        FlexibleEvent event2 = new FlexibleEvent(
++//                LocalDateTime.of(2024, 11, 10, 14, 0),
++//                LocalDateTime.of(2024, 11, 12, 16, 0),
++//                "Project Work", 3, 5.0f);
++//
++//        schedule.addEvent(event1);
++//        schedule.addEvent(event2);
++//
++//        // Retrieve all FlexibleEvents and verify the correct number is returned
++//        List<FlexibleEvent> flexibleEvents = schedule.getEventsByType(FlexibleEvent.class);
++//        assertEquals(2, flexibleEvents.size());
++//
++//        // Verify specific events in the list
++//        assertTrue(flexibleEvents.stream().anyMatch(e -> e.getEventName().equals("Stats Studying")));
++//        assertTrue(flexibleEvents.stream().anyMatch(e -> e.getEventName().equals("Project Work")));
++//    }
++//}
+Index: src/test/java/usecase/flexible/DynamicSchedulingTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package usecase.flexible;\r\n\r\nimport entities.EventEntity.Event;\r\nimport entities.EventEntity.FlexibleEvent;\r\nimport entities.EventEntity.FixedEvent;\r\nimport org.junit.Before;\r\nimport org.junit.Test;\r\nimport entities.ScheduleEntity.Schedule;\r\n\r\nimport java.time.LocalDateTime;\r\nimport java.util.List;\r\n\r\nimport static org.junit.Assert.*;\r\n\r\npublic class DynamicSchedulingTest {\r\n\r\n    private Schedule schedule;\r\n\r\n    @Before\r\n    public void setUp() {\r\n        schedule = new Schedule();\r\n    }\r\n\r\n    @Test\r\n    public void testBasicFlexibleEventScheduling() {\r\n        // Add a fixed event to block out time\r\n        Event fixedEvent = new FixedEvent(\r\n                LocalDateTime.of(2024, 11, 9, 18, 0),\r\n                LocalDateTime.of(2024, 11, 9, 20, 0),\r\n                \"MAT237 Midterm\", 1);\r\n        schedule.addEvent(fixedEvent);\r\n\r\n        // Add a flexible event that should be scheduled around it\r\n        FlexibleEvent flexibleEvent = new FlexibleEvent(\r\n                LocalDateTime.of(2024, 11, 9, 0, 0),\r\n                LocalDateTime.of(2024, 11, 10, 23, 59),\r\n                \"Stats Studying\", 2, 4.0f); // Needs 4 hours\r\n        schedule.addEvent(flexibleEvent);\r\n\r\n        // Run scheduling algorithm (method to be implemented in Schedule class)\r\n        schedule.scheduleEvents();\r\n\r\n        // Verify that the flexible event does not overlap with the fixed event\r\n        List<FlexibleEvent> flexibleEvents = schedule.getEventsByType(FlexibleEvent.class);\r\n        assertFalse(isOverlapping(flexibleEvents.get(0), fixedEvent));\r\n    }\r\n\r\n    @Test\r\n    public void testFlexibleEventSchedulingWithMultipleFixedEvents() {\r\n        // Add multiple fixed events\r\n        FixedEvent fixedEvent1 = new FixedEvent(\r\n                LocalDateTime.of(2024, 11, 9, 8, 0),\r\n                LocalDateTime.of(2024, 11, 9, 10, 0),\r\n                \"Morning Meeting\", 1);\r\n        FixedEvent fixedEvent2 = new FixedEvent(\r\n                LocalDateTime.of(2024, 11, 9, 15, 0),\r\n                LocalDateTime.of(2024, 11, 9, 17, 0),\r\n                \"Afternoon Workshop\", 1);\r\n\r\n        schedule.addEvent(fixedEvent1);\r\n        schedule.addEvent(fixedEvent2);\r\n\r\n        // Add a flexible event that should avoid these fixed times\r\n        FlexibleEvent flexibleEvent = new FlexibleEvent(\r\n                LocalDateTime.of(2024, 11, 9, 0, 0),\r\n                LocalDateTime.of(2024, 11, 9, 23, 59),\r\n                \"Flexible Study Time\", 2, 5.0f);\r\n        schedule.addEvent(flexibleEvent);\r\n\r\n        schedule.scheduleEvents();\r\n\r\n        // Verify that flexible event times do not overlap with any fixed events\r\n        List<FlexibleEvent> flexibleEvents = schedule.getEventsByType(FlexibleEvent.class);\r\n        assertTrue(flexibleEvents.stream().noneMatch(flexEvent ->\r\n                isOverlapping(flexEvent, fixedEvent1) || isOverlapping(flexEvent, fixedEvent2)));\r\n    }\r\n\r\n    @Test\r\n    public void testPriorityBasedScheduling() {\r\n        // Add a high-priority flexible event\r\n        FlexibleEvent highPriorityEvent = new FlexibleEvent(\r\n                LocalDateTime.of(2024, 11, 10, 0, 0),\r\n                LocalDateTime.of(2024, 11, 10, 23, 59),\r\n                \"High Priority Study\", 1, 6.0f); // Needs 6 hours\r\n\r\n        // Add a low-priority flexible event\r\n        FlexibleEvent lowPriorityEvent = new FlexibleEvent(\r\n                LocalDateTime.of(2024, 11, 10, 0, 0),\r\n                LocalDateTime.of(2024, 11, 10, 23, 59),\r\n                \"Low Priority Reading\", 3, 6.0f); // Needs 6 hours\r\n\r\n        schedule.addEvent(highPriorityEvent);\r\n        schedule.addEvent(lowPriorityEvent);\r\n\r\n        schedule.scheduleEvents();\r\n\r\n        // Verify that high-priority event is scheduled first\r\n        List<FlexibleEvent> flexibleEvents = schedule.getEventsByType(FlexibleEvent.class);\r\n        assertEquals(\"High Priority Study\", flexibleEvents.get(0).getEventName());\r\n        assertEquals(\"Low Priority Reading\", flexibleEvents.get(1).getEventName());\r\n    }\r\n\r\n    // Helper method to check if two events overlap\r\n    private boolean isOverlapping(Event event1, Event event2) {\r\n        return !(event1.getDayEnd().isBefore(event2.getDayStart()) ||\r\n                event2.getDayEnd().isBefore(event1.getDayStart()));\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/usecase/flexible/DynamicSchedulingTest.java b/src/test/java/usecase/flexible/DynamicSchedulingTest.java
+--- a/src/test/java/usecase/flexible/DynamicSchedulingTest.java	(revision 5f1b39eb9c4088bb55bb848003dfe510809a0f70)
++++ b/src/test/java/usecase/flexible/DynamicSchedulingTest.java	(date 1733002992761)
+@@ -1,108 +1,108 @@
+-package usecase.flexible;
+-
+-import entities.EventEntity.Event;
+-import entities.EventEntity.FlexibleEvent;
+-import entities.EventEntity.FixedEvent;
+-import org.junit.Before;
+-import org.junit.Test;
+-import entities.ScheduleEntity.Schedule;
+-
+-import java.time.LocalDateTime;
+-import java.util.List;
+-
+-import static org.junit.Assert.*;
+-
+-public class DynamicSchedulingTest {
+-
+-    private Schedule schedule;
+-
+-    @Before
+-    public void setUp() {
+-        schedule = new Schedule();
+-    }
+-
+-    @Test
+-    public void testBasicFlexibleEventScheduling() {
+-        // Add a fixed event to block out time
+-        Event fixedEvent = new FixedEvent(
+-                LocalDateTime.of(2024, 11, 9, 18, 0),
+-                LocalDateTime.of(2024, 11, 9, 20, 0),
+-                "MAT237 Midterm", 1);
+-        schedule.addEvent(fixedEvent);
+-
+-        // Add a flexible event that should be scheduled around it
+-        FlexibleEvent flexibleEvent = new FlexibleEvent(
+-                LocalDateTime.of(2024, 11, 9, 0, 0),
+-                LocalDateTime.of(2024, 11, 10, 23, 59),
+-                "Stats Studying", 2, 4.0f); // Needs 4 hours
+-        schedule.addEvent(flexibleEvent);
+-
+-        // Run scheduling algorithm (method to be implemented in Schedule class)
+-        schedule.scheduleEvents();
+-
+-        // Verify that the flexible event does not overlap with the fixed event
+-        List<FlexibleEvent> flexibleEvents = schedule.getEventsByType(FlexibleEvent.class);
+-        assertFalse(isOverlapping(flexibleEvents.get(0), fixedEvent));
+-    }
+-
+-    @Test
+-    public void testFlexibleEventSchedulingWithMultipleFixedEvents() {
+-        // Add multiple fixed events
+-        FixedEvent fixedEvent1 = new FixedEvent(
+-                LocalDateTime.of(2024, 11, 9, 8, 0),
+-                LocalDateTime.of(2024, 11, 9, 10, 0),
+-                "Morning Meeting", 1);
+-        FixedEvent fixedEvent2 = new FixedEvent(
+-                LocalDateTime.of(2024, 11, 9, 15, 0),
+-                LocalDateTime.of(2024, 11, 9, 17, 0),
+-                "Afternoon Workshop", 1);
+-
+-        schedule.addEvent(fixedEvent1);
+-        schedule.addEvent(fixedEvent2);
+-
+-        // Add a flexible event that should avoid these fixed times
+-        FlexibleEvent flexibleEvent = new FlexibleEvent(
+-                LocalDateTime.of(2024, 11, 9, 0, 0),
+-                LocalDateTime.of(2024, 11, 9, 23, 59),
+-                "Flexible Study Time", 2, 5.0f);
+-        schedule.addEvent(flexibleEvent);
+-
+-        schedule.scheduleEvents();
+-
+-        // Verify that flexible event times do not overlap with any fixed events
+-        List<FlexibleEvent> flexibleEvents = schedule.getEventsByType(FlexibleEvent.class);
+-        assertTrue(flexibleEvents.stream().noneMatch(flexEvent ->
+-                isOverlapping(flexEvent, fixedEvent1) || isOverlapping(flexEvent, fixedEvent2)));
+-    }
+-
+-    @Test
+-    public void testPriorityBasedScheduling() {
+-        // Add a high-priority flexible event
+-        FlexibleEvent highPriorityEvent = new FlexibleEvent(
+-                LocalDateTime.of(2024, 11, 10, 0, 0),
+-                LocalDateTime.of(2024, 11, 10, 23, 59),
+-                "High Priority Study", 1, 6.0f); // Needs 6 hours
+-
+-        // Add a low-priority flexible event
+-        FlexibleEvent lowPriorityEvent = new FlexibleEvent(
+-                LocalDateTime.of(2024, 11, 10, 0, 0),
+-                LocalDateTime.of(2024, 11, 10, 23, 59),
+-                "Low Priority Reading", 3, 6.0f); // Needs 6 hours
+-
+-        schedule.addEvent(highPriorityEvent);
+-        schedule.addEvent(lowPriorityEvent);
+-
+-        schedule.scheduleEvents();
+-
+-        // Verify that high-priority event is scheduled first
+-        List<FlexibleEvent> flexibleEvents = schedule.getEventsByType(FlexibleEvent.class);
+-        assertEquals("High Priority Study", flexibleEvents.get(0).getEventName());
+-        assertEquals("Low Priority Reading", flexibleEvents.get(1).getEventName());
+-    }
+-
+-    // Helper method to check if two events overlap
+-    private boolean isOverlapping(Event event1, Event event2) {
+-        return !(event1.getDayEnd().isBefore(event2.getDayStart()) ||
+-                event2.getDayEnd().isBefore(event1.getDayStart()));
+-    }
+-}
++//package usecase.flexible;
++//
++//import entities.EventEntity.Event;
++//import entities.EventEntity.FlexibleEvent;
++//import entities.EventEntity.FixedEvent;
++//import org.junit.Before;
++//import org.junit.Test;
++//import data_access.Schedule;
++//
++//import java.time.LocalDateTime;
++//import java.util.List;
++//
++//import static org.junit.Assert.*;
++//
++//public class DynamicSchedulingTest {
++//
++//    private Schedule schedule;
++//
++//    @Before
++//    public void setUp() {
++//        schedule = new Schedule();
++//    }
++//
++//    @Test
++//    public void testBasicFlexibleEventScheduling() {
++//        // Add a fixed event to block out time
++//        Event fixedEvent = new FixedEvent(
++//                LocalDateTime.of(2024, 11, 9, 18, 0),
++//                LocalDateTime.of(2024, 11, 9, 20, 0),
++//                "MAT237 Midterm", 1);
++//        schedule.addEvent(fixedEvent);
++//
++//        // Add a flexible event that should be scheduled around it
++//        FlexibleEvent flexibleEvent = new FlexibleEvent(
++//                LocalDateTime.of(2024, 11, 9, 0, 0),
++//                LocalDateTime.of(2024, 11, 10, 23, 59),
++//                "Stats Studying", 2, 4.0f); // Needs 4 hours
++//        schedule.addEvent(flexibleEvent);
++//
++//        // Run scheduling algorithm (method to be implemented in Schedule class)
++//        schedule.scheduleEvents();
++//
++//        // Verify that the flexible event does not overlap with the fixed event
++//        List<FlexibleEvent> flexibleEvents = schedule.getEventsByType(FlexibleEvent.class);
++//        assertFalse(isOverlapping(flexibleEvents.get(0), fixedEvent));
++//    }
++//
++//    @Test
++//    public void testFlexibleEventSchedulingWithMultipleFixedEvents() {
++//        // Add multiple fixed events
++//        FixedEvent fixedEvent1 = new FixedEvent(
++//                LocalDateTime.of(2024, 11, 9, 8, 0),
++//                LocalDateTime.of(2024, 11, 9, 10, 0),
++//                "Morning Meeting", 1);
++//        FixedEvent fixedEvent2 = new FixedEvent(
++//                LocalDateTime.of(2024, 11, 9, 15, 0),
++//                LocalDateTime.of(2024, 11, 9, 17, 0),
++//                "Afternoon Workshop", 1);
++//
++//        schedule.addEvent(fixedEvent1);
++//        schedule.addEvent(fixedEvent2);
++//
++//        // Add a flexible event that should avoid these fixed times
++//        FlexibleEvent flexibleEvent = new FlexibleEvent(
++//                LocalDateTime.of(2024, 11, 9, 0, 0),
++//                LocalDateTime.of(2024, 11, 9, 23, 59),
++//                "Flexible Study Time", 2, 5.0f);
++//        schedule.addEvent(flexibleEvent);
++//
++//        schedule.scheduleEvents();
++//
++//        // Verify that flexible event times do not overlap with any fixed events
++//        List<FlexibleEvent> flexibleEvents = schedule.getEventsByType(FlexibleEvent.class);
++//        assertTrue(flexibleEvents.stream().noneMatch(flexEvent ->
++//                isOverlapping(flexEvent, fixedEvent1) || isOverlapping(flexEvent, fixedEvent2)));
++//    }
++//
++//    @Test
++//    public void testPriorityBasedScheduling() {
++//        // Add a high-priority flexible event
++//        FlexibleEvent highPriorityEvent = new FlexibleEvent(
++//                LocalDateTime.of(2024, 11, 10, 0, 0),
++//                LocalDateTime.of(2024, 11, 10, 23, 59),
++//                "High Priority Study", 1, 6.0f); // Needs 6 hours
++//
++//        // Add a low-priority flexible event
++//        FlexibleEvent lowPriorityEvent = new FlexibleEvent(
++//                LocalDateTime.of(2024, 11, 10, 0, 0),
++//                LocalDateTime.of(2024, 11, 10, 23, 59),
++//                "Low Priority Reading", 3, 6.0f); // Needs 6 hours
++//
++//        schedule.addEvent(highPriorityEvent);
++//        schedule.addEvent(lowPriorityEvent);
++//
++//        schedule.scheduleEvents();
++//
++//        // Verify that high-priority event is scheduled first
++//        List<FlexibleEvent> flexibleEvents = schedule.getEventsByType(FlexibleEvent.class);
++//        assertEquals("High Priority Study", flexibleEvents.get(0).getEventName());
++//        assertEquals("Low Priority Reading", flexibleEvents.get(1).getEventName());
++//    }
++//
++//    // Helper method to check if two events overlap
++//    private boolean isOverlapping(Event event1, Event event2) {
++//        return !(event1.getDayEnd().isBefore(event2.getDayStart()) ||
++//                event2.getDayEnd().isBefore(event1.getDayStart()));
++//    }
++//}
+Index: src/main/java/data/EventStorage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package data;\r\n\r\nimport entities.ScheduleEntity.Schedule;\r\nimport java.io.IOException;\r\nimport java.time.format.DateTimeFormatter;\r\nimport java.io.File;\r\nimport com.fasterxml.jackson.databind.ObjectMapper;\r\n\r\npublic class EventStorage {\r\n\r\n    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(\"yyyy-MM-dd HH:mm\");\r\n\r\n    /**\r\n     * Method to save schedule to events.json. Will override the previous events.json\r\n     * @param schedule schedule\r\n     * @return saved schedule\r\n     */\r\n    public void saveSchedule(Schedule schedule) {\r\n        ObjectMapper objectMapper = new ObjectMapper();\r\n\r\n        try {\r\n            File file = new File(\"schedule.json\");\r\n\r\n            objectMapper.writeValue(file, schedule);\r\n\r\n        } catch (IOException e) {\r\n            e.printStackTrace();\r\n        }\r\n    }\r\n\r\n    /**\r\n     * Method to retrieve saved json schedule. If there is no events.json file, returns an empty schedule class.\r\n     * @return saved schedule\r\n     */\r\n    public Schedule getSchedule () {\r\n        File file = new File(\"schedule.json\");\r\n        if (!file.exists()) {\r\n            return new Schedule();\r\n        }\r\n\r\n        ObjectMapper objectMapper = new ObjectMapper();\r\n\r\n        try {\r\n\r\n            return objectMapper.readValue(file, Schedule.class);\r\n\r\n        } catch (IOException e) {\r\n            e.printStackTrace();\r\n        }\r\n        return new Schedule();\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/data/EventStorage.java b/src/main/java/data/EventStorage.java
+--- a/src/main/java/data/EventStorage.java	(revision 5f1b39eb9c4088bb55bb848003dfe510809a0f70)
++++ b/src/main/java/data/EventStorage.java	(date 1733002992671)
+@@ -1,6 +1,6 @@
+ package data;
+ 
+-import entities.ScheduleEntity.Schedule;
++import data_access.Schedule;
+ import java.io.IOException;
+ import java.time.format.DateTimeFormatter;
+ import java.io.File;
+Index: src/main/java/view/ScheduleView.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package view;\r\n\r\nimport entities.ScheduleEntity.Schedule;\r\n\r\nimport javax.swing.*;\r\nimport java.awt.*;\r\nimport java.awt.event.ActionEvent;\r\nimport java.awt.event.ActionListener;\r\nimport java.beans.PropertyChangeEvent;\r\nimport java.beans.PropertyChangeListener;\r\nimport java.time.LocalDateTime;\r\nimport java.util.ArrayList;\r\nimport java.util.Arrays;\r\nimport java.util.List;\r\n\r\n/**\r\n * A ScheudleView class to visually display our schedule.\r\n */\r\npublic class ScheduleView extends JPanel implements ActionListener, PropertyChangeListener {\r\n\r\n    private Schedule schedule;\r\n    private boolean visible;\r\n    private JFrame mainFrame;\r\n\r\n    /**\r\n     * Constructor for the ScheuldeView class.\r\n     */\r\n    public ScheduleView() {\r\n        schedule = new Schedule();\r\n        mainFrame = new JFrame(\"Schedule Viewer\");\r\n    }\r\n\r\n    public static void main(String[] args) {\r\n        ScheduleView scheduleView = new ScheduleView();\r\n        scheduleView.setVisible();\r\n        scheduleView.displaySchedule();\r\n    }\r\n\r\n    /**\r\n     * Display our schedule.\r\n     */\r\n    public void displaySchedule() {\r\n\r\n        JPanel main = new JPanel();\r\n        main.setLayout(new GridBagLayout());\r\n\r\n        //Constraints parameter for our grid\r\n        GridBagConstraints c = new GridBagConstraints();\r\n\r\n        //Create the panel of time labels\r\n        createTimesPanel(main, c);\r\n\r\n        //Create the panel of weekday labels\r\n        createWeekdaysPanel(main, c);\r\n\r\n        //Create the panel of events\r\n        createEventButton(main, c);\r\n\r\n        //Tests to create an event\r\n        createEventButton(main, c, \"Homework\", \"Tuesday\", 9, 13);\r\n        createEventButton(main, c, \"Midterm\", \"Wednesday\", 14, 17);\r\n\r\n        mainFrame.setContentPane(main);\r\n        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\r\n        mainFrame.setSize(560, 500);\r\n        mainFrame.setVisible(visible);\r\n    }\r\n\r\n    /**\r\n     * Make shceudle visible\r\n     */\r\n    public void setVisible() {\r\n        visible = true;\r\n    }\r\n\r\n    /**\r\n     * Make schedule invisible\r\n     */\r\n    public void setInvisible() {\r\n        visible = false;\r\n    }\r\n\r\n    /**\r\n     * Create a panel of times ont he left side\r\n     * @param panel The main panel we want to add to\r\n     * @param c Constraints for our grid\r\n     */\r\n    private static void createTimesPanel(JPanel panel, GridBagConstraints c) {\r\n\r\n        List<JButton> result = new ArrayList<>();\r\n\r\n        for (int i = 0; i < 24; i++) {\r\n            JButton label = new JButton(Integer.toString(i) + \":00\");\r\n            result.add(label);\r\n        }\r\n\r\n        c.fill = GridBagConstraints.BOTH;\r\n        c.gridx = 0;\r\n        c.gridy = 0;\r\n        c.gridwidth = 1;\r\n        c.gridheight = 2;\r\n        JLabel timeLabel = new JLabel(\"Time\");\r\n        panel.add(timeLabel, c);\r\n        for (int i = 0; i < 24; i++) {\r\n            c.fill = GridBagConstraints.BOTH;\r\n            c.gridx = 0;\r\n            c.gridy = 2 * (i + 1);\r\n            c.gridwidth = 1;\r\n            c.gridheight = 2;\r\n            panel.add(result.get(i), c);\r\n        }\r\n\r\n    }\r\n\r\n    /**\r\n     * Create a panel of weekdays ont he left side\r\n     * @param panel The main panel we want to add to\r\n     * @param c Constraints for our grid\r\n     */\r\n    private static void createWeekdaysPanel(JPanel panel, GridBagConstraints c) {\r\n\r\n        List<String> weekdays =\r\n                Arrays.asList(new String[]{\"Sun\", \"Mon\", \"Tue\", \"Wed\", \"Thur\", \"Fri\", \"Sat\", \"Sun\"});\r\n        List<JButton> result = new ArrayList<>();\r\n\r\n        for (int i = 0; i < weekdays.size(); i++) {\r\n            JButton weekdayLabel = new JButton(weekdays.get(i));\r\n            result.add(weekdayLabel);\r\n        }\r\n\r\n        for (int i = 0; i < 7; i++) {\r\n            c.fill = GridBagConstraints.BOTH;\r\n            c.gridx = 3 * i + 1;\r\n            c.gridy = 0;\r\n            c.gridwidth = 3;\r\n            panel.add(result.get(i), c);\r\n        }\r\n    }\r\n\r\n    private static void createEventButton(JPanel panel, GridBagConstraints c) {\r\n        c.fill = GridBagConstraints.BOTH;\r\n        c.gridx = 22;\r\n        c.gridy = 10;\r\n        c.gridwidth = 1;\r\n        c.gridheight = 2;\r\n        JButton result = new JButton(\"Add Event\");\r\n        panel.add(result, c);\r\n    }\r\n\r\n    /**\r\n     * Create an event button\r\n     * @param panel The main panel we want to add to\r\n     * @param c Constraints for our grid\r\n     * @param name Name of event\r\n     * @param weekday Weekday\r\n     * @param start Start time\r\n     * @param end End time\r\n     */\r\n    // TODO: This method assumes event happens on same day, update so it can do an event over multiple dayss\r\n    // TODO: Update this class to use event class. Had trouble importing classes so this was not possible\r\n    private static void createEventButton(JPanel panel, GridBagConstraints c,\r\n                                          String name, String weekday, int start, int end) {\r\n        int weekdayNum = 0;\r\n        if (weekday.equals(\"Sunday\")){\r\n            weekdayNum = 1;\r\n        }\r\n        if (weekday.equals(\"Monday\")){\r\n            weekdayNum = 4;\r\n        }\r\n        if (weekday.equals(\"Tuesday\")){\r\n            weekdayNum = 7;\r\n        }\r\n        if (weekday.equals(\"Wednesday\")){\r\n            weekdayNum = 10;\r\n        }\r\n        if (weekday.equals(\"Thursday\")){\r\n            weekdayNum = 13;\r\n        }\r\n        if (weekday.equals(\"Friday\")){\r\n            weekdayNum = 16;\r\n        }\r\n        if (weekday.equals(\"Saturday\")){\r\n            weekdayNum = 19;\r\n        }\r\n\r\n        c.fill = GridBagConstraints.BOTH;\r\n        c.gridx = weekdayNum;\r\n        c.gridy = start * 2 + 2;\r\n        c.gridwidth = 3;\r\n        c.gridheight = (end - start) * 2 + 2;\r\n        JButton result = new JButton(name);\r\n        panel.add(result, c);\r\n    }\r\n\r\n    @Override\r\n    public void actionPerformed(ActionEvent evt) {\r\n    }\r\n\r\n    @Override\r\n    public void propertyChange(PropertyChangeEvent evt) {\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/view/ScheduleView.java b/src/main/java/view/ScheduleView.java
+--- a/src/main/java/view/ScheduleView.java	(revision 5f1b39eb9c4088bb55bb848003dfe510809a0f70)
++++ b/src/main/java/view/ScheduleView.java	(date 1733002992695)
+@@ -1,6 +1,6 @@
+ package view;
+ 
+-import entities.ScheduleEntity.Schedule;
++import data_access.Schedule;
+ 
+ import javax.swing.*;
+ import java.awt.*;
+@@ -8,7 +8,6 @@
+ import java.awt.event.ActionListener;
+ import java.beans.PropertyChangeEvent;
+ import java.beans.PropertyChangeListener;
+-import java.time.LocalDateTime;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+ import java.util.List;
+Index: src/main/java/adapter/CohereParser.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package adapter;\r\n    \r\nimport org.json.JSONObject;\r\nimport entities.ScheduleEntity.Schedule;\r\n\r\n/**\r\n * Parses responses from Cohere to create Schedule objects.\r\n */\r\npublic class CohereParser {\r\n\r\n    public Schedule parseCohereResponse(JSONObject response) {\r\n        Schedule schedule = new Schedule();\r\n        // Parsing logic to extract events and time slots from Cohere response\r\n        // Add parsed events to the schedule\r\n        return schedule;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/adapter/CohereParser.java b/src/main/java/adapter/CohereParser.java
+--- a/src/main/java/adapter/CohereParser.java	(revision 5f1b39eb9c4088bb55bb848003dfe510809a0f70)
++++ b/src/main/java/adapter/CohereParser.java	(date 1733002992745)
+@@ -1,7 +1,7 @@
+ package adapter;
+     
+ import org.json.JSONObject;
+-import entities.ScheduleEntity.Schedule;
++import data_access.Schedule;
+ 
+ /**
+  * Parses responses from Cohere to create Schedule objects.

@@ -3,8 +3,8 @@ package usecase.eventInformation;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import entities.EventEntity.Event;
-import entities.EventEntity.RepeatEvent;
+import entities.eventEntity.Event;
+import entities.eventEntity.RepeatEvent;
 
 /**
  * The Event Information Interactor.
