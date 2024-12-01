@@ -1,6 +1,8 @@
 package usecase.chatbot_time_estimation;
-import adapter.CohereClient;
+
 import java.util.Optional;
+
+import adapter.CohereClient;
 
 /**
  * The Chatbot Time Estimation Interactor.
@@ -16,27 +18,29 @@ public class TimeEstimationInteractor implements TimeEstimationInputBoundary {
 
     @Override
     public void execute(ChatbotInputData chatbotInputData) {
-        String query = chatbotInputData.getQuery();
+        final String query = chatbotInputData.getQuery();
 
-        Optional<String> timeEstimation = client.timeAllocationWithCohere(query);
+        final Optional<String> timeEstimation = client.timeAllocationWithCohere(query);
 
         if (timeEstimation.isPresent()) {
-            if (timeEstimation.get().charAt(0) == 'e') {
+            if (timeEstimation.get().charAt(0) != 'e') {
+                final String finalTimeEstimation = timeEstimation.get();
+
+                final ChatbotOutputData output = new ChatbotOutputData(finalTimeEstimation);
+
+                outputBoundary.prepareSuccessView(output);
+            }
+            else {
                 // Error from COHERE:
                 outputBoundary.prepareFailView("No time estimation found");
                 System.out.println("Error: No time estimation found");
-                return;
             }
-            String finalTimeEstimation = timeEstimation.get();
 
-            ChatbotOutputData output = new ChatbotOutputData(finalTimeEstimation);
-
-            outputBoundary.prepareSuccessView(output);
-        } else {
+        }
+        else {
             outputBoundary.prepareFailView("Error occured during API call");
             System.out.println("Error occured during API call");
         }
-
 
     }
 

@@ -1,8 +1,7 @@
-package entities.EventEntity;
+package entities.eventEntity;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.List;
 
 /**
  * Interface representing an Event with a name, start and end time, and priority label.

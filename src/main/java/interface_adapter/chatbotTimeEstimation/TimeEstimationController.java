@@ -16,7 +16,7 @@ public class TimeEstimationController {
 
     /**
      * Executes the Chatbot Time Estimation Use Case.
-     * @param query: A string query from user
+     * @param query A string query from user
      */
     public void execute(String query) {
         System.out.println("EventConflictController.execute(" + query + ")");
@@ -28,7 +28,7 @@ public class TimeEstimationController {
     /**
      * Returns the back to main schedule view.
      */
-    public void backToMainView(){
+    public void backToMainView() {
         timeEstimationInteractor.backToMainView();
     }
 }

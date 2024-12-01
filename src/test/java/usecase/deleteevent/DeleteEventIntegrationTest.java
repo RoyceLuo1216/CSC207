@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import interface_adapter.delete.DeleteEventController;
 import interface_adapter.delete.DeleteEventPresenter;
 import interface_adapter.delete.DeleteEventViewModel;
-import entities.EventEntity.FixedEvent;
+import entities.eventEntity.FixedEvent;
 import usecase.delete.DeleteEventOutputData;
 import view.DeleteEventView;
 

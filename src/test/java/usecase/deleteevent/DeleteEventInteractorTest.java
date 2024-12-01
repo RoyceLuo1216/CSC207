@@ -2,8 +2,8 @@ package usecase.deleteevent;
 
 import org.junit.jupiter.api.Test;
 import usecase.delete.*;
-import entities.EventEntity.Event;
-import entities.EventEntity.FixedEvent;
+import entities.eventEntity.Event;
+import entities.eventEntity.FixedEvent;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
