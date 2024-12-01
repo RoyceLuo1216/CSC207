@@ -64,8 +64,8 @@ permanent delete (he quits forever), or a one time delete.
 ### 6. [Time Estimation - Chris’s Story]
 George is a single father of two who works from 9-5, needs to send the kids to soccer practice, buy groceries, and come 
 home to make dinner. Today, George also has a date at 9pm, and is wondering how long his tasks would take him. George 
-can use the time allocation feature of the auto scheduler to find out. By inputting his tasks: a) work from 9 to 5 
-b) send kids to soccer practice, c) buy groceries, and d) make dinner. The chat bot will estimate how much time each 
+can use the time estimation feature of the chatbot to find out. By inputting his tasks: a) work from 9 to 5 
+b) send kids to soccer practice, c) buy groceries, and d) make dinner. The chatbot will estimate how much time each 
 task would take using a Cohere API call.
 
 ## Features
