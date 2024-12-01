@@ -1,6 +1,6 @@
-# CSC207 Final Project - AutoScheduler
+# CSC207 Final Project - Weekly Planner
 
-AutoScheduler enables users to create and manage weekly schedules by automatically allocating time to tasks based on 
+Weekly Planner enables users to create and manage weekly schedules by automatically allocating time to tasks based on 
 priority, deadlines, and estimated completion time. Users can input both flexible tasks, which are scheduled around 
 other events, and fixed tasks, which must occur at specific times. The program helps users adjust their schedules 
 dynamically, allowing for reprioritization and rescheduling as new tasks or changes arise. For instance, users can 
@@ -35,12 +35,7 @@ scheduled study block. Alex decides to move their study block to 4-7 PM of the n
 The scheduler outputs a new inMemoryDataAccessObject according to Alex's changes.
 
 ### 4. [Delete Event - Royce’s Story]
-On Sunday, Skye used the auto-scheduler to create a studying inMemoryDataAccessObject to prepare for her Math and English tests on 
-Friday. She was scheduled to study Math for 1 hour and English for 1 hour every day until Friday. On Wednesday, her 
-Math teacher announces that the Math test is canceled. Skye now has the option to either delete her remaining Math 
-study tasks or to adjust the priority level and time needed for her remaining Math study tasks. Skye chooses to not 
-study for Math anymore. The scheduler outputs a new inMemoryDataAccessObject for the rest of the week (Wednesday to Sunday) where Skye 
-now only studies English for an hour on Wednesday, Thursday, Friday.
+Tom is a busy individual who likes to keep his schedule organized using his calendar app. Recently, Tom scheduled a badminton practice event for Monday from 7:00 PM to 8:00 PM. However, due to unexpected circumstances, he can no longer attend the practice session. Tom needs to delete this event from his calendar to keep his schedule accurate and clutter-free. To do this he can use our delete event feature to delete the event from his planner using a series of button clicks from the schedule view. 
 
 ### 5. [Repeat Event - Ryan’s Story]
 Edward has orchestra practice every Tuesday from 8-10. He wants to add this as a repeating event so he doesn't have to 

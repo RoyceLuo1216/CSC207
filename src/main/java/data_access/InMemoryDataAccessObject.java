@@ -1,12 +1,5 @@
 package data_access;
 
-import entities.EventEntity.Event;
-import entities.EventEntity.RepeatEvent;
-import usecase.add.EventDataAccessInterface;
-import usecase.delete.DeleteEventDataAccessInterface;
-import usecase.edit.EditDataAccessInterface;
-
-import java.lang.reflect.Array;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -14,13 +7,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import entities.EventEntity.Event;
+import usecase.delete.DeleteEventDataAccessInterface;
+import usecase.edit.EditDataAccessInterface;
+
 /**
  * Class representing a ScheduleUseCase with a list of events. This class handles the
  * creation, deletion, and retrieval of events, and also provides a framework
  * for scheduling flexible events around fixed ones.
  */
 public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
-                                                        EditDataAccessInterface, EventDataAccessInterface {
+                                                        EditDataAccessInterface {
     private final List<Event> events;
 
     /**
@@ -34,16 +31,9 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
      * Adding an event to our schedule using Event Factory.
      *
      * @param event event object to be added.
-     * @return returns true if event is sucessfully added.
      */
-    @Override
-    public boolean addEvent(Event event) {
-        return events.add(event);
-    }
-
-    @Override
-    public boolean eventExists(String eventName) {
-        return events.stream().anyMatch(e -> e.getEventName().equals(eventName));
+    public void addEvent(Event event) {
+        events.add(event);
     }
 
     /**
