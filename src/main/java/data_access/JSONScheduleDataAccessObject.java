@@ -1,7 +1,6 @@
 package data_access;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import entities.ScheduleEntity.Schedule;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +21,7 @@ public class JSONScheduleDataAccessObject {
      * @param schedule schedule
      * @return saved schedule
      */
-    public void saveSchedule(Schedule schedule) {
+    public void saveSchedule(InMemoryDataAccessObject schedule) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
@@ -40,24 +39,24 @@ public class JSONScheduleDataAccessObject {
      * Method to retrieve saved json schedule. If there is no events.json file, returns an empty schedule class.
      * @return saved schedule
      */
-    public Schedule getSchedule () {
+    public InMemoryDataAccessObject getSchedule () {
         File file = new File(SCHEDULE_FILE_PATH);
         if (!file.exists()) {
             System.out.println("No saved schedule found, returning empty schedule.");
             return new Schedule();
         }
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper final objectMapper = new ObjectMapper();
 
         try {
 
-            return objectMapper.readValue(file, Schedule.class);
+            return objectMapper.readValue(file, InMemoryDataAccessObject.class);
 
         } catch (IOException e) {
             System.err.println("Error reading from file " + SCHEDULE_FILE_PATH + ": " + e.getMessage());
             e.printStackTrace();
         }
-        return new Schedule();
+        return new InMemoryDataAccessObject();
     }
 
 }
