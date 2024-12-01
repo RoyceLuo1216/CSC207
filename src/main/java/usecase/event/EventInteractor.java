@@ -20,7 +20,7 @@ public class EventInteractor implements EventInputBoundary {
         Optional<Event> optionalEvent = userSchedule.getEventByName(eventName);
 
         if (optionalEvent.isPresent()) {
-            // event is not present, tell user that the event does not exist
+            // event already exists, cannot add
             presenter.prepareFailView("Event already exists");
 
         } else {
@@ -28,6 +28,7 @@ public class EventInteractor implements EventInputBoundary {
                     eventInputData.getDayEnd(), eventInputData.getTimeStart(), eventInputData.getTimeEnd()));
 
             if (!addEvent) {
+                // event fails for some reason, like duplicate event or incompatible times
                 presenter.prepareFailView("Event can't be added");
             }
 

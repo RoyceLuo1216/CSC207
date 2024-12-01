@@ -23,7 +23,7 @@ public class RepeatInteractor implements RepeatInputBoundary {
         String eventName = repeatInputData.getEventName();
 
         if (numberDays.isEmpty()) {
-            // event is not present, tell user that the event does not exist
+            // user entered no repeat days
             presenter.prepareFailView("Please enter more than 0 repeat days");
 
         } else {
@@ -32,6 +32,7 @@ public class RepeatInteractor implements RepeatInputBoundary {
                     repeatInputData.getDaysRepeated());
 
             if (!repeatAdd) {
+                // Some issue such as duplicate event or incompatible times (end time before start time)
                 presenter.prepareFailView("Unable to add repeat event");
             }
 

@@ -65,19 +65,19 @@ public class EditDeleteView extends JPanel {
         JButton backButton = new JButton("Back");
 
         // Save Button Action
-        saveButton.addActionListener(e -> {
-            boolean success = viewModel.updateEvent(
-                    nameField.getText(),
-                    startTimeField.getText(),
-                    endTimeField.getText()
-            );
-            if (success) {
-                JOptionPane.showMessageDialog(this, "Event updated successfully!");
-                refreshScheduleCallback.run(); // Refresh the schedule view
-            } else {
-                JOptionPane.showMessageDialog(this, "Failed to update event. Check input format.");
-            }
-        });
+//        saveButton.addActionListener(e -> {
+//            boolean success = viewModel.updateEvent(
+//                    nameField.getText(),
+//                    startTimeField.getText(),
+//                    endTimeField.getText()
+//            );
+//            if (success) {
+//                JOptionPane.showMessageDialog(this, "Event updated successfully!");
+//                refreshScheduleCallback.run(); // Refresh the schedule view
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Failed to update event. Check input format.");
+//            }
+//        });
 
         // Delete Button Action
         deleteButton.addActionListener(e -> {

@@ -153,21 +153,21 @@ public class Schedule {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Method to find an event by a specific time.
-     *
-     * @param time the date/time to search for an event
-     * @return an Optional containing the event at that time, or an empty Optional
-     */
-    public Optional<Event> getEventByTime(LocalDateTime time) {
-        for (Event event : events) {
-            LocalDateTime startDate = event.getDayStart();
-            LocalDateTime endDate = event.getDayEnd();
-
-            if (!startDate.isAfter(time) && !endDate.isBefore(time)) {
-                return Optional.of(event);
-            }
-        }
-        return Optional.empty();
-    }
+//    /**
+//     * Method to find an event by a specific time.
+//     *
+//     * @param time the date/time to search for an event
+//     * @return an Optional containing the event at that time, or an empty Optional
+//     */
+//    public Optional<Event> getEventByTime(LocalDateTime time) {
+//        for (Event event : events) {
+//            LocalDateTime startDate = event.getDayStart();
+//            LocalDateTime endDate = event.getDayEnd();
+//
+//            if (!startDate.isAfter(time) && !endDate.isBefore(time)) {
+//                return Optional.of(event);
+//            }
+//        }
+//        return Optional.empty();
+//    }
 }

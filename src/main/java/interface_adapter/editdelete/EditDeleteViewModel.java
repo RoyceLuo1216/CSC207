@@ -18,11 +18,11 @@ public class EditDeleteViewModel {
         return presenter.presentEvent(controller.getCurrentEvent());
     }
 
-    public boolean updateEvent(String name, String startTime, String endTime) {
-        LocalDateTime start = LocalDateTime.parse(startTime);
-        LocalDateTime end = LocalDateTime.parse(endTime);
-        return controller.updateEvent(name, start, end);
-    }
+//    public boolean updateEvent(String name, String startTime, String endTime) {
+//        LocalDateTime start = LocalDateTime.parse(startTime);
+//        LocalDateTime end = LocalDateTime.parse(endTime);
+//        return controller.updateEvent(name, start, end);
+//    }
 
     public boolean deleteEvent() {
         return controller.deleteEvent();

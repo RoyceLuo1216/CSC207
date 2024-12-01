@@ -39,6 +39,8 @@ public class RepeatController {
         LocalTime timeEnd = LocalTime.parse(timeEndString, timeFormatter);
 
         List<DayOfWeek> daysRepeatedInput = new ArrayList<DayOfWeek>();
+
+        // For loop to add list of strings of day of weeks to DayOfWeek list
         for (String day : daysRepeated) {
             DayOfWeek dayOfWeek = DayOfWeek.valueOf(day.toUpperCase());
             daysRepeatedInput.add(dayOfWeek);

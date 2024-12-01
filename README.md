@@ -48,9 +48,9 @@ study for Math anymore. The scheduler outputs a new schedule for the rest of the
 now only studies English for an hour on Wednesday, Thursday, Friday.
 
 ### 5. [Repeat Event - Ryan’s Story]
-Edward has orchestra practice every Tuesday from 8-10. He wants to add this as a repeating event so he doesn't have to 
-add the event every single week. If practice is missed, he can manually delete the event and specify if it’s a 
-permanent delete (he quits forever), or a one time delete.
+Edward has to study every day of the week from 8-10. He wants to add this as a repeating event so he doesn't have to 
+add the event every single day. The program will then add the event for each day of the week specified, following the 
+same rules as adding a singular event.
 
 ### 6. [Time Allocation - Chris’s Story]
 George is a single father of two who works from 9-5, needs to send the kids to soccer practice, buy groceries, and come 
