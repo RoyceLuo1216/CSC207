@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import entities.eventEntity.Event;
-import factory.EventFactory;
+import entities.eventEntity.EventFactory;
 
 /**
  *  Interactor for Repeat Use Case.

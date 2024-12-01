@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import data_access.InMemoryDataAccessObject;
-import entities.EventEntity.EventFactory;
+import entities.eventEntity.EventFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationController;
@@ -34,7 +34,8 @@ import usecase.event.EventAddOutputBoundary;
 import usecase.repeat.RepeatInputBoundary;
 import usecase.repeat.RepeatInteractor;
 import usecase.repeat.RepeatOutputBoundary;
-import view.ChatbotView;
+import view.EventConflictChatbotView;
+import view.TimeEstimationChatbotView;
 import view.EventAddView;
 import view.RepeatView;
 import view.ViewManager;
@@ -67,10 +68,9 @@ public class AppBuilder {
     private TimeEstimationChatbotViewModel timeEstimationChatbotViewModel;
     private DeleteEventView deleteEventView;
     private DeleteEventViewModel deleteEventViewModel;
-    private EventView eventView;
+    private EventAddView eventView;
     // TODO: FIND WHERE EVENT VIEW MODEL IS
     private ScheduleView scheduleView;
-//    private EditView
     private EditViewModel editViewModel;
     private RepeatViewModel repeatViewModel;
 //    private RepeatView
@@ -82,7 +82,6 @@ public class AppBuilder {
     private EventAddViewModel eventAddViewModel;
 
     private RepeatView repeatView;
-    private RepeatViewModel repeatViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);

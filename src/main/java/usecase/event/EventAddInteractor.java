@@ -3,7 +3,7 @@ package usecase.event;
 import java.util.Optional;
 
 import entities.eventEntity.Event;
-import factory.EventFactory;
+import entities.eventEntity.EventFactory;
 
 /**
  *  Interactor for Event Add Use Case. Implements abstraction defined in EventInputBoundary.
