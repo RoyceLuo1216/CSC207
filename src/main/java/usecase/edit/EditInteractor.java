@@ -1,9 +1,9 @@
 package usecase.edit;
 
-
-import data_access.InMemoryDataAccessObject;
 import entities.EventEntity.Event;
 import entities.EventEntity.RepeatEvent;
+
+import java.util.Optional;
 
 /**
  *  Interactor for Edit Use Case. Implements abstraction defined in EditInputBoundary.

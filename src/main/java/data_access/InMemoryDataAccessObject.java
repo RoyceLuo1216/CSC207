@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
  * creation, deletion, and retrieval of events, and also provides a framework
  * for scheduling flexible events around fixed ones.
  */
-public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface {
+public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
+                                                        EditDataAccessInterface {
     private final List<Event> events;
 
     /**

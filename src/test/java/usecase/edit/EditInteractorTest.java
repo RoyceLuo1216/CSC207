@@ -17,17 +17,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class EditInteractorTest {
 
-    private InMemoryDataAccessObject inMemoryDataAccessObject;
+    private InMemoryDataAccessObject dataAccessObject;
     private Event event;
 
     @BeforeEach
     void setUp() {
-        inMemoryDataAccessObject = new InMemoryDataAccessObject();
+        dataAccessObject = new InMemoryDataAccessObject();
     }
 
     @AfterEach
     void tearDown() {
-        inMemoryDataAccessObject = null;
+        dataAccessObject = null;
         event = null;
     }
 
@@ -35,7 +35,7 @@ public class EditInteractorTest {
     void successEditFixedEventTest() {
         event = EventFactory.createFixedEvent("Study for CSC207 Exam", DayOfWeek.MONDAY, DayOfWeek.TUESDAY,
                                                     LocalTime.of(22, 0), LocalTime.of(0, 0));
-        inMemoryDataAccessObject.addEvent(event);
+        dataAccessObject.addEvent(event);
 
         EditInputData inputData = new EditInputData("Study for CSC207 Exam", "Fixed",
             DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, LocalTime.of(21, 0), LocalTime.of(1, 0),
@@ -54,10 +54,10 @@ public class EditInteractorTest {
                 fail("Use case failure is unexpected.");
             }
         };
-        EditInputBoundary interactor = new EditInteractor(inMemoryDataAccessObject, successPresenter);
+        EditInputBoundary interactor = new EditInteractor(dataAccessObject, successPresenter);
         interactor.execute(inputData);
 
-        Event updatedEvent = inMemoryDataAccessObject.getEventByName("Study for CSC207 Exam").get();
+        Event updatedEvent = dataAccessObject.getEventByName("Study for CSC207 Exam").get();
         assertEquals(DayOfWeek.TUESDAY, updatedEvent.getDayStart());
         assertEquals(DayOfWeek.WEDNESDAY, updatedEvent.getDayEnd());
         assertEquals(LocalTime.of(21, 0), updatedEvent.getTimeStart());
@@ -70,7 +70,7 @@ public class EditInteractorTest {
         event = EventFactory.createRepeatEvent("Study for CSC207 Exam", DayOfWeek.MONDAY, DayOfWeek.TUESDAY,
                 LocalTime.of(22, 0), LocalTime.of(0, 0),
                 new ArrayList<>(List.of(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY)));
-        inMemoryDataAccessObject.addEvent(event);
+        dataAccessObject.addEvent(event);
 
         EditInputData inputData = new EditInputData("Study for CSC207 Exam", "Repeat",
                DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, LocalTime.of(21, 0), LocalTime.of(1, 0),
@@ -89,10 +89,10 @@ public class EditInteractorTest {
                 fail("Use case failure is unexpected.");
             }
         };
-        EditInputBoundary interactor = new EditInteractor(inMemoryDataAccessObject, successPresenter);
+        EditInputBoundary interactor = new EditInteractor(dataAccessObject, successPresenter);
         interactor.execute(inputData);
 
-        RepeatEvent updatedEvent = (RepeatEvent) inMemoryDataAccessObject.getEventByName("Study for CSC207 Exam").get();
+        RepeatEvent updatedEvent = (RepeatEvent) dataAccessObject.getEventByName("Study for CSC207 Exam").get();
         assertEquals(DayOfWeek.TUESDAY, updatedEvent.getDayStart());
         assertEquals(DayOfWeek.WEDNESDAY, updatedEvent.getDayEnd());
         assertEquals(LocalTime.of(21, 0), updatedEvent.getTimeStart());
@@ -119,7 +119,7 @@ public class EditInteractorTest {
             }
         };
 
-        EditInputBoundary interactor = new EditInteractor(inMemoryDataAccessObject, failurePresenter);
+        EditInputBoundary interactor = new EditInteractor(dataAccessObject, failurePresenter);
         interactor.execute(inputData);
     }
 
@@ -127,7 +127,7 @@ public class EditInteractorTest {
     void failureEventTypeChangeNotAllowedTest() {
         event = EventFactory.createFixedEvent("Study for CSC207 Exam", DayOfWeek.MONDAY, DayOfWeek.MONDAY,
                                     LocalTime.of(10, 0), LocalTime.of(12, 0));
-        inMemoryDataAccessObject.addEvent(event);
+        dataAccessObject.addEvent(event);
 
         EditInputData inputData = new EditInputData("Study for CSC207 Exam", "repeat",
                DayOfWeek.TUESDAY, DayOfWeek.TUESDAY, LocalTime.of(11, 0), LocalTime.of(13, 0),
@@ -145,7 +145,7 @@ public class EditInteractorTest {
             }
         };
 
-        EditInputBoundary interactor = new EditInteractor(inMemoryDataAccessObject, failurePresenter);
+        EditInputBoundary interactor = new EditInteractor(dataAccessObject, failurePresenter);
         interactor.execute(inputData);
     }
 }
