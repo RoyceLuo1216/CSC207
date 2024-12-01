@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import entities.eventEntity.Event;
+import entities.EventEntity.Event;
 import usecase.delete.DeleteEventDataAccessInterface;
 import usecase.edit.EditDataAccessInterface;
 
@@ -92,21 +92,18 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
 
     @Override
     public Optional<Event> getEventByName(String name) {
-        Optional<Event> result = Optional.empty();
         for (Event event : events) {
             if (event.getEventName().equalsIgnoreCase(name)) {
-                result = Optional.of(event);
-                break;
+                return Optional.of(event);
             }
         }
-        return result;
+        return Optional.empty();
     }
 
     /**
      * Method to get all events of a specified type in the schedule.
      *
      * @param eventType the class type of events to filter by (e.g., FixedEvent.class)
-     * @param <T> the type of event to retrieve
      * @return a list of events of the specified type
      */
     public <T extends Event> List<T> getEventsByType(Class<T> eventType) {
@@ -124,7 +121,6 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
      * @return an Optional containing the event at that day and time, or an empty Optional
      */
     public Optional<Event> getEventByDayAndTime(DayOfWeek day, LocalTime time) {
-        Optional<Event> result = Optional.empty();
         for (Event event : events) {
             final DayOfWeek startDay = event.getDayStart();
             final DayOfWeek endDay = event.getDayEnd();
@@ -135,11 +131,10 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
             if ((day.equals(startDay) || day.equals(endDay) || day.compareTo(startDay) > 0 && day.compareTo(endDay) < 0)
                     && (time.equals(startTime) || time.equals(endTime) || time.isAfter(startTime)
                     && time.isBefore(endTime))) {
-                result = Optional.of(event);
-                break;
+                return Optional.of(event);
             }
         }
-        return result;
+        return Optional.empty();
     }
 
     public List<Event> getEvents() {
