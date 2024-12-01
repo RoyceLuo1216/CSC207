@@ -1,6 +1,8 @@
 package entities.EventEntity;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -78,6 +80,16 @@ public class FixedEvent implements Event {
     }
 
     /**
+     * Sets the starting day of the event.
+     *
+     * @param dayStart the new start date of the event.
+     */
+    @Override
+    public void setDayStart(DayOfWeek dayStart) {
+
+    }
+
+    /**
      * Sets the start day to another value.
      *
      * @param dayStart represents the new start day for this event.
@@ -94,6 +106,56 @@ public class FixedEvent implements Event {
     @Override
     public LocalDateTime getDayEnd() {
         return this.dayEnd;
+    }
+
+    /**
+     * Sets the ending day of the event.
+     *
+     * @param dayEnd the new end date of the event.
+     */
+    @Override
+    public void setDayEnd(DayOfWeek dayEnd) {
+
+    }
+
+    /**
+     * Gets the start time of the event.
+     *
+     * @return the start time of the event as a DayOfWeek.
+     */
+    @Override
+    public LocalTime getTimeStart() {
+        return null;
+    }
+
+    /**
+     * Sets the end date and time of the event.
+     *
+     * @param timeStart the new start time of the event.
+     */
+    @Override
+    public void setTimeStart(LocalTime timeStart) {
+
+    }
+
+    /**
+     * Gets the end time of the event.
+     *
+     * @return the end time of the event as a DayOfWeek.
+     */
+    @Override
+    public LocalTime getTimeEnd() {
+        return null;
+    }
+
+    /**
+     * Sets the end date and time of the event.
+     *
+     * @param timeEnd the new end time of the event.
+     */
+    @Override
+    public void setTimeEnd(LocalTime timeEnd) {
+
     }
 
     /**
