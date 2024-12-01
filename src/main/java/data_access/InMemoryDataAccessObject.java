@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import entities.eventEntity.Event;
+import usecase.chatbot_event_conflict.EventConflictDataAccessInterface;
 import usecase.delete.DeleteEventDataAccessInterface;
 import usecase.edit.EditDataAccessInterface;
 import usecase.event.EventDataAccessInterface;
@@ -21,7 +22,8 @@ import usecase.repeat.RepeatEventDataAccessInterface;
 public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
                                                         EditDataAccessInterface,
                                                         EventDataAccessInterface,
-                                                        RepeatEventDataAccessInterface {
+                                                        RepeatEventDataAccessInterface,
+                                                        EventConflictDataAccessInterface {
     private final List<Event> events;
 
     /**
