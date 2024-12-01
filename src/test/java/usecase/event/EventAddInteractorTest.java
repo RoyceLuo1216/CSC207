@@ -1,7 +1,7 @@
 package usecase.event;
 
 import data_access.InMemoryDataAccessObject;
-import entities.EventEntity.FixedEvent;
+import entities.eventEntity.FixedEvent;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,6 +42,9 @@ public class EventAddInteractorTest {
             public void prepareFailView(String error) {
                 fail("Test failed");
             }
+
+            @Override
+            public void backToMainView(){return;}
         };
         dataAccessObject = new InMemoryDataAccessObject();
         EventInputBoundary interactor = new EventInteractor(dataAccessObject, successPresenter);
@@ -71,6 +74,9 @@ public class EventAddInteractorTest {
             public void prepareFailView(String error) {
                 assertEquals("Event can't be added, due to incompatible times", error);
             }
+
+            @Override
+            public void backToMainView(){return;}
         };
 
         dataAccessObject = new InMemoryDataAccessObject();
@@ -96,6 +102,9 @@ public class EventAddInteractorTest {
             public void prepareFailView(String error) {
                 fail("Test failed");
             }
+
+            @Override
+            public void backToMainView(){return;}
         };
 
         dataAccessObject = new InMemoryDataAccessObject();
@@ -118,6 +127,9 @@ public class EventAddInteractorTest {
             public void prepareFailView(String error) {
                 assertEquals("Event already exists", error);
             }
+
+            @Override
+            public void backToMainView(){return;}
         };
 
         EventInputBoundary newInteractor = new EventInteractor(dataAccessObject, newSuccessPresenter);

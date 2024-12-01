@@ -5,7 +5,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
-import entities.EventEntity.Event;
+import entities.eventEntity.Event;
 
 /**
  * This class helps create the abstraction to access the schedule which stores our events.

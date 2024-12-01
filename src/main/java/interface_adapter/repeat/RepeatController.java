@@ -51,4 +51,11 @@ public class RepeatController {
 
         repeatInteractor.execute(repeatInputData);
     }
+
+    /**
+     * Returns the back to main schedule view.
+     */
+    public void backToMainView() {
+        repeatInteractor.backToMainView();
+    }
 }

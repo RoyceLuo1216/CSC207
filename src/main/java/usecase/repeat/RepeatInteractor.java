@@ -4,7 +4,7 @@ import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Optional;
 
-import entities.EventEntity.Event;
+import entities.eventEntity.Event;
 import factory.EventFactory;
 
 /**
@@ -62,5 +62,10 @@ public class RepeatInteractor implements RepeatInputBoundary {
                 presenter.prepareSuccessView(repeatOutputData);
             }
         }
+    }
+
+    @Override
+    public void backToMainView() {
+        presenter.backToMainView();
     }
 }

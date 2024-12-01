@@ -1,19 +1,34 @@
 package app;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import data_access.InMemoryDataAccessObject;
 import factory.EventFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.chatbot_event_conflict.ChatbotViewModel;
 import interface_adapter.chatbot_event_conflict.EventConflictController;
 import interface_adapter.chatbot_event_conflict.EventConflictPresenter;
+import interface_adapter.event.EventController;
+import interface_adapter.event.EventPresenter;
+import interface_adapter.event.EventViewModel;
+import interface_adapter.repeat.RepeatController;
+import interface_adapter.repeat.RepeatPresenter;
+import interface_adapter.repeat.RepeatViewModel;
 import usecase.chatbot_event_conflict.EventConflictInputBoundary;
 import usecase.chatbot_event_conflict.EventConflictInteractor;
 import usecase.chatbot_event_conflict.EventConflictOutputBoundary;
+import usecase.event.EventInputBoundary;
+import usecase.event.EventInteractor;
+import usecase.event.EventOutputBoundary;
+import usecase.repeat.RepeatInputBoundary;
+import usecase.repeat.RepeatInteractor;
+import usecase.repeat.RepeatOutputBoundary;
 import view.ChatbotView;
+import view.EventView;
+import view.RepeatView;
 import view.ViewManager;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -35,6 +50,12 @@ public class AppBuilder {
     private ChatbotView chatbotView;
     private ChatbotViewModel chatbotViewModel;
 
+    private EventView eventView;
+    private EventViewModel eventViewModel;
+
+    private RepeatView repeatView;
+    private RepeatViewModel repeatViewModel;
+
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
@@ -52,6 +73,30 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Event Add View to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addEventView() {
+        eventViewModel = new EventViewModel();
+        eventView = new EventView(eventViewModel);
+        cardPanel.add(eventView, eventView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Repeat Event Add View to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addRepeatView() {
+        repeatViewModel = new RepeatViewModel();
+        repeatView = new RepeatView(repeatViewModel);
+        cardPanel.add(repeatView, repeatView.getViewName());
+        return this;
+    }
+
+    /**
      * Adds the Chatbot Event Conflict Use Case to the application.
      *
      * @return this builder
@@ -64,6 +109,38 @@ public class AppBuilder {
 
         final EventConflictController controller = new EventConflictController(eventConflictInteractor);
         chatbotView.setChatbotController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Add Event Use Case.
+     *
+     * @return this builder
+     */
+    public AppBuilder addEventUseCase() {
+        final EventOutputBoundary eventOutputBoundary = new EventPresenter(
+                eventViewModel, viewManagerModel);
+        final EventInputBoundary eventInteractor = new EventInteractor(
+                inMemoryDataAccessObjectDataObject, eventOutputBoundary);
+
+        final EventController controller = new EventController(eventInteractor);
+        eventView.setEventController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Add Repeat Event Use Case.
+     *
+     * @return this builder
+     */
+    public AppBuilder addRepeatUseCase() {
+        final RepeatOutputBoundary repeatOutputBoundary = new RepeatPresenter(
+                repeatViewModel, viewManagerModel);
+        final RepeatInputBoundary repeatInteractor = new RepeatInteractor(
+                inMemoryDataAccessObjectDataObject, repeatOutputBoundary);
+
+        final RepeatController controller = new RepeatController(repeatInteractor);
+        repeatView.setRepeatController(controller);
         return this;
     }
 

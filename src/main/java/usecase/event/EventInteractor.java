@@ -2,7 +2,7 @@ package usecase.event;
 
 import java.util.Optional;
 
-import entities.EventEntity.Event;
+import entities.eventEntity.Event;
 import factory.EventFactory;
 
 /**
@@ -57,5 +57,10 @@ public class EventInteractor implements EventInputBoundary {
                 presenter.prepareSuccessView(eventOutputData);
             }
         }
+    }
+
+    @Override
+    public void backToMainView() {
+        presenter.backToMainView();
     }
 }

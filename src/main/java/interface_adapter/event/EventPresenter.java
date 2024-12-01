@@ -1,5 +1,6 @@
 package interface_adapter.event;
 
+import interface_adapter.ViewManagerModel;
 import usecase.event.EventOutputBoundary;
 import usecase.event.EventOutputData;
 
@@ -8,9 +9,11 @@ import usecase.event.EventOutputData;
  */
 public class EventPresenter implements EventOutputBoundary {
     private final EventViewModel eventViewModel;
+    private final ViewManagerModel viewManagerModel;
 
-    public EventPresenter(EventViewModel eventViewModel) {
+    public EventPresenter(EventViewModel eventViewModel, ViewManagerModel viewManagerModel) {
         this.eventViewModel = eventViewModel;
+        this.viewManagerModel = viewManagerModel;
     }
 
     @Override
@@ -26,5 +29,11 @@ public class EventPresenter implements EventOutputBoundary {
         final EventState eventState = eventViewModel.getState();
         eventState.setEditError(errorMessage);
         eventViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void backToMainView() {
+        viewManagerModel.setState(eventViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

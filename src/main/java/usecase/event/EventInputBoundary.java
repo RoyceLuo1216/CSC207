@@ -9,4 +9,9 @@ public interface EventInputBoundary {
      * @param eventInputData the input data for this use case
      */
     void execute(EventInputData eventInputData);
+
+    /**
+     * Returns the back to main schedule view.
+     */
+    void backToMainView();
 }

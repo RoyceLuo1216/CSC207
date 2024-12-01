@@ -15,31 +15,31 @@ public class RepeatState {
 
     private String repeatError;
 
-    String getEventName() {
+    public String getEventName() {
         return eventName;
     }
 
-    String getDayStart() {
+    public String getDayStart() {
         return dayStart;
     }
 
-    String getDayEnd() {
+    public String getDayEnd() {
         return dayEnd;
     }
 
-    String getTimeStart() {
+    public String getTimeStart() {
         return timeStart;
     }
 
-    String getTimeEnd() {
+    public String getTimeEnd() {
         return timeEnd;
     }
 
-    String getRepeatError() {
+    public String getRepeatError() {
         return repeatError;
     }
 
-    List<String> getDaysRepeated() {
+    public List<String> getDaysRepeated() {
         return daysRepeated;
     }
 

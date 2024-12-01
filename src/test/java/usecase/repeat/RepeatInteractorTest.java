@@ -1,7 +1,7 @@
 package usecase.repeat;
 
 import data_access.InMemoryDataAccessObject;
-import entities.EventEntity.RepeatEvent;
+import entities.eventEntity.RepeatEvent;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,6 +50,9 @@ public class RepeatInteractorTest {
             public void prepareFailView(String error) {
                 fail("Test failed");
             }
+
+            @Override
+            public void backToMainView(){return;}
         };
         dataAccessObject = new InMemoryDataAccessObject();
         RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter);
@@ -86,6 +89,9 @@ public class RepeatInteractorTest {
             public void prepareFailView(String error) {
                 assertEquals("Event can't be added, due to incompatible times", error);
             }
+
+            @Override
+            public void backToMainView(){return;}
         };
 
         dataAccessObject = new InMemoryDataAccessObject();
@@ -117,6 +123,9 @@ public class RepeatInteractorTest {
             public void prepareFailView(String error) {
                 fail("Test failed");
             }
+
+            @Override
+            public void backToMainView(){return;}
         };
         dataAccessObject = new InMemoryDataAccessObject();
         RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter);
@@ -143,6 +152,9 @@ public class RepeatInteractorTest {
             public void prepareFailView(String error) {
                 assertEquals("Event already exists", error);
             }
+
+            @Override
+            public void backToMainView(){return;}
         };
 
         RepeatInputBoundary newInteractor = new RepeatInteractor(dataAccessObject, newSuccessPresenter);
@@ -169,6 +181,9 @@ public class RepeatInteractorTest {
             public void prepareFailView(String error) {
                 assertEquals("Please enter more than 0 repeat days", error);
             }
+
+            @Override
+            public void backToMainView(){return;}
         };
 
         dataAccessObject = new InMemoryDataAccessObject();

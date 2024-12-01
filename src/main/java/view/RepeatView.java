@@ -1,29 +1,30 @@
 package view;
 
-import static interface_adapter.event.EventViewModel.*;
+import static interface_adapter.repeat.RepeatViewModel.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
-import interface_adapter.event.EventController;
-import interface_adapter.event.EventState;
-import interface_adapter.event.EventViewModel;
+import interface_adapter.repeat.RepeatController;
+import interface_adapter.repeat.RepeatState;
+import interface_adapter.repeat.RepeatViewModel;
 
 /**
  * The View for when the user is adding an event (i.e. its details) into the program.
  */
-public class EventView extends JPanel implements ActionListener, PropertyChangeListener {
+public class RepeatView extends JPanel implements ActionListener, PropertyChangeListener {
     // Initialise the controller
 
     private static final int DIMENSION_500 = 500;
 
-    private final String viewName = "event";
-    private final EventViewModel eventViewModel;
-    private EventController eventController;
+    private final String viewName = "repeat";
+    private final RepeatViewModel repeatViewModel;
+    private RepeatController repeatController;
 
     private final JTextField eventNameField = new JTextField(20);
     private final JComboBox<String> eventTypeComboBox = new JComboBox<>(EVENT_TYPES);
@@ -38,9 +39,10 @@ public class EventView extends JPanel implements ActionListener, PropertyChangeL
     private final JButton backButton = new JButton("Back");
 
     // Data
-    public EventView(EventViewModel eventViewModel) {
-        this.eventViewModel = eventViewModel;
-        eventViewModel.addPropertyChangeListener(this);
+    public RepeatView(RepeatViewModel repeatViewModel) {
+        this.repeatViewModel = repeatViewModel;
+
+        repeatViewModel.addPropertyChangeListener(this);
 
         // Create the fixed frame (main)
         final JFrame eventFrame = new JFrame("Create Event Page");
@@ -56,6 +58,19 @@ public class EventView extends JPanel implements ActionListener, PropertyChangeL
         final JPanel timeStartPanel = createPanel("Time Start:", timeStartComboBox);
         final JPanel timeEndPanel = createPanel("Time End:", timeEndComboBox);
 
+        final JPanel checkboxPanel = new JPanel();
+        checkboxPanel.setLayout(new BoxLayout(checkboxPanel, BoxLayout.Y_AXIS));
+        final ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
+
+        // Create a checkbox for each option and add it to the panel
+        for (String option : DAYS_OF_WEEK) {
+            final JCheckBox checkBox = new JCheckBox(option);
+            checkBoxes.add(checkBox);
+            checkboxPanel.add(checkBox);
+        }
+
+        final JPanel repeatDaysPanel = createPanel("Repeat Days:", checkboxPanel);
+
         // Save + Back Button
         final JPanel savePanel = new JPanel();
         savePanel.add(saveButton);
@@ -70,6 +85,7 @@ public class EventView extends JPanel implements ActionListener, PropertyChangeL
         eventFrame.add(dayEndPanel);
         eventFrame.add(timeStartPanel);
         eventFrame.add(timeEndPanel);
+        eventFrame.add(repeatDaysPanel);
         eventFrame.add(savePanel);
 
         // Display the frame
@@ -79,7 +95,7 @@ public class EventView extends JPanel implements ActionListener, PropertyChangeL
         backButton.addActionListener(
                 evt -> {
                     backLabel.setText("Pressed!");
-                    eventController.backToMainView();
+                    repeatController.backToMainView();
                 }
         );
 
@@ -87,18 +103,27 @@ public class EventView extends JPanel implements ActionListener, PropertyChangeL
         saveButton.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(saveButton)) {
-                        final EventState currentState = eventViewModel.getState();
+                        final ArrayList<String> selectedItems = new ArrayList<>();
+                        for (JCheckBox checkBox : checkBoxes) {
+                            if (checkBox.isSelected()) {
+                                selectedItems.add(checkBox.getText());
+                            }
+                        }
+
+                        final RepeatState currentState = repeatViewModel.getState();
                         currentState.setEventName(eventNameField.getText());
                         currentState.setDayStart(dayStartComboBox.getSelectedItem().toString());
                         currentState.setDayEnd(dayEndComboBox.getSelectedItem().toString());
                         currentState.setTimeStart(timeStartComboBox.getSelectedItem().toString());
                         currentState.setTimeEnd(timeEndComboBox.getSelectedItem().toString());
+                        currentState.setDaysRepeated(selectedItems);
 
-                        eventController.execute(currentState.getEventName(),
+                        repeatController.execute(currentState.getEventName(),
                                 currentState.getDayStart(),
                                 currentState.getDayEnd(),
                                 currentState.getTimeStart(),
-                                currentState.getTimeEnd());
+                                currentState.getTimeEnd(),
+                                currentState.getDaysRepeated());
                     }
                 }
         );
@@ -122,13 +147,13 @@ public class EventView extends JPanel implements ActionListener, PropertyChangeL
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final EventState state = (EventState) evt.getNewValue();
-        if (state.getEventError() != null) {
-            JOptionPane.showMessageDialog(this, state.getEventError());
+        final RepeatState state = (RepeatState) evt.getNewValue();
+        if (state.getRepeatError() != null) {
+            JOptionPane.showMessageDialog(this, state.getRepeatError());
         }
     }
 
-    public void setEventController(EventController controller) {
-        this.eventController = controller;
+    public void setRepeatController(RepeatController controller) {
+        this.repeatController = controller;
     }
 }

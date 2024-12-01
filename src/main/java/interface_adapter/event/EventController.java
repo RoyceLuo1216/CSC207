@@ -39,4 +39,11 @@ public class EventController {
 
         eventInteractor.execute(eventInputData);
     }
+
+    /**
+     * Returns the back to main schedule view.
+     */
+    public void backToMainView() {
+        eventInteractor.backToMainView();
+    }
 }
