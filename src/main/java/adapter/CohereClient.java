@@ -5,6 +5,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 import com.cohere.api.requests.ChatRequest;
 import com.cohere.api.types.NonStreamedChatResponse;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -61,4 +62,39 @@ public class CohereClient {
             return Optional.empty();
         }
     }
+
+    /**
+     * Sends a request to Cohere to process time estimation.
+     *
+     String prompt = "Give me a time estimate on how long it would take to \" " + userQuery + " \". Return only the time " +
+     "estimate and nothing else. If the given user prompt does not make sense, return \"invalid user prompt! \" ";
+     *
+     * Example response from cohere with the question "Eat dinner and go on a walk":
+     * "30 minutes"
+     *
+     * @param userQuery the formatted event information string
+     * @return String response from Cohere
+     *
+     */
+    public Optional<String> timeAllocationWithCohere(String userQuery) {
+        String prompt = "Give me a time estimate on how long it would take to \" " + userQuery + " \". Return only the time " +
+                "estimate and nothing else. If the given user prompt does not make sense, return \"invalid user prompt! \" ";
+        try {
+            NonStreamedChatResponse response = this.cohere.chat(
+                    ChatRequest.builder()
+                            .message(prompt).build());
+
+            if (response != null && response.getText() != null) {
+                System.out.println("Cohere response: " + response.getText());
+                return Optional.of(response.getText());
+            } else {
+                System.out.println("No valid response received from the API.");
+                return Optional.empty();
+            }
+        } catch (Exception e) {
+            System.out.println("Error occurred while making API request: " + e.getMessage());
+            return Optional.empty();
+        }
+    }
+
 }
