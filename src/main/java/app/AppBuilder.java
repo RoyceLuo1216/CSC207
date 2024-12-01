@@ -11,7 +11,7 @@ import interface_adapter.chatbot_event_conflict.EventConflictController;
 import interface_adapter.chatbot_event_conflict.EventConflictPresenter;
 import interface_adapter.delete.DeleteEventViewModel;
 import interface_adapter.edit.EditViewModel;
-import interface_adapter.repeat.RepeatViewModel;
+//import interface_adapter.repeat.RepeatViewModel;
 import usecase.chatbot_event_conflict.EventConflictInputBoundary;
 import usecase.chatbot_event_conflict.EventConflictInteractor;
 import usecase.chatbot_event_conflict.EventConflictOutputBoundary;
@@ -47,19 +47,19 @@ public class AppBuilder {
     private TimeEstimationChatbotViewModel timeEstimationChatbotViewModel;
     private DeleteEventView deleteEventView;
     private DeleteEventViewModel deleteEventViewModel;
-    private EventView eventView;
+//    private EventView eventView;
     // TODO: FIND WHERE EVENT VIEW MODEL IS
     private ScheduleView scheduleView;
 //    private EditView
     private EditViewModel editViewModel;
-    private RepeatViewModel;
+//    private RepeatViewModel;
 //    private RepeatView
-    private ScheduleView;
-    private ScheduleViewModel
+//    private ScheduleView;
+//    private ScheduleViewModel;
     // TODO: ADD EDIT (NOT MERGED YET)
 
-    private ScheduleView scheduleView;
-    // TODO: FIND WHERE SCHEDULE VIEW MODEL IS
+//    private ScheduleView scheduleView;
+//    // TODO: FIND WHERE SCHEDULE VIEW MODEL IS
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);

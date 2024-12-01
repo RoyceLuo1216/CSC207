@@ -1,9 +1,9 @@
 package usecase.edit;
 
+import java.util.Optional;
+
 import entities.eventEntity.Event;
 import entities.eventEntity.RepeatEvent;
-
-import java.util.Optional;
 
 /**
  *  Interactor for Edit Use Case. Implements abstraction defined in EditInputBoundary.
@@ -41,32 +41,43 @@ public class EditInteractor implements EditInputBoundary {
 
         }
         else {
-            final Event event = optionalEvent.get();
-            final String eventType = editInputData.getEventType() + "Event";
-
-            if (!eventType.equals(event.getClass().getSimpleName())) {
-                // event type is being changed, tell user that the event type cannot be changed
-                presenter.prepareFailView("The event type cannot be changed.");
-
+            if (editInputData.getDayStart().compareTo(editInputData.getDayEnd()) > 0) {
+                // event fails for some reason, like duplicate event or incompatible times
+                presenter.prepareFailView("Event can't be added, due to incompatible times");
             }
-            else if ("RepeatEvent".equals(eventType)) {
-                // event is a repeat event and thus has one extra parameter then fixed event
-                updateFixedEventData(editInputData, event);
-                final RepeatEvent repeatEvent = (RepeatEvent) event;
-                repeatEvent.setDaysRepeated(editInputData.getDaysRepeated());
 
-                final EditOutputData editOutputData = new EditOutputData(eventName, false,
-                        "Successfully updated repeat event!");
-                presenter.prepareSuccessView(editOutputData);
-
+            else if (editInputData.getDayEnd().compareTo(editInputData.getDayStart()) == 0
+                    && editInputData.getTimeStart().isAfter(editInputData.getTimeEnd())) {
+                presenter.prepareFailView("Event can't be added, due to incompatible times");
             }
             else {
-                // event is present and type has not been changed, so we can update
-                updateFixedEventData(editInputData, event);
+                final Event event = optionalEvent.get();
+                final String eventType = editInputData.getEventType() + "Event";
 
-                final EditOutputData editOutputData = new EditOutputData(eventName, false,
-                        "successfully update event!");
-                presenter.prepareSuccessView(editOutputData);
+                if (!eventType.equals(event.getClass().getSimpleName())) {
+                    // event type is being changed, tell user that the event type cannot be changed
+                    presenter.prepareFailView("The event type cannot be changed.");
+
+                }
+                else if ("RepeatEvent".equals(eventType)) {
+                    // event is a repeat event and thus has one extra parameter then fixed event
+                    updateFixedEventData(editInputData, event);
+                    final RepeatEvent repeatEvent = (RepeatEvent) event;
+                    repeatEvent.setDaysRepeated(editInputData.getDaysRepeated());
+
+                    final EditOutputData editOutputData = new EditOutputData(eventName, false,
+                            "Successfully updated repeat event!");
+                    presenter.prepareSuccessView(editOutputData);
+
+                }
+                else {
+                    // event is present and type has not been changed, so we can update
+                    updateFixedEventData(editInputData, event);
+
+                    final EditOutputData editOutputData = new EditOutputData(eventName, false,
+                            "successfully update event!");
+                    presenter.prepareSuccessView(editOutputData);
+                }
             }
         }
     }
