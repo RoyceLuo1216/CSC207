@@ -70,7 +70,7 @@ task would take using a Cohere API call.
 
 ## Features
 
-1. Schedule Event: Allows users to input fixed and flexible tasks, with automatic scheduling. Conflicts with existing 
+1. Schedule Event: Allows users to input fixed and repeated events. Conflicts with existing 
 events result in an error message.
 
 2. Event Conflicts: A chatbot checks if a user can schedule an event by comparing it against existing events and 

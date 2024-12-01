@@ -1,9 +1,9 @@
-package interface_adapter.chatbot_event_conflict;
+package interface_adapter.chatbotTimeEstimation;
 
 /**
  * The state for the Chatbot View Model.
  */
-public class ChatbotState {
+public class TimeEstimationChatbotState {
     private String question = "";
     private String questionError;
     private String response = "";

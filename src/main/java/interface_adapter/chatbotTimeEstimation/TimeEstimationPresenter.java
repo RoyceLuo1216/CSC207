@@ -8,10 +8,10 @@ import usecase.chatbot_time_estimation.TimeEstimationOutputBoundary;
  * The Presenter for the Chatbot Time Estimation Use Case.
  */
 public class TimeEstimationPresenter implements TimeEstimationOutputBoundary {
-    private final ChatbotViewModel chatbotViewModel;
+    private final TimeEstimationChatbotViewModel chatbotViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public TimeEstimationPresenter(ViewManagerModel viewManagerModel, ChatbotViewModel chatbotViewModel) {
+    public TimeEstimationPresenter(ViewManagerModel viewManagerModel, TimeEstimationChatbotViewModel chatbotViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.chatbotViewModel = chatbotViewModel;
     }
@@ -19,7 +19,7 @@ public class TimeEstimationPresenter implements TimeEstimationOutputBoundary {
     @Override
     public void prepareSuccessView(ChatbotOutputData outputData) {
         // On success, send the response to the chatbot view.
-        final ChatbotState chatbotState = chatbotViewModel.getState();
+        final TimeEstimationChatbotState chatbotState = chatbotViewModel.getState();
         chatbotState.setResponse(outputData.getTimeEstimation());
         System.out.println("chatbotState.setResponse(" + outputData.getTimeEstimation() + ")");
         this.chatbotViewModel.setState(chatbotState);
@@ -31,7 +31,7 @@ public class TimeEstimationPresenter implements TimeEstimationOutputBoundary {
 
     @Override
     public void prepareFailView(String error) {
-        final ChatbotState chatbotState = chatbotViewModel.getState();
+        final TimeEstimationChatbotState chatbotState = chatbotViewModel.getState();
         chatbotState.setResponseError(error);
         chatbotViewModel.firePropertyChanged();
     }
