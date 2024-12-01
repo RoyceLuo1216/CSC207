@@ -27,31 +27,31 @@ public class EditInputData {
         this.daysRepeated = daysRepeated;
     }
 
-    String getEventName() {
+    public String getEventName() {
         return eventName;
     }
 
-    String getEventType() {
+    public String getEventType() {
         return eventType;
     }
 
-    DayOfWeek getDayStart() {
+    public DayOfWeek getDayStart() {
         return dayStart;
     }
 
-    DayOfWeek getDayEnd() {
+    public DayOfWeek getDayEnd() {
         return dayEnd;
     }
 
-    LocalTime getTimeStart() {
+    public LocalTime getTimeStart() {
         return timeStart;
     }
 
-    LocalTime getTimeEnd() {
+    public LocalTime getTimeEnd() {
         return timeEnd;
     }
 
-    List<DayOfWeek> getDaysRepeated() {
+    public List<DayOfWeek> getDaysRepeated() {
         return daysRepeated;
     }
 

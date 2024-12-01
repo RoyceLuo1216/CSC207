@@ -1,11 +1,11 @@
-package interface_adapter.edit;
+package interface_adapter.eventInformation;
 
 import java.util.List;
 
 /**
- * The state for the Edit View Model.
+ * The state for the Event Information View Model.
  */
-public class EditState {
+public class EventInformationState {
     private String eventName;
     private String eventType;
     private String dayStart;
@@ -13,8 +13,6 @@ public class EditState {
     private String timeStart;
     private String timeEnd;
     private List<String> daysRepeated;
-
-    private String outputMessage;
 
     public String getEventName() {
         return eventName;
@@ -44,10 +42,6 @@ public class EditState {
         return daysRepeated;
     }
 
-    public String getOutputMessage() {
-        return outputMessage;
-    }
-
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
@@ -74,9 +68,5 @@ public class EditState {
 
     public void setDaysRepeated(List<String> daysRepeated) {
         this.daysRepeated = daysRepeated;
-    }
-
-    public void setOutputMessage(String outputMessage) {
-        this.outputMessage = outputMessage;
     }
 }
