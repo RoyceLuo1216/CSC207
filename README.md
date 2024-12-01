@@ -23,10 +23,10 @@ their time more effectively.
 
 - [User Stories](#user-stories)
     * [1. [Schedule Event - Team Story]](#1--schedule-event---team-story-)
-    * [2. [Event Conflicts - Elaine’s Story]](#2--event-conflicts---elaine-s-story-)
-    * [3. [Edit Event - Vennise’s Story]](#3--edit-event---vennise-s-story-)
-    * [4. [Delete Event - Royce’s Story]](#4--delete-event---royce-s-story-)
-    * [5. [Repeat Event - Ryan’s Story]](#5--repeat-event---ryan-s-story-)
+    * [2. [Edit Event - Vennise’s Story]](#2--edit-event---vennise-s-story-)
+    * [3. [Delete Event - Royce’s Story]](#3--delete-event---royce-s-story-)
+    * [4. [Repeat Event - Ryan’s Story]](#4--repeat-event---ryan-s-story-)
+    * [5. [Event Conflicts - Elaine’s Story]](#5--event-conflicts---elaine-s-story-)
     * [6. [Time Allocation - Chris’s Story]](#6--time-allocation---chris-s-story-)
 - [Features](#features)
 - [Installation Instructions](#installation-instructions)
@@ -44,22 +44,22 @@ will be chunked into time-blocks that will happen throughout the week. The auto-
 using the information given about these tasks. When adding this new event, if there is already another event scheduled 
 at the time, I will get an error message and not be able to inMemoryDataAccessObject at that time.
 
-### 2. [Event Conflicts - Elaine’s Story] 
-Jennie has a CSC207 assignment due on Friday, and she would like to know when she has time for completing this task. To do this, she asks the scheduler chatbot if she can inMemoryDataAccessObject a work period from 2-4 PM on Thursday. The chatbot then replies with whether or not Jennie if free during this time. If Jennie has already scheduled Lunch from 2-3 PM and a Math class from 3-4 PM, the chatbot will let Jennie know that she cannot put her studying event from 2-4 PM because she has Lunch and a Math class during that time.
-
-### 3. [Edit Event - Vennise’s Story] 
+### 2. [Edit Event - Vennise’s Story] 
 On Monday, Alex uses the scheduler to add a study block from 6-9 PM on Friday for their statistics final. However, 
 on Wednesday, they learn that their favourite artist is holding a last-minute pop-up concert at the same time as their 
 scheduled study block. Alex decides to move their study block to 4-7 PM of the next day and edits the scheduler accordingly.
 The scheduler outputs a new inMemoryDataAccessObject according to Alex's changes.
 
-### 4. [Delete Event - Royce’s Story]
+### 3. [Delete Event - Royce’s Story]
 Tom is a busy individual who likes to keep his schedule organized using his calendar app. Recently, Tom scheduled a badminton practice event for Monday from 7:00 PM to 8:00 PM. However, due to unexpected circumstances, he can no longer attend the practice session. Tom needs to delete this event from his calendar to keep his schedule accurate and clutter-free. To do this he can use our delete event feature to delete the event from his planner using a series of button clicks from the schedule view. 
 
-### 5. [Repeat Event - Ryan’s Story]
+### 4. [Repeat Event - Ryan’s Story]
 Edward has orchestra practice every Tuesday from 8-10. He wants to add this as a repeating event so he doesn't have to 
 add the event every single week. If practice is missed, he can manually delete the event and specify if it’s a 
 permanent delete (he quits forever), or a one time delete.
+
+### 5. [Event Conflicts - Elaine’s Story] 
+Jennie has a CSC207 assignment due on Friday, and she would like to know when she has time for completing this task. To do this, she asks the scheduler chatbot if she can inMemoryDataAccessObject a work period from 2-4 PM on Thursday. The chatbot then replies with whether or not Jennie if free during this time. If Jennie has already scheduled Lunch from 2-3 PM and a Math class from 3-4 PM, the chatbot will let Jennie know that she cannot put her studying event from 2-4 PM because she has Lunch and a Math class during that time.
 
 ### 6. [Time Estimation - Chris’s Story]
 George is a single father of two who works from 9-5, needs to send the kids to soccer practice, buy groceries, and come 
@@ -73,16 +73,16 @@ task would take using a Cohere API call.
 1. Schedule Event: Allows users to input fixed and repeated events. Conflicts with existing 
 events result in an error message.
 
-2. Event Conflicts: A chatbot checks if a user can schedule an event by comparing it against existing events and 
-notifying the user of any conflicts.
+2. Edit Event: Users can modify the time or details of an event, with the scheduler reflecting changes in real-time.
 
-3. Edit Event: Users can modify the time or details of an event, with the scheduler reflecting changes in real-time.
-
-4. Delete Event: Provides an option to remove an event from the schedule, 
+3. Delete Event: Provides an option to remove an event from the schedule, 
 keeping the calendar accurate and clutter-free.
 
-5. Repeat Event: Allows users to set recurring events, with an option to delete events either permanently 
+4. Repeat Event: Allows users to set recurring events, with an option to delete events either permanently 
 or temporarily if needed.
+
+5. Event Conflicts: A chatbot checks if a user can schedule an event by comparing it against existing events and 
+notifying the user of any conflicts.
 
 6. Time Estimation: A chatbot estimates how long tasks will take by inputting a user query, using a Cohere call.
 
