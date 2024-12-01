@@ -9,8 +9,6 @@ import java.util.List;
  */
 public interface Event {
 
-    String setEventName();
-
     /**
      * Gets the name of the event.
      *
@@ -25,6 +23,10 @@ public interface Event {
      */
     void setEventName(String name);
 
+    /**
+     * Get the starting day of an event.
+     * @return the starting day of an event.
+     */
 
     DayOfWeek getDayStart();
 
@@ -76,26 +78,5 @@ public interface Event {
      * @param timeEnd the new end time of the event.
      */
     void setTimeEnd(LocalTime timeEnd);
-
-    /**
-     * Returns the list of tasks associated with the event.
-     *
-     * @return
-     */
-    List<Task> getTasks();
-
-    /**
-     * Adds a Task to the list
-     *
-     * @param task, task that you want to add.
-     */
-    void addTask(Task task);
-
-    /**
-     * Removes a task from the list.
-     *
-     * @param task, task to be removed.
-     */
-    void removeTask(Task task);
 
 }
