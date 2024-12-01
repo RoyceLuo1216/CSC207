@@ -22,6 +22,9 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
                                                         EditDataAccessInterface,
         EventAddDataAccessInterface,
                                                         RepeatEventDataAccessInterface {
+                                                        EventDataAccessInterface,
+                                                        RepeatEventDataAccessInterface,
+                                                        EventConflictDataAccessInterface {
     private final List<Event> events;
 
     /**
@@ -139,6 +142,13 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<String> getAllEventNames() {
+        return events.stream()
+                .map(Event::getEventName)
+                .collect(Collectors.toList());
     }
 
     public List<Event> getEvents() {

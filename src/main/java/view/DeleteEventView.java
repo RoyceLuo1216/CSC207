@@ -28,20 +28,29 @@ public class DeleteEventView extends JPanel {
     private static final int TITLE_FONT_SIZE = 18;
 
     private final Runnable backToScheduleCallback;
-    private final DeleteEventController controller;
-    private JLabel messageLabel;
     private final Runnable refreshScheduleCallback;
     private final DeleteEventViewModel viewModel;
+    private JLabel messageLabel;
+    private DeleteEventController controller;
 
-    public DeleteEventView(DeleteEventController controller, DeleteEventViewModel viewModel,
-                           Runnable backToScheduleCallback, Runnable refreshScheduleCallback) {
-        this.controller = controller;
+    public DeleteEventView(DeleteEventViewModel viewModel,
+                           Runnable backToScheduleCallback,
+                           Runnable refreshScheduleCallback) {
         this.viewModel = viewModel;
         this.backToScheduleCallback = backToScheduleCallback;
         this.refreshScheduleCallback = refreshScheduleCallback;
 
         setupUi();
         setupListeners();
+    }
+
+    /**
+     * Sets the controller for this view.
+     *
+     * @param controller The DeleteEventController to handle event actions.
+     */
+    public void setController(DeleteEventController controller) {
+        this.controller = controller;
     }
 
     private void setupUi() {
@@ -77,8 +86,12 @@ public class DeleteEventView extends JPanel {
 
         // Delete Button Action
         deleteButton.addActionListener(error -> {
-            final String eventName = viewModel.getState().getEventName();
-            controller.execute(eventName);
+            if (controller != null) {
+                final String eventName = viewModel.getState().getEventName();
+                controller.execute(eventName);
+            } else {
+                System.err.println("Controller not set for DeleteEventView.");
+            }
         });
 
         // Back Button Action
@@ -107,4 +120,5 @@ public class DeleteEventView extends JPanel {
             backToScheduleCallback.run();
         }
     }
+
 }

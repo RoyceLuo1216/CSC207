@@ -19,15 +19,14 @@ public interface EventAddDataAccessInterface {
     Optional<Event> getEventByName(String name);
 
     /**
-     * Method to add an event.
-     *
-     * @param event the event
-     */
-    void addEvent(Event event);
-
-    /**
      * Method to get all events.
      * @return list of events.
      */
     List<Event> getAllEvents();
+
+    /**
+     * Adds an event.
+     * @param fixedEvent
+     */
+    void addEvent(Event fixedEvent);
 }
