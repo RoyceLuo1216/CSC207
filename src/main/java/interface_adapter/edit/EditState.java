@@ -16,35 +16,35 @@ public class EditState {
 
     private String outputMessage;
 
-    String getEventName() {
+    public String getEventName() {
         return eventName;
     }
 
-    String getEventType() {
+    public String getEventType() {
         return eventType;
     }
 
-    String getDayStart() {
+    public String getDayStart() {
         return dayStart;
     }
 
-    String getDayEnd() {
+    public String getDayEnd() {
         return dayEnd;
     }
 
-    String getTimeStart() {
+    public String getTimeStart() {
         return timeStart;
     }
 
-    String getTimeEnd() {
+    public String getTimeEnd() {
         return timeEnd;
     }
 
-    List<String> getDaysRepeated() {
+    public List<String> getDaysRepeated() {
         return daysRepeated;
     }
 
-    String getOutputMessage() {
+    public String getOutputMessage() {
         return outputMessage;
     }
 

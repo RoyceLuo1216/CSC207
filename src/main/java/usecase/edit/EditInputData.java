@@ -27,7 +27,7 @@ public class EditInputData {
         this.daysRepeated = daysRepeated;
     }
 
-    String getEventName() {
+    public String getEventName() {
         return eventName;
     }
 
