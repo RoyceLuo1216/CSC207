@@ -1,8 +1,7 @@
 package usecase.event;
 
 import data_access.InMemoryDataAccessObject;
-import entities.EventEntity.Event;
-import entities.EventEntity.RepeatEvent;
+import entities.EventEntity.FixedEvent;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class EventAddInteractorTest {
     private InMemoryDataAccessObject dataAccessObject;
-    private Event event;
 
     @BeforeEach
     void setUp() {
@@ -24,12 +22,10 @@ public class EventAddInteractorTest {
     @AfterEach
     void tearDown() {
         dataAccessObject = null;
-        event = null;
     }
 
     @Test
     public void successAddEvent(){
-
         EventInputData eventAddInputData = new EventInputData("Study for CSC207 Exam", DayOfWeek.MONDAY,
                 DayOfWeek.MONDAY,
                 LocalTime.of(1, 0),
@@ -47,23 +43,23 @@ public class EventAddInteractorTest {
                 fail("Test failed");
             }
         };
-
+        dataAccessObject = new InMemoryDataAccessObject();
         EventInputBoundary interactor = new EventInteractor(dataAccessObject, successPresenter);
         interactor.execute(eventAddInputData);
 
-        RepeatEvent updatedEvent = (RepeatEvent) dataAccessObject.getEventByName("Study for CSC207 Exam").get();
+        FixedEvent updatedEvent = (FixedEvent) dataAccessObject.getEventByName("Study for CSC207 Exam").get();
         assertEquals(DayOfWeek.MONDAY, updatedEvent.getDayStart());
         assertEquals(DayOfWeek.MONDAY, updatedEvent.getDayEnd());
-        assertEquals(LocalTime.of(21, 0), updatedEvent.getTimeStart());
-        assertEquals(LocalTime.of(1, 0), updatedEvent.getTimeEnd());
+        assertEquals(LocalTime.of(1, 0), updatedEvent.getTimeStart());
+        assertEquals(LocalTime.of(21, 0), updatedEvent.getTimeEnd());
     }
 
     @Test
     public void failTimesNotCompatibleAddEvent(){
         EventInputData eventAddInputData = new EventInputData("Study for CSC207 Exam", DayOfWeek.MONDAY,
                 DayOfWeek.MONDAY,
-                LocalTime.of(1, 0),
-                LocalTime.of(21, 0));
+                LocalTime.of(21, 0),
+                LocalTime.of(1, 0));
 
         EventOutputBoundary successPresenter = new EventOutputBoundary() {
             @Override
@@ -77,6 +73,7 @@ public class EventAddInteractorTest {
             }
         };
 
+        dataAccessObject = new InMemoryDataAccessObject();
         EventInputBoundary interactor = new EventInteractor(dataAccessObject, successPresenter);
         interactor.execute(eventAddInputData);
     }
@@ -101,6 +98,7 @@ public class EventAddInteractorTest {
             }
         };
 
+        dataAccessObject = new InMemoryDataAccessObject();
         EventInputBoundary interactor = new EventInteractor(dataAccessObject, successPresenter);
         interactor.execute(eventAddInputData);
 

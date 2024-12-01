@@ -11,6 +11,7 @@ import entities.EventEntity.Event;
 import usecase.delete.DeleteEventDataAccessInterface;
 import usecase.edit.EditDataAccessInterface;
 import usecase.event.EventDataAccessInterface;
+import usecase.repeat.RepeatEventDataAccessInterface;
 
 /**
  * Class representing a ScheduleUseCase with a list of events. This class handles the
@@ -19,7 +20,8 @@ import usecase.event.EventDataAccessInterface;
  */
 public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
                                                         EditDataAccessInterface,
-                                                        EventDataAccessInterface {
+                                                        EventDataAccessInterface,
+                                                        RepeatEventDataAccessInterface {
     private final List<Event> events;
 
     /**

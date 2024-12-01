@@ -27,7 +27,7 @@ public class EventInteractor implements EventInputBoundary {
         final String eventName = eventInputData.getEventName();
         final Optional<Event> optionalEvent = dataAccessObject.getEventByName(eventName);
 
-        if (optionalEvent.isPresent()) {
+        if (!dataAccessObject.getAllEvents().isEmpty() & optionalEvent.isPresent()) {
             // event already exists, cannot add
             presenter.prepareFailView("Event already exists");
 

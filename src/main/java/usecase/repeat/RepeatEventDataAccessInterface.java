@@ -1,5 +1,7 @@
-package usecase.event;
+package usecase.repeat;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +10,7 @@ import entities.EventEntity.Event;
 /**
  * This class helps create the abstraction to access the schedule which stores our events.
  */
-public interface EventDataAccessInterface {
+public interface RepeatEventDataAccessInterface {
 
     /**
      * Method to find an event by its name.
