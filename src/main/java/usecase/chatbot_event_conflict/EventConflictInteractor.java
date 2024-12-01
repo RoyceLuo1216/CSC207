@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import adapter.CohereClient;
-import data_access.InMemoryDataAccessObject;
 import entities.eventEntity.Event;
 import factory.EventFactory;
 
@@ -16,11 +15,11 @@ import factory.EventFactory;
  * The Chatbot Event Conflict Interactor.
  */
 public class EventConflictInteractor implements EventConflictInputBoundary {
-    private final InMemoryDataAccessObject inMemoryDataAccessObjectDataObject;
+    private final EventConflictDataAccessInterface inMemoryDataAccessObjectDataObject;
     private final EventConflictOutputBoundary eventConflictPresenter;
     private final EventFactory eventFactory;
 
-    public EventConflictInteractor(InMemoryDataAccessObject inMemoryDataAccessObject,
+    public EventConflictInteractor(EventConflictDataAccessInterface inMemoryDataAccessObject,
                                    EventConflictOutputBoundary eventConflictOutputBoundary,
                                    EventFactory eventFactory) {
         this.inMemoryDataAccessObjectDataObject = inMemoryDataAccessObject;
@@ -30,7 +29,6 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
 
     @Override
     public void execute(ChatbotInputData chatbotInputData) {
-        // TODO: Create and schedule event?
         System.out.println("EventConflictInteractor.execute(chatbotInputData);");
         final CohereClient client = new CohereClient();
         final Optional<String> timePeriod = client.getTimePeriodForEventConflict(chatbotInputData.getQuestion());
@@ -129,7 +127,7 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
      * @return a list of task descriptions for tasks that occur during the specified period
      */
     public ArrayList<String> getTasksDuring(DayOfWeek startDay, LocalTime startTime,
-                                            LocalTime endTime, InMemoryDataAccessObject inMemoryDataAccessObject) {
+                                            LocalTime endTime, EventConflictDataAccessInterface inMemoryDataAccessObject) {
         final ArrayList<String> tasks = new ArrayList<>();
         final ArrayList<Event> events = new ArrayList<>();
         final ArrayList<LocalTime> hourlyIntervals = getHourlyIntervals(startTime, endTime);
