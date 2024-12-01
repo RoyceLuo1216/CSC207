@@ -1,5 +1,11 @@
 package view;
 
+import interface_adapter.edit.EditController;
+import interface_adapter.edit.EditState;
+import interface_adapter.edit.EditViewModel;
+import interface_adapter.eventInformation.EventInformationState;
+import org.jetbrains.annotations.NotNull;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,11 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import interface_adapter.edit.EditController;
-import interface_adapter.edit.EditState;
-import interface_adapter.edit.EditViewModel;
-import org.jetbrains.annotations.NotNull;
-
 /**
  * The View for when the user is adding an event (i.e. its details) into the program.
  */
@@ -28,11 +29,11 @@ public class EditView extends JPanel implements PropertyChangeListener {
 
     // Setup Components
     private final String[] eventTypes = {"Fixed", "Repeat"};
-    private final String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+    private final String[] daysOfWeek = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"};
     private final String[] times = {"12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM",
-            "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM",
-            "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM",
-            "9:00 PM", "10:00 PM", "11:00 PM"};
+                                    "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM",
+                                    "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM",
+                                    "9:00 PM", "10:00 PM", "11:00 PM"};
 
     private final JTextField eventNameField = new JTextField(20);
     private final JComboBox<String> eventTypeComboBox = new JComboBox<>(eventTypes);
@@ -114,8 +115,21 @@ public class EditView extends JPanel implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final EditState state = (EditState) evt.getNewValue();
-        successLabel.setText(state.getOutputMessage());
+        final EventInformationState state = (EventInformationState) evt.getNewValue();
+        setFields(state);
+    }
+
+    /**
+     * Set the various text fields for the Edit View.
+     * @param state the state of the view.
+     */
+    public void setFields(EventInformationState state) {
+        eventNameField.setText(state.getEventName());
+        eventTypeComboBox.setSelectedItem(state.getEventType());
+        dayStartComboBox.setSelectedItem(state.getDayStart());
+        dayEndComboBox.setSelectedItem(state.getDayEnd());
+        timeStartComboBox.setSelectedItem(state.getTimeStart());
+        timeStartComboBox.setSelectedItem(state.getTimeEnd());
     }
 
     public String getViewName() {

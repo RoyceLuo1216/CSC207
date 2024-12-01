@@ -8,7 +8,7 @@ import interface_adapter.ViewModel;
 public class EditViewModel extends ViewModel<EditState> {
 
     public EditViewModel(String viewName) {
-        super("edit");
+        super(viewName);
         setState(new EditState());
     }
 }
