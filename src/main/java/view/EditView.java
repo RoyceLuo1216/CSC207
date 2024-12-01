@@ -1,22 +1,22 @@
 package view;
 
-import interface_adapter.edit.EditController;
-import interface_adapter.edit.EditState;
-import interface_adapter.edit.EditViewModel;
-import interface_adapter.eventInformation.EventInformationState;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.jetbrains.annotations.NotNull;
+
+import interface_adapter.edit.EditController;
+import interface_adapter.edit.EditState;
+import interface_adapter.edit.EditViewModel;
 
 /**
  * The View for when the user is adding an event (i.e. its details) into the program.
@@ -115,21 +115,8 @@ public class EditView extends JPanel implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final EventInformationState state = (EventInformationState) evt.getNewValue();
-        setFields(state);
-    }
-
-    /**
-     * Set the various text fields for the Edit View.
-     * @param state the state of the view.
-     */
-    public void setFields(EventInformationState state) {
-        eventNameField.setText(state.getEventName());
-        eventTypeComboBox.setSelectedItem(state.getEventType());
-        dayStartComboBox.setSelectedItem(state.getDayStart());
-        dayEndComboBox.setSelectedItem(state.getDayEnd());
-        timeStartComboBox.setSelectedItem(state.getTimeStart());
-        timeStartComboBox.setSelectedItem(state.getTimeEnd());
+        final EditState state = (EditState) evt.getNewValue();
+        successLabel.setText(state.getOutputMessage());
     }
 
     public String getViewName() {
