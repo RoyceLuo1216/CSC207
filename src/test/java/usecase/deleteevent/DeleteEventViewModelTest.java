@@ -1,7 +1,7 @@
 package usecase.deleteevent;
 
 import org.junit.jupiter.api.Test;
-import interface_adapter.editdelete.DeleteEventState;
+import interface_adapter.delete.DeleteEventState;
 import interface_adapter.delete.DeleteEventViewModel;
 
 import static org.junit.jupiter.api.Assertions.*;

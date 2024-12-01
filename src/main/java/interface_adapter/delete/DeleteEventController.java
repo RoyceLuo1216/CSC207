@@ -15,6 +15,7 @@ public class DeleteEventController {
 
     /**
      * Executes the Delete Event Use Case.
+     *
      * @param eventName the name of the event to delete
      */
     public void execute(String eventName) {

@@ -16,16 +16,16 @@ public class DeleteEventPresenter implements DeleteEventOutputBoundary {
     @Override
     public void presentSuccess(DeleteEventOutputData outputData) {
         // Updates the ViewModel to reflect success
-        final interface_adapter.editdelete.DeleteEventState deleteState = deleteviewModel.getState();
+        final DeleteEventState deleteEventState = deleteviewModel.getState();
 
-        deleteState.setMessage("Event \"" + outputData.getEventName() + "\" deleted successfully.");
+        deleteEventState.setMessage("Event \"" + outputData.getEventName() + "\" deleted successfully.");
 
     }
 
     @Override
     public void presentFailure(String errorMessage) {
         // Updates the ViewModel to reflect failure
-        final interface_adapter.editdelete.DeleteEventState deleteState = deleteviewModel.getState();
+        final DeleteEventState deleteState = deleteviewModel.getState();
 
         deleteState.setMessage(errorMessage);
         deleteviewModel.firePropertyChanged();

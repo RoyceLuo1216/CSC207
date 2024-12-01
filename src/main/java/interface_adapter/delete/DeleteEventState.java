@@ -1,16 +1,12 @@
-package interface_adapter.editdelete;
+package interface_adapter.delete;
 
 /**
  * State information representing the Delete Event process.
  */
 public class DeleteEventState {
-    private String eventName = "";
-    private String message = "";
+    private String eventName;
+    private String message;
 
-    public DeleteEventState(DeleteEventState copy) {
-        this.eventName = copy.eventName;
-        this.message = copy.message;
-    }
 
     public DeleteEventState() {
     }

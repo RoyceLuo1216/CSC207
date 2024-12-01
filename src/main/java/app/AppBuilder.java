@@ -1,23 +1,19 @@
 package app;
 
-import java.awt.CardLayout;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-
 import data_access.Schedule;
 import factory.EventFactory;
-
 import interface_adapter.ViewManagerModel;
 import interface_adapter.chatbot_event_conflict.ChatbotViewModel;
+import interface_adapter.chatbot_event_conflict.EventConflictController;
 import interface_adapter.chatbot_event_conflict.EventConflictPresenter;
 import usecase.chatbot_event_conflict.EventConflictInputBoundary;
 import usecase.chatbot_event_conflict.EventConflictInteractor;
 import usecase.chatbot_event_conflict.EventConflictOutputBoundary;
 import view.ChatbotView;
-import interface_adapter.chatbot_event_conflict.EventConflictController;
 import view.ViewManager;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -45,6 +41,7 @@ public class AppBuilder {
 
     /**
      * Adds the Chatbot View to the application.
+     *
      * @return this builder
      */
     public AppBuilder addChatbotView() {
@@ -56,6 +53,7 @@ public class AppBuilder {
 
     /**
      * Adds the Chatbot Event Conflict Use Case to the application.
+     *
      * @return this builder
      */
     public AppBuilder addEventConflictUseCase() {
@@ -71,6 +69,7 @@ public class AppBuilder {
 
     /**
      * Creates the JFrame for the application and initially sets the ChatbotView to be displayed.
+     *
      * @return the application
      */
     public JFrame build() {

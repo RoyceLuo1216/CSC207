@@ -1,7 +1,7 @@
 package usecase.edit;
 
-import java.time.LocalTime;
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -51,6 +51,8 @@ public class EditInputData {
         return timeEnd;
     }
 
-    List<DayOfWeek> getDaysRepeated() { return daysRepeated; }
+    List<DayOfWeek> getDaysRepeated() {
+        return daysRepeated;
+    }
 
 }

@@ -1,13 +1,17 @@
 package usecase.delete;
 
-import entities.EventEntity.Event;
-
 import java.util.Optional;
 
+import entities.EventEntity.Event;
+
+/**
+ * This class helps create the abstraction to access the schedule which stores our events.
+ */
 public interface DeleteEventDataAccessInterface {
 
     /**
      * Deletes a specificied event from schedule.
+     *
      * @param eventName (name of the event to be deleted).
      * @return boolean representing if a feature was successfully deleted or not.
      */

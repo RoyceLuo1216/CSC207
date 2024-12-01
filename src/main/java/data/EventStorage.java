@@ -1,10 +1,11 @@
 package data;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import data_access.Schedule;
+
+import java.io.File;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import java.io.File;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class EventStorage {
 
@@ -12,6 +13,7 @@ public class EventStorage {
 
     /**
      * Method to save schedule to events.json. Will override the previous events.json
+     *
      * @param schedule schedule
      * @return saved schedule
      */
@@ -30,9 +32,10 @@ public class EventStorage {
 
     /**
      * Method to retrieve saved json schedule. If there is no events.json file, returns an empty schedule class.
+     *
      * @return saved schedule
      */
-    public Schedule getSchedule () {
+    public Schedule getSchedule() {
         File file = new File("schedule.json");
         if (!file.exists()) {
             return new Schedule();

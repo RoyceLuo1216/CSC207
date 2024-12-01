@@ -1,6 +1,8 @@
 package usecase.delete;
 
-
+/**
+ *  Interactor for DeleteEvent Use Case. Implements abstraction defined in DeleteEventInputBoundary.
+ */
 public class DeleteEventInteractor implements DeleteEventInputBoundary {
     private final DeleteEventOutputBoundary presenter;
     private final DeleteEventDataAccessInterface dataAccessObject;
@@ -18,7 +20,7 @@ public class DeleteEventInteractor implements DeleteEventInputBoundary {
             presenter.presentFailure("The event, " + eventName + " does not exist.");
         }
         else {
-            DeleteEventOutputData outputData = new DeleteEventOutputData(inputData.getEventName());
+            final DeleteEventOutputData outputData = new DeleteEventOutputData(inputData.getEventName());
 
             dataAccessObject.deleteEvent(eventName);
             presenter.presentSuccess(outputData);

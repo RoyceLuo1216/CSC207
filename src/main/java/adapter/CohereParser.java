@@ -1,5 +1,5 @@
 package adapter;
-    
+
 import org.json.JSONObject;
 import data_access.Schedule;
 

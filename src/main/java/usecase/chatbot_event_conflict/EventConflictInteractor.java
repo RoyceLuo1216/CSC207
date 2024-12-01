@@ -1,19 +1,15 @@
 package usecase.chatbot_event_conflict;
 
 import adapter.CohereClient;
-import entities.EventEntity.Event;
-import entities.EventEntity.FixedEvent;
 import data_access.Schedule;
+import entities.EventEntity.Event;
 import factory.EventFactory;
-import interface_adapter.chatbot_event_conflict.EventConflictPresenter;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -25,8 +21,8 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
     private final EventFactory eventFactory;
 
     public EventConflictInteractor(Schedule schedule,
-                            EventConflictOutputBoundary eventConflictOutputBoundary,
-                            EventFactory eventFactory) {
+                                   EventConflictOutputBoundary eventConflictOutputBoundary,
+                                   EventFactory eventFactory) {
         this.scheduleDataObject = schedule;
         this.eventConflictPresenter = eventConflictOutputBoundary;
         this.eventFactory = eventFactory;
@@ -122,10 +118,10 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
     /**
      * Finds tasks that occur during the specified day and time period.
      *
-     * @param startDay the start day of the period
+     * @param startDay  the start day of the period
      * @param startTime the start time of the period
-     * @param endTime the end time of the period
-     * @param schedule the schedule containing the events
+     * @param endTime   the end time of the period
+     * @param schedule  the schedule containing the events
      * @return a list of task descriptions for tasks that occur during the specified period
      */
     public ArrayList<String> getTasksDuring(DayOfWeek startDay, LocalTime startTime,
@@ -154,13 +150,11 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
     }
 
 
-
-
     /**
      * Generate a list of each hour from start to end (not including the exact end time).
      *
      * @param start the start time
-     * @param end the end time
+     * @param end   the end time
      * @return a list of each hour from start to end in LocalTime objects
      */
     private ArrayList<LocalTime> getHourlyIntervals(LocalTime start, LocalTime end) {
@@ -189,9 +183,9 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
     /**
      * Converts a day and time range into a readable string array.
      *
-     * @param day the day of the week
+     * @param day       the day of the week
      * @param startTime the start time
-     * @param endTime the end time
+     * @param endTime   the end time
      * @return a string array with the formatted day, start time, and end time
      */
     private String[] toStringTime(DayOfWeek day, LocalTime startTime, LocalTime endTime) {
@@ -203,16 +197,16 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
         String formattedStartTime = startTime.format(timeFormatter).toLowerCase();
         String formattedEndTime = endTime.format(timeFormatter).toLowerCase();
 
-        return new String[] { formattedDay, formattedStartTime, formattedEndTime };
+        return new String[]{formattedDay, formattedStartTime, formattedEndTime};
     }
 
     /**
      * Convert two LocalDateTime objects (start and end) into a list of string representations
-     *
+     * <p>
      * Example output: [Nov 27, 02:30 PM, 04:45 PM]
      *
      * @param start LocalDateTime object
-     * @param end LocalDateTime object
+     * @param end   LocalDateTime object
      * @return an array of string representation (Day, Start, End)
      */
     public String[] toStringTime(LocalDateTime start, LocalDateTime end) {
@@ -230,7 +224,7 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
         String startTime = start.format(timeFormatter);
         String endTime = end.format(timeFormatter);
 
-        return new String[] { date, startTime, endTime };
+        return new String[]{date, startTime, endTime};
     }
     //
     //
@@ -283,8 +277,6 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
 //            return eventConflictPresenter.setResponse("You have the following " + article[0] + ": \n" + tasksDuringString);
 //        }
 //    }
-
-
 
 
 }

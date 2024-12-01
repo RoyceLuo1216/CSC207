@@ -1,7 +1,8 @@
 package usecase.delete;
 
-import entities.EventEntity.Event;
-
+/**
+ * Input Data for DeleteEvent use case.
+ */
 public class DeleteEventInputData {
     private final String eventName;
 

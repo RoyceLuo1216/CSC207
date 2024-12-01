@@ -2,11 +2,9 @@ package usecase.edit;
 
 
 import data_access.Schedule;
-import entities.EventEntity.FixedEvent;
-import entities.EventEntity.RepeatEvent;
 import entities.EventEntity.Event;
+import entities.EventEntity.RepeatEvent;
 
-import java.time.DayOfWeek;
 import java.util.Optional;
 
 public class EditInteractor implements EditInputBoundary {
@@ -16,6 +14,19 @@ public class EditInteractor implements EditInputBoundary {
     public EditInteractor(Schedule userSchedule, EditOutputBoundary editOutputBoundary) {
         this.userSchedule = userSchedule;
         this.presenter = editOutputBoundary;
+    }
+
+    /**
+     * Updates fixed event data (dayStart, dayEnd, timeStart, timeEnd)
+     *
+     * @param editInputData the input data containing the updated information
+     * @param event         the event to edit
+     */
+    private static void updateFixedEventData(EditInputData editInputData, Event event) {
+        event.setDayStart(editInputData.getDayStart());
+        event.setDayEnd(editInputData.getDayEnd());
+        event.setTimeStart(editInputData.getTimeStart());
+        event.setTimeEnd(editInputData.getTimeEnd());
     }
 
     @Override
@@ -36,13 +47,13 @@ public class EditInteractor implements EditInputBoundary {
                 presenter.prepareFailView("The event type cannot be changed.");
 
             } else if (eventType.equals("RepeatEvent")) {
-                 // event is a repeat event and thus has one extra parameter then fixed event
+                // event is a repeat event and thus has one extra parameter then fixed event
                 updateFixedEventData(editInputData, event);
                 RepeatEvent repeatEvent = (RepeatEvent) event;
                 repeatEvent.setDaysRepeated(editInputData.getDaysRepeated());
 
                 final EditOutputData editOutputData = new EditOutputData(eventName, false,
-                                                    "Successfully updated repeat event!");
+                        "Successfully updated repeat event!");
                 presenter.prepareSuccessView(editOutputData);
 
             } else {
@@ -50,21 +61,9 @@ public class EditInteractor implements EditInputBoundary {
                 updateFixedEventData(editInputData, event);
 
                 final EditOutputData editOutputData = new EditOutputData(eventName, false,
-                                                            "successfully update event!");
+                        "successfully update event!");
                 presenter.prepareSuccessView(editOutputData);
             }
         }
-    }
-
-    /**
-     * Updates fixed event data (dayStart, dayEnd, timeStart, timeEnd)
-     * @param editInputData     the input data containing the updated information
-     * @param event             the event to edit
-     */
-    private static void updateFixedEventData(EditInputData editInputData, Event event) {
-        event.setDayStart(editInputData.getDayStart());
-        event.setDayEnd(editInputData.getDayEnd());
-        event.setTimeStart(editInputData.getTimeStart());
-        event.setTimeEnd(editInputData.getTimeEnd());
     }
 }
