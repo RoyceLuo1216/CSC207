@@ -25,7 +25,7 @@ public class SchedulePresenter implements ScheduleOutputBoundary {
      * @param outputData the output data from the use case
      */
     @Override
-    public void presentEvents(ScheduleOutputData outputData) {
+    public void presentView(ScheduleOutputData outputData) {
         ScheduleState state = viewModel.getState();
 
         // Clear previous state
@@ -40,6 +40,4 @@ public class SchedulePresenter implements ScheduleOutputBoundary {
         // Notify the ViewModel of the updated state
         viewModel.setState(state);
     }
-
-
 }
