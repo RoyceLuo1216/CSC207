@@ -51,7 +51,6 @@ public class FixedEvent implements Event {
         return this.eventName;
     }
 
-
     /**
      * Gets the name of the event.
      *

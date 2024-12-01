@@ -4,8 +4,7 @@ import entities.EventEntity.Event;
 import entities.EventEntity.FixedEvent;
 import entities.EventEntity.RepeatEvent;
 
-import java.time.DayOfWeek;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class EventFactory {
