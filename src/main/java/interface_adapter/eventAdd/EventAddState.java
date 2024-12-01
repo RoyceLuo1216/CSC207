@@ -10,7 +10,7 @@ public class EventAddState {
     private String timeStart;
     private String timeEnd;
 
-    private String editError;
+    private String eventError;
 
     public String getEventName() {
         return eventName;
@@ -34,7 +34,7 @@ public class EventAddState {
     }
 
     public String getEventError() {
-        return editError;
+        return eventError;
     }
 
     public void setEventName(String eventName) {
@@ -57,7 +57,7 @@ public class EventAddState {
         this.timeEnd = timeEnd;
     }
 
-    public void setEditError(String editError) {
-        this.editError = editError;
+    public void setEventError(String eventError) {
+        this.eventError = eventError;
     }
 }

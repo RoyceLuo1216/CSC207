@@ -20,14 +20,14 @@ public class EventAddPresenter implements EventAddOutputBoundary {
     public void prepareSuccessView(EventAddOutputData outputData) {
         // output data doesn't need to change, just need to let the view know,
         // so it can alert the user that their updated information was saved.
-        eventAddViewModel.firePropertyChanged("edit");
+        eventAddViewModel.firePropertyChanged("event");
     }
 
     @Override
     public void prepareFailView(String errorMessage) {
         // returns an error message if the event was not updated properly
         final EventAddState eventAddState = eventAddViewModel.getState();
-        eventAddState.setEditError(errorMessage);
+        eventAddState.setEventError(errorMessage);
         eventAddViewModel.firePropertyChanged();
     }
 

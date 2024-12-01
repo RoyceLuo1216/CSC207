@@ -20,7 +20,7 @@ public class RepeatPresenter implements RepeatOutputBoundary {
     public void prepareSuccessView(RepeatOutputData outputData) {
         // output data doesn't need to change, just need to let the view know,
         // so it can alert the user that their updated information was saved.
-        repeatViewModel.firePropertyChanged("edit");
+        repeatViewModel.firePropertyChanged("repeat");
     }
 
     @Override
