@@ -40,6 +40,6 @@ public class EventInformationPresenter implements EventInformationOutputBoundary
             }
         }
 
-        eventInformationViewModel.firePropertyChanged("edit");
+        eventInformationViewModel.firePropertyChanged("eventInformation");
     }
 }
