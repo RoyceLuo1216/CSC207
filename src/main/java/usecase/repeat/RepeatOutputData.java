@@ -12,7 +12,11 @@ public class RepeatOutputData {
         this.useCaseFailed = useCaseFailed;
     }
 
-    public String getEventName(){ return eventName; }
+    public String getEventName() {
+        return eventName;
+    }
 
-    public boolean isUseCaseFailed() {return useCaseFailed; }
+    public boolean isUseCaseFailed() {
+        return useCaseFailed;
+    }
 }

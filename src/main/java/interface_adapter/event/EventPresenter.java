@@ -2,6 +2,7 @@ package interface_adapter.event;
 
 import usecase.event.EventOutputBoundary;
 import usecase.event.EventOutputData;
+
 public class EventPresenter implements EventOutputBoundary {
     private final EventViewModel eventViewModel;
 

@@ -1,8 +1,5 @@
 package interface_adapter.event;
 
-import java.time.DayOfWeek;
-import java.time.LocalTime;
-
 /**
  * The state for the Edit View Model.
  */
@@ -40,7 +37,9 @@ public class EventState {
         return timeEnd;
     }
 
-    String getEditError() { return editError; }
+    String getEditError() {
+        return editError;
+    }
 
     public void setEventName(String eventName) {
         this.eventName = eventName;

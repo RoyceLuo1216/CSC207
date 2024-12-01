@@ -1,8 +1,7 @@
 package usecase.repeat;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -34,7 +33,6 @@ public class RepeatInputData {
         return eventName;
     }
 
-
     DayOfWeek getDayStart() {
         return dayStart;
     }
@@ -51,5 +49,7 @@ public class RepeatInputData {
         return timeEnd;
     }
 
-    List<DayOfWeek> getDaysRepeated() {return daysRepeated;}
+    List<DayOfWeek> getDaysRepeated() {
+        return daysRepeated;
+    }
 }

@@ -35,14 +35,17 @@ public class RepeatState {
         return timeEnd;
     }
 
-    String getRepeatError() { return repeatError; }
+    String getRepeatError() {
+        return repeatError;
+    }
 
-    List<String> getDaysRepeated() { return daysRepeated; }
+    List<String> getDaysRepeated() {
+        return daysRepeated;
+    }
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
-
 
     public void setDayStart(String dayStart) {
         this.dayStart = dayStart;
@@ -60,9 +63,11 @@ public class RepeatState {
         this.timeEnd = timeEnd;
     }
 
-    public void setEditError(String repeatError) {
-        this.repeatError = repeatError;
+    public void setEditError(String repeatErrors) {
+        this.repeatError = repeatErrors;
     }
 
-    public void setDaysRepeated(List<String> daysRepeated) {this.daysRepeated = daysRepeated;}
+    public void setDaysRepeated(List<String> daysRepeated) {
+        this.daysRepeated = daysRepeated;
+    }
 }

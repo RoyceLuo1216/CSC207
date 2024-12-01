@@ -1,12 +1,9 @@
 package usecase.repeat;
 
-import entities.ScheduleEntity.Schedule;
-import entities.EventEntity.Event;
-import usecase.edit.EditOutputData;
-
 import java.time.DayOfWeek;
 import java.util.List;
-import java.util.Optional;
+
+import entities.ScheduleEntity.Schedule;
 
 public class RepeatInteractor implements RepeatInputBoundary {
     private final Schedule userSchedule;
@@ -20,15 +17,19 @@ public class RepeatInteractor implements RepeatInputBoundary {
     @Override
     public void execute(RepeatInputData repeatInputData) {
         final List<DayOfWeek> numberDays = repeatInputData.getDaysRepeated();
-        String eventName = repeatInputData.getEventName();
+        final String eventName = repeatInputData.getEventName();
 
         if (numberDays.isEmpty()) {
             // user entered no repeat days
             presenter.prepareFailView("Please enter more than 0 repeat days");
 
-        } else {
-            boolean repeatAdd = userSchedule.createRepeatEvent(repeatInputData.getEventName(), repeatInputData.getDayStart(),
-                    repeatInputData.getDayEnd(), repeatInputData.getTimeStart(), repeatInputData.getTimeEnd(),
+        }
+        else {
+            final boolean repeatAdd = userSchedule.createRepeatEvent(repeatInputData.getEventName(),
+                    repeatInputData.getDayStart(),
+                    repeatInputData.getDayEnd(),
+                    repeatInputData.getTimeStart(),
+                    repeatInputData.getTimeEnd(),
                     repeatInputData.getDaysRepeated());
 
             if (!repeatAdd) {

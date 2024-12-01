@@ -42,7 +42,7 @@ public class FlexibleEventUseCase {
         return schedule.removeEvent(name);
     }
 
-    public void optimizeFlexibleEvents() {
-        optimizer.optimizeFlexibleEvents(schedule.getEventsByType(FlexibleEvent.class));
-    }
+//    public void optimizeFlexibleEvents() {
+//        optimizer.optimizeFlexibleEvents(schedule.getEventsByType(FlexibleEvent.class));
+//    }
 }

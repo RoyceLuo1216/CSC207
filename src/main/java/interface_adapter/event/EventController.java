@@ -1,17 +1,11 @@
 package interface_adapter.event;
 
-import usecase.edit.EditInputBoundary;
-import usecase.edit.EditInputData;
-import usecase.event.EventInputBoundary;
-import usecase.event.EventInputData;
-import usecase.repeat.RepeatInputBoundary;
-import usecase.repeat.RepeatInputData;
-
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+
+import usecase.event.EventInputBoundary;
+import usecase.event.EventInputData;
 
 /**
  * Controller for the Edit Use Case.
@@ -31,16 +25,15 @@ public class EventController {
      * @param timeStartString the start time of the event
      * @param timeEndString the end time of the event
      */
-    public void execute(String eventName, String eventType, String dayStartString, String dayEndString,
+    public void execute(String eventName, String dayStartString, String dayEndString,
                         String timeStartString, String timeEndString) {
 
-        DayOfWeek dayStart = DayOfWeek.valueOf(dayStartString.toUpperCase());
-        DayOfWeek dayEnd = DayOfWeek.valueOf(dayEndString.toUpperCase());
+        final DayOfWeek dayStart = DayOfWeek.valueOf(dayStartString.toUpperCase());
+        final DayOfWeek dayEnd = DayOfWeek.valueOf(dayEndString.toUpperCase());
 
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a");
-        LocalTime timeStart = LocalTime.parse(timeStartString, timeFormatter);
-        LocalTime timeEnd = LocalTime.parse(timeEndString, timeFormatter);
-
+        final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a");
+        final LocalTime timeStart = LocalTime.parse(timeStartString, timeFormatter);
+        final LocalTime timeEnd = LocalTime.parse(timeEndString, timeFormatter);
 
         final EventInputData eventInputData = new EventInputData(eventName, dayStart, dayEnd, timeStart, timeEnd);
 

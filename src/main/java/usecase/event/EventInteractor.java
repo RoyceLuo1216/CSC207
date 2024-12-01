@@ -1,9 +1,9 @@
 package usecase.event;
 
-import entities.ScheduleEntity.Schedule;
-import entities.EventEntity.Event;
-
 import java.util.Optional;
+
+import entities.EventEntity.Event;
+import entities.ScheduleEntity.Schedule;
 
 public class EventInteractor implements EventInputBoundary {
     private final Schedule userSchedule;
@@ -14,18 +14,27 @@ public class EventInteractor implements EventInputBoundary {
         this.presenter = eventOutputBoundary;
     }
 
+    /**
+     * Execute class for the interactor.
+     * @param eventInputData      the inputdata for the event
+     */
+
     @Override
     public void execute(EventInputData eventInputData) {
-        String eventName = eventInputData.getEventName();
-        Optional<Event> optionalEvent = userSchedule.getEventByName(eventName);
+        final String eventName = eventInputData.getEventName();
+        final Optional<Event> optionalEvent = userSchedule.getEventByName(eventName);
 
         if (optionalEvent.isPresent()) {
             // event already exists, cannot add
             presenter.prepareFailView("Event already exists");
 
-        } else {
-            boolean addEvent = userSchedule.addEvent(new Event(eventInputData.getEventName(), eventInputData.getDayStart(),
-                    eventInputData.getDayEnd(), eventInputData.getTimeStart(), eventInputData.getTimeEnd()));
+        }
+        else {
+            final boolean addEvent = userSchedule.addEvent(new Event(eventInputData.getEventName(),
+                    eventInputData.getDayStart(),
+                    eventInputData.getDayEnd(),
+                    eventInputData.getTimeStart(),
+                    eventInputData.getTimeEnd()));
 
             if (!addEvent) {
                 // event fails for some reason, like duplicate event or incompatible times

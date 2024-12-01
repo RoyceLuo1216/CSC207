@@ -1,13 +1,13 @@
 package interface_adapter.repeat;
 
-import usecase.repeat.RepeatInputBoundary;
-import usecase.repeat.RepeatInputData;
-
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import usecase.repeat.RepeatInputBoundary;
+import usecase.repeat.RepeatInputData;
 
 /**
  * Controller for the Edit Use Case.
@@ -28,25 +28,26 @@ public class RepeatController {
      * @param timeEndString the end time of the event
      * @param daysRepeated the days repeated
      */
-    public void execute(String eventName, String eventType, String dayStartString, String dayEndString,
+    public void execute(String eventName, String dayStartString, String dayEndString,
                         String timeStartString, String timeEndString, List<String> daysRepeated) {
 
-        DayOfWeek dayStart = DayOfWeek.valueOf(dayStartString.toUpperCase());
-        DayOfWeek dayEnd = DayOfWeek.valueOf(dayEndString.toUpperCase());
+        final DayOfWeek dayStart = DayOfWeek.valueOf(dayStartString.toUpperCase());
+        final DayOfWeek dayEnd = DayOfWeek.valueOf(dayEndString.toUpperCase());
 
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a");
-        LocalTime timeStart = LocalTime.parse(timeStartString, timeFormatter);
-        LocalTime timeEnd = LocalTime.parse(timeEndString, timeFormatter);
+        final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a");
+        final LocalTime timeStart = LocalTime.parse(timeStartString, timeFormatter);
+        final LocalTime timeEnd = LocalTime.parse(timeEndString, timeFormatter);
 
-        List<DayOfWeek> daysRepeatedInput = new ArrayList<DayOfWeek>();
+        final List<DayOfWeek> daysRepeatedInput = new ArrayList<DayOfWeek>();
 
         // For loop to add list of strings of day of weeks to DayOfWeek list
         for (String day : daysRepeated) {
-            DayOfWeek dayOfWeek = DayOfWeek.valueOf(day.toUpperCase());
+            final DayOfWeek dayOfWeek = DayOfWeek.valueOf(day.toUpperCase());
             daysRepeatedInput.add(dayOfWeek);
         }
 
-        final RepeatInputData repeatInputData = new RepeatInputData(eventName, dayStart, dayEnd, timeStart, timeEnd, daysRepeatedInput);
+        final RepeatInputData repeatInputData = new RepeatInputData(eventName, dayStart, dayEnd, timeStart, timeEnd,
+                daysRepeatedInput);
 
         repeatInteractor.execute(repeatInputData);
     }

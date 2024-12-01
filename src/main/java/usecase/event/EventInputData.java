@@ -1,7 +1,7 @@
 package usecase.event;
 
-import java.time.LocalTime;
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 
 /**
  * The input data for the Event use case.
@@ -28,7 +28,6 @@ public class EventInputData {
     String getEventName() {
         return eventName;
     }
-
 
     DayOfWeek getDayStart() {
         return dayStart;
