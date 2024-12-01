@@ -4,7 +4,7 @@ import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Optional;
 
-import entities.EventEntity.Event;
+import entities.eventEntity.Event;
 import factory.EventFactory;
 
 /**

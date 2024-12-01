@@ -1,7 +1,7 @@
 package usecase.event;
 
 import data_access.InMemoryDataAccessObject;
-import entities.EventEntity.FixedEvent;
+import entities.eventEntity.FixedEvent;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,24 +1,23 @@
 package view;
 
+import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotState;
+import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotViewModel;
+import interface_adapter.chatbotTimeEstimation.TimeEstimationController;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
-import interface_adapter.chatbot_event_conflict.ChatbotState;
-import interface_adapter.chatbot_event_conflict.ChatbotViewModel;
-import interface_adapter.chatbot_event_conflict.EventConflictController;
-
 /**
  * The View for when the user is using the chatbot.
  */
-public class ChatbotView extends JPanel implements ActionListener, PropertyChangeListener {
+public class TimeEstimationChatbotView extends JPanel implements ActionListener, PropertyChangeListener {
     private static final int DIMENSION_10 = 10;
     private static final int DIMENSION_20 = 20;
     private static final int DIMENSION_5 = 5;
@@ -26,22 +25,22 @@ public class ChatbotView extends JPanel implements ActionListener, PropertyChang
 
     private static final JTextArea CHAT_AREA = new JTextArea(15, 30);
     private static final JTextField ASK_FIELD = new JTextField(45);
-    private static final JButton ASK_BUTTON = new JButton(ChatbotViewModel.ASK_BUTTON_LABEL);
-    private static final JButton BACK_BUTTON = new JButton(ChatbotViewModel.BACK_BUTTON_LABEL);
+    private static final JButton ASK_BUTTON = new JButton(TimeEstimationChatbotViewModel.ASK_BUTTON_LABEL);
+    private static final JButton BACK_BUTTON = new JButton(TimeEstimationChatbotViewModel.BACK_BUTTON_LABEL);
     private static final JLabel BACK_LABEL = new JLabel();
-    final JLabel askLabel = new JLabel(ChatbotViewModel.ASK_LABEL);
+    final JLabel askLabel = new JLabel(TimeEstimationChatbotViewModel.ASK_LABEL);
     final JLabel askError = new JLabel();
     // Setup Components
     private final String viewName = "chatbot";
-    private final ChatbotViewModel chatbotViewModel;
+    private final TimeEstimationChatbotViewModel chatbotViewModel;
     // Initialize controller
-    private EventConflictController eventConflictController;
+    private TimeEstimationController timeEstimationController;
 
-    public ChatbotView(ChatbotViewModel chatbotViewModel) {
+    public TimeEstimationChatbotView(TimeEstimationChatbotViewModel chatbotViewModel) {
         this.chatbotViewModel = chatbotViewModel;
         chatbotViewModel.addPropertyChangeListener(this);
 
-        final JLabel title = new JLabel(ChatbotViewModel.TITLE_LABEL);
+        final JLabel title = new JLabel(TimeEstimationChatbotViewModel.TITLE_LABEL);
 
         // Main panel (Center)
         final JPanel mainPanel = new JPanel(new BorderLayout());
@@ -57,7 +56,7 @@ public class ChatbotView extends JPanel implements ActionListener, PropertyChang
         chatScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         chatScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         // Add chat intro to chatArea
-        addChats(ChatbotViewModel.CHAT_INTRO);
+        addChats(TimeEstimationChatbotViewModel.CHAT_INTRO);
 
         // Bottom panel (question bar and buttons)
         final JPanel bottomPanel = new JPanel();
@@ -122,7 +121,7 @@ public class ChatbotView extends JPanel implements ActionListener, PropertyChang
                     public void actionPerformed(ActionEvent evt) {
 
                         BACK_LABEL.setText("Pressed!");
-                        eventConflictController.backToMainView();
+                        timeEstimationController.backToMainView();
                     }
                 }
         );
@@ -140,7 +139,7 @@ public class ChatbotView extends JPanel implements ActionListener, PropertyChang
      * Shared function for submitting a question when ENTER or Ask button is pressed.
      */
     private void handleAskAction() {
-        final ChatbotState currentState = chatbotViewModel.getState();
+        final TimeEstimationChatbotState currentState = chatbotViewModel.getState();
         // Clear askError if any previous errors
         askError.setText("");
 
@@ -149,11 +148,11 @@ public class ChatbotView extends JPanel implements ActionListener, PropertyChang
             final String question = currentState.getQuestion();
 
             // Append to chat area
-            CHAT_AREA.append(ChatbotViewModel.USER_NAME_LABEL + question + "\n\n");
+            CHAT_AREA.append(TimeEstimationChatbotViewModel.USER_NAME_LABEL + question + "\n\n");
             // Clear input field
             ASK_FIELD.setText("");
 
-            eventConflictController.execute(question);
+            timeEstimationController.execute(question);
 
             if (currentState.getResponseError() != null) {
                 addChat(currentState.getResponseError());
@@ -165,7 +164,7 @@ public class ChatbotView extends JPanel implements ActionListener, PropertyChang
         }
         else {
             // Set error message if the input is empty
-            askError.setText(ChatbotViewModel.EMPTY_QUESTION_ERROR);
+            askError.setText(TimeEstimationChatbotViewModel.EMPTY_QUESTION_ERROR);
         }
     }
 
@@ -175,7 +174,7 @@ public class ChatbotView extends JPanel implements ActionListener, PropertyChang
      * @param output into chatArea
      */
     private void addChat(String output) {
-        CHAT_AREA.append(ChatbotViewModel.CHATBOT_NAME_LABEL + output + "\n\n");
+        CHAT_AREA.append(TimeEstimationChatbotViewModel.CHATBOT_NAME_LABEL + output + "\n\n");
         // auto scroll to the bottom of chat
         CHAT_AREA.setCaretPosition(CHAT_AREA.getDocument().getLength());
     }
@@ -187,7 +186,7 @@ public class ChatbotView extends JPanel implements ActionListener, PropertyChang
      */
     private void addChats(String[] output) {
         for (String line : output) {
-            CHAT_AREA.append(ChatbotViewModel.CHATBOT_NAME_LABEL + line + "\n\n");
+            CHAT_AREA.append(TimeEstimationChatbotViewModel.CHATBOT_NAME_LABEL + line + "\n\n");
         }
         // auto scroll to the bottom of chat
         CHAT_AREA.setCaretPosition(CHAT_AREA.getDocument().getLength());
@@ -197,7 +196,7 @@ public class ChatbotView extends JPanel implements ActionListener, PropertyChang
         ASK_FIELD.getDocument().addDocumentListener(new DocumentListener() {
 
             private void documentListenerHelper() {
-                final ChatbotState currentState = chatbotViewModel.getState();
+                final TimeEstimationChatbotState currentState = chatbotViewModel.getState();
                 currentState.setQuestion(ASK_FIELD.getText());
                 chatbotViewModel.setState(currentState);
             }
@@ -226,7 +225,7 @@ public class ChatbotView extends JPanel implements ActionListener, PropertyChang
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final ChatbotState state = (ChatbotState) evt.getNewValue();
+        final TimeEstimationChatbotState state = (TimeEstimationChatbotState) evt.getNewValue();
         if (state.getQuestionError() != null) {
             JOptionPane.showMessageDialog(this, state.getQuestionError());
         }
@@ -236,8 +235,8 @@ public class ChatbotView extends JPanel implements ActionListener, PropertyChang
         return viewName;
     }
 
-    public void setChatbotController(EventConflictController controller) {
-        this.eventConflictController = controller;
+    public void setChatbotController(TimeEstimationController controller) {
+        this.timeEstimationController = controller;
     }
 
     //
@@ -252,7 +251,7 @@ public class ChatbotView extends JPanel implements ActionListener, PropertyChang
         }
         else {
             // TODO: set text to whatever error COHERE finds
-            askError.setText(ChatbotViewModel.EMPTY_QUESTION_ERROR);
+            askError.setText(TimeEstimationChatbotViewModel.EMPTY_QUESTION_ERROR);
         }
     }
 
@@ -266,7 +265,7 @@ public class ChatbotView extends JPanel implements ActionListener, PropertyChang
 
         // Make question appear in chat area
         // Append to chat area
-        CHAT_AREA.append(ChatbotViewModel.USER_NAME_LABEL + question + "\n\n");
+        CHAT_AREA.append(TimeEstimationChatbotViewModel.USER_NAME_LABEL + question + "\n\n");
         // Clear input field
         ASK_FIELD.setText("");
 

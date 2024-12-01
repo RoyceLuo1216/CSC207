@@ -1,7 +1,7 @@
 package usecase.repeat;
 
 import data_access.InMemoryDataAccessObject;
-import entities.EventEntity.RepeatEvent;
+import entities.eventEntity.RepeatEvent;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -3,14 +3,23 @@ package app;
 import data_access.InMemoryDataAccessObject;
 import factory.EventFactory;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.chatbot_event_conflict.ChatbotViewModel;
+import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotViewModel;
+import interface_adapter.chatbotTimeEstimation.TimeEstimationController;
+import interface_adapter.chatbotTimeEstimation.TimeEstimationPresenter;
+import interface_adapter.chatbot_event_conflict.EventConflictChatbotViewModel;
 import interface_adapter.chatbot_event_conflict.EventConflictController;
 import interface_adapter.chatbot_event_conflict.EventConflictPresenter;
+import interface_adapter.delete.DeleteEventViewModel;
+import interface_adapter.edit.EditViewModel;
+import interface_adapter.repeat.RepeatViewModel;
 import usecase.chatbot_event_conflict.EventConflictInputBoundary;
 import usecase.chatbot_event_conflict.EventConflictInteractor;
 import usecase.chatbot_event_conflict.EventConflictOutputBoundary;
-import view.ChatbotView;
-import view.ViewManager;
+import usecase.chatbot_time_estimation.TimeEstimationInputBoundary;
+import usecase.chatbot_time_estimation.TimeEstimationInteractor;
+import usecase.chatbot_time_estimation.TimeEstimationOutputBoundary;
+import view.*;
+import view.EventConflictChatbotView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,22 +41,77 @@ public class AppBuilder {
 
     private final InMemoryDataAccessObject inMemoryDataAccessObjectDataObject = new InMemoryDataAccessObject();
 
-    private ChatbotView chatbotView;
-    private ChatbotViewModel chatbotViewModel;
+    private EventConflictChatbotView eventConflictChatbotView;
+    private EventConflictChatbotViewModel eventConflictChatbotViewModel;
+    private TimeEstimationChatbotView timeEstimationChatbotView;
+    private TimeEstimationChatbotViewModel timeEstimationChatbotViewModel;
+    private DeleteEventView deleteEventView;
+    private DeleteEventViewModel deleteEventViewModel;
+    private EventView eventView;
+    // TODO: FIND WHERE EVENT VIEW MODEL IS
+    private ScheduleView scheduleView;
+//    private EditView
+    private EditViewModel editViewModel;
+    private RepeatViewModel;
+//    private RepeatView
+    private ScheduleView;
+    private ScheduleViewModel
+    // TODO: ADD EDIT (NOT MERGED YET)
+
+    private ScheduleView scheduleView;
+    // TODO: FIND WHERE SCHEDULE VIEW MODEL IS
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
 
     /**
-     * Adds the Chatbot View to the application.
+     * Adds the Event Conflict Chatbot View to the application.
      *
      * @return this builder
      */
-    public AppBuilder addChatbotView() {
-        chatbotViewModel = new ChatbotViewModel();
-        chatbotView = new ChatbotView(chatbotViewModel);
-        cardPanel.add(chatbotView, chatbotView.getViewName());
+    public AppBuilder addEventConflictChatbotView() {
+        eventConflictChatbotViewModel = new EventConflictChatbotViewModel();
+        eventConflictChatbotView = new EventConflictChatbotView(eventConflictChatbotViewModel);
+        cardPanel.add(eventConflictChatbotView, eventConflictChatbotView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Event Conflict Chatbot View to the application.
+     *
+     * @return this builder
+     */
+//    public AppBuilder editEventView() {
+//        editViewModel = new EditViewModel();
+//        editView = new EditEventView(editViewModel);
+//        cardPanel.add(eventConflictChatbotView, eventConflictChatbotView.getViewName());
+//        return this;
+//    }
+
+    /**
+     * Adds the Delete View to the application.
+     *
+     * @return this builder
+     */
+//    public AppBuilder addDeleteEventView() {
+//        // TODO: FIND OUT WHAT THE VIEWNAME SHOULD BE HERE
+//        deleteEventViewModel = new DeleteEventViewModel("delete");
+//        deleteEventView = new TimeEstimationChatbotView(deleteEventViewModel);
+//        // TODO: FIND APPROPRIATE REPLACEMENT FOR DELETE ( deleteEventView.getViewName())
+//        cardPanel.add(deleteEventView, "delete");
+//        return this;
+//    }
+
+    /**
+     * Adds the Time Estimation Chatbot View to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addTimeEstimationChatbotView() {
+        timeEstimationChatbotViewModel = new TimeEstimationChatbotViewModel();
+        timeEstimationChatbotView = new TimeEstimationChatbotView(timeEstimationChatbotViewModel);
+        cardPanel.add(timeEstimationChatbotView, timeEstimationChatbotView.getViewName());
         return this;
     }
 
@@ -58,12 +122,27 @@ public class AppBuilder {
      */
     public AppBuilder addEventConflictUseCase() {
         final EventConflictOutputBoundary eventConflictOutputBoundary = new EventConflictPresenter(
-                viewManagerModel, chatbotViewModel);
+                viewManagerModel, eventConflictChatbotViewModel);
         final EventConflictInputBoundary eventConflictInteractor = new EventConflictInteractor(
                 inMemoryDataAccessObjectDataObject, eventConflictOutputBoundary, eventFactory);
 
         final EventConflictController controller = new EventConflictController(eventConflictInteractor);
-        chatbotView.setChatbotController(controller);
+        eventConflictChatbotView.setChatbotController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Chatbot Event Conflict Use Case to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addTimeEstimationUseCase() {
+        final TimeEstimationOutputBoundary timeEstimationOutputBoundary = new TimeEstimationPresenter(
+                viewManagerModel, timeEstimationChatbotViewModel);
+        final TimeEstimationInputBoundary timeEstimationInteractor = new TimeEstimationInteractor(timeEstimationOutputBoundary);
+
+        final TimeEstimationController controller = new TimeEstimationController(timeEstimationInteractor);
+        timeEstimationChatbotView.setChatbotController(controller);
         return this;
     }
 
@@ -78,7 +157,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(chatbotView.getViewName());
+        viewManagerModel.setState(eventConflictChatbotView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

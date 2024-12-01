@@ -2,7 +2,7 @@ package usecase.event;
 
 import java.util.Optional;
 
-import entities.EventEntity.Event;
+import entities.eventEntity.Event;
 import factory.EventFactory;
 
 /**
