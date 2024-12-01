@@ -1,6 +1,6 @@
 package data_access;
 
-import entities.eventEntity.Event;
+import entities.EventEntity.Event;
 import usecase.delete.DeleteEventDataAccessInterface;
 import usecase.edit.EditDataAccessInterface;
 
@@ -32,6 +32,7 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
      *
      * @param event event object to be added.
      */
+    @Override
     public void addEvent(Event event) {
         events.add(event);
     }
