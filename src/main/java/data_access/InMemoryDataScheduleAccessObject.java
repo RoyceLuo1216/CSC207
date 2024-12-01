@@ -10,10 +10,10 @@ import java.util.Optional;
 
 // TODO: ASK EVERYONE WHETHER OR NOT WE CAN DELETE SCHEDULE ENTITY
 
+// TODO: add whatever interfaces are needed in the dao here
+
 /**
- * Class representing a ScheduleUseCase with a list of events. This class handles the
- * creation, deletion, and retrieval of events, and also provides a framework
- * for scheduling flexible events around fixed ones.
+ * Data Access Object for program use. Does not persist after program closes.
  */
 public class InMemoryDataScheduleAccessObject {
     private final List<Event> events;

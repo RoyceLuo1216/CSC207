@@ -6,6 +6,13 @@ import entities.ScheduleEntity.Schedule;
 import java.io.File;
 import java.io.IOException;
 
+// TODO: ASK IF WE CAN DELETE EVENTSTORAGE
+
+// TODO: add whatever interfaces are needed in the dao here
+
+/**
+ * Data Access Object for json storage.
+ */
 public class JSONScheduleDataAccessObject {
 
     private static final String SCHEDULE_FILE_PATH = "schedule.json";
