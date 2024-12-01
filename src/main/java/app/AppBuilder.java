@@ -1,5 +1,9 @@
 package app;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import data_access.InMemoryDataAccessObject;
 import entities.EventEntity.EventFactory;
 import interface_adapter.ViewManagerModel;
@@ -10,19 +14,35 @@ import interface_adapter.chatbot_event_conflict.EventConflictChatbotViewModel;
 import interface_adapter.chatbot_event_conflict.EventConflictController;
 import interface_adapter.chatbot_event_conflict.EventConflictPresenter;
 import interface_adapter.delete.DeleteEventViewModel;
+import interface_adapter.eventAdd.EventAddController;
+import interface_adapter.eventAdd.EventAddPresenter;
+import interface_adapter.eventAdd.EventAddViewModel;
+import interface_adapter.edit.EditViewModel;
+import interface_adapter.edit.EditViewModel;
+import interface_adapter.repeat.RepeatController;
+import interface_adapter.repeat.RepeatPresenter;
+import interface_adapter.repeat.RepeatViewModel;
+import interface_adapter.delete.DeleteEventViewModel;
 import interface_adapter.edit.EditViewModel;
 import interface_adapter.repeat.RepeatViewModel;
 import usecase.chatbot_event_conflict.EventConflictInputBoundary;
 import usecase.chatbot_event_conflict.EventConflictInteractor;
 import usecase.chatbot_event_conflict.EventConflictOutputBoundary;
+import usecase.event.EventAddInputBoundary;
+import usecase.event.EventAddInteractor;
+import usecase.event.EventAddOutputBoundary;
+import usecase.repeat.RepeatInputBoundary;
+import usecase.repeat.RepeatInteractor;
+import usecase.repeat.RepeatOutputBoundary;
+import view.ChatbotView;
+import view.EventAddView;
+import view.RepeatView;
+import view.ViewManager;
 import usecase.chatbot_time_estimation.TimeEstimationInputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInteractor;
 import usecase.chatbot_time_estimation.TimeEstimationOutputBoundary;
 import view.*;
 import view.EventConflictChatbotView;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -58,6 +78,12 @@ public class AppBuilder {
     // TODO: ADD EDIT (NOT MERGED YET)
     // TODO: FIND WHERE SCHEDULE VIEW MODEL IS
 
+    private EventAddView eventAddView;
+    private EventAddViewModel eventAddViewModel;
+
+    private RepeatView repeatView;
+    private RepeatViewModel repeatViewModel;
+
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
@@ -87,6 +113,30 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Event Add View to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addEventView() {
+        eventAddViewModel = new EventAddViewModel();
+        eventAddView = new EventAddView(eventAddViewModel);
+        cardPanel.add(eventAddView, eventAddView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Repeat Event Add View to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addRepeatView() {
+        repeatViewModel = new RepeatViewModel();
+        repeatView = new RepeatView(repeatViewModel);
+        cardPanel.add(repeatView, repeatView.getViewName());
+        return this;
+    }
+
+    /**
      * Adds the Chatbot Event Conflict Use Case to the application.
      *
      * @return this builder
@@ -99,6 +149,38 @@ public class AppBuilder {
 
         final EventConflictController controller = new EventConflictController(eventConflictInteractor);
         eventConflictChatbotView.setChatbotController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Add Event Use Case.
+     *
+     * @return this builder
+     */
+    public AppBuilder addEventUseCase() {
+        final EventAddOutputBoundary eventAddOutputBoundary = new EventAddPresenter(
+                eventAddViewModel, viewManagerModel);
+        final EventAddInputBoundary eventInteractor = new EventAddInteractor(
+                inMemoryDataAccessObjectDataObject, eventAddOutputBoundary);
+
+        final EventAddController controller = new EventAddController(eventInteractor);
+        eventAddView.setEventController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Add Repeat Event Use Case.
+     *
+     * @return this builder
+     */
+    public AppBuilder addRepeatUseCase() {
+        final RepeatOutputBoundary repeatOutputBoundary = new RepeatPresenter(
+                repeatViewModel, viewManagerModel);
+        final RepeatInputBoundary repeatInteractor = new RepeatInteractor(
+                inMemoryDataAccessObjectDataObject, repeatOutputBoundary);
+
+        final RepeatController controller = new RepeatController(repeatInteractor);
+        repeatView.setRepeatController(controller);
         return this;
     }
 

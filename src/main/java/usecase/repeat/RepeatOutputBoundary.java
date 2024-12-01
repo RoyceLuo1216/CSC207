@@ -15,4 +15,9 @@ public interface RepeatOutputBoundary {
      * @param errorMessage the explanation of the failure
      */
     void prepareFailView(String errorMessage);
+
+    /**
+     * Returns the back to main schedule view.
+     */
+    void backToMainView();
 }

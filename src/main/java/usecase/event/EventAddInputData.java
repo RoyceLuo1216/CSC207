@@ -6,18 +6,18 @@ import java.time.LocalTime;
 /**
  * The input data for the Event use case.
  */
-public class EventInputData {
+public class EventAddInputData {
     private final String eventName;
     private final DayOfWeek dayStart;
     private final DayOfWeek dayEnd;
     private final LocalTime timeStart;
     private final LocalTime timeEnd;
 
-    public EventInputData(String eventName,
-                          DayOfWeek dayStart,
-                          DayOfWeek dayEnd,
-                          LocalTime timeStart,
-                          LocalTime timeEnd) {
+    public EventAddInputData(String eventName,
+                             DayOfWeek dayStart,
+                             DayOfWeek dayEnd,
+                             LocalTime timeStart,
+                             LocalTime timeEnd) {
         this.eventName = eventName;
         this.dayStart = dayStart;
         this.dayEnd = dayEnd;

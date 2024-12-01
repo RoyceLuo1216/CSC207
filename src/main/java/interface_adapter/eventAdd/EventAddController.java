@@ -1,19 +1,19 @@
-package interface_adapter.event;
+package interface_adapter.eventAdd;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-import usecase.event.EventInputBoundary;
-import usecase.event.EventInputData;
+import usecase.event.EventAddInputBoundary;
+import usecase.event.EventAddInputData;
 
 /**
  * Controller for the Add Event Use Case.
  */
-public class EventController {
-    private final EventInputBoundary eventInteractor;
+public class EventAddController {
+    private final EventAddInputBoundary eventInteractor;
 
-    public EventController(EventInputBoundary eventInteractor) {
+    public EventAddController(EventAddInputBoundary eventInteractor) {
         this.eventInteractor = eventInteractor;
     }
 
@@ -35,8 +35,15 @@ public class EventController {
         final LocalTime timeStart = LocalTime.parse(timeStartString, timeFormatter);
         final LocalTime timeEnd = LocalTime.parse(timeEndString, timeFormatter);
 
-        final EventInputData eventInputData = new EventInputData(eventName, dayStart, dayEnd, timeStart, timeEnd);
+        final EventAddInputData eventAddInputData = new EventAddInputData(eventName, dayStart, dayEnd, timeStart, timeEnd);
 
-        eventInteractor.execute(eventInputData);
+        eventInteractor.execute(eventAddInputData);
+    }
+
+    /**
+     * Returns the back to main schedule view.
+     */
+    public void backToMainView() {
+        eventInteractor.backToMainView();
     }
 }

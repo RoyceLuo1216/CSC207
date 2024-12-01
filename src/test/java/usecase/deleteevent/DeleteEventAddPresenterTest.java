@@ -8,7 +8,7 @@ import usecase.delete.DeleteEventOutputData;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DeleteEventPresenterTest {
+class DeleteEventAddPresenterTest {
 
     @Test
     void testPresentSuccess() {

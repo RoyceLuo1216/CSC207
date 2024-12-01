@@ -1,5 +1,6 @@
 package interface_adapter.repeat;
 
+import interface_adapter.ViewManagerModel;
 import usecase.repeat.RepeatOutputBoundary;
 import usecase.repeat.RepeatOutputData;
 
@@ -8,16 +9,18 @@ import usecase.repeat.RepeatOutputData;
  */
 public class RepeatPresenter implements RepeatOutputBoundary {
     private final RepeatViewModel repeatViewModel;
+    private final ViewManagerModel viewManagerModel;
 
-    public RepeatPresenter(RepeatViewModel editViewModel) {
+    public RepeatPresenter(RepeatViewModel editViewModel, ViewManagerModel viewManagerModel) {
         this.repeatViewModel = editViewModel;
+        this.viewManagerModel = viewManagerModel;
     }
 
     @Override
     public void prepareSuccessView(RepeatOutputData outputData) {
         // output data doesn't need to change, just need to let the view know,
         // so it can alert the user that their updated information was saved.
-        repeatViewModel.firePropertyChanged("edit");
+        repeatViewModel.firePropertyChanged("repeat");
     }
 
     @Override
@@ -26,5 +29,12 @@ public class RepeatPresenter implements RepeatOutputBoundary {
         final RepeatState editState = repeatViewModel.getState();
         editState.setEditError(errorMessage);
         repeatViewModel.firePropertyChanged();
+    }
+
+
+    @Override
+    public void backToMainView() {
+        viewManagerModel.setState(repeatViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

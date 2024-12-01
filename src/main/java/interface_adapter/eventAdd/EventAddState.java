@@ -1,52 +1,44 @@
-package interface_adapter.event;
+package interface_adapter.eventAdd;
 
 /**
  * The state for the Edit View Model.
  */
-public class EventState {
+public class EventAddState {
     private String eventName;
-    private String eventType;
     private String dayStart;
     private String dayEnd;
     private String timeStart;
     private String timeEnd;
 
-    private String editError;
+    private String eventError;
 
-    String getEventName() {
+    public String getEventName() {
         return eventName;
     }
 
-    String getEventType() {
-        return eventType;
-    }
 
-    String getDayStart() {
+    public String getDayStart() {
         return dayStart;
     }
 
-    String getDayEnd() {
+    public String getDayEnd() {
         return dayEnd;
     }
 
-    String getTimeStart() {
+    public String getTimeStart() {
         return timeStart;
     }
 
-    String getTimeEnd() {
+    public String getTimeEnd() {
         return timeEnd;
     }
 
-    String getEditError() {
-        return editError;
+    public String getEventError() {
+        return eventError;
     }
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
-    }
-
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
     }
 
     public void setDayStart(String dayStart) {
@@ -65,7 +57,7 @@ public class EventState {
         this.timeEnd = timeEnd;
     }
 
-    public void setEditError(String editError) {
-        this.editError = editError;
+    public void setEventError(String eventError) {
+        this.eventError = eventError;
     }
 }

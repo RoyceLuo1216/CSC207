@@ -16,6 +16,10 @@ public class Main {
         final JFrame application = appBuilder
                 .addEventConflictChatbotView()
                 .addEventConflictUseCase()
+                .addEventView()
+                .addEventUseCase()
+                .addRepeatView()
+                .addRepeatUseCase()
                 .build();
 
         application.pack();
