@@ -1,8 +1,8 @@
 package usecase.edit;
 
 import data_access.InMemoryDataAccessObject;
-import entities.EventEntity.Event;
-import entities.EventEntity.RepeatEvent;
+import entities.eventEntity.Event;
+import entities.eventEntity.RepeatEvent;
 import factory.EventFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,8 +1,7 @@
 package interface_adapter.chatbot_event_conflict;
 
-import usecase.chatbot_event_conflict.EventConflictInputBoundary;
 import usecase.chatbot_event_conflict.ChatbotInputData;
-import usecase.chatbot_event_conflict.EventConflictInteractor;
+import usecase.chatbot_event_conflict.EventConflictInputBoundary;
 
 /**
  * The Controller for the Chatbot Event Conflict Use Case.
@@ -29,7 +28,7 @@ public class EventConflictController {
     /**
      * Returns the back to main schedule view.
      */
-    public void backToMainView(){
+    public void backToMainView() {
         eventConflictUseCaseInteractor.backToMainView();
     }
 }

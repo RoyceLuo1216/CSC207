@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import entities.EventEntity.Event;
+import entities.eventEntity.Event;
 import usecase.delete.DeleteEventDataAccessInterface;
 import usecase.edit.EditDataAccessInterface;
 import usecase.event.EventDataAccessInterface;

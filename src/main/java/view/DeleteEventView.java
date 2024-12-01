@@ -40,11 +40,11 @@ public class DeleteEventView extends JPanel {
         this.backToScheduleCallback = backToScheduleCallback;
         this.refreshScheduleCallback = refreshScheduleCallback;
 
-        setupUI();
+        setupUi();
         setupListeners();
     }
 
-    private void setupUI() {
+    private void setupUi() {
         this.setLayout(new BorderLayout());
 
         // Title
@@ -76,13 +76,13 @@ public class DeleteEventView extends JPanel {
         final JButton backButton = new JButton(CANCEL_BUTTON_TEXT);
 
         // Delete Button Action
-        deleteButton.addActionListener(e -> {
+        deleteButton.addActionListener(error -> {
             final String eventName = viewModel.getState().getEventName();
             controller.execute(eventName);
         });
 
         // Back Button Action
-        backButton.addActionListener(e -> backToScheduleCallback.run());
+        backButton.addActionListener(error -> backToScheduleCallback.run());
 
         buttonPanel.add(deleteButton);
         buttonPanel.add(backButton);
