@@ -26,7 +26,6 @@ public class EventAddView extends JPanel implements ActionListener, PropertyChan
     private EventAddController eventController;
 
     private final JTextField eventNameField = new JTextField(20);
-    private final JComboBox<String> eventTypeComboBox = new JComboBox<>(EVENT_TYPES);
     private final JComboBox<String> dayStartComboBox = new JComboBox<>(DAYS_OF_WEEK);
     private final JComboBox<String> dayEndComboBox = new JComboBox<>(DAYS_OF_WEEK);
     private final JComboBox<String> timeStartComboBox = new JComboBox<>(TIMES);
@@ -50,7 +49,6 @@ public class EventAddView extends JPanel implements ActionListener, PropertyChan
 
         // LAYOUT
         final JPanel eventNamePanel = createPanel("Event Name:", eventNameField);
-        final JPanel eventTypePanel = createPanel("Event Type:", eventTypeComboBox);
         final JPanel dayStartPanel = createPanel("Day Start:", dayStartComboBox);
         final JPanel dayEndPanel = createPanel("Day End:", dayEndComboBox);
         final JPanel timeStartPanel = createPanel("Time Start:", timeStartComboBox);
@@ -65,7 +63,6 @@ public class EventAddView extends JPanel implements ActionListener, PropertyChan
 
         // Add panels to frame
         eventFrame.add(eventNamePanel);
-        eventFrame.add(eventTypePanel);
         eventFrame.add(dayStartPanel);
         eventFrame.add(dayEndPanel);
         eventFrame.add(timeStartPanel);
