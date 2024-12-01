@@ -1,9 +1,10 @@
 package data_access;
 
 import entities.EventEntity.Event;
-import java.util.stream.Collectors;
 
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -82,22 +83,30 @@ public class InMemoryDataScheduleAccessObject {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Method to find an event by a specific time.
-     *
-     * @param time the date/time to search for an event
-     * @return an Optional containing the event at that time, or an empty Optional
-     */
-    public Optional<Event> getEventByTime(LocalDateTime time) {
-        for (Event event : events) {
-            LocalDateTime startDate = event.getDayStart();
-            LocalDateTime endDate = event.getDayEnd();
 
-            if (!startDate.isAfter(time) && !endDate.isBefore(time)) {
+    /**
+     * Method to find an event by a specific day and time.
+     *
+     * @param day  the day of the week to search for an event
+     * @param time the time to search for an event
+     * @return an Optional containing the event at that day and time, or an empty Optional
+     */
+    public Optional<Event> getEventByDayAndTime(DayOfWeek day, LocalTime time) {
+        for (Event event : events) {
+            final DayOfWeek startDay = event.getDayStart();
+            final DayOfWeek endDay = event.getDayEnd();
+            final LocalTime startTime = event.getTimeStart();
+            final LocalTime endTime = event.getTimeEnd();
+
+            // Check if the day falls within the event's days and the time within the event's time range
+            if ((day.equals(startDay) || day.equals(endDay) || day.compareTo(startDay) > 0 && day.compareTo(endDay) < 0)
+                    && (time.equals(startTime) || time.equals(endTime) || time.isAfter(startTime)
+                    && time.isBefore(endTime))) {
                 return Optional.of(event);
             }
         }
         return Optional.empty();
     }
+
 }
 
