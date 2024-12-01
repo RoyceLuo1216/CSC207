@@ -3,6 +3,9 @@ package interface_adapter.edit;
 import usecase.edit.EditOutputBoundary;
 import usecase.edit.EditOutputData;
 
+/**
+ * Presenter for the Edit Use Case.
+ */
 public class EditPresenter implements EditOutputBoundary {
     private final EditViewModel editViewModel;
 

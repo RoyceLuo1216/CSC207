@@ -2,7 +2,8 @@ package data_access;
 
 import entities.EventEntity.Event;
 import entities.EventEntity.RepeatEvent;
-import usecase.delete.*;
+import usecase.delete.DeleteEventDataAccessInterface;
+import usecase.edit.EditDataAccessInterface;
 
 import java.lang.reflect.Array;
 import java.time.DayOfWeek;
@@ -20,7 +21,7 @@ import java.util.Optional;
  * creation, deletion, and retrieval of events, and also provides a framework
  * for scheduling flexible events around fixed ones.
  */
-public class Schedule implements DeleteEventDataAccessInterface {
+public class Schedule implements DeleteEventDataAccessInterface, EditDataAccessInterface {
     private final List<Event> events;
 
     /**
