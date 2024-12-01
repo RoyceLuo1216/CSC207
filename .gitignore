@@ -2,6 +2,8 @@
 /shelf/
 /.idea/workspace.xml
 .env
+.idea/
+main.iml
 
 # Editor-based HTTP Client requests
 /httpRequests/
@@ -10,3 +12,4 @@
 /dataSources/
 /dataSources.local.xml
 
+/.idea

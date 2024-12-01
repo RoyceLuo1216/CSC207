@@ -1,14 +1,21 @@
-package data;
+package data_access;
 
-import entities.ScheduleEntity.Schedule;
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.io.File;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import entities.ScheduleEntity.Schedule;
 
-public class EventStorage {
+import java.io.File;
+import java.io.IOException;
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+// TODO: ASK IF WE CAN DELETE EVENTSTORAGE
+
+// TODO: add whatever interfaces are needed in the dao here
+
+/**
+ * Data Access Object for json storage.
+ */
+public class JSONScheduleDataAccessObject {
+
+    private static final String SCHEDULE_FILE_PATH = "schedule.json";
 
     /**
      * Method to save schedule to events.json. Will override the previous events.json
@@ -19,11 +26,12 @@ public class EventStorage {
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            File file = new File("schedule.json");
+            File file = new File(SCHEDULE_FILE_PATH);
 
             objectMapper.writeValue(file, schedule);
 
         } catch (IOException e) {
+            System.err.println("Error writing to file " + SCHEDULE_FILE_PATH + ": " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -33,8 +41,9 @@ public class EventStorage {
      * @return saved schedule
      */
     public Schedule getSchedule () {
-        File file = new File("schedule.json");
+        File file = new File(SCHEDULE_FILE_PATH);
         if (!file.exists()) {
+            System.out.println("No saved schedule found, returning empty schedule.");
             return new Schedule();
         }
 
@@ -45,10 +54,10 @@ public class EventStorage {
             return objectMapper.readValue(file, Schedule.class);
 
         } catch (IOException e) {
+            System.err.println("Error reading from file " + SCHEDULE_FILE_PATH + ": " + e.getMessage());
             e.printStackTrace();
         }
         return new Schedule();
     }
-
 
 }
