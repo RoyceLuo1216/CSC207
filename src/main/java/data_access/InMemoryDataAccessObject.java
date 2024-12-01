@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import entities.EventEntity.Event;
 import usecase.delete.DeleteEventDataAccessInterface;
 import usecase.edit.EditDataAccessInterface;
+import usecase.event.EventDataAccessInterface;
 
 /**
  * Class representing a ScheduleUseCase with a list of events. This class handles the
@@ -17,7 +18,8 @@ import usecase.edit.EditDataAccessInterface;
  * for scheduling flexible events around fixed ones.
  */
 public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
-                                                        EditDataAccessInterface {
+                                                        EditDataAccessInterface,
+                                                        EventDataAccessInterface {
     private final List<Event> events;
 
     /**
