@@ -17,7 +17,6 @@ import usecase.chatbot_time_estimation.TimeEstimationInputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInteractor;
 import usecase.chatbot_time_estimation.TimeEstimationOutputBoundary;
 import view.*;
-import view.ChatbotView;
 
 import javax.swing.*;
 import java.awt.*;

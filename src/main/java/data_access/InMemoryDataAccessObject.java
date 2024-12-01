@@ -36,6 +36,7 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
      *
      * @param event event object to be added.
      */
+    @Override
     public void addEvent(Event event) {
         events.add(event);
     }
