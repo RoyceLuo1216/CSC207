@@ -1,54 +1,40 @@
 package entities.EventEntity;
 
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * A FixedEvent represents an event with a fixed start and end time, name, and priority.
+ * A FixedEvent represents an event with a fixed start and end time, name.
  */
 public class FixedEvent implements Event {
-    @JsonProperty("tasks")
-    private final List<Task> tasks;
     @JsonProperty("dayStart")
-    private LocalDateTime dayStart;
+    private DayOfWeek dayStart;
     @JsonProperty("dayEnd")
-    private LocalDateTime dayEnd;
+    private DayOfWeek dayEnd;
     @JsonProperty("eventName")
     private String eventName;
-    @JsonProperty("priorityLabel")
-    private int priorityLabel;
+    @JsonProperty("timeStart")
+    private LocalTime timeStart;
+    @JsonProperty("timeEnd")
+    private LocalTime timeEnd;
 
     /**
-     * Constructor for the FixedEvent class.
-     *
-     * @param dayStart      the start date and time of the event
-     * @param dayEnd        the end date and time of the event
+     * Constructor for fixed event class.
+     * @param dayStart      the start date of the event
+     * @param dayEnd        the end date of the event
      * @param eventName     the name of the event
-     * @param priorityLabel the priority label of the event
+     * @param timeStart     the start time of the event
+     * @param timeEnd       the end time of the event
      */
-    public FixedEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName, int priorityLabel) {
+    public FixedEvent(DayOfWeek dayStart, DayOfWeek dayEnd, String eventName, LocalTime timeStart, LocalTime timeEnd) {
         this.dayStart = dayStart;
         this.dayEnd = dayEnd;
         this.eventName = eventName;
-        this.priorityLabel = priorityLabel;
-        this.tasks = new ArrayList<>();
-
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
     }
-
-    /**
-     * Gets the name of the event.
-     *
-     * @return the name of the event as a String.
-     */
-    @Override
-    public String setEventName() {
-        return this.eventName;
-    }
-
 
     /**
      * Gets the name of the event.
@@ -75,18 +61,8 @@ public class FixedEvent implements Event {
      * @return the start time of the event as a LocalDateTime object.
      */
     @Override
-    public LocalDateTime getDayStart() {
+    public DayOfWeek getDayStart() {
         return this.dayStart;
-    }
-
-    /**
-     * Sets the starting day of the event.
-     *
-     * @param dayStart the new start date of the event.
-     */
-    @Override
-    public void setDayStart(DayOfWeek dayStart) {
-
     }
 
     /**
@@ -94,7 +70,7 @@ public class FixedEvent implements Event {
      *
      * @param dayStart represents the new start day for this event.
      */
-    public void setDayStart(LocalDateTime dayStart) {
+    public void setDayStart(DayOfWeek dayStart) {
         this.dayStart = dayStart;
     }
 
@@ -104,7 +80,7 @@ public class FixedEvent implements Event {
      * @return the end time of the event as a LocalDateTime object.
      */
     @Override
-    public LocalDateTime getDayEnd() {
+    public DayOfWeek getDayEnd() {
         return this.dayEnd;
     }
 
@@ -115,7 +91,7 @@ public class FixedEvent implements Event {
      */
     @Override
     public void setDayEnd(DayOfWeek dayEnd) {
-
+        this.dayEnd = dayEnd;
     }
 
     /**
@@ -125,7 +101,7 @@ public class FixedEvent implements Event {
      */
     @Override
     public LocalTime getTimeStart() {
-        return null;
+        return timeStart;
     }
 
     /**
@@ -135,7 +111,7 @@ public class FixedEvent implements Event {
      */
     @Override
     public void setTimeStart(LocalTime timeStart) {
-
+        this.timeStart = timeStart;
     }
 
     /**
@@ -145,7 +121,7 @@ public class FixedEvent implements Event {
      */
     @Override
     public LocalTime getTimeEnd() {
-        return null;
+        return timeEnd;
     }
 
     /**
@@ -155,65 +131,7 @@ public class FixedEvent implements Event {
      */
     @Override
     public void setTimeEnd(LocalTime timeEnd) {
-
-    }
-
-    /**
-     * Sets the end day to a new value.
-     *
-     * @param dayEnd represents the new end day for this event.
-     */
-    public void setDayEnd(LocalDateTime dayEnd) {
-        this.dayEnd = dayEnd;
-    }
-
-    /**
-     * Gets the priority label of the event.
-     *
-     * @return the priority label of the event as an integer.
-     */
-    @Override
-    public int getPriorityLabel() {
-        return this.priorityLabel;
-    }
-
-    /**
-     * Sets the priority label to a new value.
-     *
-     * @param priorityLabel the new priority label for this event.
-     */
-    public void setPriorityLabel(int priorityLabel) {
-        this.priorityLabel = priorityLabel;
-    }
-
-    /**
-     * Returns the list of tasks associated with the event.
-     *
-     * @return
-     */
-    @Override
-    public List<Task> getTasks() {
-        return this.tasks;
-    }
-
-    /**
-     * Adds a Task to the list
-     *
-     * @param task, task object to add to the event.
-     */
-    @Override
-    public void addTask(Task task) {
-        this.tasks.add(task);
-    }
-
-    /**
-     * Removes a task from the list.
-     *
-     * @param task, task object that gets removed.
-     */
-    @Override
-    public void removeTask(Task task) {
-        this.tasks.remove(task);
+        this.timeEnd = timeEnd;
     }
 
 }

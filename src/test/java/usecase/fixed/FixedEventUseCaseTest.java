@@ -1,58 +1,65 @@
 package usecase.fixed;
 
+import data_access.InMemoryDataAccessObject;
 import entities.EventEntity.Event;
 import entities.EventEntity.FixedEvent;
-import entities.ScheduleEntity.Schedule;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 public class FixedEventUseCaseTest {
 
-    private Schedule schedule;
+    private InMemoryDataAccessObject inMemoryDataAccessObject;
 
     @Before
     public void setUp() {
-        schedule = new Schedule();
+        inMemoryDataAccessObject = new InMemoryDataAccessObject();
     }
 
     @Test
     public void testAddFixedEvent() {
-        LocalDateTime start = LocalDateTime.of(2024, 11, 9, 18, 0);
-        LocalDateTime end = LocalDateTime.of(2024, 11, 9, 20, 0);
+        DayOfWeek startDay = DayOfWeek.SATURDAY;
+        DayOfWeek endDay = DayOfWeek.SATURDAY;
+        LocalTime startTime = LocalTime.of(18, 0);
+        LocalTime endTime = LocalTime.of(20, 0);
 
         // Creating and adding the FixedEvent
-        FixedEvent event = new FixedEvent(start, end, "MAT237 Midterm", 1);
-        schedule.addEvent(event);
+        FixedEvent event = new FixedEvent(startDay, endDay, "MAT237 Midterm", startTime, endTime);
+        inMemoryDataAccessObject.addEvent(event);
 
         // Verify the event has been added
-        Optional<Event> retrievedEvent = schedule.getEventByName("MAT237 Midterm");
+        Optional<Event> retrievedEvent = inMemoryDataAccessObject.getEventByName("MAT237 Midterm");
         assertTrue(retrievedEvent.isPresent());
         assertEquals("MAT237 Midterm", retrievedEvent.get().getEventName());
-        assertEquals(start, retrievedEvent.get().getDayStart());
-        assertEquals(end, retrievedEvent.get().getDayEnd());
+        assertEquals(startDay, retrievedEvent.get().getDayStart());
+        assertEquals(endDay, retrievedEvent.get().getDayEnd());
+        assertEquals(startTime, retrievedEvent.get().getTimeStart());
+        assertEquals(endTime, retrievedEvent.get().getTimeEnd());
     }
 
     @Test
     public void testRemoveFixedEvent() {
-        LocalDateTime start = LocalDateTime.of(2024, 11, 9, 18, 0);
-        LocalDateTime end = LocalDateTime.of(2024, 11, 9, 20, 0);
+        DayOfWeek startDay = DayOfWeek.SATURDAY;
+        DayOfWeek endDay = DayOfWeek.SATURDAY;
+        LocalTime startTime = LocalTime.of(18, 0);
+        LocalTime endTime = LocalTime.of(20, 0);
 
         // Adding the FixedEvent
-        FixedEvent event = new FixedEvent(start, end, "MAT237 Midterm", 1);
-        schedule.addEvent(event);
+        FixedEvent event = new FixedEvent(startDay, endDay, "MAT237 Midterm", startTime, endTime);
+        inMemoryDataAccessObject.addEvent(event);
 
         // Verify the event is in the schedule
-        assertTrue(schedule.getEventByName("MAT237 Midterm").isPresent());
+        assertTrue(inMemoryDataAccessObject.getEventByName("MAT237 Midterm").isPresent());
 
         // Remove the event
-        schedule.removeEvent("MAT237 Midterm");
+        inMemoryDataAccessObject.removeEvent("MAT237 Midterm");
 
         // Verify the event has been removed
-        assertFalse(schedule.getEventByName("MAT237 Midterm").isPresent());
+        assertFalse(inMemoryDataAccessObject.getEventByName("MAT237 Midterm").isPresent());
     }
 }

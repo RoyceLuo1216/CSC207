@@ -1,23 +1,19 @@
 package app;
 
-import java.awt.CardLayout;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-
-import entities.ScheduleEntity.Schedule;
+import data_access.InMemoryDataAccessObject;
 import factory.EventFactory;
-
 import interface_adapter.ViewManagerModel;
 import interface_adapter.chatbot_event_conflict.ChatbotViewModel;
+import interface_adapter.chatbot_event_conflict.EventConflictController;
 import interface_adapter.chatbot_event_conflict.EventConflictPresenter;
 import usecase.chatbot_event_conflict.EventConflictInputBoundary;
 import usecase.chatbot_event_conflict.EventConflictInteractor;
 import usecase.chatbot_event_conflict.EventConflictOutputBoundary;
 import view.ChatbotView;
-import interface_adapter.chatbot_event_conflict.EventConflictController;
 import view.ViewManager;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -34,7 +30,7 @@ public class AppBuilder {
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    private final Schedule scheduleDataObject = new Schedule();
+    private final InMemoryDataAccessObject inMemoryDataAccessObjectDataObject = new InMemoryDataAccessObject();
 
     private ChatbotView chatbotView;
     private ChatbotViewModel chatbotViewModel;
@@ -45,6 +41,7 @@ public class AppBuilder {
 
     /**
      * Adds the Chatbot View to the application.
+     *
      * @return this builder
      */
     public AppBuilder addChatbotView() {
@@ -56,13 +53,14 @@ public class AppBuilder {
 
     /**
      * Adds the Chatbot Event Conflict Use Case to the application.
+     *
      * @return this builder
      */
     public AppBuilder addEventConflictUseCase() {
         final EventConflictOutputBoundary eventConflictOutputBoundary = new EventConflictPresenter(
                 viewManagerModel, chatbotViewModel);
         final EventConflictInputBoundary eventConflictInteractor = new EventConflictInteractor(
-                scheduleDataObject, eventConflictOutputBoundary, eventFactory);
+                inMemoryDataAccessObjectDataObject, eventConflictOutputBoundary, eventFactory);
 
         final EventConflictController controller = new EventConflictController(eventConflictInteractor);
         chatbotView.setChatbotController(controller);
@@ -71,6 +69,7 @@ public class AppBuilder {
 
     /**
      * Creates the JFrame for the application and initially sets the ChatbotView to be displayed.
+     *
      * @return the application
      */
     public JFrame build() {

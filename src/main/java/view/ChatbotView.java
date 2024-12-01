@@ -18,22 +18,18 @@ import java.beans.PropertyChangeListener;
  * The View for when the user is using the chatbot.
  */
 public class ChatbotView extends JPanel implements ActionListener, PropertyChangeListener {
-    // Initialize controller
-    private EventConflictController eventConflictController;
-
-    // Setup Components
-    private final String viewName = "chatbot";
-
-    private final ChatbotViewModel chatbotViewModel;
-
     private static final JTextArea chatArea = new JTextArea(15, 30);
     private static final JTextField askField = new JTextField(45);
-    final JLabel askLabel = new JLabel(ChatbotViewModel.ASK_LABEL);
-    final JLabel askError = new JLabel();
-
     private static final JButton askButton = new JButton(ChatbotViewModel.ASK_BUTTON_LABEL);
     private static final JButton backButton = new JButton(ChatbotViewModel.BACK_BUTTON_LABEL);
     private static final JLabel backLabel = new JLabel();
+    final JLabel askLabel = new JLabel(ChatbotViewModel.ASK_LABEL);
+    final JLabel askError = new JLabel();
+    // Setup Components
+    private final String viewName = "chatbot";
+    private final ChatbotViewModel chatbotViewModel;
+    // Initialize controller
+    private EventConflictController eventConflictController;
 
 
     public ChatbotView(ChatbotViewModel chatbotViewModel) {
@@ -168,6 +164,7 @@ public class ChatbotView extends JPanel implements ActionListener, PropertyChang
 
     /**
      * Print a single chatbot line in chatArea.
+     *
      * @param output into chatArea
      */
     private void addChat(String output) {
@@ -178,10 +175,11 @@ public class ChatbotView extends JPanel implements ActionListener, PropertyChang
 
     /**
      * Print multiple chatbot lines in chatArea.
+     *
      * @param output into chatArea
      */
     private void addChats(String[] output) {
-        for (String line: output){
+        for (String line : output) {
             chatArea.append(ChatbotViewModel.CHATBOT_NAME_LABEL + line + "\n\n");
         }
         // auto scroll to the bottom of chat

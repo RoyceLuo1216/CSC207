@@ -1,57 +1,48 @@
 package entities.EventEntity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A RepeatEvent represents a repeated event with  start/end time, name, and priority.
  */
 public class RepeatEvent implements Event {
 
-    @JsonProperty("tasks")
-    private final List<Task> tasks;
     @JsonProperty("dayStart")
-    private LocalDateTime dayStart;
+    private DayOfWeek dayStart;
     @JsonProperty("dayEnd")
-    private LocalDateTime dayEnd;
+    private DayOfWeek dayEnd;
     @JsonProperty("eventName")
     private String eventName;
-    @JsonProperty("priorityLabel")
-    private int priorityLabel;
     @JsonProperty("daysRepeated")
-    private final List<LocalDateTime> daysRepeated;
+    private List<DayOfWeek> daysRepeated;
+    @JsonProperty("timeStart")
+    private LocalTime timeStart;
+    @JsonProperty("timeEnd")
+    private LocalTime timeEnd;
 
     /**
      * Constructor for the RepeatEvent class.
      *
-     * @param dayStart      the start date and time of the event
-     * @param dayEnd        the end date and time of the event
+     * @param dayStart      the start date of the event
+     * @param dayEnd        the end date of the event
+     * @param timeStart     the start time of the event
+     * @param timeEnd       the end time of the event
      * @param eventName     the name of the event
-     * @param priorityLabel the priority label of the event
-     * @param daysRepeated  the days that the event is repeated
+     * @param daysRepeated  the days that the event is repeated.
      */
-    public RepeatEvent(LocalDateTime dayStart, LocalDateTime dayEnd, String eventName, int priorityLabel, List<LocalDateTime> daysRepeated) {
+    public RepeatEvent(DayOfWeek dayStart, DayOfWeek dayEnd, String eventName, LocalTime timeStart, LocalTime timeEnd,
+                                                                                    List<DayOfWeek> daysRepeated) {
         this.dayStart = dayStart;
         this.dayEnd = dayEnd;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
         this.eventName = eventName;
-        this.priorityLabel = priorityLabel;
-        this.tasks = new ArrayList<>();
         this.daysRepeated = daysRepeated;
     }
-
-    /**
-     * Gets the name of the event.
-     *
-     * @return the name of the event as a String.
-     */
-    @Override
-    public String setEventName() {
-        return this.eventName;
-    }
-
 
     /**
      * Gets the name of the event.
@@ -78,16 +69,17 @@ public class RepeatEvent implements Event {
      * @return the start time of the event as a LocalDateTime object.
      */
     @Override
-    public LocalDateTime getDayStart() {
+    public DayOfWeek getDayStart() {
         return this.dayStart;
     }
 
     /**
-     * Sets the start day to another value.
+     * Sets the starting day of the event.
      *
-     * @param dayStart represents the new start day for this event.
+     * @param dayStart the new start date of the event.
      */
-    public void setDayStart(LocalDateTime dayStart) {
+    @Override
+    public void setDayStart(DayOfWeek dayStart) {
         this.dayStart = dayStart;
     }
 
@@ -97,71 +89,73 @@ public class RepeatEvent implements Event {
      * @return the end time of the event as a LocalDateTime object.
      */
     @Override
-    public LocalDateTime getDayEnd() {
+    public DayOfWeek getDayEnd() {
         return this.dayEnd;
     }
 
     /**
-     * Sets the end day to a new value.
+     * Sets the ending day of the event.
      *
-     * @param dayEnd represents the new end day for this event.
+     * @param dayEnd the new end date of the event.
      */
-    public void setDayEnd(LocalDateTime dayEnd) {
+    @Override
+    public void setDayEnd(DayOfWeek dayEnd) {
         this.dayEnd = dayEnd;
     }
 
     /**
-     * Gets the priority label of the event.
+     * Gets the start time of the event.
      *
-     * @return the priority label of the event as an integer.
+     * @return the start time of the event as a DayOfWeek.
      */
     @Override
-    public int getPriorityLabel() {
-        return this.priorityLabel;
+    public LocalTime getTimeStart() {
+        return timeStart;
     }
 
     /**
-     * Sets the priority label to a new value.
+     * Sets the end date and time of the event.
      *
-     * @param priorityLabel the new priority label for this event.
+     * @param timeStart the new start time of the event.
      */
-    public void setPriorityLabel(int priorityLabel) {
-        this.priorityLabel = priorityLabel;
+    @Override
+    public void setTimeStart(LocalTime timeStart) {
+        this.timeStart = timeStart;
     }
 
     /**
-     * Returns the list of tasks associated with the event.
+     * Gets the end time of the event.
      *
-     * @return
+     * @return the end time of the event as a DayOfWeek.
      */
     @Override
-    public List<Task> getTasks() {
-        return this.tasks;
+    public LocalTime getTimeEnd() {
+        return timeEnd;
     }
 
     /**
-     * Adds a Task to the list
+     * Sets the end date and time of the event.
      *
-     * @param task, task object to add to the event.
+     * @param timeEnd the new end time of the event.
      */
     @Override
-    public void addTask(Task task) {
-        this.tasks.add(task);
+    public void setTimeEnd(LocalTime timeEnd) {
+        this.timeEnd = timeEnd;
     }
 
     /**
-     * Removes a task from the list.
-     *
-     * @param task, task object that gets removed.
+     * Returns a list of days that the event is repeated.
+     * @return list of type DayOfWeek of days that the event repeats. 
      */
-    @Override
-    public void removeTask(Task task) {
-        this.tasks.remove(task);
+    public List<DayOfWeek> getDaysRepeated() {
+        return daysRepeated;
     }
 
-
-    public List<LocalDateTime> getDaysRepeated() {
-        return this.daysRepeated;
+    /**
+     * Sets the days that the event repeats.
+     * @param daysRepeated new set of repeat days.
+     */
+    public void setDaysRepeated(List<DayOfWeek> daysRepeated) {
+        this.daysRepeated = daysRepeated;
     }
-
 }
