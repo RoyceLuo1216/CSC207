@@ -1,9 +1,7 @@
 package usecase.event;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.DayOfWeek;
-import java.util.List;
 
 /**
  * The input data for the Event use case.

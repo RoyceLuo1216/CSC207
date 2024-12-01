@@ -1,7 +1,5 @@
 package interface_adapter.repeat;
 
-import usecase.edit.EditInputBoundary;
-import usecase.edit.EditInputData;
 import usecase.repeat.RepeatInputBoundary;
 import usecase.repeat.RepeatInputData;
 

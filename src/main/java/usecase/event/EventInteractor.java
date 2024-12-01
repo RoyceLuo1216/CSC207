@@ -3,8 +3,6 @@ package usecase.event;
 import entities.ScheduleEntity.Schedule;
 import entities.EventEntity.Event;
 
-import java.time.DayOfWeek;
-import java.util.List;
 import java.util.Optional;
 
 public class EventInteractor implements EventInputBoundary {
