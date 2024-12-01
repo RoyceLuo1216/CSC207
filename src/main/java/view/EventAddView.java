@@ -1,6 +1,6 @@
 package view;
 
-import static interface_adapter.event.EventViewModel.*;
+import static interface_adapter.eventAdd.EventAddViewModel.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,21 +9,21 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
 
-import interface_adapter.event.EventController;
-import interface_adapter.event.EventState;
-import interface_adapter.event.EventViewModel;
+import interface_adapter.eventAdd.EventAddController;
+import interface_adapter.eventAdd.EventAddState;
+import interface_adapter.eventAdd.EventAddViewModel;
 
 /**
  * The View for when the user is adding an event (i.e. its details) into the program.
  */
-public class EventView extends JPanel implements ActionListener, PropertyChangeListener {
+public class EventAddView extends JPanel implements ActionListener, PropertyChangeListener {
     // Initialise the controller
 
     private static final int DIMENSION_500 = 500;
 
     private final String viewName = "event";
-    private final EventViewModel eventViewModel;
-    private EventController eventController;
+    private final EventAddViewModel eventAddViewModel;
+    private EventAddController eventController;
 
     private final JTextField eventNameField = new JTextField(20);
     private final JComboBox<String> eventTypeComboBox = new JComboBox<>(EVENT_TYPES);
@@ -38,9 +38,9 @@ public class EventView extends JPanel implements ActionListener, PropertyChangeL
     private final JButton backButton = new JButton("Back");
 
     // Data
-    public EventView(EventViewModel eventViewModel) {
-        this.eventViewModel = eventViewModel;
-        eventViewModel.addPropertyChangeListener(this);
+    public EventAddView(EventAddViewModel eventAddViewModel) {
+        this.eventAddViewModel = eventAddViewModel;
+        eventAddViewModel.addPropertyChangeListener(this);
 
         // Create the fixed frame (main)
         final JFrame eventFrame = new JFrame("Create Event Page");
@@ -87,7 +87,7 @@ public class EventView extends JPanel implements ActionListener, PropertyChangeL
         saveButton.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(saveButton)) {
-                        final EventState currentState = eventViewModel.getState();
+                        final EventAddState currentState = eventAddViewModel.getState();
                         currentState.setEventName(eventNameField.getText());
                         currentState.setDayStart(dayStartComboBox.getSelectedItem().toString());
                         currentState.setDayEnd(dayEndComboBox.getSelectedItem().toString());
@@ -122,13 +122,13 @@ public class EventView extends JPanel implements ActionListener, PropertyChangeL
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final EventState state = (EventState) evt.getNewValue();
+        final EventAddState state = (EventAddState) evt.getNewValue();
         if (state.getEventError() != null) {
             JOptionPane.showMessageDialog(this, state.getEventError());
         }
     }
 
-    public void setEventController(EventController controller) {
+    public void setEventController(EventAddController controller) {
         this.eventController = controller;
     }
 }

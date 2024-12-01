@@ -1,11 +1,11 @@
-package interface_adapter.event;
+package interface_adapter.eventAdd;
 
 import interface_adapter.ViewModel;
 
 /**
  * The ViewModel for the Event Add Use Case.
  */
-public class EventViewModel extends ViewModel<EventState> {
+public class EventAddViewModel extends ViewModel<EventAddState> {
 
     // Setup Components
     public static final String[] EVENT_TYPES = {"Fixed", "Flexible", "Repeat"};
@@ -16,8 +16,8 @@ public class EventViewModel extends ViewModel<EventState> {
         "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM",
         "10:00 PM", "11:00 PM"};
 
-    public EventViewModel() {
+    public EventAddViewModel() {
         super("event");
-        setState(new EventState());
+        setState(new EventAddState());
     }
 }

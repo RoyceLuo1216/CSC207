@@ -1,6 +1,6 @@
 package usecase.chatbot_event_conflict;
 
-import data_access.InMemoryDataAccessObject;
+import data_access.InMemoryAddDataAccessObject;
 import entities.eventEntity.Event;
 import entities.eventEntity.FixedEvent;
 import factory.EventFactory;
@@ -22,13 +22,13 @@ import static org.mockito.Mockito.mock;
  * Test for the Chatbot Event Conflict Use Case
  */
 public class EventConflictUseCaseTest {
-    private InMemoryDataAccessObject inMemoryDataAccessObject;
+    private InMemoryAddDataAccessObject inMemoryDataAccessObject;
     private EventConflictInteractor interactor;
 
     @Before
     public void setUp() {
 
-        inMemoryDataAccessObject = new InMemoryDataAccessObject();
+        inMemoryDataAccessObject = new InMemoryAddDataAccessObject();
 
 
         // Mock dependencies

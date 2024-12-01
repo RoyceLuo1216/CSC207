@@ -45,10 +45,10 @@ public class RepeatView extends JPanel implements ActionListener, PropertyChange
         repeatViewModel.addPropertyChangeListener(this);
 
         // Create the fixed frame (main)
-        final JFrame eventFrame = new JFrame("Create Event Page");
-        eventFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        eventFrame.setSize(DIMENSION_500, DIMENSION_500);
-        eventFrame.setLayout(new BoxLayout(eventFrame.getContentPane(), BoxLayout.Y_AXIS));
+        final JFrame repeatFrame = new JFrame("Create Event Page");
+        repeatFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        repeatFrame.setSize(DIMENSION_500, DIMENSION_500);
+        repeatFrame.setLayout(new BoxLayout(repeatFrame.getContentPane(), BoxLayout.Y_AXIS));
 
         // LAYOUT
         final JPanel eventNamePanel = createPanel("Event Name:", eventNameField);
@@ -79,17 +79,17 @@ public class RepeatView extends JPanel implements ActionListener, PropertyChange
         savePanel.add(backLabel);
 
         // Add panels to frame
-        eventFrame.add(eventNamePanel);
-        eventFrame.add(eventTypePanel);
-        eventFrame.add(dayStartPanel);
-        eventFrame.add(dayEndPanel);
-        eventFrame.add(timeStartPanel);
-        eventFrame.add(timeEndPanel);
-        eventFrame.add(repeatDaysPanel);
-        eventFrame.add(savePanel);
+        repeatFrame.add(eventNamePanel);
+        repeatFrame.add(eventTypePanel);
+        repeatFrame.add(dayStartPanel);
+        repeatFrame.add(dayEndPanel);
+        repeatFrame.add(timeStartPanel);
+        repeatFrame.add(timeEndPanel);
+        repeatFrame.add(repeatDaysPanel);
+        repeatFrame.add(savePanel);
 
         // Display the frame
-        eventFrame.setVisible(true);
+        repeatFrame.setVisible(true);
 
         // Action Listener for Back
         backButton.addActionListener(

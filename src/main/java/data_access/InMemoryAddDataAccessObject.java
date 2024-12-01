@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import entities.eventEntity.Event;
 import usecase.delete.DeleteEventDataAccessInterface;
 import usecase.edit.EditDataAccessInterface;
-import usecase.event.EventDataAccessInterface;
+import usecase.event.EventAddDataAccessInterface;
 import usecase.repeat.RepeatEventDataAccessInterface;
 
 /**
@@ -18,16 +18,16 @@ import usecase.repeat.RepeatEventDataAccessInterface;
  * creation, deletion, and retrieval of events, and also provides a framework
  * for scheduling flexible events around fixed ones.
  */
-public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
+public class InMemoryAddDataAccessObject implements DeleteEventDataAccessInterface,
                                                         EditDataAccessInterface,
-                                                        EventDataAccessInterface,
+        EventAddDataAccessInterface,
                                                         RepeatEventDataAccessInterface {
     private final List<Event> events;
 
     /**
      * Constructor for the ScheduleUseCase class.
      */
-    public InMemoryDataAccessObject() {
+    public InMemoryAddDataAccessObject() {
         this.events = new ArrayList<>();
     }
 

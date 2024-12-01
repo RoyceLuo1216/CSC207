@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import adapter.CohereClient;
-import data_access.InMemoryDataAccessObject;
+import data_access.InMemoryAddDataAccessObject;
 import entities.eventEntity.Event;
 import factory.EventFactory;
 
@@ -16,11 +16,11 @@ import factory.EventFactory;
  * The Chatbot Event Conflict Interactor.
  */
 public class EventConflictInteractor implements EventConflictInputBoundary {
-    private final InMemoryDataAccessObject inMemoryDataAccessObjectDataObject;
+    private final InMemoryAddDataAccessObject inMemoryDataAccessObjectDataObject;
     private final EventConflictOutputBoundary eventConflictPresenter;
     private final EventFactory eventFactory;
 
-    public EventConflictInteractor(InMemoryDataAccessObject inMemoryDataAccessObject,
+    public EventConflictInteractor(InMemoryAddDataAccessObject inMemoryDataAccessObject,
                                    EventConflictOutputBoundary eventConflictOutputBoundary,
                                    EventFactory eventFactory) {
         this.inMemoryDataAccessObjectDataObject = inMemoryDataAccessObject;
@@ -129,7 +129,7 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
      * @return a list of task descriptions for tasks that occur during the specified period
      */
     public ArrayList<String> getTasksDuring(DayOfWeek startDay, LocalTime startTime,
-                                            LocalTime endTime, InMemoryDataAccessObject inMemoryDataAccessObject) {
+                                            LocalTime endTime, InMemoryAddDataAccessObject inMemoryDataAccessObject) {
         final ArrayList<String> tasks = new ArrayList<>();
         final ArrayList<Event> events = new ArrayList<>();
         final ArrayList<LocalTime> hourlyIntervals = getHourlyIntervals(startTime, endTime);

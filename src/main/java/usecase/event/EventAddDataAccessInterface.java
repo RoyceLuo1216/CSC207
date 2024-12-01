@@ -8,7 +8,7 @@ import entities.eventEntity.Event;
 /**
  * This class helps create the abstraction to access the schedule which stores our events.
  */
-public interface EventDataAccessInterface {
+public interface EventAddDataAccessInterface {
 
     /**
      * Method to find an event by its name.
