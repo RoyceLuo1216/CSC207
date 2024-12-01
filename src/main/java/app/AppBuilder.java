@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import entities.ScheduleEntity.Schedule;
+import data_access.Schedule;
 import factory.EventFactory;
 
 import interface_adapter.ViewManagerModel;

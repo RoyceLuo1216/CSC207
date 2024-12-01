@@ -4,6 +4,9 @@ import entities.EventEntity.Event;
 import entities.EventEntity.RepeatEvent;
 import usecase.delete.*;
 
+import java.lang.reflect.Array;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -75,17 +78,22 @@ public class Schedule implements DeleteEventDataAccessInterface {
     /**
      * Method to create a repeat event with specified start and end times.
      *
-     * @param name     the name of the event
-     * @param priority the priority of the event (on a scale of 1-5)
-     * @param dayStart the date and time the event starts
-     * @param dayEnd   the date and time the event ends
+     * @param name         the name of the event
+     * @param dayStart     the day the event starts
+     * @param dayEnd       the day the event ends
+     * @param timeStart    the time the event starts
+     * @param timeEnd      the time the event ends
+     * @param daysRepeated the days on which the event repeats
      * @return true if the event was successfully added
      */
-    public boolean createRepeatEvent(String name, int priority, LocalDateTime dayStart,
-                                     LocalDateTime dayEnd, List<LocalDateTime> daysRepeated) {
-        RepeatEvent event = new RepeatEvent(dayStart, dayEnd, name, priority, daysRepeated);
+    public boolean createRepeatEvent(String name, DayOfWeek dayStart, DayOfWeek dayEnd,
+                                     LocalTime timeStart, LocalTime timeEnd, List<DayOfWeek> daysRepeated) {
+        // Create a new RepeatEvent object
+        RepeatEvent event = new RepeatEvent(dayStart, dayEnd, name, timeStart, timeEnd, daysRepeated);
+        // Add the event to the events collection
         return events.add(event);
     }
+
 
     /**
      * Method to delete an event by name.
@@ -154,18 +162,30 @@ public class Schedule implements DeleteEventDataAccessInterface {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Method to find an event by a specific time.
+     /**
+     * Method to find an event by a specific day and time.
      *
-     * @param time the date/time to search for an event
-     * @return an Optional containing the event at that time, or an empty Optional
+     * @param day  the day of the week to search for an event
+     * @param time the time to search for an event
+     * @return an Optional containing the event at that day and time, or an empty Optional
      */
-    public Optional<Event> getEventByTime(LocalDateTime time) {
+    /**
+     * Method to find an event by a specific day and time.
+     *
+     * @param day  the day of the week to search for an event
+     * @param time the time to search for an event
+     * @return an Optional containing the event at that day and time, or an empty Optional
+     */
+    public Optional<Event> getEventByDayAndTime(DayOfWeek day, LocalTime time) {
         for (Event event : events) {
-            LocalDateTime startDate = event.getDayStart();
-            LocalDateTime endDate = event.getDayEnd();
+            DayOfWeek startDay = event.getDayStart();
+            DayOfWeek endDay = event.getDayEnd();
+            LocalTime startTime = event.getTimeStart();
+            LocalTime endTime = event.getTimeEnd();
 
-            if (!startDate.isAfter(time) && !endDate.isBefore(time)) {
+            // Check if the day falls within the event's days and the time within the event's time range
+            if ((day.equals(startDay) || day.equals(endDay) || (day.compareTo(startDay) > 0 && day.compareTo(endDay) < 0))
+                    && (time.equals(startTime) || time.equals(endTime) || (time.isAfter(startTime) && time.isBefore(endTime)))) {
                 return Optional.of(event);
             }
         }
@@ -173,7 +193,11 @@ public class Schedule implements DeleteEventDataAccessInterface {
     }
 
 
+
+
     public List<Event> getEvents() {
         return this.events;
     }
+
+
 }

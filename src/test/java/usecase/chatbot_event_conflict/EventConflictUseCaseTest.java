@@ -2,18 +2,21 @@ package usecase.chatbot_event_conflict;
 
 import entities.EventEntity.Event;
 import entities.EventEntity.FixedEvent;
-import entities.ScheduleEntity.Schedule;
+import data_access.Schedule;
 import factory.EventFactory;
 import interface_adapter.chatbot_event_conflict.EventConflictPresenter;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 /**
  * Test for the Chatbot Event Conflict Use Case
@@ -24,8 +27,17 @@ public class EventConflictUseCaseTest {
 
     @Before
     public void setUp() {
+
         schedule = new Schedule();
-        // interactor = new EventConflictInteractor(schedule, eventConflictPresenter, eventFactory);
+
+
+        // Mock dependencies
+        EventConflictPresenter mockPresenter = mock(EventConflictPresenter.class);
+        EventFactory mockFactory = mock(EventFactory.class);
+
+        // Initialize the interactor
+        interactor = new EventConflictInteractor(schedule, mockPresenter, mockFactory);
+
     }
 
     // TODO: make Event Conflict Use Case test into CA
@@ -38,20 +50,30 @@ public class EventConflictUseCaseTest {
         LocalDateTime start = LocalDateTime.of(2024, 11, 9, 18, 0);
         LocalDateTime end = LocalDateTime.of(2024, 11, 9, 20, 0);
 
-        // Creating and adding the FixedEvent from 6 to 8pm
-        FixedEvent event = new FixedEvent(start, end, "Naptime", 1);
+// Define start and end times
+        LocalTime startTime = LocalTime.of(18, 0); // 6:00 PM
+        LocalTime endTime = LocalTime.of(20, 0);   // 8:00 PM
+
+// Define days for the event
+        DayOfWeek startDay = DayOfWeek.SATURDAY;
+        DayOfWeek endDay = DayOfWeek.SATURDAY;
+
+// Creating and adding the FixedEvent from 6 to 8 PM
+        FixedEvent event = new FixedEvent(startDay, endDay, "Naptime", startTime, endTime);
         schedule.addEvent(event);
 
+
+
         // Verify event has been added
-        Optional<Event> retrievedEvent = schedule.getEventByTime(start);
+        Optional<Event> retrievedEvent = schedule.getEventByDayAndTime(startDay, startTime);
 
         assertTrue(retrievedEvent.isPresent());
         assertEquals("Naptime", retrievedEvent.get().getEventName());
 
         // Verify there is an event conflict at specified time
-        ArrayList<String> actual =  interactor.getTasksDuring(start, end, schedule);
+        ArrayList<String> actual =  interactor.getTasksDuring(startDay,startTime, endTime, schedule);
         ArrayList<String> result = new ArrayList<String>();
-        result.add("Naptime: Nov 9  6:00 p.m. - 8:00 p.m.");
+        result.add("Naptime: Saturday 6:00 p.m. - 8:00 p.m.");
 
         assertEquals(result, actual);
     }
@@ -61,24 +83,30 @@ public class EventConflictUseCaseTest {
      */
     @Test
     public void noEventConflict() {
-        LocalDateTime start = LocalDateTime.of(2024, 11, 9, 18, 0);
-        LocalDateTime end = LocalDateTime.of(2024, 11, 9, 20, 0);
-        LocalDateTime starti = LocalDateTime.of(2024, 11, 9, 16, 0);
-        LocalDateTime endi = LocalDateTime.of(2024, 11, 9, 18, 0);
+        LocalTime startTime = LocalTime.of(18, 0); // 6:00 PM
+        LocalTime endTime = LocalTime.of(20, 0);   // 8:00 PM
+        LocalTime startIntervalTime = LocalTime.of(16, 0); // 4:00 PM
+        LocalTime endIntervalTime = LocalTime.of(18, 0);   // 6:00 PM
+        DayOfWeek startDay = DayOfWeek.SATURDAY;
+        DayOfWeek endDay = DayOfWeek.SATURDAY;
+
+
 
         // Creating and adding the FixedEvent from 6 to 8pm
-        FixedEvent event = new FixedEvent(start, end, "Naptime", 1);
+        FixedEvent event = new FixedEvent(startDay, endDay, "Naptime", startTime, endTime);
         schedule.addEvent(event);
 
+
         // Verify event has been added
-        Optional<Event> retrievedEvent = schedule.getEventByTime(start);
+        Optional<Event> retrievedEvent = schedule.getEventByDayAndTime(startDay, startTime);
 
         assertTrue(retrievedEvent.isPresent());
         assertEquals("Naptime", retrievedEvent.get().getEventName());
 
         // Verify there is no event conflict at specified time
-        ArrayList<String> actual =  interactor.getTasksDuring(starti, endi, schedule);
+        ArrayList<String> actual =  interactor.getTasksDuring(startDay, startIntervalTime, endIntervalTime, schedule);
         ArrayList<String> result = new ArrayList<String>();
+
 
         assertEquals(result, actual);
     }

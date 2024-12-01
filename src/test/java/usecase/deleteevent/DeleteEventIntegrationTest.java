@@ -9,9 +9,8 @@ import data_access.Schedule;
 import usecase.delete.DeleteEventOutputData;
 import view.DeleteEventView;
 
-import javax.swing.*;
-
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,10 +21,11 @@ class DeleteEventIntegrationTest {
         // Arrange: Create entities
         Schedule schedule = new Schedule();
         FixedEvent event = new FixedEvent(
-                LocalDateTime.of(2024, 12, 25, 10, 0),
-                LocalDateTime.of(2024, 12, 25, 12, 0),
-                "Christmas Brunch",
-                1
+                DayOfWeek.WEDNESDAY,               // Start day
+                DayOfWeek.WEDNESDAY,               // End day
+                "Christmas Brunch",                // Event name
+                LocalTime.of(10, 0),               // Start time
+                LocalTime.of(12, 0)                // End time
         );
         schedule.addEvent(event);
 
@@ -51,8 +51,8 @@ class DeleteEventIntegrationTest {
         controller.execute("Christmas Brunch");
 
         // Assert: Validate results
-        assertTrue(schedule.getEvents().isEmpty());
-        assertEquals("Event \"Christmas Brunch\" deleted successfully.", viewModel.getState().getMessage());
+        assertTrue(schedule.getEvents().isEmpty(), "Event should be removed from the schedule.");
+        assertEquals("Event \"Christmas Brunch\" deleted successfully.", viewModel.getState().getMessage(),
+                "Success message should match the expected output.");
     }
 }
-

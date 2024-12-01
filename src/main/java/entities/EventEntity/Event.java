@@ -25,11 +25,7 @@ public interface Event {
      */
     void setEventName(String name);
 
-    /**
-     * Gets the starting day of the event.
-     *
-     * @return the start date of the event as a DayOfWeek object.
-     */
+
     DayOfWeek getDayStart();
 
     /**

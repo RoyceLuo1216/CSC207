@@ -1,8 +1,9 @@
 package usecase.edit;
 
+
+import data_access.Schedule;
 import entities.EventEntity.FixedEvent;
 import entities.EventEntity.RepeatEvent;
-import entities.ScheduleEntity.Schedule;
 import entities.EventEntity.Event;
 
 import java.time.DayOfWeek;

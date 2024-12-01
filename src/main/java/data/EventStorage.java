@@ -1,6 +1,6 @@
 package data;
 
-import entities.ScheduleEntity.Schedule;
+import data_access.Schedule;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.io.File;

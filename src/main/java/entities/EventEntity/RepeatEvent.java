@@ -3,7 +3,6 @@ package entities.EventEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +39,8 @@ public class RepeatEvent implements Event {
                                                                                     List<DayOfWeek> daysRepeated) {
         this.dayStart = dayStart;
         this.dayEnd = dayEnd;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
         this.eventName = eventName;
         this.tasks = new ArrayList<>();
         this.daysRepeated = daysRepeated;

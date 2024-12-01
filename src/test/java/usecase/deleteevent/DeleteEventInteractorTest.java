@@ -1,16 +1,13 @@
 package usecase.deleteevent;
 
 import org.junit.jupiter.api.Test;
-import usecase.delete.DeleteEventDataAccessInterface;
-import usecase.delete.DeleteEventInputBoundary;
-import usecase.delete.DeleteEventInputData;
-import usecase.delete.DeleteEventInteractor;
-import usecase.delete.DeleteEventOutputBoundary;
-import usecase.delete.DeleteEventOutputData;
+import usecase.delete.*;
+import entities.EventEntity.Event;
+import entities.EventEntity.FixedEvent;
 
-
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.Optional;
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,8 +16,6 @@ class DeleteEventInteractorTest {
     private static class MockDataAccessObject implements DeleteEventDataAccessInterface {
         private boolean eventExists;
         private boolean deleteCalled;
-        private final LocalDateTime startTime = LocalDateTime.of(2024, 12, 25, 10, 0);
-        private final LocalDateTime endTime = LocalDateTime.of(2024, 12, 25, 12, 0);
 
         public MockDataAccessObject(boolean eventExists) {
             this.eventExists = eventExists;
@@ -37,9 +32,17 @@ class DeleteEventInteractorTest {
         }
 
         @Override
-        public Optional<entities.EventEntity.Event> getEventByName(String name) {
-            return eventExists ? Optional.of(new entities.EventEntity.FixedEvent(startTime, endTime,
-                    "Christmas Brunch", 4)) : Optional.empty();
+        public Optional<Event> getEventByName(String name) {
+            if (eventExists) {
+                return Optional.of(new FixedEvent(
+                        DayOfWeek.WEDNESDAY,        // Start day
+                        DayOfWeek.WEDNESDAY,        // End day
+                        name,                       // Event name
+                        LocalTime.of(10, 0),        // Start time
+                        LocalTime.of(12, 0)         // End time
+                ));
+            }
+            return Optional.empty();
         }
 
         public boolean isDeleteCalled() {

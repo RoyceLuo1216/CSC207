@@ -1,8 +1,8 @@
 package usecase.edit;
 
+import data_access.Schedule;
 import entities.EventEntity.Event;
 import entities.EventEntity.RepeatEvent;
-import entities.ScheduleEntity.Schedule;
 import factory.EventFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

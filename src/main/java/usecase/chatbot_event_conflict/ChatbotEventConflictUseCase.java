@@ -1,7 +1,7 @@
 package usecase.chatbot_event_conflict;
 
 import entities.EventEntity.Task;
-import entities.ScheduleEntity.Schedule;
+import data_access.Schedule;
 
 import java.time.LocalDateTime;
 
