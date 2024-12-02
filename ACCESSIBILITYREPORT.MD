@@ -29,12 +29,12 @@ program adhere to that principle. If you do not have any such features, you can 
 - Current limitations prevent editing attributes like event name or type, which could be improved in future iterations to enhance error tolerance.  
 
 ### **Principle 6: Low Physical Effort**
-- **Adjustable Button and Input Sizes:** Adding a settings menu to allow users to resize buttons and fields, reducing effort.  
-- **Alternative Interaction Methods:** Implementing voice commands or keyboard shortcuts to minimize reliance on mouse clicks or touch gestures.  
+- Adjustable Button and Input Sizes: Adding a settings menu to allow users to resize buttons and fields, reducing effort.  
+- Alternative Interaction Methods: Implementing voice commands or keyboard shortcuts to minimize reliance on mouse clicks or touch gestures.  
 
 ### **Principle 7: Size and Space for Approach and Use**
-- **Adjustable Element Sizes:** Introducing a settings menu to resize interface components, ensuring ample space for interaction.  
-- **Mobile Optimization:** Adapting the program for mobile devices by spacing out and enlarging interactive elements for easier touch gestures.  
+- Adjustable Element Sizes: Introducing a settings menu to resize interface components, ensuring ample space for interaction.  
+- Mobile Optimization: Adapting the program for mobile devices by spacing out and enlarging interactive elements for easier touch gestures.  
 
 ## **Part 2 - Marketing Target Audience**
 **Write a paragraph (3-6 sentences) about who you would market your program towards, if you were to sell or license your
@@ -50,7 +50,7 @@ We would market our program towards teams and individuals who need efficient tim
 here should be informed by the content of our embedded ethics modules this term.**
 
 Our program may be less accessible to certain demographics:  
-- **Preference for Analog Tools:** Users who prefer physical planners might not find value in a digital scheduling system.  
+- **Preference for Physical Planners:** Users who prefer physical planners might not find value in a digital scheduling system.  
 - **Older Adults:** Those less familiar with technology might struggle to use the system without guidance or simplified onboarding.  
 - **Users with Disabilities:** Individuals with visual impairments or dyslexia might face challenges due to the lack of high contrast, dyslexia-friendly fonts, or text-to-speech functionality.  
 
