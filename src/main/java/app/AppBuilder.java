@@ -236,7 +236,7 @@ public class AppBuilder {
 
     public AppBuilder addEditView() {
         editViewModel = new EditViewModel();
-        editView = new EditView(editViewModel);
+        editView = new EditView(editViewModel, deleteEventViewModel);
         cardPanel.add(editView, editView.getViewName());
         return this;
     }
