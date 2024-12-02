@@ -3,6 +3,7 @@ package interface_adapter.repeat;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,23 @@ public class RepeatController {
 
         repeatInteractor.execute(repeatInputData);
     }
+    private DayOfWeek parseDayOfWeek(String dayString, DayOfWeek defaultDay) {
+        try {
+            if (dayString == null) return defaultDay;
+            return DayOfWeek.valueOf(dayString.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return defaultDay;
+        }
+    }
 
+    private LocalTime parseLocalTime(String timeString, String defaultTime, DateTimeFormatter formatter) {
+        try {
+            if (timeString == null) return LocalTime.parse(defaultTime, formatter);
+            return LocalTime.parse(timeString, formatter);
+        } catch (DateTimeParseException e) {
+            return LocalTime.parse(defaultTime, formatter);
+        }
+    }
     /**
      * Returns the back to main schedule view.
      */
