@@ -1,18 +1,19 @@
 package view;
 
-import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotState;
-import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotViewModel;
-import interface_adapter.chatbotTimeEstimation.TimeEstimationController;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotState;
+import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotViewModel;
+import interface_adapter.chatbotTimeEstimation.TimeEstimationController;
 
 /**
  * The View for when the user is using the chatbot.

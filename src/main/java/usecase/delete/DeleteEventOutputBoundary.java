@@ -18,4 +18,10 @@ public interface DeleteEventOutputBoundary {
      * @param errorMessage error message.
      */
     void presentFailure(String errorMessage);
+
+    /**
+     * Transitions back to the main view.
+     */
+    void backToMainView();
+
 }

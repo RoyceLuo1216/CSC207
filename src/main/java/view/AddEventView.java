@@ -2,13 +2,12 @@ package view;
 
 import javax.swing.*;
 
+import interface_adapter.addEvent.AddEventViewModel;
+
 /**
  * The View for when the user is adding an event (i.e. its details) into the program.
  */
 public class AddEventView extends JPanel {
-    // Initialise the controller
-    // private final EventViewController controller = new EventViewController();
-
     // TODO: add viewModel
 
     private static final int DIMENSION_500 = 500;
@@ -31,10 +30,13 @@ public class AddEventView extends JPanel {
 
     private final JLabel saveLabel = new JLabel();
     private final JButton saveButton = new JButton("Save");
+    private final String viewName = "add";
+    private final AddEventViewModel addEventViewModel;
 
     // Data
 
-    public AddEventView() {
+    public AddEventView(AddEventViewModel addEventViewModel) {
+        this.addEventViewModel = addEventViewModel;
 
         // Create the fixed frame (main)
         final JFrame eventFrame = new JFrame("Create Event Page");
@@ -82,5 +84,9 @@ public class AddEventView extends JPanel {
         panel.add(new JLabel(label));
         panel.add(component);
         return panel;
+    }
+
+    public String getViewName() {
+        return viewName;
     }
 }
