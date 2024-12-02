@@ -178,12 +178,12 @@ public class AppBuilder {
 //    deleteEventView.setDeleteEventController(controller);
 //    return this;
 //}
-//    public AppBuilder addAddEventView() {
-//    addEventViewModel = new AddEventViewModel();
-//    addEventView = new AddEventView(addEventViewModel);
-//    cardPanel.add(addEventView, addEventView.getViewName());
-//    return this;
-//}
+    public AppBuilder addAddEventView() {
+        addEventViewModel = new AddEventViewModel();
+        addEventView = new AddEventView(addEventViewModel);
+        cardPanel.add(addEventView, addEventView.getViewName());
+        return this;
+    }
 //
 //public AppBuilder addAddEventUseCase() {
 //    final AddEventOutputBoundary addEventOutputBoundary = new AddEventPresenter(viewManagerModel,
