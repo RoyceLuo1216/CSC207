@@ -25,7 +25,7 @@ public class timeEstimationDummyOutputBoundary implements TimeEstimationOutputBo
      * Switches back to the Main Schedule View.
      */
     @Override
-    public void backToSchedule() {
+    public void backToScheduleView() {
         System.out.println("back to schedule view");
     };
 }
