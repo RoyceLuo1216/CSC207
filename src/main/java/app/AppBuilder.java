@@ -121,7 +121,8 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addEventConflictUseCase() {
-        final EventConflictChatbotOutputBoundary eventConflictChatbotOutputBoundary = new EventConflictChatbotChatbotPresenter(
+        final EventConflictChatbotOutputBoundary eventConflictChatbotOutputBoundary =
+                new EventConflictChatbotChatbotPresenter(
                 viewManagerModel, scheduleViewModel, eventConflictChatbotViewModel);
         final EventConflictInputBoundary eventConflictInteractor = new EventConflictInteractor(
                 inMemoryDataAccessObjectDataObject, eventConflictChatbotOutputBoundary, eventFactory);

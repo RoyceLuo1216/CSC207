@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -131,30 +134,30 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
     }
 
     private void renderEventButtons(JPanel panel, GridBagConstraints constraints) {
-        final Map<String, ScheduleState.EventDetails> events = scheduleViewModel.getState().getAllEventDetails();
+        Map<String, List<Object>> events = scheduleViewModel.getState().getAllEventDetails();
 
-        for (Map.Entry<String, ScheduleState.EventDetails> entry : events.entrySet()) {
-            String eventName = entry.getKey();
-            ScheduleState.EventDetails details = entry.getValue();
+        events.forEach((eventName, details) -> {
+            DayOfWeek startDay = (DayOfWeek) details.get(0);
+            LocalTime startTime = (LocalTime) details.get(1);
+            DayOfWeek endDay = (DayOfWeek) details.get(2);
+            LocalTime endTime = (LocalTime) details.get(3);
 
-            // Determine grid position based on event details
-            int startGridY = details.getStartTime().getHour();
-            int endGridY = details.getEndTime().getHour();
-            int gridX = details.getStartDay().getValue() - 1;
+            // Determine grid position based on event details.
+            int startGridY = startTime.getHour();
+            int endGridY = endTime.getHour();
+            int gridX = startDay.getValue() - 1;
 
-            // Adjust for 10-pixel left shift
             constraints.gridx = gridX + 1;
             constraints.gridy = startGridY;
-            constraints.gridwidth = 1;
             constraints.gridheight = endGridY - startGridY;
             constraints.insets = new Insets(CELL_PADDING, 10, CELL_PADDING, CELL_PADDING);
 
-            // Create event button
+            // Create event button.
             JButton eventButton = new JButton(eventName);
             eventButton.setFont(new Font("Arial", Font.PLAIN, LABEL_FONT_SIZE));
             eventButton.addActionListener(e -> System.out.println("Event selected: " + eventName));
             panel.add(eventButton, constraints);
-        }
+        });
     }
 
     private void addTimePanel(JPanel panel, GridBagConstraints constraints) {

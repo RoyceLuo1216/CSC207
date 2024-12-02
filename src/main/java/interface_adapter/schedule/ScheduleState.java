@@ -1,8 +1,7 @@
 package interface_adapter.schedule;
 
-import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,7 +10,7 @@ import java.util.Map;
 public class ScheduleState {
 
     private final Map<String, String> eventButtonMap;
-    private final Map<String, EventDetails> eventDetailsMap;
+    private final Map<String, List<Object>> eventDetailsMap;
 
     public ScheduleState() {
         this.eventButtonMap = new HashMap<>();
@@ -51,13 +50,9 @@ public class ScheduleState {
      * Adds or updates event details for a specific event name.
      *
      * @param eventName the name of the event
-     * @param startDay  the start day of the event
-     * @param startTime the start time of the event
-     * @param endDay    the end day of the event
-     * @param endTime   the end time of the event
+     * @param details   a list containing start day, start time, end day, and end time.
      */
-    public void addOrUpdateEventDetails(String eventName, DayOfWeek startDay, LocalTime startTime, DayOfWeek endDay, LocalTime endTime) {
-        EventDetails details = new EventDetails(startDay, startTime, endDay, endTime);
+    public void setEventDetails(String eventName, List<Object> details) {
         eventDetailsMap.put(eventName, details);
     }
 
@@ -65,10 +60,14 @@ public class ScheduleState {
      * Retrieves event details by event name.
      *
      * @param eventName the name of the event
-     * @return the EventDetails object if found, otherwise null
+     * @return a list of event details if found, otherwise null
      */
-    public EventDetails getEventDetails(String eventName) {
+    public List<Object> getEventDetails(String eventName) {
         return eventDetailsMap.get(eventName);
+    }
+
+    public Map<String, List<Object>> getEventDetailsMap() {
+        return eventDetailsMap;
     }
 
     /**
@@ -76,50 +75,8 @@ public class ScheduleState {
      *
      * @return the event-details map
      */
-    public Map<String, EventDetails> getAllEventDetails() {
-        return new HashMap<>(eventDetailsMap);
+    public Map<String, List<Object>> getAllEventDetails() {
+        return eventDetailsMap;
     }
 
-    /**
-     * Class to encapsulate event details.
-     */
-    public static class EventDetails {
-        private final DayOfWeek startDay;
-        private final LocalTime startTime;
-        private final DayOfWeek endDay;
-        private final LocalTime endTime;
-
-        public EventDetails(DayOfWeek startDay, LocalTime startTime, DayOfWeek endDay, LocalTime endTime) {
-            this.startDay = startDay;
-            this.startTime = startTime;
-            this.endDay = endDay;
-            this.endTime = endTime;
-        }
-
-        public DayOfWeek getStartDay() {
-            return startDay;
-        }
-
-        public LocalTime getStartTime() {
-            return startTime;
-        }
-
-        public DayOfWeek getEndDay() {
-            return endDay;
-        }
-
-        public LocalTime getEndTime() {
-            return endTime;
-        }
-
-        @Override
-        public String toString() {
-            return "EventDetails{" +
-                    "startDay=" + startDay +
-                    ", startTime=" + startTime +
-                    ", endDay=" + endDay +
-                    ", endTime=" + endTime +
-                    '}';
-        }
-    }
 }
