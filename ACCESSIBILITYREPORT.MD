@@ -45,7 +45,7 @@ like games". Try to give a bit more detail along with the category.**
 If marketed or licensed, our program would primarily appeal to students and working professionals who need to manage busy schedules efficiently.  
 - **Students:** The program can assist with organizing classes, assignments, and extracurricular activities, helping them balance academic and personal commitments.  
 - **Working Professionals:** It can help coordinate meetings, deadlines, and personal obligations, streamlining time management in fast-paced environments.  
-- The versatility of offering both chatbot and GUI options ensures the program meets the needs of tech-savvy users as well as those who prefer more traditional interfaces.  
+The versatility of offering both chatbot and GUI options ensures the program meets the needs of tech-savvy users as well as those who prefer more traditional interfaces.  
 
 ## **Part 3 - Demographic Limitations**
 **Write a paragraph about whether or not your program is less likely to be used by certain demographics. Your discussion
