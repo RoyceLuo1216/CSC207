@@ -7,11 +7,12 @@ import usecase.chatbot_event_conflict.EventConflictOutputBoundary;
 /**
  * The Presenter for the Chatbot Event Conflict Use Case.
  */
-public class EventConflictPresenter implements EventConflictOutputBoundary {
+public class EventConflictChatbotPresenter implements EventConflictOutputBoundary {
     private final EventConflictChatbotViewModel chatbotViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public EventConflictPresenter(ViewManagerModel viewManagerModel, EventConflictChatbotViewModel chatbotViewModel) {
+    public EventConflictChatbotPresenter(ViewManagerModel viewManagerModel,
+                                         EventConflictChatbotViewModel chatbotViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.chatbotViewModel = chatbotViewModel;
     }

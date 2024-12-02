@@ -15,11 +15,11 @@ import entities.eventEntity.EventFactory;
  * The Chatbot Event Conflict Interactor.
  */
 public class EventConflictInteractor implements EventConflictInputBoundary {
-    private final EventConflictDataAccessInterface inMemoryDataAccessObjectDataObject;
+    private final EventConflictChatbotDataAccessInterface inMemoryDataAccessObjectDataObject;
     private final EventConflictOutputBoundary eventConflictPresenter;
     private final EventFactory eventFactory;
 
-    public EventConflictInteractor(EventConflictDataAccessInterface inMemoryDataAccessObject,
+    public EventConflictInteractor(EventConflictChatbotDataAccessInterface inMemoryDataAccessObject,
                                    EventConflictOutputBoundary eventConflictOutputBoundary,
                                    EventFactory eventFactory) {
         this.inMemoryDataAccessObjectDataObject = inMemoryDataAccessObject;
@@ -127,7 +127,7 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
      * @return a list of task descriptions for tasks that occur during the specified period
      */
     public ArrayList<String> getTasksDuring(DayOfWeek startDay, LocalTime startTime,
-                                            LocalTime endTime, EventConflictDataAccessInterface inMemoryDataAccessObject) {
+                                            LocalTime endTime, EventConflictChatbotDataAccessInterface inMemoryDataAccessObject) {
         final ArrayList<String> tasks = new ArrayList<>();
         final ArrayList<Event> events = new ArrayList<>();
         final ArrayList<LocalTime> hourlyIntervals = getHourlyIntervals(startTime, endTime);

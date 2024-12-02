@@ -1,6 +1,6 @@
 package app;
 
-import data_access.InMemoryDataAccessObject;
+import data_access.InMemoryChatbotDataAccessObject;
 import entities.eventEntity.EventFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.addEvent.AddViewModel;
@@ -9,7 +9,7 @@ import interface_adapter.chatbotTimeEstimation.TimeEstimationController;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationPresenter;
 import interface_adapter.chatbot_event_conflict.EventConflictChatbotViewModel;
 import interface_adapter.chatbot_event_conflict.EventConflictController;
-import interface_adapter.chatbot_event_conflict.EventConflictPresenter;
+import interface_adapter.chatbot_event_conflict.EventConflictChatbotPresenter;
 import interface_adapter.delete.DeleteEventViewModel;
 import interface_adapter.edit.EditViewModel;
 import interface_adapter.repeat.RepeatViewModel;
@@ -41,7 +41,7 @@ public class AppBuilder {
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    private final InMemoryDataAccessObject inMemoryDataAccessObjectDataObject = new InMemoryDataAccessObject();
+    private final InMemoryChatbotDataAccessObject inMemoryDataAccessObjectDataObject = new InMemoryChatbotDataAccessObject();
 
     private EventConflictChatbotView eventConflictChatbotView;
     private EventConflictChatbotViewModel eventConflictChatbotViewModel;
@@ -96,7 +96,7 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addEventConflictUseCase() {
-        final EventConflictOutputBoundary eventConflictOutputBoundary = new EventConflictPresenter(
+        final EventConflictOutputBoundary eventConflictOutputBoundary = new EventConflictChatbotPresenter(
                 viewManagerModel, eventConflictChatbotViewModel);
         final EventConflictInputBoundary eventConflictInteractor = new EventConflictInteractor(
                 inMemoryDataAccessObjectDataObject, eventConflictOutputBoundary, eventFactory);

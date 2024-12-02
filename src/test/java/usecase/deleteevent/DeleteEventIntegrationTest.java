@@ -1,27 +1,23 @@
 package usecase.deleteevent;
 
-import data_access.InMemoryDataAccessObject;
+import data_access.InMemoryChatbotDataAccessObject;
 import entities.eventEntity.FixedEvent;
 import interface_adapter.delete.DeleteEventController;
 import interface_adapter.delete.DeleteEventPresenter;
 import interface_adapter.delete.DeleteEventViewModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import usecase.delete.DeleteEventInputBoundary;
-import usecase.delete.DeleteEventInputData;
-import usecase.delete.DeleteEventOutputBoundary;
 import usecase.delete.DeleteEventOutputData;
 import view.DeleteEventView;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class DeleteEventIntegrationTest {
-    private InMemoryDataAccessObject inMemoryDataAccessObject;
+    private InMemoryChatbotDataAccessObject inMemoryDataAccessObject;
     private DeleteEventViewModel viewModel;
     private DeleteEventPresenter presenter;
     private DeleteEventController controller;
@@ -29,8 +25,8 @@ class DeleteEventIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        // Mock the InMemoryDataAccessObject
-        inMemoryDataAccessObject = mock(InMemoryDataAccessObject.class);
+        // Mock the InMemoryChatbotDataAccessObject
+        inMemoryDataAccessObject = mock(InMemoryChatbotDataAccessObject.class);
 
         // Mock the presenter
         presenter = mock(DeleteEventPresenter.class);

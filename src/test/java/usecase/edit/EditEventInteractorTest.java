@@ -1,6 +1,6 @@
 package usecase.edit;
 
-import data_access.InMemoryDataAccessObject;
+import data_access.InMemoryChatbotDataAccessObject;
 import entities.eventEntity.Event;
 import entities.eventEntity.RepeatEvent;
 import entities.eventEntity.EventFactory;
@@ -17,12 +17,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class EditInteractorTest {
 
-    private InMemoryDataAccessObject dataAccessObject;
+    private InMemoryChatbotDataAccessObject dataAccessObject;
     private Event event;
 
     @BeforeEach
     void setUp() {
-        dataAccessObject = new InMemoryDataAccessObject();
+        dataAccessObject = new InMemoryChatbotDataAccessObject();
     }
 
     @AfterEach

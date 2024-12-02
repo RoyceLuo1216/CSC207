@@ -1,6 +1,6 @@
 package usecase.repeat;
 
-import data_access.InMemoryDataAccessObject;
+import data_access.InMemoryChatbotDataAccessObject;
 import entities.eventEntity.RepeatEvent;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
@@ -14,11 +14,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RepeatInteractorTest {
-    private InMemoryDataAccessObject dataAccessObject;
+    private InMemoryChatbotDataAccessObject dataAccessObject;
 
     @BeforeEach
     void setUp() {
-        dataAccessObject = new InMemoryDataAccessObject();
+        dataAccessObject = new InMemoryChatbotDataAccessObject();
     }
 
     @AfterEach
@@ -54,7 +54,7 @@ public class RepeatInteractorTest {
             @Override
             public void backToMainView(){return;}
         };
-        dataAccessObject = new InMemoryDataAccessObject();
+        dataAccessObject = new InMemoryChatbotDataAccessObject();
         RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter);
         interactor.execute(repeatInputData);
 
@@ -94,7 +94,7 @@ public class RepeatInteractorTest {
             public void backToMainView(){return;}
         };
 
-        dataAccessObject = new InMemoryDataAccessObject();
+        dataAccessObject = new InMemoryChatbotDataAccessObject();
         RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter);
         interactor.execute(repeatInputData);
     }
@@ -127,7 +127,7 @@ public class RepeatInteractorTest {
             @Override
             public void backToMainView(){return;}
         };
-        dataAccessObject = new InMemoryDataAccessObject();
+        dataAccessObject = new InMemoryChatbotDataAccessObject();
         RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter);
         interactor.execute(repeatInputData);
 
@@ -186,7 +186,7 @@ public class RepeatInteractorTest {
             public void backToMainView(){return;}
         };
 
-        dataAccessObject = new InMemoryDataAccessObject();
+        dataAccessObject = new InMemoryChatbotDataAccessObject();
         RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter);
         interactor.execute(repeatInputData);
     }
