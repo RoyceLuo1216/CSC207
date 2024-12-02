@@ -43,8 +43,8 @@ import javax.swing.*;
 import java.awt.*;
 
 import java.awt.event.WindowAdapter;
-import java.awt.ev;
 import java.awt.event.WindowEvent;
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -165,12 +165,12 @@ public class AppBuilder {
 // * Adds the DeleteEvent View to the application.
 // * @return this builder
 // */
-    public AppBuilder addDeleteEventView() {
-        deleteEventViewModel = new DeleteEventViewModel();
-        deleteEventView = new DeleteEventView(deleteEventViewModel);
-        cardPanel.add(deleteEventView, deleteEventView.getViewName());
-        return this;
-    }
+//    public AppBuilder addDeleteEventView() {
+//        deleteEventViewModel = new DeleteEventViewModel();
+//        deleteEventView = new DeleteEventView(deleteEventViewModel);
+//        cardPanel.add(deleteEventView, deleteEventView.getViewName());
+//        return this;
+//    }
 //
 ///**
 // * Adds the DeleteEvent Use Case to the application.
@@ -212,7 +212,7 @@ public class AppBuilder {
     }
 
     public AppBuilder addEditUseCase() {
-        final EditEventOutputBoundary editOutputBoundary = new EditEventPresenter(viewManagerModel,
+        final EditEventOutputBoundary editOutputBoundary = new EditEventPresenter(
                 editViewModel);
         final EditEventInputBoundary editInteractor = new EditEventInteractor(
                 inMemoryDataAccessObjectDataObject, editOutputBoundary);
