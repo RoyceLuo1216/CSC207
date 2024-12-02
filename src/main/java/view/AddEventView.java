@@ -30,13 +30,12 @@ public class AddEventView extends JPanel {
     private final String viewName = "add";
 
     // Setup Components
-    private final String[] eventTypes = {"Fixed", "Flexible", "Repeat"};
+    private final String[] eventTypes = {"Fixed", "Repeat"};
     private final String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
     private final String[] times = {"12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM",
             "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM",
             "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM",
             "9:00 PM", "10:00 PM", "11:00 PM"};
-    private final String[] priorities = {"1", "2", "3", "4", "5"};
 
     private final JTextField eventNameField = new JTextField(20);
     private final JComboBox<String> eventTypeComboBox = new JComboBox<>(eventTypes);
