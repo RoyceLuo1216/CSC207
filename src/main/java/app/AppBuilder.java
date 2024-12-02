@@ -3,6 +3,8 @@ package app;
 import data_access.InMemoryDataAccessObject;
 import entities.eventEntity.EventFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.addEvent.AddEventController;
+import interface_adapter.addEvent.AddEventPresenter;
 import interface_adapter.addEvent.AddEventViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationController;
@@ -22,6 +24,9 @@ import usecase.chatbot_event_conflict.EventConflictChatbotOutputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInteractor;
 import usecase.chatbot_time_estimation.TimeEstimationOutputBoundary;
+import usecase.event.AddEventInputBoundary;
+import usecase.event.AddEventInteractor;
+import usecase.event.AddEventOutputBoundary;
 import usecase.schedule.ScheduleInputBoundary;
 import usecase.schedule.ScheduleInteractor;
 import usecase.schedule.ScheduleOutputBoundary;
@@ -118,7 +123,12 @@ public class AppBuilder {
     }
 
     public AppBuilder addScheduleUseCase() {
-        final ScheduleOutputBoundary scheduleOutputBoundary = new SchedulePresenter(scheduleViewModel, viewManagerModel
+        final ScheduleOutputBoundary scheduleOutputBoundary = new SchedulePresenter(
+                scheduleViewModel,
+                addEventViewModel,
+                timeEstimationChatbotViewModel,
+                eventConflictChatbotViewModel,
+                viewManagerModel
         );
         final ScheduleInputBoundary scheduleInteractor = new ScheduleInteractor(
                 inMemoryDataAccessObjectDataObject, scheduleOutputBoundary);
@@ -168,23 +178,23 @@ public class AppBuilder {
 //    deleteEventView.setDeleteEventController(controller);
 //    return this;
 //}
-//    public AppBuilder addAddEventView() {
-//    addEventViewModel = new AddEventViewModel();
-//    addEventView = new AddEventView(addEventViewModel);
-//    cardPanel.add(addEventView, addEventView.getViewName());
-//    return this;
-//}
+    public AppBuilder addEventView() {
+        addEventViewModel = new AddEventViewModel();
+        addEventView = new AddEventView(addEventViewModel);
+        cardPanel.add(addEventView, addEventView.getViewName());
+        return this;
+    }
 //
-//public AppBuilder addAddEventUseCase() {
-//    final AddEventOutputBoundary addEventOutputBoundary = new AddEventPresenter(viewManagerModel,
-//            addEventViewModel, loginViewModel);
-//    final AddEventInputBoundary addEventInteractor = new AddEventInteractor(
-//            userDataAccessObject, addEventOutputBoundary, userFactory);
-//
-//    final AddEventController controller = new AddEventController(addEventInteractor);
-//    addEventView.setAddEventController(controller);
-//    return this;
-//}
+    public AppBuilder addEventUseCase() {
+        final AddEventOutputBoundary addEventOutputBoundary = new AddEventPresenter(addEventViewModel,
+                viewManagerModel);
+        final AddEventInputBoundary addEventInteractor = new AddEventInteractor(
+                inMemoryDataAccessObjectDataObject, addEventOutputBoundary, eventFactory);
+
+        final AddEventController controller = new AddEventController(addEventInteractor);
+        addEventView.setAddEventController(controller);
+        return this;
+    }
 
 //   public AppBuilder addEditView() {
 //    editViewModel = new EditViewModel();

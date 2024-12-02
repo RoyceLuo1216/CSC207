@@ -36,4 +36,28 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
         ScheduleOutputData outputData = new ScheduleOutputData(retrievedEventNames);
         presenter.presentView(outputData);
     }
+
+    /**
+     * Executes the pop-up event view use case.
+     */
+    @Override
+    public void popUpAddEventView() {
+        presenter.popUpAddEventView();
+    }
+
+    /**
+     * Executes the pop-up time estimation view use case.
+     */
+    @Override
+    public void popUpTimeEstimationChatbotView() {
+        presenter.popUpTimeEstimationChatbotView();
+    }
+
+    /**
+     * Executes the pop-up event conflict view use case.
+     */
+    @Override
+    public void popUpEventConflictChatbotView() {
+        presenter.popUpEventConflictChatbotView();
+    }
 }

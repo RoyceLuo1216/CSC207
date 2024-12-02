@@ -26,4 +26,25 @@ public class ScheduleController {
         ScheduleInputData inputData = new ScheduleInputData(null);
         interactor.execute(inputData);
     }
+
+    /**
+     * Executes the pop-up event view use case.
+     */
+    public void popUpAddEventView() {
+        interactor.popUpAddEventView();
+    }
+
+    /**
+     * Executes the pop-up time estimation view use case.
+     */
+    public void popUpTimeEstimationChatbotView() {
+        interactor.popUpTimeEstimationChatbotView();
+    }
+
+    /**
+     * Executes the pop-up event conflict view use case.
+     */
+    public void popUpEventConflictChatbotView() {
+        interactor.popUpEventConflictChatbotView();
+    }
 }

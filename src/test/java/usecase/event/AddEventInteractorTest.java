@@ -1,6 +1,7 @@
 package usecase.event;
 
 import data_access.InMemoryDataAccessObject;
+import entities.eventEntity.EventFactory;
 import entities.eventEntity.FixedEvent;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
@@ -13,10 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AddEventInteractorTest {
     private InMemoryDataAccessObject dataAccessObject;
+    private EventFactory eventFactory;
 
     @BeforeEach
     void setUp() {
         dataAccessObject = new InMemoryDataAccessObject();
+        eventFactory = new EventFactory();
     }
 
     @AfterEach
@@ -47,7 +50,7 @@ public class AddEventInteractorTest {
             public void backToMainView(){return;}
         };
         dataAccessObject = new InMemoryDataAccessObject();
-        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter);
+        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter, eventFactory);
         interactor.execute(eventAddInputData);
 
         FixedEvent updatedEvent = (FixedEvent) dataAccessObject.getEventByName("Study for CSC207 Exam").get();
@@ -80,7 +83,7 @@ public class AddEventInteractorTest {
         };
 
         dataAccessObject = new InMemoryDataAccessObject();
-        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter);
+        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter, eventFactory);
         interactor.execute(eventAddInputData);
     }
 
@@ -108,7 +111,7 @@ public class AddEventInteractorTest {
         };
 
         dataAccessObject = new InMemoryDataAccessObject();
-        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter);
+        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter, eventFactory);
         interactor.execute(eventAddInputData);
 
 
@@ -132,7 +135,8 @@ public class AddEventInteractorTest {
             public void backToMainView(){return;}
         };
 
-        AddEventInputBoundary newInteractor = new AddEventInteractor(dataAccessObject, newSuccessPresenter);
+        AddEventInputBoundary newInteractor = new AddEventInteractor(dataAccessObject, newSuccessPresenter,
+                eventFactory);
         newInteractor.execute(newAddEventInputData);
     }
 }

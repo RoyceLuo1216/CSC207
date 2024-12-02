@@ -20,9 +20,9 @@ public class Main {
                 .addTimeEstimationUseCase()
                 .addScheduleView()
                 .addScheduleUseCase()
+                .addEventView()
+                .addEventUseCase()
                 .build();
-
-
 
         application.pack();
         application.setVisible(true);

@@ -32,16 +32,19 @@ public class EventConflictChatbotView extends JPanel implements ActionListener, 
     final JLabel askLabel = new JLabel(EventConflictChatbotViewModel.ASK_LABEL);
     final JLabel askError = new JLabel();
     // Setup Components
-    private final String viewName = "chatbot";
+    private final String viewName = "eventConflictChatbot";
     private final EventConflictChatbotViewModel chatbotViewModel;
     // Initialize controller
     private EventConflictController eventConflictController;
 
     public EventConflictChatbotView(EventConflictChatbotViewModel chatbotViewModel) {
         this.chatbotViewModel = chatbotViewModel;
-        chatbotViewModel.addPropertyChangeListener(this);
 
-        final JLabel title = new JLabel(EventConflictChatbotViewModel.TITLE_LABEL);
+        // Create the fixed frame (main)
+        final JFrame chatbotFrame = new JFrame(EventConflictChatbotViewModel.TITLE_LABEL);
+        chatbotFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        chatbotFrame.setSize(DIMENSION_500, DIMENSION_500);
+        chatbotFrame.setLayout(new BoxLayout(chatbotFrame.getContentPane(), BoxLayout.Y_AXIS));
 
         // Main panel (Center)
         final JPanel mainPanel = new JPanel(new BorderLayout());
@@ -129,11 +132,9 @@ public class EventConflictChatbotView extends JPanel implements ActionListener, 
 
         addQuestionListener();
 
-        this.setLayout(new BorderLayout(DIMENSION_10, DIMENSION_10));
-        this.setSize(DIMENSION_500, DIMENSION_500);
+        chatbotFrame.add(mainPanel, BorderLayout.CENTER);
 
-        this.add(title);
-        this.add(mainPanel, BorderLayout.CENTER);
+        chatbotFrame.setVisible(true);
     }
 
     /**

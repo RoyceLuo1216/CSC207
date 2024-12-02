@@ -11,10 +11,13 @@ import entities.eventEntity.EventFactory;
 public class AddEventInteractor implements AddEventInputBoundary {
     private final AddEventDataAccessInterface dataAccessObject;
     private final AddEventOutputBoundary presenter;
+    private final EventFactory eventFactory;
 
-    public AddEventInteractor(AddEventDataAccessInterface userSchedule, AddEventOutputBoundary eventAddOutputBoundary) {
+    public AddEventInteractor(AddEventDataAccessInterface userSchedule, AddEventOutputBoundary eventAddOutputBoundary,
+                              EventFactory eventFactory) {
         this.dataAccessObject = userSchedule;
         this.presenter = eventAddOutputBoundary;
+        this.eventFactory = eventFactory;
     }
 
     /**

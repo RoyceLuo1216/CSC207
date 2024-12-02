@@ -1,5 +1,8 @@
 package view;
 
+import interface_adapter.addEvent.AddEventController;
+import interface_adapter.addEvent.AddEventViewModel;
+
 import javax.swing.*;
 
 /**
@@ -7,11 +10,13 @@ import javax.swing.*;
  */
 public class AddEventView extends JPanel {
     // Initialise the controller
-    // private final EventViewController controller = new EventViewController();
+    private AddEventController addEventController;
 
-    // TODO: add viewModel
+    private final AddEventViewModel addEventViewModel;
 
     private static final int DIMENSION_500 = 500;
+
+    private final String viewName = "addEvent";
 
     // Setup Components
     private final String[] eventTypes = {"Fixed", "Flexible", "Repeat"};
@@ -34,8 +39,8 @@ public class AddEventView extends JPanel {
 
     // Data
 
-    public AddEventView() {
-
+    public AddEventView(AddEventViewModel addEventViewModel) {
+        this.addEventViewModel = addEventViewModel;
         // Create the fixed frame (main)
         final JFrame eventFrame = new JFrame("Create Event Page");
         eventFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,5 +87,13 @@ public class AddEventView extends JPanel {
         panel.add(new JLabel(label));
         panel.add(component);
         return panel;
+    }
+
+    public String getViewName() {
+        return viewName;
+    }
+
+    public void setAddEventController(AddEventController controller) {
+        this.addEventController = controller;
     }
 }

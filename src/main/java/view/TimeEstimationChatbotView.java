@@ -31,7 +31,7 @@ public class TimeEstimationChatbotView extends JPanel implements ActionListener,
     final JLabel askLabel = new JLabel(TimeEstimationChatbotViewModel.ASK_LABEL);
     final JLabel askError = new JLabel();
     // Setup Components
-    private final String viewName = "chatbot";
+    private final String viewName = "timeEstimationChatbot";
     private final TimeEstimationChatbotViewModel chatbotViewModel;
     // Initialize controller
     private TimeEstimationController timeEstimationController;
