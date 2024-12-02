@@ -12,19 +12,19 @@ public class AddEventInteractor implements AddEventInputBoundary {
     private final AddEventDataAccessInterface dataAccessObject;
     private final AddEventOutputBoundary presenter;
 
-    public AddEventInteractor(AddEventDataAccessInterface userSchedule, AddEventOutputBoundary eventOutputBoundary) {
+    public AddEventInteractor(AddEventDataAccessInterface userSchedule, AddEventOutputBoundary eventAddOutputBoundary) {
         this.dataAccessObject = userSchedule;
-        this.presenter = eventOutputBoundary;
+        this.presenter = eventAddOutputBoundary;
     }
 
     /**
      * Execute class for the interactor.
-     * @param eventInputData      the inputdata for the event
+     * @param eventAddInputData      the inputdata for the event
      */
 
     @Override
-    public void execute(AddEventInputData eventInputData) {
-        final String eventName = eventInputData.getEventName();
+    public void execute(AddEventInputData eventAddInputData) {
+        final String eventName = eventAddInputData.getEventName();
         final Optional<Event> optionalEvent = dataAccessObject.getEventByName(eventName);
 
         if (!dataAccessObject.getAllEvents().isEmpty() & optionalEvent.isPresent()) {
@@ -34,28 +34,33 @@ public class AddEventInteractor implements AddEventInputBoundary {
         }
         else {
 
-            if (eventInputData.getDayStart().compareTo(eventInputData.getDayEnd()) > 0) {
+            if (eventAddInputData.getDayStart().compareTo(eventAddInputData.getDayEnd()) > 0) {
                 // event fails for some reason, like duplicate event or incompatible times
                 presenter.prepareFailView("Event can't be added, due to incompatible times");
             }
 
-            else if (eventInputData.getDayEnd().compareTo(eventInputData.getDayStart()) == 0
-                    && eventInputData.getTimeStart().isAfter(eventInputData.getTimeEnd())) {
+            else if (eventAddInputData.getDayEnd().compareTo(eventAddInputData.getDayStart()) == 0
+                    && eventAddInputData.getTimeStart().isAfter(eventAddInputData.getTimeEnd())) {
                 presenter.prepareFailView("Event can't be added, due to incompatible times");
             }
 
             else {
                 final EventFactory factory = new EventFactory();
-                dataAccessObject.addEvent(factory.createFixedEvent(eventInputData.getEventName(),
-                        eventInputData.getDayStart(),
-                        eventInputData.getDayEnd(),
-                        eventInputData.getTimeStart(),
-                        eventInputData.getTimeEnd()));
+                dataAccessObject.addEvent(factory.createFixedEvent(eventAddInputData.getEventName(),
+                        eventAddInputData.getDayStart(),
+                        eventAddInputData.getDayEnd(),
+                        eventAddInputData.getTimeStart(),
+                        eventAddInputData.getTimeEnd()));
 
-                final AddEventOutputData eventOutputData = new AddEventOutputData(eventName, false);
+                final AddEventOutputData eventAddOutputData = new AddEventOutputData(eventName, false);
 
-                presenter.prepareSuccessView(eventOutputData);
+                presenter.prepareSuccessView(eventAddOutputData);
             }
         }
+    }
+
+    @Override
+    public void backToMainView() {
+        presenter.backToMainView();
     }
 }

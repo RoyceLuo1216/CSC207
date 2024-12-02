@@ -1,35 +1,20 @@
-<<<<<<<< HEAD:src/main/java/interface_adapter/addEvent/AddEventController.java
 package interface_adapter.addEvent;
-========
-package interface_adapter.eventAdd;
->>>>>>>> 0786677a92101c9e249ab29a838fede2122e7ab6:src/main/java/interface_adapter/eventAdd/EventAddController.java
+
+import usecase.event.AddEventInputBoundary;
+import usecase.event.AddEventInputData;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-<<<<<<<< HEAD:src/main/java/interface_adapter/addEvent/AddEventController.java
-import usecase.event.AddEventInputBoundary;
-import usecase.event.AddEventInputData;
-========
-import usecase.event.EventAddInputBoundary;
-import usecase.event.EventAddInputData;
->>>>>>>> 0786677a92101c9e249ab29a838fede2122e7ab6:src/main/java/interface_adapter/eventAdd/EventAddController.java
-
 /**
  * Controller for the Add Event Use Case.
  */
-<<<<<<<< HEAD:src/main/java/interface_adapter/addEvent/AddEventController.java
+
 public class AddEventController {
     private final AddEventInputBoundary eventInteractor;
 
     public AddEventController(AddEventInputBoundary eventInteractor) {
-========
-public class EventAddController {
-    private final EventAddInputBoundary eventInteractor;
-
-    public EventAddController(EventAddInputBoundary eventInteractor) {
->>>>>>>> 0786677a92101c9e249ab29a838fede2122e7ab6:src/main/java/interface_adapter/eventAdd/EventAddController.java
         this.eventInteractor = eventInteractor;
     }
 
@@ -51,13 +36,9 @@ public class EventAddController {
         final LocalTime timeStart = LocalTime.parse(timeStartString, timeFormatter);
         final LocalTime timeEnd = LocalTime.parse(timeEndString, timeFormatter);
 
-<<<<<<<< HEAD:src/main/java/interface_adapter/addEvent/AddEventController.java
-        final AddEventInputData eventInputData = new AddEventInputData(eventName, dayStart, dayEnd, timeStart, timeEnd);
-========
-        final EventAddInputData eventAddInputData = new EventAddInputData(eventName, dayStart, dayEnd, timeStart, timeEnd);
->>>>>>>> 0786677a92101c9e249ab29a838fede2122e7ab6:src/main/java/interface_adapter/eventAdd/EventAddController.java
+        final AddEventInputData addEventInputData = new AddEventInputData(eventName, dayStart, dayEnd, timeStart, timeEnd);
 
-        eventInteractor.execute(eventAddInputData);
+        eventInteractor.execute(addEventInputData);
     }
 
     /**

@@ -6,7 +6,12 @@ package usecase.event;
 public interface AddEventInputBoundary {
     /**
      * Execute the Event Use Case.
-     * @param eventInputData the input data for this use case
+     * @param eventAddInputData the input data for this use case
      */
-    void execute(AddEventInputData eventInputData);
+    void execute(AddEventInputData eventAddInputData);
+
+    /**
+     * Returns the back to main schedule view.
+     */
+    void backToMainView();
 }

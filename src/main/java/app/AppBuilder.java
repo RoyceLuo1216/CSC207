@@ -55,7 +55,7 @@ public class AppBuilder {
     private ScheduleViewModel scheduleViewModel;
     private EditView editView;
     private EditViewModel editViewModel;
-    private repeatView
+    private repeatView repeatView;
     private RepeatViewModel repeatViewModel;
 //    private RepeatView
     //private ScheduleViewModel scheduleViewModel;
