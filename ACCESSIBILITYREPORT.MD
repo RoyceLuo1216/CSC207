@@ -6,33 +6,33 @@ program adhere to that principle. If you do not have any such features, you can 
 (a) Describe features that you could implement in the future that would adhere to the principle or
 (b) Explain why the principle does not apply to a program like yours.**
 
-#### **Principle 1: Equitable Use**
+### **Principle 1: Equitable Use**
 - The chatbot is accessible to a wide range of users, including those who may struggle with traditional GUI interfaces (e.g., older adults unfamiliar with scheduling systems).  
 - Allows users to interact via natural language input, catering to individuals who prefer conversational interaction over navigating menus.  
 
-#### **Principle 2: Flexibility in Use**
+### **Principle 2: Flexibility in Use**
 - Provides two modes of interaction: a chatbot and a GUI.  
 - Users can choose their preferred method of interaction based on their comfort and needs.  
 
-#### **Principle 3: Simple and Intuitive Use**
+### **Principle 3: Simple and Intuitive Use**
 - Buttons are clearly labeled, making their function easy to understand at a glance.  
 - The outputted schedule is formatted to be simple and easy to read.  
 - Navigation is straightforward, allowing users to locate and use features quickly.  
 - The chatbot accepts plain language input, enabling users to request assistance or complete tasks easily.  
 
-#### **Principle 4: Perceptible Information**
+### **Principle 4: Perceptible Information**
 - **High Contrast Themes:** Adding color and contrast settings to improve accessibility for visually impaired users.  
 - **Text-to-Speech:** Implementing a text-to-voice feature to allow blind users to interact effectively with the program.  
 
-#### **Principle 5: Tolerance for Error**
+### **Principle 5: Tolerance for Error**
 - Users can edit certain event details, such as the date, time, and recurrence, if mistakes are made during creation.  
 - Current limitations prevent editing attributes like event name or type, which could be improved in future iterations to enhance error tolerance.  
 
-#### **Principle 6: Low Physical Effort**
+### **Principle 6: Low Physical Effort**
 - **Adjustable Button and Input Sizes:** Adding a settings menu to allow users to resize buttons and fields, reducing effort.  
 - **Alternative Interaction Methods:** Implementing voice commands or keyboard shortcuts to minimize reliance on mouse clicks or touch gestures.  
 
-#### **Principle 7: Size and Space for Approach and Use**
+### **Principle 7: Size and Space for Approach and Use**
 - **Adjustable Element Sizes:** Introducing a settings menu to resize interface components, ensuring ample space for interaction.  
 - **Mobile Optimization:** Adapting the program for mobile devices by spacing out and enlarging interactive elements for easier touch gestures.  
 
@@ -45,7 +45,7 @@ We would market our program towards teams and individuals who need efficient tim
 - **Businesses:** Restaurants or fast-paced workplaces can use the program to manage schedules during peak hours or special events, leveraging features like time estimation and conflict detection.  
 - **Students and Multi-taskers:** Students balancing school, extracurriculars, and part-time jobs can use the repeat event feature to schedule recurring commitments. Additionally, the chatbot’s ability to detect conflicts and suggest realistic timelines makes it ideal for individuals juggling multiple priorities, helping them allocate time for both work and relaxation.  
 
-### **Part 3 - Demographic Limitations**
+## **Part 3 - Demographic Limitations**
 **Write a paragraph about whether or not your program is less likely to be used by certain demographics. Your discussion
 here should be informed by the content of our embedded ethics modules this term.**
 
