@@ -15,12 +15,20 @@ public class AddEventPresenter implements AddEventOutputBoundary {
         this.eventViewModel = eventViewModel;
         this.viewManagerModel = viewManagerModel;
     }
-
+    /**
+     * Prepares the success view for the Edit use case.
+     *
+     * @param outputData the output data
+     */
     @Override
     public void prepareSuccessView(AddEventOutputData outputData) {
         // output data doesn't need to change, just need to let the view know,
-        // so it can alert the user that their updated information was saved.
-        eventViewModel.firePropertyChanged("edit");
+        // so it can alert the user that their new event was saved.
+        // On success, switch to main view.
+        // Transition to the main view
+        viewManagerModel.setState("schedule");
+        viewManagerModel.firePropertyChanged();
+
     }
 
     @Override
