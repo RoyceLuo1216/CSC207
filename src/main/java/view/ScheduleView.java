@@ -19,19 +19,21 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
     private static final int GRID_COLUMNS = 7;
     private static final int LABEL_FONT_SIZE = 16;
     private static final int CELL_PADDING = 12;
-    private static final Dimension FRAME_SIZE = new Dimension(1000, 800);
+    private static final String FONT = "Arial";
+    private static final int TIME_COLUMN_WIDTH = 100;
     private static final int ROW_HEIGHT = 60;
     private static final int WEEKDAY_COLUMN_WIDTH = 150;
+    private static final Dimension PANEL_PADDING = new Dimension(10, 20);
 
-    private ScheduleController scheduleController;
     private final ScheduleViewModel scheduleViewModel;
+    private ScheduleController scheduleController;
 
     /**
      * Constructs the ScheduleView with a given ScheduleViewModel.
      *
      * @param scheduleViewModel the ViewModel for the schedule
      */
-    public ScheduleView(ScheduleViewModel scheduleViewModel) {
+    public ScheduleView(final ScheduleViewModel scheduleViewModel) {
         this.scheduleViewModel = scheduleViewModel;
         this.scheduleViewModel.addPropertyChangeListener(this);
         this.setLayout(new GridBagLayout());
@@ -39,79 +41,71 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
     }
 
     private void initializeUserInterface() {
-        JPanel mainPanel = new JPanel(new GridBagLayout());
-        JScrollPane scrollPane = new JScrollPane(mainPanel);
+        final JPanel mainPanel = new JPanel(new GridBagLayout());
+        final JScrollPane scrollPane = new JScrollPane(mainPanel);
 
-        // Add padding and scroll pane
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 20, 10));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(PANEL_PADDING.width, PANEL_PADDING.height,
+                PANEL_PADDING.height, PANEL_PADDING.width));
         this.setLayout(new BorderLayout());
         this.add(scrollPane, BorderLayout.CENTER);
 
-        GridBagConstraints constraints = new GridBagConstraints();
+        final GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
 
-        // Add time panel
         addTimePanel(mainPanel, constraints);
-
-        // Add weekday panel
         addWeekdayPanel(mainPanel, constraints);
-
-        // Render event buttons
         renderEventButtons(mainPanel, constraints);
     }
 
-    private void renderEventButtons(JPanel panel, GridBagConstraints constraints) {
+    private void renderEventButtons(final JPanel panel, final GridBagConstraints constraints) {
         final Map<String, ScheduleState.EventDetails> events = scheduleViewModel.getState().getAllEventDetails();
 
         for (Map.Entry<String, ScheduleState.EventDetails> entry : events.entrySet()) {
-            String eventName = entry.getKey();
-            ScheduleState.EventDetails details = entry.getValue();
+            final String eventName = entry.getKey();
+            final ScheduleState.EventDetails details = entry.getValue();
 
-            // Determine grid position based on event details
-            int startGridY = details.getStartTime().getHour();
-            int endGridY = details.getEndTime().getHour();
-            int gridX = details.getStartDay().getValue() - 1;
+            final int startGridY = details.getStartTime().getHour();
+            final int endGridY = details.getEndTime().getHour();
+            final int gridX = details.getStartDay().getValue() - 1;
 
-            // Adjust for 10-pixel left shift
             constraints.gridx = gridX + 1;
             constraints.gridy = startGridY;
             constraints.gridwidth = 1;
             constraints.gridheight = endGridY - startGridY;
-            constraints.insets = new Insets(CELL_PADDING, 10, CELL_PADDING, CELL_PADDING);
+            constraints.insets = new Insets(CELL_PADDING, CELL_PADDING, CELL_PADDING, CELL_PADDING);
 
-            // Create event button
-            JButton eventButton = new JButton(eventName);
-            eventButton.setFont(new Font("Arial", Font.PLAIN, LABEL_FONT_SIZE));
+            final JButton eventButton = new JButton(eventName);
+            eventButton.setFont(new Font(FONT, Font.PLAIN, LABEL_FONT_SIZE));
             eventButton.addActionListener(e -> System.out.println("Event selected: " + eventName));
             panel.add(eventButton, constraints);
         }
     }
 
-    private void addTimePanel(JPanel panel, GridBagConstraints constraints) {
+    private void addTimePanel(final JPanel panel, final GridBagConstraints constraints) {
         final JPanel timePanel = new JPanel(new GridLayout(GRID_ROWS, 1, 0, CELL_PADDING));
-        timePanel.setPreferredSize(new Dimension(100, ROW_HEIGHT * GRID_ROWS));
+        timePanel.setPreferredSize(new Dimension(TIME_COLUMN_WIDTH, ROW_HEIGHT * GRID_ROWS));
         for (int i = 0; i < GRID_ROWS; i++) {
-            JLabel timeLabel = new JLabel(i + ":00", SwingConstants.CENTER);
-            timeLabel.setFont(new Font("Arial", Font.BOLD, LABEL_FONT_SIZE));
-            timeLabel.setPreferredSize(new Dimension(100, ROW_HEIGHT));
+            final JLabel timeLabel = new JLabel(i + ":00", SwingConstants.CENTER);
+            timeLabel.setFont(new Font(FONT, Font.BOLD, LABEL_FONT_SIZE));
+            timeLabel.setPreferredSize(new Dimension(TIME_COLUMN_WIDTH, ROW_HEIGHT));
             timePanel.add(timeLabel);
         }
         constraints.gridx = 0;
         constraints.gridy = 1;
         constraints.gridheight = GRID_ROWS;
         constraints.gridwidth = 1;
-        constraints.insets = new Insets(0, 10, 0, 0);
+        constraints.insets = new Insets(0, PANEL_PADDING.width, 0, 0);
         panel.add(timePanel, constraints);
     }
 
-    private void addWeekdayPanel(JPanel panel, GridBagConstraints constraints) {
+    private void addWeekdayPanel(final JPanel panel, final GridBagConstraints constraints) {
         final JPanel weekdayPanel = new JPanel(new GridLayout(1, GRID_COLUMNS, CELL_PADDING, 0));
         weekdayPanel.setPreferredSize(new Dimension(WEEKDAY_COLUMN_WIDTH * GRID_COLUMNS, ROW_HEIGHT));
         final String[] weekdays = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
-        for (String weekday : weekdays) {
-            JLabel weekdayLabel = new JLabel(weekday, SwingConstants.CENTER);
-            weekdayLabel.setFont(new Font("Arial", Font.BOLD, LABEL_FONT_SIZE));
+        for (final String weekday : weekdays) {
+            final JLabel weekdayLabel = new JLabel(weekday, SwingConstants.CENTER);
+            weekdayLabel.setFont(new Font(FONT, Font.BOLD, LABEL_FONT_SIZE));
             weekdayPanel.add(weekdayLabel);
         }
 
@@ -119,12 +113,12 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
         constraints.gridy = 0;
         constraints.gridwidth = GRID_COLUMNS;
         constraints.gridheight = 1;
-        constraints.insets = new Insets(0, 10, CELL_PADDING, 0);
+        constraints.insets = new Insets(0, PANEL_PADDING.width, CELL_PADDING, 0);
         panel.add(weekdayPanel, constraints);
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void propertyChange(final PropertyChangeEvent evt) {
         if ("state".equals(evt.getPropertyName())) {
             this.removeAll();
             initializeUserInterface();
@@ -137,7 +131,7 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
         return "schedule";
     }
 
-    public void setScheduleController(ScheduleController controller) {
+    public void setScheduleController(final ScheduleController controller) {
         this.scheduleController = controller;
     }
 }

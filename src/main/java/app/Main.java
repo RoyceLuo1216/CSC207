@@ -22,8 +22,6 @@ public class Main {
                 .addScheduleUseCase()
                 .build();
 
-
-
         application.pack();
         application.setVisible(true);
     }

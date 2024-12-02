@@ -17,7 +17,6 @@ public class AddEventState {
         return eventName;
     }
 
-
     public String getDayStart() {
         return dayStart;
     }

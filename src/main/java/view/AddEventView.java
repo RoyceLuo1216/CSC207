@@ -1,9 +1,8 @@
 package view;
 
-import interface_adapter.addEvent.AddEventViewModel;
-import interface_adapter.edit.EditViewModel;
-
 import javax.swing.*;
+
+import interface_adapter.addEvent.AddEventViewModel;
 
 /**
  * The View for when the user is adding an event (i.e. its details) into the program.
@@ -31,7 +30,7 @@ public class AddEventView extends JPanel {
 
     private final JLabel saveLabel = new JLabel();
     private final JButton saveButton = new JButton("Save");
-    private final String viewName = "add";;
+    private final String viewName = "add";
     private final AddEventViewModel addEventViewModel;
 
     // Data

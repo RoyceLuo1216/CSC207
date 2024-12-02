@@ -31,7 +31,6 @@ public class RepeatPresenter implements RepeatOutputBoundary {
         repeatViewModel.firePropertyChanged();
     }
 
-
     @Override
     public void backToMainView() {
         viewManagerModel.setState(repeatViewModel.getViewName());

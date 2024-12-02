@@ -1,18 +1,17 @@
 package view;
 
-import static interface_adapter.edit.EditViewModel.*;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-import javax.swing.*;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -25,12 +24,21 @@ import interface_adapter.eventInformation.EventInformationState;
  * The View for when the user is adding an event (i.e. its details) into the program.
  */
 public class EditView extends JPanel implements PropertyChangeListener {
+    private static final int SIZE = 500;
+
     private final String viewName = "edit";
     private final EditViewModel editViewModel;
 
     private EditController editController;
 
     private JFrame eventFrame;
+
+    private final String[] eventTypes = {"Fixed", "Repeat"};
+    private final String[] daysOfWeek = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"};
+    private final String[] times = {"12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM",
+                                    "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM",
+                                    "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM",
+                                    "9:00 PM", "10:00 PM", "11:00 PM"};
 
     private final JTextField eventNameField = new JTextField(20);
     private final JComboBox<String> eventTypeComboBox = new JComboBox<>(eventTypes);
@@ -49,22 +57,22 @@ public class EditView extends JPanel implements PropertyChangeListener {
 
         // ActionListener for save button
         updateButton.addActionListener(
-            evt -> {
-                if (evt.getSource().equals(updateButton)) {
-                    final ArrayList<String> selectedItems = new ArrayList<>();
-                    for (JCheckBox checkBox : checkBoxes) {
-                        if (checkBox.isSelected()) {
-                            selectedItems.add(checkBox.getText());
+                evt -> {
+                    if (evt.getSource().equals(updateButton)) {
+                        final ArrayList<String> selectedItems = new ArrayList<>();
+                        for (JCheckBox checkBox : checkBoxes) {
+                            if (checkBox.isSelected()) {
+                                selectedItems.add(checkBox.getText());
+                            }
                         }
+
+                        final EditState currentState = editViewModel.getState();
+
+                        editController.execute(currentState.getEventName(), currentState.getEventType(),
+                                currentState.getDayStart(), currentState.getDayEnd(), currentState.getTimeStart(),
+                                currentState.getTimeEnd(), currentState.getDaysRepeated());
                     }
-
-                    final EditState currentState = editViewModel.getState();
-
-                    editController.execute(currentState.getEventName(), currentState.getEventType(),
-                            currentState.getDayStart(), currentState.getDayEnd(), currentState.getTimeStart(),
-                            currentState.getTimeEnd(), currentState.getDaysRepeated());
                 }
-            }
         );
     }
 
@@ -115,7 +123,7 @@ public class EditView extends JPanel implements PropertyChangeListener {
         eventFrame = new JFrame("Event Page");
 
         eventFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        eventFrame.setSize(500, 500);
+        eventFrame.setSize(SIZE, SIZE);
         eventFrame.setLayout(new BoxLayout(eventFrame.getContentPane(), BoxLayout.Y_AXIS));
 
         // LAYOUT
@@ -159,8 +167,8 @@ public class EditView extends JPanel implements PropertyChangeListener {
         panel.add(component);
         return panel;
     }
-  
-  /**
+
+    /**
      * Initialise checkboxes with labels of daysOfWeek.
      * @return the list of checkboxes
      */

@@ -25,16 +25,17 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
 
     @Override
     public void execute(ScheduleInputData inputData) {
-        List<String> eventNames;
+        final List<String> eventNames;
         if (inputData.getEventNames().isPresent()) {
             eventNames = inputData.getEventNames().get();
-        } else {
+        }
+        else {
             // Handle potential null return value from dataAccess
             eventNames = Optional.ofNullable(dataAccess.getAllEventNames()).orElse(Collections.emptyList());
         }
 
         // Prepare and send output data
-        ScheduleOutputData outputData = new ScheduleOutputData(eventNames);
+        final ScheduleOutputData outputData = new ScheduleOutputData(eventNames);
         presenter.presentView(outputData);
     }
 }

@@ -56,8 +56,9 @@ public class ScheduleState {
      * @param endDay    the end day of the event
      * @param endTime   the end time of the event
      */
-    public void addOrUpdateEventDetails(String eventName, DayOfWeek startDay, LocalTime startTime, DayOfWeek endDay, LocalTime endTime) {
-        EventDetails details = new EventDetails(startDay, startTime, endDay, endTime);
+    public void addOrUpdateEventDetails(String eventName, DayOfWeek startDay, LocalTime startTime,
+                                        DayOfWeek endDay, LocalTime endTime) {
+        final EventDetails details = new EventDetails(startDay, startTime, endDay, endTime);
         eventDetailsMap.put(eventName, details);
     }
 
@@ -114,12 +115,11 @@ public class ScheduleState {
 
         @Override
         public String toString() {
-            return "EventDetails{" +
-                    "startDay=" + startDay +
-                    ", startTime=" + startTime +
-                    ", endDay=" + endDay +
-                    ", endTime=" + endTime +
-                    '}';
+            return "EventDetails{" + "startDay=" + startDay
+                    + ", startTime=" + startTime
+                    + ", endDay=" + endDay
+                    + ", endTime="
+                    + endTime + '}';
         }
     }
 }

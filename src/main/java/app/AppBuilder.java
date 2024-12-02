@@ -1,5 +1,9 @@
 package app;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import data_access.InMemoryDataAccessObject;
 import entities.eventEntity.EventFactory;
 import interface_adapter.ViewManagerModel;
@@ -7,9 +11,9 @@ import interface_adapter.addEvent.AddEventViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationController;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationPresenter;
+import interface_adapter.chatbot_event_conflict.EventConflictChatbotChatbotPresenter;
 import interface_adapter.chatbot_event_conflict.EventConflictChatbotViewModel;
 import interface_adapter.chatbot_event_conflict.EventConflictController;
-import interface_adapter.chatbot_event_conflict.EventConflictChatbotChatbotPresenter;
 import interface_adapter.delete.DeleteEventViewModel;
 import interface_adapter.edit.EditController;
 import interface_adapter.edit.EditEventPresenter;
@@ -20,6 +24,7 @@ import interface_adapter.repeat.RepeatViewModel;
 import interface_adapter.schedule.ScheduleController;
 import interface_adapter.schedule.SchedulePresenter;
 import interface_adapter.schedule.ScheduleViewModel;
+
 import usecase.chatbot_event_conflict.EventConflictInputBoundary;
 import usecase.chatbot_event_conflict.EventConflictInteractor;
 import usecase.chatbot_event_conflict.EventConflictChatbotOutputBoundary;
@@ -35,11 +40,8 @@ import usecase.repeat.RepeatOutputBoundary;
 import usecase.schedule.ScheduleInputBoundary;
 import usecase.schedule.ScheduleInteractor;
 import usecase.schedule.ScheduleOutputBoundary;
-import view.*;
 import view.EventConflictChatbotView;
-
-import javax.swing.*;
-import java.awt.*;
+import view.*;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -110,7 +112,8 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addEventConflictUseCase() {
-        final EventConflictChatbotOutputBoundary eventConflictChatbotOutputBoundary = new EventConflictChatbotChatbotPresenter(
+        final EventConflictChatbotOutputBoundary eventConflictChatbotOutputBoundary =
+                new EventConflictChatbotChatbotPresenter(
                 viewManagerModel, eventConflictChatbotViewModel);
         final EventConflictInputBoundary eventConflictInteractor = new EventConflictInteractor(
                 inMemoryDataAccessObjectDataObject, eventConflictChatbotOutputBoundary, eventFactory);
@@ -153,18 +156,20 @@ public class AppBuilder {
         return this;
     }
 
-//    /**
-// * Adds the DeleteEvent View to the application.
-// * @return this builder
-// */
-    public AppBuilder addDeleteEventView() {
+    /**
+ * Adds the DeleteEvent View to the application.
+ * @param frame frame currently being used.
+ * @return this builder
+ */
+    public AppBuilder addDeleteEventView(JFrame frame) {
         deleteEventViewModel = new DeleteEventViewModel();
-        deleteEventView = new DeleteEventView(deleteEventViewModel);
+        deleteEventView = new DeleteEventView(deleteEventViewModel, frame);
         cardPanel.add(deleteEventView, deleteEventView.getViewName());
         return this;
     }
+
 //
-///**
+//
 // * Adds the DeleteEvent Use Case to the application.
 // * @return this builder
 // */
@@ -221,6 +226,10 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds repeat use case.
+     * @return app builder object.
+     */
     public AppBuilder addRepeatUseCase() {
         final RepeatOutputBoundary repeatOutputBoundary = new RepeatPresenter(repeatViewModel, viewManagerModel
                 );
