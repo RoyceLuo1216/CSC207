@@ -3,6 +3,9 @@ package interface_adapter.schedule;
 import usecase.schedule.ScheduleInputBoundary;
 import usecase.schedule.ScheduleInputData;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+
 /**
  * Controller for handling schedule-related actions.
  */
@@ -47,4 +50,5 @@ public class ScheduleController {
     public void popUpEventConflictChatbotView() {
         interactor.popUpEventConflictChatbotView();
     }
+
 }
