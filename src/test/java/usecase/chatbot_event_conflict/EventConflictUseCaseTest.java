@@ -4,7 +4,7 @@ import data_access.InMemoryChatbotDataAccessObject;
 import entities.eventEntity.Event;
 import entities.eventEntity.FixedEvent;
 import entities.eventEntity.EventFactory;
-import interface_adapter.chatbot_event_conflict.EventConflictChatbotPresenter;
+import interface_adapter.chatbot_event_conflict.EventConflictChatbotChatbotPresenter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +32,7 @@ public class EventConflictUseCaseTest {
 
 
         // Mock dependencies
-        EventConflictChatbotPresenter mockPresenter = mock(EventConflictChatbotPresenter.class);
+        EventConflictChatbotChatbotPresenter mockPresenter = mock(EventConflictChatbotChatbotPresenter.class);
         EventFactory mockFactory = mock(EventFactory.class);
 
         // Initialize the interactor

@@ -9,14 +9,14 @@ import interface_adapter.chatbotTimeEstimation.TimeEstimationController;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationPresenter;
 import interface_adapter.chatbot_event_conflict.EventConflictChatbotViewModel;
 import interface_adapter.chatbot_event_conflict.EventConflictController;
-import interface_adapter.chatbot_event_conflict.EventConflictChatbotPresenter;
+import interface_adapter.chatbot_event_conflict.EventConflictChatbotChatbotPresenter;
 import interface_adapter.delete.DeleteEventViewModel;
 import interface_adapter.edit.EditViewModel;
 import interface_adapter.repeat.RepeatViewModel;
 import interface_adapter.schedule.ScheduleViewModel;
 import usecase.chatbot_event_conflict.EventConflictInputBoundary;
 import usecase.chatbot_event_conflict.EventConflictInteractor;
-import usecase.chatbot_event_conflict.EventConflictOutputBoundary;
+import usecase.chatbot_event_conflict.EventConflictChatbotOutputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInteractor;
 import usecase.chatbot_time_estimation.TimeEstimationOutputBoundary;
@@ -96,10 +96,10 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addEventConflictUseCase() {
-        final EventConflictOutputBoundary eventConflictOutputBoundary = new EventConflictChatbotPresenter(
+        final EventConflictChatbotOutputBoundary eventConflictChatbotOutputBoundary = new EventConflictChatbotChatbotPresenter(
                 viewManagerModel, eventConflictChatbotViewModel);
         final EventConflictInputBoundary eventConflictInteractor = new EventConflictInteractor(
-                inMemoryDataAccessObjectDataObject, eventConflictOutputBoundary, eventFactory);
+                inMemoryDataAccessObjectDataObject, eventConflictChatbotOutputBoundary, eventFactory);
 
         final EventConflictController controller = new EventConflictController(eventConflictInteractor);
         eventConflictChatbotView.setChatbotController(controller);
@@ -188,7 +188,7 @@ public class AppBuilder {
 //}
 //
 //public AppBuilder addEditUseCase() {
-//    final EditOutputBoundary editOutputBoundary = new EditPresenter(viewManagerModel,
+//    final EditOutputBoundary editOutputBoundary = new EditEventPresenter(viewManagerModel,
 //            editViewModel, loginViewModel);
 //    final EditInputBoundary editInteractor = new EditInteractor(
 //            userDataAccessObject, editOutputBoundary, userFactory);

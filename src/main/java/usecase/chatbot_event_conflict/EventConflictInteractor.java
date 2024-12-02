@@ -16,14 +16,14 @@ import entities.eventEntity.EventFactory;
  */
 public class EventConflictInteractor implements EventConflictInputBoundary {
     private final EventConflictChatbotDataAccessInterface inMemoryDataAccessObjectDataObject;
-    private final EventConflictOutputBoundary eventConflictPresenter;
+    private final EventConflictChatbotOutputBoundary eventConflictPresenter;
     private final EventFactory eventFactory;
 
     public EventConflictInteractor(EventConflictChatbotDataAccessInterface inMemoryDataAccessObject,
-                                   EventConflictOutputBoundary eventConflictOutputBoundary,
+                                   EventConflictChatbotOutputBoundary eventConflictChatbotOutputBoundary,
                                    EventFactory eventFactory) {
         this.inMemoryDataAccessObjectDataObject = inMemoryDataAccessObject;
-        this.eventConflictPresenter = eventConflictOutputBoundary;
+        this.eventConflictPresenter = eventConflictChatbotOutputBoundary;
         this.eventFactory = eventFactory;
     }
 
@@ -47,8 +47,8 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
                     final String response = "Yes, you can schedule your task on " + timePeriodString[0]
                             + " from " + timePeriodString[1] + " to " + timePeriodString[2] + ".";
 
-                    final ChatbotOutputData chatbotOutputData = new ChatbotOutputData(response, false);
-                    eventConflictPresenter.prepareSuccessView(chatbotOutputData);
+                    final EventConflictChatbotOutputData eventConflictChatbotOutputData = new EventConflictChatbotOutputData(response, false);
+                    eventConflictPresenter.prepareSuccessView(eventConflictChatbotOutputData);
                 }
                 else {
                     final String[] article = new String[2];
@@ -67,8 +67,8 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
                     }
                     final String response = "You have the following " + article[0] + ": \n" + tasksDuringString;
 
-                    final ChatbotOutputData chatbotOutputData = new ChatbotOutputData(response, false);
-                    eventConflictPresenter.prepareSuccessView(chatbotOutputData);
+                    final EventConflictChatbotOutputData eventConflictChatbotOutputData = new EventConflictChatbotOutputData(response, false);
+                    eventConflictPresenter.prepareSuccessView(eventConflictChatbotOutputData);
                 }
             }
             else {
