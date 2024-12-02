@@ -1,6 +1,7 @@
 package usecase.repeat;
 
 import data_access.InMemoryDataAccessObject;
+import entities.eventEntity.EventFactory;
 import entities.eventEntity.RepeatEvent;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RepeatInteractorTest {
     private InMemoryDataAccessObject dataAccessObject;
+    private EventFactory eventFactory;
 
     @BeforeEach
     void setUp() {
@@ -55,7 +57,7 @@ public class RepeatInteractorTest {
             public void backToMainView(){return;}
         };
         dataAccessObject = new InMemoryDataAccessObject();
-        RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter);
+        RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter, eventFactory);
         interactor.execute(repeatInputData);
 
         RepeatEvent updatedEvent = (RepeatEvent) dataAccessObject.getEventByName("Study for CSC207 Exam").get();
@@ -95,7 +97,7 @@ public class RepeatInteractorTest {
         };
 
         dataAccessObject = new InMemoryDataAccessObject();
-        RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter);
+        RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter, eventFactory);
         interactor.execute(repeatInputData);
     }
 
@@ -128,7 +130,7 @@ public class RepeatInteractorTest {
             public void backToMainView(){return;}
         };
         dataAccessObject = new InMemoryDataAccessObject();
-        RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter);
+        RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter, eventFactory);
         interactor.execute(repeatInputData);
 
         List<DayOfWeek> newRepeatedDays = new ArrayList<DayOfWeek>();
@@ -157,7 +159,7 @@ public class RepeatInteractorTest {
             public void backToMainView(){return;}
         };
 
-        RepeatInputBoundary newInteractor = new RepeatInteractor(dataAccessObject, newSuccessPresenter);
+        RepeatInputBoundary newInteractor = new RepeatInteractor(dataAccessObject, newSuccessPresenter, eventFactory);
         newInteractor.execute(newRepeatInputData);
     }
 
@@ -187,7 +189,7 @@ public class RepeatInteractorTest {
         };
 
         dataAccessObject = new InMemoryDataAccessObject();
-        RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter);
+        RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter, eventFactory);
         interactor.execute(repeatInputData);
     }
 }

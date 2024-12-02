@@ -7,7 +7,7 @@ import interface_adapter.ViewModel;
  */
 public class DeleteEventViewModel extends ViewModel<DeleteEventState> {
 
-    public DeleteEventViewModel(String viewName) {
+    public DeleteEventViewModel() {
         super("delete");
         setState(new DeleteEventState());
     }

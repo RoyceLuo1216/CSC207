@@ -1,6 +1,8 @@
 package usecase.schedule;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Interactor for handling schedule-related use cases.
@@ -23,17 +25,16 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
 
     @Override
     public void execute(ScheduleInputData inputData) {
-        List<String> retrievedEventNames;
-
-        if (inputData.getEventNames().isPresent() && !inputData.getEventNames().get().isEmpty()) {
-            // Retrieve specific event names
-            retrievedEventNames = inputData.getEventNames().get();
+        List<String> eventNames;
+        if (inputData.getEventNames().isPresent()) {
+            eventNames = inputData.getEventNames().get();
         } else {
-            // Retrieve all event names
-            retrievedEventNames = dataAccess.getAllEventNames();
+            // Handle potential null return value from dataAccess
+            eventNames = Optional.ofNullable(dataAccess.getAllEventNames()).orElse(Collections.emptyList());
         }
 
-        ScheduleOutputData outputData = new ScheduleOutputData(retrievedEventNames);
+        // Prepare and send output data
+        ScheduleOutputData outputData = new ScheduleOutputData(eventNames);
         presenter.presentView(outputData);
     }
 }
