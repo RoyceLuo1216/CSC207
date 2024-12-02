@@ -3,14 +3,14 @@ package usecase.chatbot_event_conflict;
 /**
  * The output boundary for the Chatbot Event Conflict Use Case.
  */
-public interface EventConflictOutputBoundary {
+public interface EventConflictChatbotOutputBoundary {
 
     /**
      * Prepares the success view for the Event Conflict Use Case.
      *
      * @param outputData the output data
      */
-    void prepareSuccessView(ChatbotOutputData outputData);
+    void prepareSuccessView(EventConflictChatbotOutputData outputData);
 
     /**
      * Prepares the failure view for the Signup Use Case.

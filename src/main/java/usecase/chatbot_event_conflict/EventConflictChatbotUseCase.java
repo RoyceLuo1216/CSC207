@@ -3,8 +3,8 @@ package usecase.chatbot_event_conflict;
 /**
  * Use case for using the Chatbot to find Event Conflicts.
  */
-public class ChatbotEventConflictUseCase {
-    public ChatbotEventConflictUseCase() {
+public class EventConflictChatbotUseCase {
+    public EventConflictChatbotUseCase() {
 
     }
 }

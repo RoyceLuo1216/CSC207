@@ -3,20 +3,20 @@ package app;
 import data_access.InMemoryDataAccessObject;
 import entities.eventEntity.EventFactory;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.addEvent.AddViewModel;
+import interface_adapter.addEvent.AddEventViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationController;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationPresenter;
 import interface_adapter.chatbot_event_conflict.EventConflictChatbotViewModel;
 import interface_adapter.chatbot_event_conflict.EventConflictController;
-import interface_adapter.chatbot_event_conflict.EventConflictPresenter;
+import interface_adapter.chatbot_event_conflict.EventConflictChatbotChatbotPresenter;
 import interface_adapter.delete.DeleteEventViewModel;
 import interface_adapter.edit.EditViewModel;
 import interface_adapter.repeat.RepeatViewModel;
 import interface_adapter.schedule.ScheduleViewModel;
 import usecase.chatbot_event_conflict.EventConflictInputBoundary;
 import usecase.chatbot_event_conflict.EventConflictInteractor;
-import usecase.chatbot_event_conflict.EventConflictOutputBoundary;
+import usecase.chatbot_event_conflict.EventConflictChatbotOutputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInteractor;
 import usecase.chatbot_time_estimation.TimeEstimationOutputBoundary;
@@ -49,8 +49,8 @@ public class AppBuilder {
     private TimeEstimationChatbotViewModel timeEstimationChatbotViewModel;
     private DeleteEventView deleteEventView;
     private DeleteEventViewModel deleteEventViewModel;
-    private AddView addView;
-    private AddViewModel addViewModel;
+    private AddEventView addEventView;
+    private AddEventViewModel addEventViewModel;
     private ScheduleView scheduleView;
     private ScheduleViewModel scheduleViewModel;
     private EditView editView;
@@ -96,10 +96,10 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addEventConflictUseCase() {
-        final EventConflictOutputBoundary eventConflictOutputBoundary = new EventConflictPresenter(
+        final EventConflictChatbotOutputBoundary eventConflictChatbotOutputBoundary = new EventConflictChatbotChatbotPresenter(
                 viewManagerModel, eventConflictChatbotViewModel);
         final EventConflictInputBoundary eventConflictInteractor = new EventConflictInteractor(
-                inMemoryDataAccessObjectDataObject, eventConflictOutputBoundary, eventFactory);
+                inMemoryDataAccessObjectDataObject, eventConflictChatbotOutputBoundary, eventFactory);
 
         final EventConflictController controller = new EventConflictController(eventConflictInteractor);
         eventConflictChatbotView.setChatbotController(controller);
@@ -188,9 +188,9 @@ public class AppBuilder {
 //}
 //
 //public AppBuilder addEditUseCase() {
-//    final EditOutputBoundary editOutputBoundary = new EditPresenter(viewManagerModel,
+//    final EditEventOutputBoundary editOutputBoundary = new EditEventEventPresenter(viewManagerModel,
 //            editViewModel, loginViewModel);
-//    final EditInputBoundary editInteractor = new EditInteractor(
+//    final EditEventInputBoundary editInteractor = new EditEventInteractor(
 //            userDataAccessObject, editOutputBoundary, userFactory);
 //
 //    final EditController controller = new EditController(editInteractor);

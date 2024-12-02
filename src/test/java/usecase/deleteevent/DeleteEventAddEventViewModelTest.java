@@ -6,7 +6,7 @@ import interface_adapter.delete.DeleteEventViewModel;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DeleteEventAddViewModelTest {
+class DeleteEventAddEventViewModelTest {
 
     @Test
     void testStateUpdate() {

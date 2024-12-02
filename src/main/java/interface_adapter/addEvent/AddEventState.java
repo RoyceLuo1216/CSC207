@@ -1,17 +1,10 @@
-<<<<<<<< HEAD:src/main/java/interface_adapter/addEvent/AddEventState.java
 package interface_adapter.addEvent;
-========
-package interface_adapter.eventAdd;
->>>>>>>> 0786677a92101c9e249ab29a838fede2122e7ab6:src/main/java/interface_adapter/eventAdd/EventAddState.java
 
 /**
  * The state for the Edit View Model.
  */
-<<<<<<<< HEAD:src/main/java/interface_adapter/addEvent/AddEventState.java
 public class AddEventState {
-========
-public class EventAddState {
->>>>>>>> 0786677a92101c9e249ab29a838fede2122e7ab6:src/main/java/interface_adapter/eventAdd/EventAddState.java
+
     private String eventName;
     private String dayStart;
     private String dayEnd;

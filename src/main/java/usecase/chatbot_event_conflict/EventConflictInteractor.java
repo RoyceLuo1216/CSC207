@@ -15,15 +15,15 @@ import entities.eventEntity.EventFactory;
  * The Chatbot Event Conflict Interactor.
  */
 public class EventConflictInteractor implements EventConflictInputBoundary {
-    private final EventConflictDataAccessInterface inMemoryDataAccessObjectDataObject;
-    private final EventConflictOutputBoundary eventConflictPresenter;
+    private final EventConflictChatbotDataAccessInterface inMemoryDataAccessObjectDataObject;
+    private final EventConflictChatbotOutputBoundary eventConflictPresenter;
     private final EventFactory eventFactory;
 
-    public EventConflictInteractor(EventConflictDataAccessInterface inMemoryDataAccessObject,
-                                   EventConflictOutputBoundary eventConflictOutputBoundary,
+    public EventConflictInteractor(EventConflictChatbotDataAccessInterface inMemoryDataAccessObject,
+                                   EventConflictChatbotOutputBoundary eventConflictChatbotOutputBoundary,
                                    EventFactory eventFactory) {
         this.inMemoryDataAccessObjectDataObject = inMemoryDataAccessObject;
-        this.eventConflictPresenter = eventConflictOutputBoundary;
+        this.eventConflictPresenter = eventConflictChatbotOutputBoundary;
         this.eventFactory = eventFactory;
     }
 
@@ -47,8 +47,8 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
                     final String response = "Yes, you can schedule your task on " + timePeriodString[0]
                             + " from " + timePeriodString[1] + " to " + timePeriodString[2] + ".";
 
-                    final ChatbotOutputData chatbotOutputData = new ChatbotOutputData(response, false);
-                    eventConflictPresenter.prepareSuccessView(chatbotOutputData);
+                    final EventConflictChatbotOutputData eventConflictChatbotOutputData = new EventConflictChatbotOutputData(response, false);
+                    eventConflictPresenter.prepareSuccessView(eventConflictChatbotOutputData);
                 }
                 else {
                     final String[] article = new String[2];
@@ -67,8 +67,8 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
                     }
                     final String response = "You have the following " + article[0] + ": \n" + tasksDuringString;
 
-                    final ChatbotOutputData chatbotOutputData = new ChatbotOutputData(response, false);
-                    eventConflictPresenter.prepareSuccessView(chatbotOutputData);
+                    final EventConflictChatbotOutputData eventConflictChatbotOutputData = new EventConflictChatbotOutputData(response, false);
+                    eventConflictPresenter.prepareSuccessView(eventConflictChatbotOutputData);
                 }
             }
             else {
@@ -127,7 +127,7 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
      * @return a list of task descriptions for tasks that occur during the specified period
      */
     public ArrayList<String> getTasksDuring(DayOfWeek startDay, LocalTime startTime,
-                                            LocalTime endTime, EventConflictDataAccessInterface inMemoryDataAccessObject) {
+                                            LocalTime endTime, EventConflictChatbotDataAccessInterface inMemoryDataAccessObject) {
         final ArrayList<String> tasks = new ArrayList<>();
         final ArrayList<Event> events = new ArrayList<>();
         final ArrayList<LocalTime> hourlyIntervals = getHourlyIntervals(startTime, endTime);

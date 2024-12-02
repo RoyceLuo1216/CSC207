@@ -3,13 +3,13 @@ package usecase.chatbot_event_conflict;
 /**
  * Output Data for the Signup Use Case.
  */
-public class ChatbotOutputData {
+public class EventConflictChatbotOutputData {
 
     private final String response;
 
     private final boolean useCaseFailed;
 
-    public ChatbotOutputData(String response, boolean useCaseFailed) {
+    public EventConflictChatbotOutputData(String response, boolean useCaseFailed) {
         this.response = response;
         this.useCaseFailed = useCaseFailed;
     }

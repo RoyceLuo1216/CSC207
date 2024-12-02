@@ -3,12 +3,12 @@ package usecase.edit;
 /**
  * Output Data for the Edit use case.
  */
-public class EditOutputData {
+public class EditEventOutputData {
     private final String eventName;
     private final boolean useCaseFailed;
     private final String outputMessage;
 
-    public EditOutputData(String eventName, boolean useCaseFailed, String outputMessage) {
+    public EditEventOutputData(String eventName, boolean useCaseFailed, String outputMessage) {
         this.eventName = eventName;
         this.useCaseFailed = useCaseFailed;
         this.outputMessage = outputMessage;
