@@ -23,7 +23,7 @@ public class ScheduleController {
      * Triggers the schedule retrieval process.
      */
     public void getSchedule() {
-        ScheduleInputData inputData = new ScheduleInputData();
+        ScheduleInputData inputData = new ScheduleInputData(null);
         interactor.execute(inputData);
     }
 }

@@ -40,4 +40,5 @@ public class SchedulePresenter implements ScheduleOutputBoundary {
         // Notify the ViewModel of the updated state
         viewModel.setState(state);
     }
+
 }

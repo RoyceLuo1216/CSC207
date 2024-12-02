@@ -1,20 +1,20 @@
-package interface_adapter.event;
+package interface_adapter.addEvent;
 
-import usecase.event.EventOutputBoundary;
-import usecase.event.EventOutputData;
+import usecase.event.AddEventOutputBoundary;
+import usecase.event.AddEventOutputData;
 
 /**
  * Presenter for the Add Event Use Case.
  */
-public class EventPresenter implements EventOutputBoundary {
-    private final EventViewModel eventViewModel;
+public class AddEventPresenter implements AddEventOutputBoundary {
+    private final AddViewModel eventViewModel;
 
-    public EventPresenter(EventViewModel eventViewModel) {
+    public AddEventPresenter(AddViewModel eventViewModel) {
         this.eventViewModel = eventViewModel;
     }
 
     @Override
-    public void prepareSuccessView(EventOutputData outputData) {
+    public void prepareSuccessView(AddEventOutputData outputData) {
         // output data doesn't need to change, just need to let the view know,
         // so it can alert the user that their updated information was saved.
         eventViewModel.firePropertyChanged("edit");
@@ -23,7 +23,7 @@ public class EventPresenter implements EventOutputBoundary {
     @Override
     public void prepareFailView(String errorMessage) {
         // returns an error message if the event was not updated properly
-        final EventState eventState = eventViewModel.getState();
+        final AddEventState eventState = eventViewModel.getState();
         eventState.setEditError(errorMessage);
         eventViewModel.firePropertyChanged();
     }

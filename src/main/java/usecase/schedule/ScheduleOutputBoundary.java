@@ -9,5 +9,5 @@ public interface ScheduleOutputBoundary {
      *
      * @param outputData data containing the list of event names.
      */
-    void presentEvents(ScheduleOutputData outputData);
+    void presentView(ScheduleOutputData outputData);
 }

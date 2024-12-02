@@ -34,6 +34,6 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
         }
 
         ScheduleOutputData outputData = new ScheduleOutputData(retrievedEventNames);
-        presenter.presentEvents(outputData);
+        presenter.presentView(outputData);
     }
 }

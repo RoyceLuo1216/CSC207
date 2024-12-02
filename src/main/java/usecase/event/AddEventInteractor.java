@@ -3,16 +3,16 @@ package usecase.event;
 import java.util.Optional;
 
 import entities.eventEntity.Event;
-import factory.EventFactory;
+import entities.eventEntity.EventFactory;
 
 /**
  *  Interactor for Event Add Use Case. Implements abstraction defined in EventInputBoundary.
  */
-public class EventInteractor implements EventInputBoundary {
-    private final EventDataAccessInterface dataAccessObject;
-    private final EventOutputBoundary presenter;
+public class AddEventInteractor implements AddEventInputBoundary {
+    private final AddEventDataAccessInterface dataAccessObject;
+    private final AddEventOutputBoundary presenter;
 
-    public EventInteractor(EventDataAccessInterface userSchedule, EventOutputBoundary eventOutputBoundary) {
+    public AddEventInteractor(AddEventDataAccessInterface userSchedule, AddEventOutputBoundary eventOutputBoundary) {
         this.dataAccessObject = userSchedule;
         this.presenter = eventOutputBoundary;
     }
@@ -23,7 +23,7 @@ public class EventInteractor implements EventInputBoundary {
      */
 
     @Override
-    public void execute(EventInputData eventInputData) {
+    public void execute(AddEventInputData eventInputData) {
         final String eventName = eventInputData.getEventName();
         final Optional<Event> optionalEvent = dataAccessObject.getEventByName(eventName);
 
@@ -52,7 +52,7 @@ public class EventInteractor implements EventInputBoundary {
                         eventInputData.getTimeStart(),
                         eventInputData.getTimeEnd()));
 
-                final EventOutputData eventOutputData = new EventOutputData(eventName, false);
+                final AddEventOutputData eventOutputData = new AddEventOutputData(eventName, false);
 
                 presenter.prepareSuccessView(eventOutputData);
             }

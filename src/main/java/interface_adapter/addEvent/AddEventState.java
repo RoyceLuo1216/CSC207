@@ -1,9 +1,9 @@
-package interface_adapter.event;
+package interface_adapter.addEvent;
 
 /**
  * The state for the Edit View Model.
  */
-public class EventState {
+public class AddEventState {
     private String eventName;
     private String eventType;
     private String dayStart;

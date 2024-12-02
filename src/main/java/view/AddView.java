@@ -5,7 +5,7 @@ import javax.swing.*;
 /**
  * The View for when the user is adding an event (i.e. its details) into the program.
  */
-public class EventView extends JPanel {
+public class AddView extends JPanel {
     // Initialise the controller
     // private final EventViewController controller = new EventViewController();
 
@@ -34,7 +34,7 @@ public class EventView extends JPanel {
 
     // Data
 
-    public EventView() {
+    public AddView() {
 
         // Create the fixed frame (main)
         final JFrame eventFrame = new JFrame("Create Event Page");

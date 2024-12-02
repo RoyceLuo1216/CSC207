@@ -26,14 +26,14 @@ public class EventAddInteractorTest {
 
     @Test
     public void successAddEvent(){
-        EventInputData eventAddInputData = new EventInputData("Study for CSC207 Exam", DayOfWeek.MONDAY,
+        AddEventInputData eventAddInputData = new AddEventInputData("Study for CSC207 Exam", DayOfWeek.MONDAY,
                 DayOfWeek.MONDAY,
                 LocalTime.of(1, 0),
                 LocalTime.of(21, 0));
 
-        EventOutputBoundary successPresenter = new EventOutputBoundary() {
+        AddEventOutputBoundary successPresenter = new AddEventOutputBoundary() {
             @Override
-            public void prepareSuccessView(EventOutputData outputData) {
+            public void prepareSuccessView(AddEventOutputData outputData) {
                 assertEquals("Study for CSC207 Exam", outputData.getEventName());
                 assertFalse(outputData.isUseCaseFailed());
             }
@@ -44,7 +44,7 @@ public class EventAddInteractorTest {
             }
         };
         dataAccessObject = new InMemoryDataAccessObject();
-        EventInputBoundary interactor = new EventInteractor(dataAccessObject, successPresenter);
+        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter);
         interactor.execute(eventAddInputData);
 
         FixedEvent updatedEvent = (FixedEvent) dataAccessObject.getEventByName("Study for CSC207 Exam").get();
@@ -56,14 +56,14 @@ public class EventAddInteractorTest {
 
     @Test
     public void failTimesNotCompatibleAddEvent(){
-        EventInputData eventAddInputData = new EventInputData("Study for CSC207 Exam", DayOfWeek.MONDAY,
+        AddEventInputData eventAddInputData = new AddEventInputData("Study for CSC207 Exam", DayOfWeek.MONDAY,
                 DayOfWeek.MONDAY,
                 LocalTime.of(21, 0),
                 LocalTime.of(1, 0));
 
-        EventOutputBoundary successPresenter = new EventOutputBoundary() {
+        AddEventOutputBoundary successPresenter = new AddEventOutputBoundary() {
             @Override
-            public void prepareSuccessView(EventOutputData outputData) {
+            public void prepareSuccessView(AddEventOutputData outputData) {
                 fail("Test failed");
             }
 
@@ -74,20 +74,20 @@ public class EventAddInteractorTest {
         };
 
         dataAccessObject = new InMemoryDataAccessObject();
-        EventInputBoundary interactor = new EventInteractor(dataAccessObject, successPresenter);
+        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter);
         interactor.execute(eventAddInputData);
     }
 
     @Test
     public void failAlreadyAddedEvent(){
-        EventInputData eventAddInputData = new EventInputData("Study for CSC207 Exam", DayOfWeek.MONDAY,
+        AddEventInputData eventAddInputData = new AddEventInputData("Study for CSC207 Exam", DayOfWeek.MONDAY,
                 DayOfWeek.MONDAY,
                 LocalTime.of(1, 0),
                 LocalTime.of(21, 0));
 
-        EventOutputBoundary successPresenter = new EventOutputBoundary() {
+        AddEventOutputBoundary successPresenter = new AddEventOutputBoundary() {
             @Override
-            public void prepareSuccessView(EventOutputData outputData) {
+            public void prepareSuccessView(AddEventOutputData outputData) {
                 assertEquals("Study for CSC207 Exam", outputData.getEventName());
                 assertFalse(outputData.isUseCaseFailed());
             }
@@ -99,18 +99,18 @@ public class EventAddInteractorTest {
         };
 
         dataAccessObject = new InMemoryDataAccessObject();
-        EventInputBoundary interactor = new EventInteractor(dataAccessObject, successPresenter);
+        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter);
         interactor.execute(eventAddInputData);
 
 
-        EventInputData newEventAddInputData = new EventInputData("Study for CSC207 Exam", DayOfWeek.MONDAY,
+        AddEventInputData newEventAddInputData = new AddEventInputData("Study for CSC207 Exam", DayOfWeek.MONDAY,
                 DayOfWeek.MONDAY,
                 LocalTime.of(1, 0),
                 LocalTime.of(21, 0));
 
-        EventOutputBoundary newSuccessPresenter = new EventOutputBoundary() {
+        AddEventOutputBoundary newSuccessPresenter = new AddEventOutputBoundary() {
             @Override
-            public void prepareSuccessView(EventOutputData outputData) {
+            public void prepareSuccessView(AddEventOutputData outputData) {
                 fail("Test failed");
             }
 
@@ -120,7 +120,7 @@ public class EventAddInteractorTest {
             }
         };
 
-        EventInputBoundary newInteractor = new EventInteractor(dataAccessObject, newSuccessPresenter);
+        AddEventInputBoundary newInteractor = new AddEventInteractor(dataAccessObject, newSuccessPresenter);
         newInteractor.execute(newEventAddInputData);
     }
 }

@@ -16,6 +16,8 @@ public class Main {
         final JFrame application = appBuilder
                 .addEventConflictChatbotView()
                 .addEventConflictUseCase()
+                .addTimeEstimationChatbotView()
+                .addTimeEstimationUseCase()
                 .build();
 
         application.pack();

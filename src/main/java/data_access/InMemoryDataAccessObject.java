@@ -11,7 +11,7 @@ import entities.eventEntity.Event;
 import usecase.chatbot_event_conflict.EventConflictDataAccessInterface;
 import usecase.delete.DeleteEventDataAccessInterface;
 import usecase.edit.EditDataAccessInterface;
-import usecase.event.EventDataAccessInterface;
+import usecase.event.AddEventDataAccessInterface;
 import usecase.repeat.RepeatEventDataAccessInterface;
 import usecase.schedule.ScheduleDataAccessInterface;
 
@@ -21,9 +21,8 @@ import usecase.schedule.ScheduleDataAccessInterface;
  * for scheduling flexible events around fixed ones.
  */
 public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
-                                                        EditDataAccessInterface, ScheduleDataAccessInterface {
-                                                        EditDataAccessInterface,
-                                                        EventDataAccessInterface,
+                                                        EditDataAccessInterface, ScheduleDataAccessInterface,
+        AddEventDataAccessInterface,
                                                         RepeatEventDataAccessInterface,
                                                         EventConflictDataAccessInterface {
     private final List<Event> events;

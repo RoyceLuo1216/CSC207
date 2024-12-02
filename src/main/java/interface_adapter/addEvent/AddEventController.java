@@ -1,19 +1,19 @@
-package interface_adapter.event;
+package interface_adapter.addEvent;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-import usecase.event.EventInputBoundary;
-import usecase.event.EventInputData;
+import usecase.event.AddEventInputBoundary;
+import usecase.event.AddEventInputData;
 
 /**
  * Controller for the Add Event Use Case.
  */
-public class EventController {
-    private final EventInputBoundary eventInteractor;
+public class AddEventController {
+    private final AddEventInputBoundary eventInteractor;
 
-    public EventController(EventInputBoundary eventInteractor) {
+    public AddEventController(AddEventInputBoundary eventInteractor) {
         this.eventInteractor = eventInteractor;
     }
 
@@ -35,7 +35,7 @@ public class EventController {
         final LocalTime timeStart = LocalTime.parse(timeStartString, timeFormatter);
         final LocalTime timeEnd = LocalTime.parse(timeEndString, timeFormatter);
 
-        final EventInputData eventInputData = new EventInputData(eventName, dayStart, dayEnd, timeStart, timeEnd);
+        final AddEventInputData eventInputData = new AddEventInputData(eventName, dayStart, dayEnd, timeStart, timeEnd);
 
         eventInteractor.execute(eventInputData);
     }

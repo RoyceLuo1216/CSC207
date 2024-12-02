@@ -1,8 +1,9 @@
 package app;
 
 import data_access.InMemoryDataAccessObject;
-import entities.EventEntity.EventFactory;
+import entities.eventEntity.EventFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.addEvent.AddViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationController;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationPresenter;
@@ -12,6 +13,7 @@ import interface_adapter.chatbot_event_conflict.EventConflictPresenter;
 import interface_adapter.delete.DeleteEventViewModel;
 import interface_adapter.edit.EditViewModel;
 import interface_adapter.repeat.RepeatViewModel;
+import interface_adapter.schedule.ScheduleViewModel;
 import usecase.chatbot_event_conflict.EventConflictInputBoundary;
 import usecase.chatbot_event_conflict.EventConflictInteractor;
 import usecase.chatbot_event_conflict.EventConflictOutputBoundary;
@@ -47,11 +49,13 @@ public class AppBuilder {
     private TimeEstimationChatbotViewModel timeEstimationChatbotViewModel;
     private DeleteEventView deleteEventView;
     private DeleteEventViewModel deleteEventViewModel;
-    private EventView eventView;
-    // TODO: FIND WHERE EVENT VIEW MODEL IS
+    private AddView addView;
+    private AddViewModel addViewModel;
     private ScheduleView scheduleView;
-//    private EditView
+    private ScheduleViewModel scheduleViewModel;
+    private EditView editView;
     private EditViewModel editViewModel;
+    private repeatView
     private RepeatViewModel repeatViewModel;
 //    private RepeatView
     //private ScheduleViewModel scheduleViewModel;
