@@ -1,6 +1,7 @@
 package app;
 
 import data_access.InMemoryDataAccessObject;
+import data_access.JSONScheduleDataAccessObject;
 import entities.eventEntity.EventFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.addEvent.AddEventViewModel;
@@ -41,6 +42,10 @@ import view.EventConflictChatbotView;
 import javax.swing.*;
 import java.awt.*;
 
+import java.awt.event.WindowAdapter;
+import java.awt.ev;
+import java.awt.event.WindowEvent;
+
 /**
  * The AppBuilder class is responsible for putting together the pieces of
  * our CA architecture; piece by piece.
@@ -56,7 +61,8 @@ public class AppBuilder {
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    private final InMemoryDataAccessObject inMemoryDataAccessObjectDataObject = new InMemoryDataAccessObject();
+    private InMemoryDataAccessObject inMemoryDataAccessObjectDataObject;
+    private JSONScheduleDataAccessObject jsonScheduleDataAccessObject = new JSONScheduleDataAccessObject();
 
     private EventConflictChatbotView eventConflictChatbotView;
     private EventConflictChatbotViewModel eventConflictChatbotViewModel;
@@ -77,6 +83,8 @@ public class AppBuilder {
     // TODO: FIND WHERE SCHEDULE VIEW MODEL IS
 
     public AppBuilder() {
+        this.jsonScheduleDataAccessObject = new JSONScheduleDataAccessObject();
+        this.inMemoryDataAccessObjectDataObject = jsonScheduleDataAccessObject.getSchedule();
         cardPanel.setLayout(cardLayout);
     }
 
@@ -245,6 +253,13 @@ public class AppBuilder {
 
         viewManagerModel.setState(scheduleView.getViewName());
         viewManagerModel.firePropertyChanged();
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                jsonScheduleDataAccessObject.saveSchedule(inMemoryDataAccessObjectDataObject);
+            }
+        });
 
         return application;
     }
