@@ -8,11 +8,7 @@ import entities.eventEntity.Event;
 /**
  * This class helps create the abstraction to access the schedule which stores our events.
  */
-<<<<<<<< HEAD:src/main/java/usecase/event/AddEventDataAccessInterface.java
 public interface AddEventDataAccessInterface {
-========
-public interface EventAddDataAccessInterface {
->>>>>>>> 0786677a92101c9e249ab29a838fede2122e7ab6:src/main/java/usecase/event/EventAddDataAccessInterface.java
 
     /**
      * Method to find an event by its name.
@@ -30,7 +26,7 @@ public interface EventAddDataAccessInterface {
 
     /**
      * Adds an event.
-     * @param fixedEvent
+     * @param fixedEvent fixed event.
      */
     void addEvent(Event fixedEvent);
 }

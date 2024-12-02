@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * The input data for the Edit use case.
  */
-public class EditInputData {
+public class EditEventInputData {
     private final String eventName;
     private final String eventType;
     private final DayOfWeek dayStart;
@@ -16,8 +16,8 @@ public class EditInputData {
     private final LocalTime timeEnd;
     private final List<DayOfWeek> daysRepeated;
 
-    public EditInputData(String eventName, String eventType, DayOfWeek dayStart, DayOfWeek dayEnd,
-                         LocalTime timeStart, LocalTime timeEnd, List<DayOfWeek> daysRepeated) {
+    public EditEventInputData(String eventName, String eventType, DayOfWeek dayStart, DayOfWeek dayEnd,
+                              LocalTime timeStart, LocalTime timeEnd, List<DayOfWeek> daysRepeated) {
         this.eventName = eventName;
         this.eventType = eventType;
         this.dayStart = dayStart;

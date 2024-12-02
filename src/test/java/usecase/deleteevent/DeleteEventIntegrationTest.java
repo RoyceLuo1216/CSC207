@@ -7,17 +7,13 @@ import interface_adapter.delete.DeleteEventPresenter;
 import interface_adapter.delete.DeleteEventViewModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import usecase.delete.DeleteEventInputBoundary;
-import usecase.delete.DeleteEventInputData;
-import usecase.delete.DeleteEventOutputBoundary;
 import usecase.delete.DeleteEventOutputData;
 import view.DeleteEventView;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class DeleteEventIntegrationTest {
