@@ -21,8 +21,8 @@ program adhere to that principle. If you do not have any such features, you can 
 - The chatbot accepts plain language input, enabling users to request assistance or complete tasks easily.  
 
 ### **Principle 4: Perceptible Information**
-- **High Contrast Themes:** Adding color and contrast settings to improve accessibility for visually impaired users.  
-- **Text-to-Speech:** Implementing a text-to-voice feature to allow blind users to interact effectively with the program.  
+- High Contrast Themes: Adding color and contrast settings to improve accessibility for visually impaired users.  
+- Text-to-Speech: Implementing a text-to-voice feature to allow blind users to interact effectively with the program.  
 
 ### **Principle 5: Tolerance for Error**
 - Users can edit certain event details, such as the date, time, and recurrence, if mistakes are made during creation.  
