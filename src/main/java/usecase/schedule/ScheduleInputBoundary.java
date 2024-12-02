@@ -17,6 +17,11 @@ public interface ScheduleInputBoundary {
     void popUpAddEventView();
 
     /**
+     * refresh schedule.
+     */
+    void refreshSchedule();
+
+    /**
      * Executes the pop-up time estimation view use case.
      */
     void popUpTimeEstimationChatbotView();
