@@ -65,23 +65,6 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
     }
 
     /**
-     * Method to automatically schedule flexible events around fixed events.
-     * This placeholder method could be expanded with API calls to Cohere or
-     * OR-Tools to handle flexible scheduling.
-     *
-     * @return true if the scheduling process completed successfully
-     */
-    public boolean scheduleEvents() {
-        // Placeholder for scheduling logic.
-        // Example: Use Cohere API to get potential time slots for flexible events.
-        // Then, apply OR-Tools for precise optimization.
-        System.out.println("Scheduling events...");
-
-        // Implement scheduling logic here
-        return true;
-    }
-
-    /**
      * Method to get all events in the schedule.
      *
      * @return a list of all the events currently in the schedule

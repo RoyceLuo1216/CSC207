@@ -99,6 +99,7 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
         final JButton addEventButton = new JButton("Add Event");
         final JButton timeEstimationChatbotButton = new JButton("<html>Time Estimation<br>Chatbot</html>");
         final JButton eventConflictChatbotButton = new JButton("<html>Event Conflict<br>Chatbot</html>");
+        final JButton refreshButton = new JButton("<html>Refresh</html>");
 
         // Add action listeners to the buttons
         addEventButton.addActionListener(
@@ -125,12 +126,30 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
                 }
         );
 
+        eventConflictChatbotButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        scheduleController.popUpEventConflictChatbotView();
+                    }
+                }
+        );
+
+        refreshButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        scheduleController.refreshSchedule();
+                    }
+                }
+        );
+
         // Add buttons to the sidePanel with vertical spacing
         sidePanel.add(addEventButton);
         sidePanel.add(Box.createVerticalStrut(DIMENSION_20));
         sidePanel.add(timeEstimationChatbotButton);
         sidePanel.add(Box.createVerticalStrut(DIMENSION_20));
         sidePanel.add(eventConflictChatbotButton);
+        sidePanel.add(Box.createVerticalStrut(DIMENSION_20));
+        sidePanel.add(refreshButton);
     }
 
     private void renderEventButtons(JPanel panel, GridBagConstraints constraints) {
@@ -203,7 +222,6 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println("hi");
         if ("state".equals(evt.getPropertyName())) {
             scheduleController.getSchedule();
             refreshScheduleView();

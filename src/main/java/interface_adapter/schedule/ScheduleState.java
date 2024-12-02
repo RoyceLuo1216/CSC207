@@ -1,5 +1,7 @@
 package interface_adapter.schedule;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,8 +54,8 @@ public class ScheduleState {
      * @param eventName the name of the event
      * @param details   a list containing start day, start time, end day, and end time.
      */
-    public void setEventDetails(String eventName, List<Object> details) {
-        eventDetailsMap.put(eventName, details);
+    public void setEventDetails(String eventName, DayOfWeek startDay, LocalTime startTime, DayOfWeek endDay, LocalTime endTime) {
+        eventDetailsMap.put(eventName, List.of(startDay, startTime, endDay, endTime));
     }
 
     /**

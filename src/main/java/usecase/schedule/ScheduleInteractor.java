@@ -1,5 +1,6 @@
 package usecase.schedule;
 
+import entities.eventEntity.Event;
 import interface_adapter.schedule.ScheduleState;
 
 import java.util.Collections;
@@ -27,40 +28,17 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
 
     @Override
     public void execute(ScheduleInputData inputData) {
-        List<String> eventNames;
-
-        // Check if inputData and dataAccess are initialized
-        if (inputData == null || dataAccess == null) {
-            System.err.println("Error: inputData or dataAccess is null");
-            presenter.presentView(new ScheduleOutputData(Collections.emptyList()));
-            return;
-        }
-
-        // Fetch event names from inputData if present, otherwise from dataAccess
-        if (inputData.getEventNames().isPresent()) {
-            eventNames = inputData.getEventNames().get();
-        }
-        else {
-            eventNames = Optional.ofNullable(dataAccess.getAllEventNames()).orElse(Collections.emptyList());
-        }
-
-        // Log the retrieved event names for debugging
-        System.out.println("Retrieved event names: " + eventNames);
-
-        // Prepare and send output data
-        ScheduleOutputData outputData = new ScheduleOutputData(eventNames);
-        presenter.presentView(outputData);
     }
 
     @Override
     public void refreshSchedule() {
         // Fetch all events from the data access object
-        List<String> eventNames = Optional.ofNullable(dataAccess.getAllEventNames())
+        List<Event> events = Optional.ofNullable(dataAccess.getAllEvents())
                 .orElse(Collections.emptyList());
-
         // Prepare and send output data to the presenter
-        ScheduleOutputData outputData = new ScheduleOutputData(eventNames);
+        ScheduleOutputData outputData = new ScheduleOutputData(events);
         presenter.presentView(outputData);
+        System.out.println("yo");
     }
 
     /**

@@ -106,7 +106,7 @@ public class AppBuilder {
         // Add the "Tea Time" event to the schedule
         scheduleViewModel.getState().setEventDetails(
                 "Tea Time",
-                List.of(DayOfWeek.WEDNESDAY, LocalTime.of(14, 0), DayOfWeek.WEDNESDAY, LocalTime.of(15, 0))
+                DayOfWeek.WEDNESDAY, LocalTime.of(14, 0), DayOfWeek.WEDNESDAY, LocalTime.of(15, 0)
         );
         scheduleViewModel.firePropertyChanged();
         return this;
