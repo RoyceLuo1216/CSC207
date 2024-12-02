@@ -142,23 +142,28 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
             DayOfWeek endDay = (DayOfWeek) details.get(2);
             LocalTime endTime = (LocalTime) details.get(3);
 
-            // Determine grid position based on event details.
+            // Determine grid position based on event details
+            int gridX = startDay.getValue() - 1;
             int startGridY = startTime.getHour();
             int endGridY = endTime.getHour();
-            int gridX = startDay.getValue() - 1;
+            int gridHeight = endGridY - startGridY;
 
             constraints.gridx = gridX + 1;
             constraints.gridy = startGridY;
-            constraints.gridheight = endGridY - startGridY;
+            constraints.gridwidth = 1;
+            constraints.gridheight = gridHeight;
             constraints.insets = new Insets(CELL_PADDING, 10, CELL_PADDING, CELL_PADDING);
 
-            // Create event button.
+            // Create event button
             JButton eventButton = new JButton(eventName);
             eventButton.setFont(new Font("Arial", Font.PLAIN, LABEL_FONT_SIZE));
             eventButton.addActionListener(e -> System.out.println("Event selected: " + eventName));
+
+            // Add the button to the panel
             panel.add(eventButton, constraints);
         });
     }
+
 
     private void addTimePanel(JPanel panel, GridBagConstraints constraints) {
         final JPanel timePanel = new JPanel(new GridLayout(GRID_ROWS, 1, 0, CELL_PADDING));

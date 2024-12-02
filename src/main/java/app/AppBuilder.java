@@ -48,6 +48,9 @@ import javax.swing.*;
 import java.awt.*;
 
 import java.awt.event.WindowAdapter;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.List;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -89,6 +92,24 @@ public class AppBuilder {
         this.jsonScheduleDataAccessObject = new JSONScheduleDataAccessObject();
         this.inMemoryDataAccessObjectDataObject = jsonScheduleDataAccessObject.getSchedule();
         cardPanel.setLayout(cardLayout);
+    }
+
+    /**
+     * Dummy event
+     * @return app builder.
+     */
+    public AppBuilder initializeDummyEvent() {
+        if (scheduleViewModel == null) {
+            throw new IllegalStateException("ScheduleViewModel must be initialized before adding events.");
+        }
+
+        // Add the "Tea Time" event to the schedule
+        scheduleViewModel.getState().setEventDetails(
+                "Tea Time",
+                List.of(DayOfWeek.WEDNESDAY, LocalTime.of(14, 0), DayOfWeek.WEDNESDAY, LocalTime.of(15, 0))
+        );
+        scheduleViewModel.firePropertyChanged();
+        return this;
     }
 
     /**
