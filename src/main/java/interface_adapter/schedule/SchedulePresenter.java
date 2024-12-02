@@ -53,10 +53,11 @@ public class SchedulePresenter implements ScheduleOutputBoundary {
         // Clear previous state
         state.getEventButtonMap().clear();
 
-        // Populate the state with new event data
+        // Populate the state with event data
         outputData.getEventNames().forEach(eventName -> {
             String buttonId = "btn_" + eventName;
             state.addEventButton(buttonId, eventName);
+            // Add placeholder for any necessary button/event logic
         });
 
         // Notify the ViewModel of the updated state

@@ -28,15 +28,37 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
     @Override
     public void execute(ScheduleInputData inputData) {
         List<String> eventNames;
+
+        // Check if inputData and dataAccess are initialized
+        if (inputData == null || dataAccess == null) {
+            System.err.println("Error: inputData or dataAccess is null");
+            presenter.presentView(new ScheduleOutputData(Collections.emptyList()));
+            return;
+        }
+
+        // Fetch event names from inputData if present, otherwise from dataAccess
         if (inputData.getEventNames().isPresent()) {
             eventNames = inputData.getEventNames().get();
-        } else {
-            // Handle potential null return value from dataAccess
+        }
+        else {
             eventNames = Optional.ofNullable(dataAccess.getAllEventNames()).orElse(Collections.emptyList());
         }
-        eventNames = Optional.ofNullable(dataAccess.getAllEventNames()).orElse(Collections.emptyList());
-        System.out.println(eventNames);
+
+        // Log the retrieved event names for debugging
+        System.out.println("Retrieved event names: " + eventNames);
+
         // Prepare and send output data
+        ScheduleOutputData outputData = new ScheduleOutputData(eventNames);
+        presenter.presentView(outputData);
+    }
+
+    @Override
+    public void refreshSchedule() {
+        // Fetch all events from the data access object
+        List<String> eventNames = Optional.ofNullable(dataAccess.getAllEventNames())
+                .orElse(Collections.emptyList());
+
+        // Prepare and send output data to the presenter
         ScheduleOutputData outputData = new ScheduleOutputData(eventNames);
         presenter.presentView(outputData);
     }

@@ -31,6 +31,13 @@ public class ScheduleController {
     }
 
     /**
+     * Refreshes the schedule.
+     */
+    public void refreshSchedule() {
+        interactor.refreshSchedule();
+    }
+
+    /**
      * Executes the pop-up event view use case.
      */
     public void popUpAddEventView() {
