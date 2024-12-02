@@ -6,7 +6,7 @@ import interface_adapter.delete.DeleteEventViewModel;
 import javax.swing.*;
 import java.awt.*;
 
-public class DeleteEventView extends JPanel {
+public class DeleteEventView extends JDialog {
     private static final String CANCEL_BUTTON_TEXT = "Cancel";
     private static final String DELETE_BUTTON_TEXT = "Delete";
     private static final int EVENT_NAME_FONT_SIZE = 14;
@@ -21,10 +21,14 @@ public class DeleteEventView extends JPanel {
     private JLabel messageLabel;
     private DeleteEventController controller;
 
-    public DeleteEventView(DeleteEventViewModel viewModel) {
+    public DeleteEventView(DeleteEventViewModel viewModel, JFrame parentFrame) {
+        super(parentFrame, TITLE_TEXT, true);
         this.viewModel = viewModel;
+
         setupUi();
         setupListeners();
+        setSize(400, 250);
+        setLocationRelativeTo(parentFrame);
     }
 
     public void setController(DeleteEventController controller) {
@@ -32,28 +36,35 @@ public class DeleteEventView extends JPanel {
     }
 
     private void setupUi() {
-        this.setLayout(new BorderLayout());
+        JPanel contentPanel = new JPanel(new BorderLayout());
+        this.setContentPane(contentPanel);
 
+        // Title
         JLabel titleLabel = new JLabel(TITLE_TEXT, SwingConstants.CENTER);
         titleLabel.setFont(new Font(FONT_NAME, Font.BOLD, TITLE_FONT_SIZE));
-        this.add(titleLabel, BorderLayout.NORTH);
+        contentPanel.add(titleLabel, BorderLayout.NORTH);
 
+        // Instruction Panel
         JPanel instructionPanel = new JPanel();
         instructionPanel.setLayout(new BoxLayout(instructionPanel, BoxLayout.Y_AXIS));
         JLabel instructionLabel = new JLabel(INSTRUCTION_TEXT);
+        instructionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         instructionPanel.add(instructionLabel);
 
         JLabel eventNameLabel = new JLabel("Event: " + viewModel.getState().getEventName());
         eventNameLabel.setFont(new Font(FONT_NAME, Font.BOLD, EVENT_NAME_FONT_SIZE));
+        eventNameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         instructionPanel.add(eventNameLabel);
 
-        this.add(instructionPanel, BorderLayout.CENTER);
+        contentPanel.add(instructionPanel, BorderLayout.CENTER);
 
+        // Message Label
         messageLabel = new JLabel("", SwingConstants.CENTER);
         messageLabel.setFont(new Font(FONT_NAME, Font.ITALIC, MESSAGE_FONT_SIZE));
         messageLabel.setForeground(MESSAGE_FONT_COLOR);
-        this.add(messageLabel, BorderLayout.SOUTH);
+        contentPanel.add(messageLabel, BorderLayout.SOUTH);
 
+        // Button Panel
         JPanel buttonPanel = new JPanel();
         JButton deleteButton = new JButton(DELETE_BUTTON_TEXT);
         JButton backButton = new JButton(CANCEL_BUTTON_TEXT);
@@ -64,12 +75,12 @@ public class DeleteEventView extends JPanel {
             }
         });
 
-        backButton.addActionListener(e -> System.out.println("Back to schedule triggered by presenter."));
+        backButton.addActionListener(e -> this.dispose());
 
         buttonPanel.add(deleteButton);
         buttonPanel.add(backButton);
 
-        this.add(buttonPanel, BorderLayout.SOUTH);
+        contentPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
 
     private void setupListeners() {
