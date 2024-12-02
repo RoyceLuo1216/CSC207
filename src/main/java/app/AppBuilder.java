@@ -66,7 +66,7 @@ public class AppBuilder {
     private TimeEstimationChatbotViewModel timeEstimationChatbotViewModel;
     private DeleteEventView deleteEventView;
     private DeleteEventViewModel deleteEventViewModel;
-    private AddEventView addEventView;
+    private AddEventView    addEventView;
     private AddEventViewModel addEventViewModel;
     private ScheduleView scheduleView;
     private ScheduleViewModel scheduleViewModel;
@@ -163,7 +163,7 @@ public class AppBuilder {
  */
     public AppBuilder addDeleteEventView(JFrame frame) {
         deleteEventViewModel = new DeleteEventViewModel();
-        deleteEventView = new DeleteEventView(deleteEventViewModel, frame);
+        deleteEventView = new DeleteEventView(deleteEventViewModel);
         cardPanel.add(deleteEventView, deleteEventView.getViewName());
         return this;
     }

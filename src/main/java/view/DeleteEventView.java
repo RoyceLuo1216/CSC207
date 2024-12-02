@@ -27,14 +27,12 @@ public class DeleteEventView extends JDialog {
     private JLabel messageLabel;
     private DeleteEventController controller;
 
-    public DeleteEventView(DeleteEventViewModel viewModel, JFrame parentFrame) {
-        super(parentFrame, TITLE_TEXT, true);
+    public DeleteEventView(DeleteEventViewModel viewModel) {
         this.viewModel = viewModel;
 
         setupUi();
         setupListeners();
         setSize(WIDTH, HEIGHT);
-        setLocationRelativeTo(parentFrame);
     }
 
     public void setController(DeleteEventController controller) {
