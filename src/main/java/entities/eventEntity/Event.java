@@ -2,7 +2,14 @@ package entities.eventEntity;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "eventType")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = FixedEvent.class, name = "fixedEvent"),
+    @JsonSubTypes.Type(value = RepeatEvent.class, name = "repeatEvent")
+})
 /**
  * Interface representing an Event with a name, start and end time, and priority label.
  */

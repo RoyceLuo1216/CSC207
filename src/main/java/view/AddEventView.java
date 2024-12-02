@@ -60,11 +60,6 @@ public class AddEventView extends JPanel {
 
         final JLabel title = new JLabel("Create Event Page");
 
-        // Create the fixed frame (main)
-//        final JFrame eventFrame = new JFrame("Create Event Page");
-//        eventFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        eventFrame.setSize(DIMENSION_500, DIMENSION_500);
-//        eventFrame.setLayout(new BoxLayout(eventFrame.getContentPane(), BoxLayout.Y_AXIS));
         final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
@@ -95,8 +90,6 @@ public class AddEventView extends JPanel {
         mainPanel.add(savePanel);
         mainPanel.add(cancelPanel);
 
-        // Display the frame
-        // eventFrame.setVisible(true);
         this.add(mainPanel);
 
         // ActionListener for save button

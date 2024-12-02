@@ -56,7 +56,7 @@ public class AddEventInteractor implements AddEventInputBoundary {
                         eventAddInputData.getTimeEnd()));
 
                 final AddEventOutputData eventAddOutputData = new AddEventOutputData(eventName, false);
-                System.out.println("testing");
+                System.out.println("event added to database");
                 presenter.prepareSuccessView(eventAddOutputData);
             }
         }

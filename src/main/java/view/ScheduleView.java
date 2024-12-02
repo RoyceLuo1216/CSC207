@@ -198,8 +198,11 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        System.out.println("hi");
         if ("state".equals(evt.getPropertyName())) {
             this.removeAll();
+            scheduleController.getSchedule();
+            System.out.println("hello");
             initializeUserInterface();
             this.revalidate();
             this.repaint();

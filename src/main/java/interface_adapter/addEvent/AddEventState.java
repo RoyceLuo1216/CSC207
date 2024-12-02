@@ -9,8 +9,8 @@ public class AddEventState {
     private String eventType = "fixed";
     private String dayStart = "Monday";
     private String dayEnd = "Monday";
-    private String timeStart = "12:00 AM";
-    private String timeEnd = "12:00 AM";
+    private String timeStart = "12:00";
+    private String timeEnd = "12:00";
 
     private String eventError;
 

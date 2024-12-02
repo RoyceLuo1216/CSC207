@@ -203,7 +203,7 @@ public class AppBuilder {
     }
 //
     public AppBuilder addEventUseCase() {
-        final AddEventOutputBoundary addEventOutputBoundary = new AddEventPresenter(addEventViewModel,
+        final AddEventOutputBoundary addEventOutputBoundary = new AddEventPresenter(addEventViewModel, scheduleViewModel,
                 viewManagerModel);
         final AddEventInputBoundary addEventInteractor = new AddEventInteractor(
                 inMemoryDataAccessObjectDataObject, addEventOutputBoundary, eventFactory);
@@ -267,6 +267,11 @@ public class AppBuilder {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 jsonScheduleDataAccessObject.saveSchedule(inMemoryDataAccessObjectDataObject);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 System.exit(0);
             }
         });

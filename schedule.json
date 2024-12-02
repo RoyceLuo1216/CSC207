@@ -1,1 +1,1 @@
-{"events":[{"dayStart":"MONDAY","dayEnd":"MONDAY","eventName":"asdf","timeStart"
+{"events":[{"eventType":"fixedEvent","dayStart":"MONDAY","dayEnd":"MONDAY","eventName":"asdfas","timeStart":"08:00:00","timeEnd":"17:00:00"}],"allEventNames":["asdfas"],"allEvents":[{"eventType":"fixedEvent","dayStart":"MONDAY","dayEnd":"MONDAY","eventName":"asdfas","timeStart":"08:00:00","timeEnd":"17:00:00"}]}

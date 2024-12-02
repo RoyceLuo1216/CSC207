@@ -34,7 +34,8 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
             // Handle potential null return value from dataAccess
             eventNames = Optional.ofNullable(dataAccess.getAllEventNames()).orElse(Collections.emptyList());
         }
-
+        eventNames = Optional.ofNullable(dataAccess.getAllEventNames()).orElse(Collections.emptyList());
+        System.out.println(eventNames);
         // Prepare and send output data
         ScheduleOutputData outputData = new ScheduleOutputData(eventNames);
         presenter.presentView(outputData);
