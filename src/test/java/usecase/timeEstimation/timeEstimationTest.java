@@ -1,5 +1,6 @@
 package usecase.timeEstimation;
 
+import adapter.CohereClient;
 import org.junit.jupiter.api.BeforeEach;
 import usecase.chatbot_time_estimation.ChatbotInputData;
 import usecase.chatbot_time_estimation.TimeEstimationInteractor;
@@ -9,10 +10,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class timeEstimationTest {
 

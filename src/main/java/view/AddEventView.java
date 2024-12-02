@@ -1,6 +1,16 @@
 package view;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import interface_adapter.addEvent.AddEventController;
+import interface_adapter.addEvent.AddEventState;
 import interface_adapter.addEvent.AddEventViewModel;
 
 import javax.swing.*;
@@ -16,15 +26,15 @@ public class AddEventView extends JPanel {
 
     private static final int DIMENSION_500 = 500;
 
-    private final String viewName = "addEvent";
+    private final String viewName = "add";
 
     // Setup Components
     private final String[] eventTypes = {"Fixed", "Flexible", "Repeat"};
     private final String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
     private final String[] times = {"12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM",
-        "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM",
-        "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM",
-        "9:00 PM", "10:00 PM", "11:00 PM"};
+            "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM",
+            "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM",
+            "9:00 PM", "10:00 PM", "11:00 PM"};
     private final String[] priorities = {"1", "2", "3", "4", "5"};
 
     private final JTextField eventNameField = new JTextField(20);
@@ -41,6 +51,7 @@ public class AddEventView extends JPanel {
 
     public AddEventView(AddEventViewModel addEventViewModel) {
         this.addEventViewModel = addEventViewModel;
+
         // Create the fixed frame (main)
         final JFrame eventFrame = new JFrame("Create Event Page");
         eventFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,7 +87,10 @@ public class AddEventView extends JPanel {
         saveButton.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(saveButton)) {
-                        // TODO add functionality
+                        final AddEventState currentState = addEventViewModel.getState();
+
+                        addEventController.execute(currentState.getEventName(), currentState.getDayStart(),
+                                currentState.getDayEnd(), currentState.getTimeStart(), currentState.getTimeEnd());
                     }
                 }
         );
@@ -93,7 +107,8 @@ public class AddEventView extends JPanel {
         return viewName;
     }
 
-    public void setAddEventController(AddEventController controller) {
-        this.addEventController = controller;
+    public void setAddEventController(AddEventController addEventController) {
+        this.addEventController = addEventController;
     }
+
 }

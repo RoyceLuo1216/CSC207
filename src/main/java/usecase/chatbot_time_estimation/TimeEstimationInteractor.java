@@ -19,34 +19,17 @@ public class TimeEstimationInteractor implements TimeEstimationInputBoundary {
     @Override
     public void execute(ChatbotInputData chatbotInputData) {
         final String query = chatbotInputData.getQuery();
-
         final Optional<String> timeEstimation = client.timeAllocationWithCohere(query);
-
-        if (timeEstimation.isPresent()) {
-            if (timeEstimation.get().charAt(0) != 'e') {
-                final String finalTimeEstimation = timeEstimation.get();
-
-                final ChatbotOutputData output = new ChatbotOutputData(finalTimeEstimation);
-
-                outputBoundary.prepareSuccessView(output);
-            }
-            else {
-                // Error from COHERE:
-                outputBoundary.prepareFailView("No time estimation found");
-                System.out.println("Error: No time estimation found");
-            }
-
+        if (timeEstimation.get().charAt(0) != 'i') {
+            final String finalTimeEstimation = timeEstimation.get();
+            final ChatbotOutputData output = new ChatbotOutputData(finalTimeEstimation);
+            outputBoundary.prepareSuccessView(output);
         }
         else {
-            outputBoundary.prepareFailView("Error occured during API call");
-            System.out.println("Error occured during API call");
+            // Error from COHERE:
+            outputBoundary.prepareFailView("No time estimation found");
+            System.out.println("Error: No time estimation found");
         }
-
-    }
-
-    @Override
-    public void backToMainView() {
-        outputBoundary.backToMainView();
     }
 
 }

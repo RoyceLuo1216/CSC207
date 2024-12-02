@@ -66,6 +66,14 @@ class DeleteEventInteractorTest {
             failureMessage = errorMessage;
         }
 
+        /**
+         * Transitions back to the main view.
+         */
+        @Override
+        public void backToMainView() {
+
+        }
+
         public boolean isSuccessCalled() {
             return successCalled;
         }

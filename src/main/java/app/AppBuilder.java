@@ -1,6 +1,7 @@
 package app;
 
 import data_access.InMemoryDataAccessObject;
+import data_access.JSONScheduleDataAccessObject;
 import entities.eventEntity.EventFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.addEvent.AddEventController;
@@ -13,7 +14,11 @@ import interface_adapter.chatbot_event_conflict.EventConflictChatbotViewModel;
 import interface_adapter.chatbot_event_conflict.EventConflictController;
 import interface_adapter.chatbot_event_conflict.EventConflictChatbotChatbotPresenter;
 import interface_adapter.delete.DeleteEventViewModel;
+import interface_adapter.edit.EditController;
+import interface_adapter.edit.EditEventPresenter;
 import interface_adapter.edit.EditViewModel;
+import interface_adapter.repeat.RepeatController;
+import interface_adapter.repeat.RepeatPresenter;
 import interface_adapter.repeat.RepeatViewModel;
 import interface_adapter.schedule.ScheduleController;
 import interface_adapter.schedule.SchedulePresenter;
@@ -24,9 +29,12 @@ import usecase.chatbot_event_conflict.EventConflictChatbotOutputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInteractor;
 import usecase.chatbot_time_estimation.TimeEstimationOutputBoundary;
-import usecase.event.AddEventInputBoundary;
-import usecase.event.AddEventInteractor;
-import usecase.event.AddEventOutputBoundary;
+import usecase.edit.EditEventInputBoundary;
+import usecase.edit.EditEventInteractor;
+import usecase.edit.EditEventOutputBoundary;
+import usecase.repeat.RepeatInputBoundary;
+import usecase.repeat.RepeatInteractor;
+import usecase.repeat.RepeatOutputBoundary;
 import usecase.schedule.ScheduleInputBoundary;
 import usecase.schedule.ScheduleInteractor;
 import usecase.schedule.ScheduleOutputBoundary;
@@ -35,6 +43,8 @@ import view.EventConflictChatbotView;
 
 import javax.swing.*;
 import java.awt.*;
+
+import java.awt.event.WindowAdapter;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -51,7 +61,8 @@ public class AppBuilder {
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    private final InMemoryDataAccessObject inMemoryDataAccessObjectDataObject = new InMemoryDataAccessObject();
+    private InMemoryDataAccessObject inMemoryDataAccessObjectDataObject;
+    private JSONScheduleDataAccessObject jsonScheduleDataAccessObject = new JSONScheduleDataAccessObject();
 
     private EventConflictChatbotView eventConflictChatbotView;
     private EventConflictChatbotViewModel eventConflictChatbotViewModel;
@@ -72,6 +83,8 @@ public class AppBuilder {
     // TODO: FIND WHERE SCHEDULE VIEW MODEL IS
 
     public AppBuilder() {
+        this.jsonScheduleDataAccessObject = new JSONScheduleDataAccessObject();
+        this.inMemoryDataAccessObjectDataObject = jsonScheduleDataAccessObject.getSchedule();
         cardPanel.setLayout(cardLayout);
     }
 
@@ -157,12 +170,12 @@ public class AppBuilder {
 // * Adds the DeleteEvent View to the application.
 // * @return this builder
 // */
-//public AppBuilder addDeleteEventView() {
-//    deleteEventViewModel = new DeleteEventViewModel();
-//    deleteEventView = new DeleteEventView(deleteEventViewModel);
-//    cardPanel.add(deleteEventView, deleteEventView.getViewName());
-//    return this;
-//}
+//    public AppBuilder addDeleteEventView() {
+//        deleteEventViewModel = new DeleteEventViewModel();
+//        deleteEventView = new DeleteEventView(deleteEventViewModel);
+//        cardPanel.add(deleteEventView, deleteEventView.getViewName());
+//        return this;
+//    }
 //
 ///**
 // * Adds the DeleteEvent Use Case to the application.
@@ -196,40 +209,41 @@ public class AppBuilder {
         return this;
     }
 
-//   public AppBuilder addEditView() {
-//    editViewModel = new EditViewModel();
-//    editView = new EditView(editViewModel);
-//    cardPanel.add(editView, editView.getViewName());
-//    return this;
-//}
-//
-//public AppBuilder addEditUseCase() {
-//    final EditEventOutputBoundary editOutputBoundary = new EditEventEventPresenter(viewManagerModel,
-//            editViewModel, loginViewModel);
-//    final EditEventInputBoundary editInteractor = new EditEventInteractor(
-//            userDataAccessObject, editOutputBoundary, userFactory);
-//
-//    final EditController controller = new EditController(editInteractor);
-//    editView.setEditController(controller);
-//    return this;
-//}
-//    public AppBuilder addRepeatView() {
-//    repeatViewModel = new RepeatViewModel();
-//    repeatView = new RepeatView(repeatViewModel);
-//    cardPanel.add(repeatView, repeatView.getViewName());
-//    return this;
-//}
-//
-//public AppBuilder addRepeatUseCase() {
-//    final RepeatOutputBoundary repeatOutputBoundary = new RepeatPresenter(viewManagerModel,
-//            repeatViewModel, loginViewModel);
-//    final RepeatInputBoundary repeatInteractor = new RepeatInteractor(
-//            userDataAccessObject, repeatOutputBoundary, userFactory);
-//
-//    final RepeatController controller = new RepeatController(repeatInteractor);
-//    repeatView.setRepeatController(controller);
-//    return this;
-//}
+    public AppBuilder addEditView() {
+        editViewModel = new EditViewModel();
+        editView = new EditView(editViewModel);
+        cardPanel.add(editView, editView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addEditUseCase() {
+        final EditEventOutputBoundary editOutputBoundary = new EditEventPresenter(
+                editViewModel);
+        final EditEventInputBoundary editInteractor = new EditEventInteractor(
+                inMemoryDataAccessObjectDataObject, editOutputBoundary);
+
+        final EditController controller = new EditController(editInteractor);
+        editView.setEditController(controller);
+        return this;
+    }
+
+    public AppBuilder addRepeatView() {
+        repeatViewModel = new RepeatViewModel();
+        repeatView = new RepeatView(repeatViewModel);
+        cardPanel.add(repeatView, repeatView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addRepeatUseCase() {
+        final RepeatOutputBoundary repeatOutputBoundary = new RepeatPresenter(repeatViewModel, viewManagerModel
+                );
+        final RepeatInputBoundary repeatInteractor = new RepeatInteractor(
+                inMemoryDataAccessObjectDataObject, repeatOutputBoundary, eventFactory);
+
+        final RepeatController controller = new RepeatController(repeatInteractor);
+        repeatView.setRepeatController(controller);
+        return this;
+    }
 
     /**
      * Creates the JFrame for the application and initially sets the ChatbotView to be displayed.
@@ -238,12 +252,20 @@ public class AppBuilder {
      */
     public JFrame build() {
         final JFrame application = new JFrame("Weekly Planner");
-        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         application.add(cardPanel);
 
         viewManagerModel.setState(scheduleView.getViewName());
         viewManagerModel.firePropertyChanged();
+
+        application.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                jsonScheduleDataAccessObject.saveSchedule(inMemoryDataAccessObjectDataObject);
+                System.exit(0);
+            }
+        });
 
         return application;
     }

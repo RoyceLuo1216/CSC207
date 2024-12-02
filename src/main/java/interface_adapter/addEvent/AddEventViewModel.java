@@ -8,7 +8,7 @@ import interface_adapter.ViewModel;
 public class AddEventViewModel extends ViewModel<AddEventState> {
 
     public AddEventViewModel() {
-        super("addEvent");
+        super("add");
         setState(new AddEventState());
     }
 }

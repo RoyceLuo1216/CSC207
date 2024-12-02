@@ -5,10 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 
-// TODO: ASK IF WE CAN DELETE EVENTSTORAGE
-
-// TODO: add whatever interfaces are needed in the dao here
-
 /**
  * Data Access Object for json storage.
  */
@@ -49,10 +45,9 @@ public class JSONScheduleDataAccessObject {
         final ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-
             return objectMapper.readValue(file, InMemoryDataAccessObject.class);
-
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.err.println("Error reading from file " + SCHEDULE_FILE_PATH + ": " + e.getMessage());
             e.printStackTrace();
         }
