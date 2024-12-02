@@ -63,7 +63,6 @@ public class AppBuilder {
     private RepeatView repeatView;
     private RepeatViewModel repeatViewModel;
 //    private RepeatView
-    //private ScheduleViewModel scheduleViewModel;
     // TODO: ADD EDIT (NOT MERGED YET)
     // TODO: FIND WHERE SCHEDULE VIEW MODEL IS
 
@@ -108,6 +107,24 @@ public class AppBuilder {
 
         final EventConflictController controller = new EventConflictController(eventConflictInteractor);
         eventConflictChatbotView.setChatbotController(controller);
+        return this;
+    }
+
+    public AppBuilder addScheduleView() {
+        scheduleViewModel = new ScheduleViewModel();
+        scheduleView = new ScheduleView(scheduleViewModel);
+        cardPanel.add(scheduleView, scheduleView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addScheduleUseCase() {
+        final ScheduleOutputBoundary scheduleOutputBoundary = new SchedulePresenter(scheduleViewModel, viewManagerModel
+        );
+        final ScheduleInputBoundary scheduleInteractor = new ScheduleInteractor(
+                inMemoryDataAccessObjectDataObject, scheduleOutputBoundary);
+
+        final ScheduleController controller = new ScheduleController(scheduleInteractor);
+        scheduleView.setScheduleController(controller);
         return this;
     }
 
@@ -168,23 +185,7 @@ public class AppBuilder {
 //    addEventView.setAddEventController(controller);
 //    return this;
 //}
-    public AppBuilder addScheduleView() {
-        scheduleViewModel = new ScheduleViewModel();
-        scheduleView = new ScheduleView(scheduleViewModel);
-        cardPanel.add(scheduleView, scheduleView.getViewName());
-        return this;
-    }
 
-    public AppBuilder addScheduleUseCase() {
-        final ScheduleOutputBoundary scheduleOutputBoundary = new SchedulePresenter(viewManagerModel,
-                scheduleViewModel);
-        final ScheduleInputBoundary scheduleInteractor = new ScheduleInteractor(
-                inMemoryDataAccessObjectDataObject, scheduleOutputBoundary);
-
-        final ScheduleController controller = new ScheduleController(scheduleInteractor);
-        scheduleView.setScheduleController(controller);
-        return this;
-    }
 //   public AppBuilder addEditView() {
 //    editViewModel = new EditViewModel();
 //    editView = new EditView(editViewModel);
@@ -231,7 +232,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(eventConflictChatbotView.getViewName());
+        viewManagerModel.setState(scheduleView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

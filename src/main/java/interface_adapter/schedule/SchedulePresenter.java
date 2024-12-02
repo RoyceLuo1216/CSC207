@@ -16,6 +16,7 @@ public class SchedulePresenter implements ScheduleOutputBoundary {
      * Initializes the SchedulePresenter with the associated ViewModel.
      *
      * @param viewModel the ViewModel for the schedule
+     * @param viewManagerModel the viewManagerModel
      */
     public SchedulePresenter(ScheduleViewModel viewModel, ViewManagerModel viewManagerModel) {
         this.viewModel = viewModel;
