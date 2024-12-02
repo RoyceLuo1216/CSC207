@@ -12,6 +12,8 @@ import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import usecase.event.AddEventInputData;
+
 public class AddEventInteractorTest {
     private InMemoryDataAccessObject dataAccessObject;
     private EventFactory eventFactory;
@@ -85,6 +87,38 @@ public class AddEventInteractorTest {
         dataAccessObject = new InMemoryDataAccessObject();
         AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter, eventFactory);
         interactor.execute(eventAddInputData);
+    }
+
+    @Test
+    public void failDayNotCompatibleAddEvent(){
+        AddEventInputData addEventInputData = new AddEventInputData("Study for CSC207 Exam", DayOfWeek.TUESDAY,
+                DayOfWeek.MONDAY,
+                LocalTime.of(12, 0),
+                LocalTime.of(14, 0));
+
+        AddEventOutputBoundary successPresenter = new AddEventOutputBoundary() {
+            @Override
+            public void prepareSuccessView(AddEventOutputData outputData) {
+                fail("Test failed");
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                assertEquals("Event can't be added, due to incompatible times", error);
+            }
+
+            /**
+             * Transitions back to the main view.
+             */
+            @Override
+            public void backToScheduleView() {
+
+            }
+        };
+
+        dataAccessObject = new InMemoryDataAccessObject();
+        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter, eventFactory);
+        interactor.execute(addEventInputData);
     }
 
     @Test

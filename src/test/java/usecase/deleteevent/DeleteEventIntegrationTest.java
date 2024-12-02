@@ -12,6 +12,7 @@ import usecase.delete.DeleteEventInputBoundary;
 import usecase.delete.DeleteEventOutputData;
 import view.DeleteEventView;
 
+import javax.swing.*;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
@@ -55,7 +56,7 @@ class DeleteEventIntegrationTest {
         controller = new DeleteEventController(interactor);
 
         // Create the View and set the controller
-        view = new DeleteEventView(viewModel);
+        view = new DeleteEventView(viewModel, new JFrame());
         view.setController(controller);
     }
 

@@ -12,6 +12,7 @@ import usecase.chatbot_event_conflict.EventConflictChatbotDataAccessInterface;
 import usecase.delete.DeleteEventDataAccessInterface;
 import usecase.edit.EditEventDataAccessInterface;
 import usecase.event.AddEventDataAccessInterface;
+import usecase.eventInformation.EventInformationDataAccessInterface;
 import usecase.repeat.RepeatEventDataAccessInterface;
 import usecase.schedule.ScheduleDataAccessInterface;
 
@@ -22,9 +23,8 @@ import usecase.schedule.ScheduleDataAccessInterface;
  */
 public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
         EditEventDataAccessInterface, ScheduleDataAccessInterface,
-        AddEventDataAccessInterface,
-                                                        RepeatEventDataAccessInterface,
-        EventConflictChatbotDataAccessInterface {
+        AddEventDataAccessInterface, RepeatEventDataAccessInterface,
+        EventConflictChatbotDataAccessInterface, EventInformationDataAccessInterface {
     private final List<Event> events;
 
     /**
