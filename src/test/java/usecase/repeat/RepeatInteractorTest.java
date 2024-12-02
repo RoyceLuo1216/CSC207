@@ -100,6 +100,39 @@ public class RepeatInteractorTest {
     }
 
     @Test
+    public void failDayNotCompatibleAddRepeatEvent(){
+        List<DayOfWeek> repeatedDays = new ArrayList<DayOfWeek>();
+        repeatedDays.add(DayOfWeek.MONDAY);
+        repeatedDays.add(DayOfWeek.TUESDAY);
+        repeatedDays.add(DayOfWeek.WEDNESDAY);
+
+        RepeatInputData repeatInputData = new RepeatInputData("Study for CSC207 Exam", DayOfWeek.TUESDAY,
+                DayOfWeek.MONDAY,
+                LocalTime.of(12, 0),
+                LocalTime.of(14, 0),
+                repeatedDays);
+
+        RepeatOutputBoundary successPresenter = new RepeatOutputBoundary() {
+            @Override
+            public void prepareSuccessView(RepeatOutputData outputData) {
+                fail("Test failed");
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                assertEquals("Event can't be added, due to incompatible times", error);
+            }
+
+            @Override
+            public void backToMainView(){return;}
+        };
+
+        dataAccessObject = new InMemoryDataAccessObject();
+        RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter);
+        interactor.execute(repeatInputData);
+    }
+
+    @Test
     public void failAlreadyAddedRepeatEvent(){
         List<DayOfWeek> repeatedDays = new ArrayList<DayOfWeek>();
         repeatedDays.add(DayOfWeek.MONDAY);

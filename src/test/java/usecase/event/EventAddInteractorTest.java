@@ -85,6 +85,33 @@ public class EventAddInteractorTest {
     }
 
     @Test
+    public void failDayNotCompatibleAddEvent(){
+        EventAddInputData eventAddInputData = new EventAddInputData("Study for CSC207 Exam", DayOfWeek.TUESDAY,
+                DayOfWeek.MONDAY,
+                LocalTime.of(12, 0),
+                LocalTime.of(14, 0));
+
+        EventAddOutputBoundary successPresenter = new EventAddOutputBoundary() {
+            @Override
+            public void prepareSuccessView(EventAddOutputData outputData) {
+                fail("Test failed");
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                assertEquals("Event can't be added, due to incompatible times", error);
+            }
+
+            @Override
+            public void backToMainView(){return;}
+        };
+
+        dataAccessObject = new InMemoryDataAccessObject();
+        EventAddInputBoundary interactor = new EventAddInteractor(dataAccessObject, successPresenter);
+        interactor.execute(eventAddInputData);
+    }
+
+    @Test
     public void failAlreadyAddedEvent(){
         EventAddInputData eventAddInputData = new EventAddInputData("Study for CSC207 Exam", DayOfWeek.MONDAY,
                 DayOfWeek.MONDAY,

@@ -6,16 +6,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import usecase.edit.EditInputBoundary;
-import usecase.edit.EditInputData;
+import usecase.edit.EditEventInputBoundary;
+import usecase.edit.EditEventInputData;
 
 /**
  * Controller for the Edit Use Case.
  */
 public class EditController {
-    private final EditInputBoundary editInteractor;
+    private final EditEventInputBoundary editInteractor;
 
-    public EditController(EditInputBoundary editInteractor) {
+    public EditController(EditEventInputBoundary editInteractor) {
         this.editInteractor = editInteractor;
     }
 
@@ -49,10 +49,10 @@ public class EditController {
             }
         }
 
-        final EditInputData editInputData = new EditInputData(eventName, eventType, dayStart, dayEnd, timeStart,
+        final EditEventInputData editEventInputData = new EditEventInputData(eventName, eventType, dayStart, dayEnd, timeStart,
                 timeEnd, daysRepeated);
 
-        editInteractor.execute(editInputData);
+        editInteractor.execute(editEventInputData);
     }
 }
 

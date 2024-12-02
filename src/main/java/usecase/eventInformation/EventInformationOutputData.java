@@ -32,17 +32,9 @@ public class EventInformationOutputData {
         return eventName;
     }
 
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
-
     // Getter and Setter for eventType
     public String getEventType() {
         return eventType;
-    }
-
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
     }
 
     // Getter and Setter for dayStart
@@ -50,17 +42,9 @@ public class EventInformationOutputData {
         return dayStart;
     }
 
-    public void setDayStart(DayOfWeek dayStart) {
-        this.dayStart = dayStart;
-    }
-
     // Getter and Setter for dayEnd
     public DayOfWeek getDayEnd() {
         return dayEnd;
-    }
-
-    public void setDayEnd(DayOfWeek dayEnd) {
-        this.dayEnd = dayEnd;
     }
 
     // Getter and Setter for timeStart
@@ -68,25 +52,13 @@ public class EventInformationOutputData {
         return timeStart;
     }
 
-    public void setTimeStart(LocalTime timeStart) {
-        this.timeStart = timeStart;
-    }
-
     // Getter and Setter for timeEnd
     public LocalTime getTimeEnd() {
         return timeEnd;
     }
 
-    public void setTimeEnd(LocalTime timeEnd) {
-        this.timeEnd = timeEnd;
-    }
-
     // Getter and Setter for daysRepeated
     public List<DayOfWeek> getDaysRepeated() {
         return daysRepeated;
-    }
-
-    public void setDaysRepeated(List<DayOfWeek> daysRepeated) {
-        this.daysRepeated = daysRepeated;
     }
 }
