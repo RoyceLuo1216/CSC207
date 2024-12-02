@@ -5,11 +5,12 @@ package interface_adapter.addEvent;
  */
 public class AddEventState {
 
-    private String eventName;
-    private String dayStart;
-    private String dayEnd;
-    private String timeStart;
-    private String timeEnd;
+    private String eventName = "";
+    private String eventType = "fixed";
+    private String dayStart = "Monday";
+    private String dayEnd = "Monday";
+    private String timeStart = "12:00 AM";
+    private String timeEnd = "12:00 AM";
 
     private String eventError;
 
@@ -17,6 +18,9 @@ public class AddEventState {
         return eventName;
     }
 
+    public String getEventType() {
+        return eventType;
+    }
 
     public String getDayStart() {
         return dayStart;
@@ -40,6 +44,10 @@ public class AddEventState {
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
     }
 
     public void setDayStart(String dayStart) {

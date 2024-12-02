@@ -12,9 +12,14 @@ import javax.swing.JTextField;
 import interface_adapter.addEvent.AddEventController;
 import interface_adapter.addEvent.AddEventState;
 import interface_adapter.addEvent.AddEventViewModel;
+import interface_adapter.chatbot_event_conflict.EventConflictChatbotState;
 import interface_adapter.chatbot_event_conflict.EventConflictChatbotViewModel;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * The View for when the user is adding an event (i.e. its details) into the program.
@@ -99,7 +104,8 @@ public class AddEventView extends JPanel {
                 evt -> {
                     if (evt.getSource().equals(saveButton)) {
                         final AddEventState currentState = addEventViewModel.getState();
-
+                        System.out.println(currentState.getEventName() + currentState.getEventType() + currentState.getDayStart() +
+                                currentState.getDayEnd() + currentState.getTimeStart() + currentState.getTimeEnd());
                         addEventController.execute(currentState.getEventName(), currentState.getDayStart(),
                                 currentState.getDayEnd(), currentState.getTimeStart(), currentState.getTimeEnd());
                     }
@@ -114,6 +120,54 @@ public class AddEventView extends JPanel {
                     }
                 }
         );
+
+        eventNameField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                setEventName();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                setEventName();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                setEventName();
+            }
+        });
+
+        eventTypeComboBox.addActionListener(evt -> {
+            if (evt.getSource().equals(eventTypeComboBox)) {
+                System.out.println(eventTypeComboBox.getSelectedItem().toString());
+                setEventType(eventTypeComboBox.getSelectedItem());
+            }
+        });
+
+        dayStartComboBox.addActionListener(evt -> {
+            if (evt.getSource().equals(dayStartComboBox)) {
+                setDayStart(dayStartComboBox.getSelectedItem());
+            }
+        });
+
+        dayEndComboBox.addActionListener(evt -> {
+            if (evt.getSource().equals(dayEndComboBox)) {
+                setDayEnd(dayEndComboBox.getSelectedItem());
+            }
+        });
+
+        timeStartComboBox.addActionListener(evt -> {
+            if (evt.getSource().equals(timeStartComboBox)) {
+                setTimeStart(timeStartComboBox.getSelectedItem());
+            }
+        });
+
+        timeEndComboBox.addActionListener(evt -> {
+            if (evt.getSource().equals(timeEndComboBox)) {
+                setTimeEnd(timeEndComboBox.getSelectedItem());
+            }
+        });
     }
 
     private JPanel createPanel(String label, JComponent component) {
@@ -131,4 +185,40 @@ public class AddEventView extends JPanel {
         this.addEventController = addEventController;
     }
 
+    private void setEventName() {
+        final AddEventState currentState = addEventViewModel.getState();
+        currentState.setEventName(eventNameField.getText());
+        addEventViewModel.setState(currentState);
+        System.out.println(addEventViewModel.getState().getEventName());
+    }
+
+    private void setEventType(Object eventType) {
+        final AddEventState currentState = addEventViewModel.getState();
+        currentState.setEventType(eventType.toString());
+        addEventViewModel.setState(currentState);
+    }
+
+    private void setDayStart(Object dayStart) {
+        final AddEventState currentState = addEventViewModel.getState();
+        currentState.setDayStart(dayStart.toString());
+        addEventViewModel.setState(currentState);
+    }
+
+    private void setDayEnd(Object dayEnd) {
+        final AddEventState currentState = addEventViewModel.getState();
+        currentState.setDayEnd(dayEnd.toString());
+        addEventViewModel.setState(currentState);
+    }
+
+    private void setTimeStart(Object timeStart) {
+        final AddEventState currentState = addEventViewModel.getState();
+        currentState.setTimeStart(timeStart.toString());
+        addEventViewModel.setState(currentState);
+    }
+
+    private void setTimeEnd(Object timeEnd) {
+        final AddEventState currentState = addEventViewModel.getState();
+        currentState.setTimeEnd(timeEnd.toString());
+        addEventViewModel.setState(currentState);
+    }
 }

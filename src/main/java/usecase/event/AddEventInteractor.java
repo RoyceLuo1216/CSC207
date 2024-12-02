@@ -26,6 +26,7 @@ public class AddEventInteractor implements AddEventInputBoundary {
      */
     @Override
     public void execute(AddEventInputData eventAddInputData) {
+        System.out.println(eventAddInputData.getEventName());
         final String eventName = eventAddInputData.getEventName();
         final Optional<Event> optionalEvent = dataAccessObject.getEventByName(eventName);
 
@@ -55,7 +56,7 @@ public class AddEventInteractor implements AddEventInputBoundary {
                         eventAddInputData.getTimeEnd()));
 
                 final AddEventOutputData eventAddOutputData = new AddEventOutputData(eventName, false);
-
+                System.out.println("testing");
                 presenter.prepareSuccessView(eventAddOutputData);
             }
         }
