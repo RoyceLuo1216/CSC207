@@ -122,7 +122,7 @@ public class AppBuilder {
      */
     public AppBuilder addEventConflictUseCase() {
         final EventConflictChatbotOutputBoundary eventConflictChatbotOutputBoundary = new EventConflictChatbotChatbotPresenter(
-                viewManagerModel, eventConflictChatbotViewModel);
+                viewManagerModel, scheduleViewModel, eventConflictChatbotViewModel);
         final EventConflictInputBoundary eventConflictInteractor = new EventConflictInteractor(
                 inMemoryDataAccessObjectDataObject, eventConflictChatbotOutputBoundary, eventFactory);
 
@@ -161,7 +161,7 @@ public class AppBuilder {
      */
     public AppBuilder addTimeEstimationUseCase() {
         final TimeEstimationOutputBoundary timeEstimationOutputBoundary = new TimeEstimationPresenter(
-                viewManagerModel, timeEstimationChatbotViewModel);
+                viewManagerModel, scheduleViewModel, timeEstimationChatbotViewModel);
         final TimeEstimationInputBoundary timeEstimationInteractor = new TimeEstimationInteractor(timeEstimationOutputBoundary);
 
         final TimeEstimationController controller = new TimeEstimationController(timeEstimationInteractor);

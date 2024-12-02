@@ -33,7 +33,7 @@ public class RepeatPresenter implements RepeatOutputBoundary {
 
 
     @Override
-    public void backToMainView() {
+    public void backToScheduleView() {
         viewManagerModel.setState(repeatViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

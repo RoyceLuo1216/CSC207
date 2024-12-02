@@ -19,7 +19,7 @@ public class DeleteEventPresenter implements DeleteEventOutputBoundary {
     @Override
     public void presentSuccess(DeleteEventOutputData outputData) {
         viewModel.getState().setMessage("Event \"" + outputData.getEventName() + "\" deleted successfully.");
-        backToMainView();
+        backToScheduleView();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class DeleteEventPresenter implements DeleteEventOutputBoundary {
     }
 
     @Override
-    public void backToMainView() {
+    public void backToScheduleView() {
         viewManagerModel.setState("schedule");
         viewManagerModel.firePropertyChanged();
     }

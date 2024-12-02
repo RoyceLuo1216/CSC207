@@ -47,7 +47,7 @@ public class AddEventInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
         dataAccessObject = new InMemoryDataAccessObject();
         AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter, eventFactory);
@@ -79,7 +79,7 @@ public class AddEventInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
 
         dataAccessObject = new InMemoryDataAccessObject();
@@ -107,7 +107,7 @@ public class AddEventInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
 
         dataAccessObject = new InMemoryDataAccessObject();
@@ -132,7 +132,7 @@ public class AddEventInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
 
         AddEventInputBoundary newInteractor = new AddEventInteractor(dataAccessObject, newSuccessPresenter,

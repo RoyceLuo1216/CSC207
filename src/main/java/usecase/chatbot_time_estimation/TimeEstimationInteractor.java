@@ -36,8 +36,8 @@ public class TimeEstimationInteractor implements TimeEstimationInputBoundary {
      * Switch back to schedule view.
      */
     @Override
-    public void backToSchedule() {
-        outputBoundary.backToSchedule();
+    public void backToScheduleView() {
+        outputBoundary.backToScheduleView();
     }
 
 }

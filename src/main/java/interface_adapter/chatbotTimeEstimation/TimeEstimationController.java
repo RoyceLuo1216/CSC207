@@ -28,7 +28,7 @@ public class TimeEstimationController {
     /**
      * Switch back to schedule view.
      */
-    public void backToSchedule() {
-        timeEstimationInteractor.backToSchedule();
+    public void backToScheduleView() {
+        timeEstimationInteractor.backToScheduleView();
     }
 }

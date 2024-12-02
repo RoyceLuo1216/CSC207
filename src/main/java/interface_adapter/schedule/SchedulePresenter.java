@@ -87,6 +87,7 @@ public class SchedulePresenter implements ScheduleOutputBoundary {
     @Override
     public void popUpEventConflictChatbotView() {
         viewManagerModel.setState(eventConflictChatbotViewModel.getViewName());
+        System.out.println(eventConflictChatbotViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 

@@ -84,8 +84,8 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
     }
 
     @Override
-    public void backToMainView() {
-        eventConflictPresenter.backToMainView();
+    public void backToScheduleView() {
+        eventConflictPresenter.backToScheduleView();
     }
 
     /**

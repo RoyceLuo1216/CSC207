@@ -32,9 +32,9 @@ public class AddEventPresenter implements AddEventOutputBoundary {
     }
 
     @Override
-    public void backToMainView() {
+    public void backToScheduleView() {
         // Transition to the main view
-        viewManagerModel.setState(eventViewModel.getViewName());
+        viewManagerModel.setState("schedule");
         viewManagerModel.firePropertyChanged();
     }
 

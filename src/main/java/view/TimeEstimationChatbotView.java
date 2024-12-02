@@ -120,8 +120,8 @@ public class TimeEstimationChatbotView extends JPanel implements ActionListener,
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
 
-                        BACK_LABEL.setText("Pressed!");
-                        timeEstimationController.backToSchedule();
+                        // BACK_LABEL.setText("Pressed!");
+                        timeEstimationController.backToScheduleView();
                     }
                 }
         );

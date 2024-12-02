@@ -13,5 +13,5 @@ public interface TimeEstimationInputBoundary {
     /**
      * Switch back to schedule view.
      */
-    void backToSchedule();
+    void backToScheduleView();
 }

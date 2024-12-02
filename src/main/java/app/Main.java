@@ -18,10 +18,10 @@ public class Main {
                 .addEventConflictUseCase()
                 .addTimeEstimationChatbotView()
                 .addTimeEstimationUseCase()
-                .addScheduleView()
-                .addScheduleUseCase()
                 .addEventView()
                 .addEventUseCase()
+                .addScheduleView()
+                .addScheduleUseCase()
                 .build();
 
         application.pack();

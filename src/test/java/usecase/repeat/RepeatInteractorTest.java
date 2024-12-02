@@ -54,7 +54,7 @@ public class RepeatInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
         dataAccessObject = new InMemoryDataAccessObject();
         RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter, eventFactory);
@@ -93,7 +93,7 @@ public class RepeatInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
 
         dataAccessObject = new InMemoryDataAccessObject();
@@ -127,7 +127,7 @@ public class RepeatInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
         dataAccessObject = new InMemoryDataAccessObject();
         RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter, eventFactory);
@@ -156,7 +156,7 @@ public class RepeatInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
 
         RepeatInputBoundary newInteractor = new RepeatInteractor(dataAccessObject, newSuccessPresenter, eventFactory);
@@ -185,7 +185,7 @@ public class RepeatInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
 
         dataAccessObject = new InMemoryDataAccessObject();

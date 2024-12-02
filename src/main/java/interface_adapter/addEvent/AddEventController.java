@@ -40,4 +40,11 @@ public class AddEventController {
 
         eventInteractor.execute(addEventInputData);
     }
+
+    /**
+     * Switch back to schedule view.
+     */
+    public void backToScheduleView() {
+        eventInteractor.backToScheduleView();
+    }
 }

@@ -26,7 +26,7 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
     private static final Dimension FRAME_SIZE = new Dimension(1000, 800);
     private static final int ROW_HEIGHT = 60;
     private static final int WEEKDAY_COLUMN_WIDTH = 150;
-
+    private final String viewName = "schedule";
     private ScheduleController scheduleController;
     private final ScheduleViewModel scheduleViewModel;
 
@@ -204,7 +204,7 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
     }
 
     public String getViewName() {
-        return "schedule";
+        return viewName;
     }
 
     public void setScheduleController(ScheduleController controller) {

@@ -13,5 +13,5 @@ public interface RepeatInputBoundary {
     /**
      * Returns the back to main schedule view.
      */
-    void backToMainView();
+    void backToScheduleView();
 }

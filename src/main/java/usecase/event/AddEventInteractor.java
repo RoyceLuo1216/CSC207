@@ -24,7 +24,6 @@ public class AddEventInteractor implements AddEventInputBoundary {
      * Execute class for the interactor.
      * @param eventAddInputData      the inputdata for the event
      */
-
     @Override
     public void execute(AddEventInputData eventAddInputData) {
         final String eventName = eventAddInputData.getEventName();
@@ -60,6 +59,13 @@ public class AddEventInteractor implements AddEventInputBoundary {
                 presenter.prepareSuccessView(eventAddOutputData);
             }
         }
+    }
+
+    /**
+     * Switch back to schedule view.
+     */
+    public void backToScheduleView() {
+        presenter.backToScheduleView();
     }
 
 }

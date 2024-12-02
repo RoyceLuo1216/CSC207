@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import interface_adapter.addEvent.AddEventController;
 import interface_adapter.addEvent.AddEventState;
 import interface_adapter.addEvent.AddEventViewModel;
+import interface_adapter.chatbot_event_conflict.EventConflictChatbotViewModel;
 
 import javax.swing.*;
 
@@ -46,17 +47,22 @@ public class AddEventView extends JPanel {
 
     private final JLabel saveLabel = new JLabel();
     private final JButton saveButton = new JButton("Save");
+    private final JButton cancelButton = new JButton("Cancel");
 
     // Data
 
     public AddEventView(AddEventViewModel addEventViewModel) {
         this.addEventViewModel = addEventViewModel;
 
+        final JLabel title = new JLabel("Create Event Page");
+
         // Create the fixed frame (main)
-        final JFrame eventFrame = new JFrame("Create Event Page");
-        eventFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        eventFrame.setSize(DIMENSION_500, DIMENSION_500);
-        eventFrame.setLayout(new BoxLayout(eventFrame.getContentPane(), BoxLayout.Y_AXIS));
+//        final JFrame eventFrame = new JFrame("Create Event Page");
+//        eventFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        eventFrame.setSize(DIMENSION_500, DIMENSION_500);
+//        eventFrame.setLayout(new BoxLayout(eventFrame.getContentPane(), BoxLayout.Y_AXIS));
+        final JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         // LAYOUT
         final JPanel eventNamePanel = createPanel("Event Name:", eventNameField);
@@ -71,17 +77,23 @@ public class AddEventView extends JPanel {
         savePanel.add(saveButton);
         savePanel.add(saveLabel);
 
+        // Cancel Button
+        final JPanel cancelPanel = new JPanel();
+        savePanel.add(cancelButton);
+
         // Add panels to frame
-        eventFrame.add(eventNamePanel);
-        eventFrame.add(eventTypePanel);
-        eventFrame.add(dayStartPanel);
-        eventFrame.add(dayEndPanel);
-        eventFrame.add(timeStartPanel);
-        eventFrame.add(timeEndPanel);
-        eventFrame.add(savePanel);
+        mainPanel.add(eventNamePanel);
+        mainPanel.add(eventTypePanel);
+        mainPanel.add(dayStartPanel);
+        mainPanel.add(dayEndPanel);
+        mainPanel.add(timeStartPanel);
+        mainPanel.add(timeEndPanel);
+        mainPanel.add(savePanel);
+        mainPanel.add(cancelPanel);
 
         // Display the frame
-        eventFrame.setVisible(true);
+        // eventFrame.setVisible(true);
+        this.add(mainPanel);
 
         // ActionListener for save button
         saveButton.addActionListener(
@@ -91,6 +103,15 @@ public class AddEventView extends JPanel {
 
                         addEventController.execute(currentState.getEventName(), currentState.getDayStart(),
                                 currentState.getDayEnd(), currentState.getTimeStart(), currentState.getTimeEnd());
+                    }
+                }
+        );
+
+        // ActionListener for cancel button
+        cancelButton.addActionListener(
+                evt -> {
+                    if (evt.getSource().equals(cancelButton)) {
+                        addEventController.backToScheduleView();
                     }
                 }
         );

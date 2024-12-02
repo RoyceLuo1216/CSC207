@@ -22,5 +22,5 @@ public interface EventConflictChatbotOutputBoundary {
     /**
      * Switches back to the Main Schedule View.
      */
-    void backToMainView();
+    void backToScheduleView();
 }

@@ -92,7 +92,7 @@ public class RepeatView extends JPanel implements ActionListener, PropertyChange
         backButton.addActionListener(
                 evt -> {
                     backLabel.setText("Pressed!");
-                    repeatController.backToMainView();
+                    repeatController.backToScheduleView();
                 }
         );
 

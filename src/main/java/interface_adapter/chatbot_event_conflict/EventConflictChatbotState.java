@@ -47,7 +47,7 @@ public class EventConflictChatbotState {
 
     @Override
     public String toString() {
-        return "ChatbotState{"
+        return "EventConflictChatbotState{"
                 + "question='" + question + '\''
                 + ", response='" + response + '\''
                 + '}';

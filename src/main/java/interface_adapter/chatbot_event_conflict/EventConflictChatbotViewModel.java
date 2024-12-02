@@ -24,7 +24,7 @@ public class EventConflictChatbotViewModel extends ViewModel<EventConflictChatbo
     public static final String USER_NAME_LABEL = "You: ";
 
     public EventConflictChatbotViewModel() {
-        super("chatbot");
+        super("eventConflictChatbot");
         setState(new EventConflictChatbotState());
     }
 

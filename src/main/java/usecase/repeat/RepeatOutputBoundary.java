@@ -19,5 +19,5 @@ public interface RepeatOutputBoundary {
     /**
      * Returns the back to main schedule view.
      */
-    void backToMainView();
+    void backToScheduleView();
 }

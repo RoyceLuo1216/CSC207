@@ -47,7 +47,7 @@ public class TimeEstimationChatbotState {
 
     @Override
     public String toString() {
-        return "ChatbotState{"
+        return "TimeEstimationChatbotState{"
                 + "question='" + question + '\''
                 + ", response='" + response + '\''
                 + '}';

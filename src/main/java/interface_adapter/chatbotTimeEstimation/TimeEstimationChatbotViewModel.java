@@ -24,7 +24,7 @@ public class TimeEstimationChatbotViewModel extends ViewModel<TimeEstimationChat
     public static final String USER_NAME_LABEL = "You: ";
 
     public TimeEstimationChatbotViewModel() {
-        super("chatbot");
+        super("timeEstimationChatbot");
         setState(new TimeEstimationChatbotState());
     }
 

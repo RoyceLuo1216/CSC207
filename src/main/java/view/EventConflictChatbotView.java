@@ -41,10 +41,13 @@ public class EventConflictChatbotView extends JPanel implements ActionListener, 
         this.chatbotViewModel = chatbotViewModel;
 
         // Create the fixed frame (main)
-        final JFrame chatbotFrame = new JFrame(EventConflictChatbotViewModel.TITLE_LABEL);
-        chatbotFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        chatbotFrame.setSize(DIMENSION_500, DIMENSION_500);
-        chatbotFrame.setLayout(new BoxLayout(chatbotFrame.getContentPane(), BoxLayout.Y_AXIS));
+//        final JFrame chatbotFrame = new JFrame(EventConflictChatbotViewModel.TITLE_LABEL);
+//        chatbotFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        chatbotFrame.setSize(DIMENSION_500, DIMENSION_500);
+//        chatbotFrame.setLayout(new BoxLayout(chatbotFrame.getContentPane(), BoxLayout.Y_AXIS));
+
+        chatbotViewModel.addPropertyChangeListener(this);
+        final JLabel title = new JLabel(EventConflictChatbotViewModel.TITLE_LABEL);
 
         // Main panel (Center)
         final JPanel mainPanel = new JPanel(new BorderLayout());
@@ -124,17 +127,21 @@ public class EventConflictChatbotView extends JPanel implements ActionListener, 
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
 
-                        BACK_LABEL.setText("Pressed!");
-                        eventConflictController.backToMainView();
+                        // BACK_LABEL.setText("Pressed!");
+                        eventConflictController.backToScheduleView();
                     }
                 }
         );
 
         addQuestionListener();
+        this.setLayout(new BorderLayout(DIMENSION_10, DIMENSION_10));
+        this.setSize(DIMENSION_500, DIMENSION_500);
 
-        chatbotFrame.add(mainPanel, BorderLayout.CENTER);
+        this.add(title);
+        this.add(mainPanel, BorderLayout.CENTER);
 
-        chatbotFrame.setVisible(true);
+//        chatbotFrame.add(mainPanel, BorderLayout.CENTER);
+//        chatbotFrame.setVisible(true);
     }
 
     /**
