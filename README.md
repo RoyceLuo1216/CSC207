@@ -37,18 +37,14 @@ their time more effectively.
 
 ## User Stories
 
-### 1. [Schedule Event - Team Story] 
-Given a list of tasks, I will use the auto-scheduler to create a weekly inMemoryDataAccessObject to manage my time. I can input a fixed 
-task, which is a task that must happen at a set day and time. I can also input a flexible task which is a task that 
-will be chunked into time-blocks that will happen throughout the week. The auto-scheduler outputs a inMemoryDataAccessObject created 
-using the information given about these tasks. When adding this new event, if there is already another event scheduled 
-at the time, I will get an error message and not be able to inMemoryDataAccessObject at that time.
+### 1. [Add Event - Team Story] 
+Ryan wants to stay organized by using the weekly planner system. This week, he is meeting a friend for lunch on Tuesday from 12:00 PM - 2:00 PM.
+To keep track of this, he adds the event to the weekly planner system. The weekly planner system stores the information for future access.
 
 ### 2. [Edit Event - Vennise’s Story] 
 On Monday, Alex uses the scheduler to add a study block from 6-9 PM on Friday for their statistics final. However, 
 on Wednesday, they learn that their favourite artist is holding a last-minute pop-up concert at the same time as their 
 scheduled study block. Alex decides to move their study block to 4-7 PM of the next day and edits the scheduler accordingly.
-The scheduler outputs a new inMemoryDataAccessObject according to Alex's changes.
 
 ### 3. [Delete Event - Royce’s Story]
 Tom is a busy individual who likes to keep his schedule organized using his calendar app. Recently, Tom scheduled a badminton practice event for Monday from 7:00 PM to 8:00 PM. However, due to unexpected circumstances, he can no longer attend the practice session. Tom needs to delete this event from his calendar to keep his schedule accurate and clutter-free. To do this he can use our delete event feature to delete the event from his planner using a series of button clicks from the schedule view. 

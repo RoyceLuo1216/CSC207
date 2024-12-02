@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import entities.eventEntity.Event;
-import factory.EventFactory;
+import entities.eventEntity.EventFactory;
 
 /**
  *  Interactor for Repeat Use Case.
@@ -14,7 +14,8 @@ public class RepeatInteractor implements RepeatInputBoundary {
     private final RepeatEventDataAccessInterface repeatEventDataAccessObject;
     private final RepeatOutputBoundary presenter;
 
-    public RepeatInteractor(RepeatEventDataAccessInterface userSchedule, RepeatOutputBoundary editOutputBoundary) {
+    public RepeatInteractor(RepeatEventDataAccessInterface userSchedule,
+                            RepeatOutputBoundary editOutputBoundary) {
         this.repeatEventDataAccessObject = userSchedule;
         this.presenter = editOutputBoundary;
     }
@@ -40,7 +41,8 @@ public class RepeatInteractor implements RepeatInputBoundary {
 
             if (repeatInputData.getDayStart().compareTo(repeatInputData.getDayEnd()) > 0) {
                 // event fails for some reason, like duplicate event or incompatible times
-                presenter.prepareFailView("Event can't be added, due to incompatible times");
+                presenter.prepareFailView("Event can't be added, due to "
+                        + "incompatible times");
             }
 
             else if (repeatInputData.getDayEnd().compareTo(repeatInputData.getDayStart()) == 0
@@ -62,5 +64,10 @@ public class RepeatInteractor implements RepeatInputBoundary {
                 presenter.prepareSuccessView(repeatOutputData);
             }
         }
+    }
+
+    @Override
+    public void backToMainView() {
+        presenter.backToMainView();
     }
 }

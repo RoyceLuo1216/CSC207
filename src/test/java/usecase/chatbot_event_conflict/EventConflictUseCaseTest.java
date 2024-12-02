@@ -3,7 +3,7 @@ package usecase.chatbot_event_conflict;
 import data_access.InMemoryDataAccessObject;
 import entities.eventEntity.Event;
 import entities.eventEntity.FixedEvent;
-import factory.EventFactory;
+import entities.eventEntity.EventFactory;
 import interface_adapter.chatbot_event_conflict.EventConflictPresenter;
 import org.junit.Before;
 import org.junit.Test;
@@ -73,7 +73,7 @@ public class EventConflictUseCaseTest {
         // Verify there is an event conflict at specified time
         ArrayList<String> actual =  interactor.getTasksDuring(startDay,startTime, endTime, inMemoryDataAccessObject);
         ArrayList<String> result = new ArrayList<String>();
-        result.add("Naptime: Saturday 6:00 p.m. - 8:00 p.m.");
+        result.add("Naptime: Saturday 6:00 p.m - 8:00 p.m");
 
         assertEquals(result, actual);
     }

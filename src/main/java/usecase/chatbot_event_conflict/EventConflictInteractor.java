@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import adapter.CohereClient;
 import entities.eventEntity.Event;
-import factory.EventFactory;
+import entities.eventEntity.EventFactory;
 
 /**
  * The Chatbot Event Conflict Interactor.

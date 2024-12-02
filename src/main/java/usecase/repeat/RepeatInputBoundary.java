@@ -9,4 +9,9 @@ public interface RepeatInputBoundary {
      * @param repeatInputData the input data for this use case
      */
     void execute(RepeatInputData repeatInputData);
+
+    /**
+     * Returns the back to main schedule view.
+     */
+    void backToMainView();
 }
