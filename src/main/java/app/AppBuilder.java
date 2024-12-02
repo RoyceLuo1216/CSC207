@@ -43,8 +43,6 @@ import javax.swing.*;
 import java.awt.*;
 
 import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -247,17 +245,18 @@ public class AppBuilder {
      */
     public JFrame build() {
         final JFrame application = new JFrame("Weekly Planner");
-        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         application.add(cardPanel);
 
         viewManagerModel.setState(scheduleView.getViewName());
         viewManagerModel.firePropertyChanged();
 
-        addWindowListener(new WindowAdapter() {
+        application.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 jsonScheduleDataAccessObject.saveSchedule(inMemoryDataAccessObjectDataObject);
+                System.exit(0);
             }
         });
 
