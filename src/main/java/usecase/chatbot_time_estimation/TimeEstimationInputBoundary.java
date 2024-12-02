@@ -10,4 +10,8 @@ public interface TimeEstimationInputBoundary {
      */
     void execute(ChatbotInputData chatbotInputData);
 
+    /**
+     * Switch back to schedule view.
+     */
+    void backToSchedule();
 }

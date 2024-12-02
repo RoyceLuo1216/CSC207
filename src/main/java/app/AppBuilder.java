@@ -220,8 +220,8 @@ public class AppBuilder {
     }
 
     public AppBuilder addEditUseCase() {
-        final EditEventOutputBoundary editOutputBoundary = new EditEventPresenter(viewManagerModel,
-                editViewModel);
+        final EditEventOutputBoundary editOutputBoundary = new EditEventPresenter(
+                viewManagerModel, editViewModel);
         final EditEventInputBoundary editInteractor = new EditEventInteractor(
                 inMemoryDataAccessObjectDataObject, editOutputBoundary);
 

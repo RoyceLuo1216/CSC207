@@ -36,8 +36,11 @@ public class TimeEstimationPresenter implements TimeEstimationOutputBoundary {
         chatbotViewModel.firePropertyChanged();
     }
 
+    /**
+     * Switches back to the Main Schedule View.
+     */
     @Override
-    public void backToMainView() {
+    public void backToSchedule() {
         viewManagerModel.setState(chatbotViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
