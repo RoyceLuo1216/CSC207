@@ -200,7 +200,7 @@ public class AppBuilder {
         cardPanel.add(addEventView, addEventView.getViewName());
         return this;
     }
-//
+
     public AppBuilder addEventUseCase() {
         final AddEventOutputBoundary addEventOutputBoundary = new AddEventPresenter(addEventViewModel,
                 viewManagerModel);
