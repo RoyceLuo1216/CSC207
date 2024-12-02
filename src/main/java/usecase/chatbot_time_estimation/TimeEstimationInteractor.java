@@ -32,9 +32,4 @@ public class TimeEstimationInteractor implements TimeEstimationInputBoundary {
         }
     }
 
-    @Override
-    public void backToMainView() {
-        outputBoundary.backToMainView();
-    }
-
 }

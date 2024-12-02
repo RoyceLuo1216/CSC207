@@ -25,10 +25,4 @@ public class TimeEstimationController {
         timeEstimationInteractor.execute(chatbotInputData);
     }
 
-    /**
-     * Returns the back to main schedule view.
-     */
-    public void backToMainView() {
-        timeEstimationInteractor.backToMainView();
-    }
 }
