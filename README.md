@@ -84,7 +84,14 @@ notifying the user of any conflicts.
 
 ## Installation Instructions
 
-TODO
+To install and run,
+
+1. Fork the repo on Github.
+2. Clone the repo.
+3. Navigate to your project folder.
+4. Run:
+
+`java -jar WeeklyPlanner.jar`
 
 ## Usage Guide
 
