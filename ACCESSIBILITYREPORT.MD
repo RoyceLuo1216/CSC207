@@ -1,78 +1,57 @@
+# Accessibility Report
+
+## **Part 1 - Principles of Universal Design**
 **For each Principle of Universal Design, write 2-3 sentences — or point form notes — explaining which features of your 
 program adhere to that principle. If you do not have any such features, you can either:
 (a) Describe features that you could implement in the future that would adhere to the principle or
 (b) Explain why the principle does not apply to a program like yours.**
 
+#### **Principle 1: Equitable Use**
+- The chatbot is accessible to a wide range of users, including those who may struggle with traditional GUI interfaces (e.g., older adults unfamiliar with scheduling systems).  
+- Allows users to interact via natural language input, catering to individuals who prefer conversational interaction over navigating menus.  
 
-**Principle 1: Equitable Use**
-Our chatbot can be used by anyone; people who might have trouble using the GUI interface (i.e. people not well-versed 
-scheduling systems such as the elderly), and people who simply prefer asking the chatbot to help them out with something
-instead of interacting with the GUI themselves.
+#### **Principle 2: Flexibility in Use**
+- Provides two modes of interaction: a chatbot and a GUI.  
+- Users can choose their preferred method of interaction based on their comfort and needs.  
 
+#### **Principle 3: Simple and Intuitive Use**
+- Buttons are clearly labeled, making their function easy to understand at a glance.  
+- The outputted schedule is formatted to be simple and easy to read.  
+- Navigation is straightforward, allowing users to locate and use features quickly.  
+- The chatbot accepts plain language input, enabling users to request assistance or complete tasks easily.  
 
-**Principle 2: Flexibility in Use**
-Our program offers two modes of interaction: via the chatbot or through the GUI itself. Users can choose which mode of 
-interaction they would like to use based on preference and need.
+#### **Principle 4: Perceptible Information**
+- **High Contrast Themes:** Adding color and contrast settings to improve accessibility for visually impaired users.  
+- **Text-to-Speech:** Implementing a text-to-voice feature to allow blind users to interact effectively with the program.  
 
+#### **Principle 5: Tolerance for Error**
+- Users can edit certain event details, such as the date, time, and recurrence, if mistakes are made during creation.  
+- Current limitations prevent editing attributes like event name or type, which could be improved in future iterations to enhance error tolerance.  
 
-**Principle 3: Simple and Intuitive Use**
-Our JSwing elements and layout are designed in such a way to make working with the Scheduler as simple and intuitive as 
-possible. Buttons have intuitive labels, the outputted schedule is easy to read, and finding the right things to click 
-to do what you want is also intuitive. The chatbot is also simple to use, simply typing in what you want the chatbot to 
-help you do.
+#### **Principle 6: Low Physical Effort**
+- **Adjustable Button and Input Sizes:** Adding a settings menu to allow users to resize buttons and fields, reducing effort.  
+- **Alternative Interaction Methods:** Implementing voice commands or keyboard shortcuts to minimize reliance on mouse clicks or touch gestures.  
 
+#### **Principle 7: Size and Space for Approach and Use**
+- **Adjustable Element Sizes:** Introducing a settings menu to resize interface components, ensuring ample space for interaction.  
+- **Mobile Optimization:** Adapting the program for mobile devices by spacing out and enlarging interactive elements for easier touch gestures.  
 
-**Principle 4: Perceptible Information**
-Two potential features we could implement are:
-Add color or high contrast themes to make the program easily accessible for visually impaired users.
-Add a text-to-voice feature that ensures blind users can still use the program.
-
-
-**Principle 5: Tolerance for Error**
-To an extent, the edit use case is a good example of tolerance for error. Currently we are not storing IDs and events 
-are implemented differently based on type, so the user cannot switch the name or type of the Event they have created. 
-However, they can edit other details surrounding the event; specifically, the date, time, and days repeated 
-(if applicable).
-
-
-**Principle 6: Low Physical Effort**
-Two potential features we could implement are:
-A settings menu to increase the size of buttons and input fields. This minimizes the amount of physical effort the user 
-needs to run the program.
-Providing other ways to interact with the program, such as voice commands or keyboard shortcuts.
-
-
-**Principle 7: Size and Space for Approach and Use**
-One potential feature we could implement is:
-A settings menu to adjust element sizes. This ensures there is appropriate space and size for our users to interact with
-our program.
-Making our program friendly to mobile devices. Making interactive elements large enough and spaced apart can help 
-accommodate touch gestures like swiping or tapping.
-
-
+## **Part 2 - Marketing Target Audience**
 **Write a paragraph (3-6 sentences) about who you would market your program towards, if you were to sell or license your
 program to customers. This could be a specific category of users, such as "students", or more vague, such as "people who
 like games". Try to give a bit more detail along with the category.**
 
+We would market our program towards teams and individuals who need efficient time management solutions. For example:  
+- **Businesses:** Restaurants or fast-paced workplaces can use the program to manage schedules during peak hours or special events, leveraging features like time estimation and conflict detection.  
+- **Students and Multi-taskers:** Students balancing school, extracurriculars, and part-time jobs can use the repeat event feature to schedule recurring commitments. Additionally, the chatbot’s ability to detect conflicts and suggest realistic timelines makes it ideal for individuals juggling multiple priorities, helping them allocate time for both work and relaxation.  
 
-We would market our program towards teams who need efficient time management. For example, restaurants with fast paced 
-environments need to effectively allocate time during peak hours or special events. This program’s time estimation and 
-event conflict AI feature can help streamline the process of managing preparation and staff schedules.
-
-
-We would also market our programs towards individuals looking to manage multiple schedules. For example, students who 
-have responsibilities outside of school, like sports or an after school job, can use the repeat event feature to 
-schedule multiple events on set days. They can also use the event conflict and time estimation feature of the chatbot 
-to set realistic goals and set times to study or relax.
-
+### **Part 3 - Demographic Limitations**
 **Write a paragraph about whether or not your program is less likely to be used by certain demographics. Your discussion
 here should be informed by the content of our embedded ethics modules this term.**
 
+Our program may be less accessible to certain demographics:  
+- **Preference for Analog Tools:** Users who prefer physical planners might not find value in a digital scheduling system.  
+- **Older Adults:** Those less familiar with technology might struggle to use the system without guidance or simplified onboarding.  
+- **Users with Disabilities:** Individuals with visual impairments or dyslexia might face challenges due to the lack of high contrast, dyslexia-friendly fonts, or text-to-speech functionality.  
 
-Our program is likely to be less used by certain demographics, such as users who prefer physical planners for scheduling
-or those less familiar with digital tools. For instance, older adults may struggle with learning how to use our system 
-without additional support. Additionally, users with disabilities, such as visual impairments or dyslexia, might face 
-difficulties due to the current design’s lack of accessibility features, such as low contrast or small, 
-non-dyslexia-friendly fonts. However, incorporating improvements (like enhanced contrast settings, larger text options, 
-color-coding, and text-to-speech functionality) could make the program more inclusive and accessible to these groups, 
-ensuring that it accommodates a wider range of users.
+By incorporating inclusive features like adjustable fonts, enhanced contrast, and voice interaction, we could address these limitations and make the program more accessible to a broader audience.
