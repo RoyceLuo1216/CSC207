@@ -41,9 +41,11 @@ program adhere to that principle. If you do not have any such features, you can 
 program to customers. This could be a specific category of users, such as "students", or more vague, such as "people who
 like games". Try to give a bit more detail along with the category.**
 
-We would market our program towards teams and individuals who need efficient time management solutions. For example:  
-- **Businesses:** Restaurants or fast-paced workplaces can use the program to manage schedules during peak hours or special events, leveraging features like time estimation and conflict detection.  
-- **Students and Multi-taskers:** Students balancing school, extracurriculars, and part-time jobs can use the repeat event feature to schedule recurring commitments. Additionally, the chatbot’s ability to detect conflicts and suggest realistic timelines makes it ideal for individuals juggling multiple priorities, helping them allocate time for both work and relaxation.  
+### **Marketing Target Audience**
+If marketed or licensed, our program would primarily appeal to students and working professionals who need to manage busy schedules efficiently.  
+- **Students:** The program can assist with organizing classes, assignments, and extracurricular activities, helping them balance academic and personal commitments.  
+- **Working Professionals:** It can help coordinate meetings, deadlines, and personal obligations, streamlining time management in fast-paced environments.  
+- The versatility of offering both chatbot and GUI options ensures the program meets the needs of tech-savvy users as well as those who prefer more traditional interfaces.  
 
 ## **Part 3 - Demographic Limitations**
 **Write a paragraph about whether or not your program is less likely to be used by certain demographics. Your discussion
