@@ -22,4 +22,5 @@ public class DeleteEventController {
         final DeleteEventInputData inputData = new DeleteEventInputData(eventName);
         deleteEventInteractor.execute(inputData);
     }
+
 }

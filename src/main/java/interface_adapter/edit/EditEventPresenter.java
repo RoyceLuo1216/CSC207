@@ -1,5 +1,6 @@
 package interface_adapter.edit;
 
+import interface_adapter.ViewManagerModel;
 import usecase.edit.EditEventOutputBoundary;
 import usecase.edit.EditEventOutputData;
 
@@ -9,7 +10,7 @@ import usecase.edit.EditEventOutputData;
 public class EditEventPresenter implements EditEventOutputBoundary {
     private final EditViewModel editViewModel;
 
-    public EditEventPresenter(EditViewModel editViewModel) {
+    public EditEventPresenter(ViewManagerModel viewManagerModel, EditViewModel editViewModel) {
         this.editViewModel = editViewModel;
     }
 
