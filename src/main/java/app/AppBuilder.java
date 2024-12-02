@@ -13,6 +13,8 @@ import interface_adapter.chatbot_event_conflict.EventConflictChatbotChatbotPrese
 import interface_adapter.delete.DeleteEventViewModel;
 import interface_adapter.edit.EditViewModel;
 import interface_adapter.repeat.RepeatViewModel;
+import interface_adapter.schedule.ScheduleController;
+import interface_adapter.schedule.SchedulePresenter;
 import interface_adapter.schedule.ScheduleViewModel;
 import usecase.chatbot_event_conflict.EventConflictInputBoundary;
 import usecase.chatbot_event_conflict.EventConflictInteractor;
@@ -20,6 +22,9 @@ import usecase.chatbot_event_conflict.EventConflictChatbotOutputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInteractor;
 import usecase.chatbot_time_estimation.TimeEstimationOutputBoundary;
+import usecase.schedule.ScheduleInputBoundary;
+import usecase.schedule.ScheduleInteractor;
+import usecase.schedule.ScheduleOutputBoundary;
 import view.*;
 import view.EventConflictChatbotView;
 
@@ -163,23 +168,23 @@ public class AppBuilder {
 //    addEventView.setAddEventController(controller);
 //    return this;
 //}
-//    public AppBuilder addScheduleView() {
-//    scheduleViewModel = new ScheduleViewModel();
-//    scheduleView = new ScheduleView(scheduleViewModel);
-//    cardPanel.add(scheduleView, scheduleView.getViewName());
-//    return this;
-//}
-//
-//public AppBuilder addScheduleUseCase() {
-//    final ScheduleOutputBoundary scheduleOutputBoundary = new SchedulePresenter(viewManagerModel,
-//            scheduleViewModel, loginViewModel);
-//    final ScheduleInputBoundary scheduleInteractor = new ScheduleInteractor(
-//            userDataAccessObject, scheduleOutputBoundary, userFactory);
-//
-//    final ScheduleController controller = new ScheduleController(scheduleInteractor);
-//    scheduleView.setScheduleController(controller);
-//    return this;
-//}
+    public AppBuilder addScheduleView() {
+        scheduleViewModel = new ScheduleViewModel();
+        scheduleView = new ScheduleView(scheduleViewModel);
+        cardPanel.add(scheduleView, scheduleView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addScheduleUseCase() {
+        final ScheduleOutputBoundary scheduleOutputBoundary = new SchedulePresenter(viewManagerModel,
+                scheduleViewModel);
+        final ScheduleInputBoundary scheduleInteractor = new ScheduleInteractor(
+                inMemoryDataAccessObjectDataObject, scheduleOutputBoundary);
+
+        final ScheduleController controller = new ScheduleController(scheduleInteractor);
+        scheduleView.setScheduleController(controller);
+        return this;
+    }
 //   public AppBuilder addEditView() {
 //    editViewModel = new EditViewModel();
 //    editView = new EditView(editViewModel);

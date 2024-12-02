@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.schedule.ScheduleController;
 import interface_adapter.schedule.ScheduleState;
 import interface_adapter.schedule.ScheduleViewModel;
 
@@ -18,6 +19,7 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
     private static final int GRID_ROWS = 24;
     private static final int GRID_COLUMNS = 7;
     private static final int LABEL_FONT_SIZE = 14;
+    private final String viewName = "schedule";
 
     private final ScheduleViewModel scheduleViewModel;
     private final JFrame mainFrame;
@@ -112,5 +114,12 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
         constraints.gridwidth = GRID_COLUMNS;
         constraints.gridheight = 1;
         mainPanel.add(weekdayPanel, constraints);
+    }
+
+    public String getViewName() {
+        return viewName;
+    }
+
+    public void setScheduleController(ScheduleController controller) {
     }
 }

@@ -1,5 +1,6 @@
 package interface_adapter.schedule;
 
+import interface_adapter.ViewManagerModel;
 import usecase.schedule.ScheduleOutputBoundary;
 import usecase.schedule.ScheduleOutputData;
 
@@ -9,14 +10,16 @@ import usecase.schedule.ScheduleOutputData;
 public class SchedulePresenter implements ScheduleOutputBoundary {
 
     private final ScheduleViewModel viewModel;
+    private final ViewManagerModel viewManagerModel;
 
     /**
      * Initializes the SchedulePresenter with the associated ViewModel.
      *
      * @param viewModel the ViewModel for the schedule
      */
-    public SchedulePresenter(ScheduleViewModel viewModel) {
+    public SchedulePresenter(ScheduleViewModel viewModel, ViewManagerModel viewManagerModel) {
         this.viewModel = viewModel;
+        this.viewManagerModel = viewManagerModel;
     }
 
     /**
