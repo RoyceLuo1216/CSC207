@@ -10,7 +10,7 @@ class DeleteEventAddEventViewModelTest {
 
     @Test
     void testStateUpdate() {
-        DeleteEventViewModel viewModel = new DeleteEventViewModel("delete");
+        DeleteEventViewModel viewModel = new DeleteEventViewModel();
 
         DeleteEventState state = new DeleteEventState();
         state.setEventName("Christmas Brunch");

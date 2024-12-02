@@ -108,10 +108,11 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
     }
 
     /**
+     * /**
      * Method to get all events of a specified type in the schedule.
-     *
-     * @param eventType the class type of events to filter by (e.g., FixedEvent.class)
-     * @return a list of events of the specified type
+     * @param eventType eventType the class type of events to filter by (e.g., FixedEvent.class)
+     * @param <T> List.
+     * @return a list of events of the specified type.
      */
     public <T extends Event> List<T> getEventsByType(Class<T> eventType) {
         return events.stream()

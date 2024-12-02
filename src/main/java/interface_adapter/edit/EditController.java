@@ -49,7 +49,8 @@ public class EditController {
             }
         }
 
-        final EditEventInputData editEventInputData = new EditEventInputData(eventName, eventType, dayStart, dayEnd, timeStart,
+        final EditEventInputData editEventInputData = new EditEventInputData(eventName,
+                eventType, dayStart, dayEnd, timeStart,
                 timeEnd, daysRepeated);
 
         editInteractor.execute(editEventInputData);

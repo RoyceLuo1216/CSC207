@@ -1,32 +1,35 @@
 package interface_adapter.delete;
 
+import interface_adapter.ViewManagerModel;
 import usecase.delete.DeleteEventOutputBoundary;
 import usecase.delete.DeleteEventOutputData;
 
 /**
- * Presenter for the Delete Event Use Case.
+ * Delete Event Presenter.
  */
 public class DeleteEventPresenter implements DeleteEventOutputBoundary {
-    private final DeleteEventViewModel deleteviewModel;
+    private final DeleteEventViewModel viewModel;
+    private final ViewManagerModel viewManagerModel;
 
-    public DeleteEventPresenter(DeleteEventViewModel deleteviewModel) {
-        this.deleteviewModel = deleteviewModel;
+    public DeleteEventPresenter(DeleteEventViewModel viewModel, ViewManagerModel viewManagerModel) {
+        this.viewModel = viewModel;
+        this.viewManagerModel = viewManagerModel;
     }
 
     @Override
     public void presentSuccess(DeleteEventOutputData outputData) {
-        // Updates the ViewModel to reflect success
-        final DeleteEventState deleteEventState = deleteviewModel.getState();
-
-        deleteEventState.setMessage("Event \"" + outputData.getEventName() + "\" deleted successfully.");
-
+        viewModel.getState().setMessage("Event \"" + outputData.getEventName() + "\" deleted successfully.");
+        backToMainView();
     }
 
     @Override
     public void presentFailure(String errorMessage) {
-        // Updates the ViewModel to reflect failure
-        final DeleteEventState deleteState = deleteviewModel.getState();
-        deleteState.setMessage(errorMessage);
-        deleteviewModel.firePropertyChanged();
+        viewModel.getState().setMessage(errorMessage);
+    }
+
+    @Override
+    public void backToMainView() {
+        viewManagerModel.setState("schedule");
+        viewManagerModel.firePropertyChanged();
     }
 }

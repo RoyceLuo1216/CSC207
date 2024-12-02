@@ -13,11 +13,13 @@ import entities.eventEntity.EventFactory;
 public class RepeatInteractor implements RepeatInputBoundary {
     private final RepeatEventDataAccessInterface repeatEventDataAccessObject;
     private final RepeatOutputBoundary presenter;
+    private final EventFactory factory;
 
     public RepeatInteractor(RepeatEventDataAccessInterface userSchedule,
-                            RepeatOutputBoundary editOutputBoundary) {
+                            RepeatOutputBoundary editOutputBoundary, EventFactory factory) {
         this.repeatEventDataAccessObject = userSchedule;
         this.presenter = editOutputBoundary;
+        this.factory = factory;
     }
 
     @Override
@@ -50,7 +52,6 @@ public class RepeatInteractor implements RepeatInputBoundary {
                 presenter.prepareFailView("Event can't be added, due to incompatible times");
             }
             else {
-                final EventFactory factory = new EventFactory();
                 repeatEventDataAccessObject.addEvent(
                         factory.createRepeatEvent(repeatInputData.getEventName(),
                                 repeatInputData.getDayStart(),

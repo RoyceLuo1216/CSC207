@@ -12,7 +12,8 @@ public class EditEventInteractor implements EditEventInputBoundary {
     private final EditEventDataAccessInterface dataAccessObject;
     private final EditEventOutputBoundary presenter;
 
-    public EditEventInteractor(EditEventDataAccessInterface dataAccessObject, EditEventOutputBoundary editEventOutputBoundary) {
+    public EditEventInteractor(EditEventDataAccessInterface dataAccessObject,
+                               EditEventOutputBoundary editEventOutputBoundary) {
         this.dataAccessObject = dataAccessObject;
         this.presenter = editEventOutputBoundary;
     }

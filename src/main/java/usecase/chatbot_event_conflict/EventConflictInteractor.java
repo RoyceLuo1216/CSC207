@@ -47,7 +47,8 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
                     final String response = "Yes, you can schedule your task on " + timePeriodString[0]
                             + " from " + timePeriodString[1] + " to " + timePeriodString[2] + ".";
 
-                    final EventConflictChatbotOutputData eventConflictChatbotOutputData = new EventConflictChatbotOutputData(response, false);
+                    final EventConflictChatbotOutputData eventConflictChatbotOutputData =
+                            new EventConflictChatbotOutputData(response, false);
                     eventConflictPresenter.prepareSuccessView(eventConflictChatbotOutputData);
                 }
                 else {
@@ -67,7 +68,8 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
                     }
                     final String response = "You have the following " + article[0] + ": \n" + tasksDuringString;
 
-                    final EventConflictChatbotOutputData eventConflictChatbotOutputData = new EventConflictChatbotOutputData(response, false);
+                    final EventConflictChatbotOutputData eventConflictChatbotOutputData =
+                            new EventConflictChatbotOutputData(response, false);
                     eventConflictPresenter.prepareSuccessView(eventConflictChatbotOutputData);
                 }
             }
@@ -127,7 +129,8 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
      * @return a list of task descriptions for tasks that occur during the specified period
      */
     public ArrayList<String> getTasksDuring(DayOfWeek startDay, LocalTime startTime,
-                                            LocalTime endTime, EventConflictChatbotDataAccessInterface inMemoryDataAccessObject) {
+                                            LocalTime endTime,
+                                            EventConflictChatbotDataAccessInterface inMemoryDataAccessObject) {
         final ArrayList<String> tasks = new ArrayList<>();
         final ArrayList<Event> events = new ArrayList<>();
         final ArrayList<LocalTime> hourlyIntervals = getHourlyIntervals(startTime, endTime);

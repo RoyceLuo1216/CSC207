@@ -16,6 +16,7 @@ public class SchedulePresenter implements ScheduleOutputBoundary {
      * Initializes the SchedulePresenter with the associated ViewModel.
      *
      * @param viewModel the ViewModel for the schedule
+     * @param viewManagerModel the viewManagerModel
      */
     public SchedulePresenter(ScheduleViewModel viewModel, ViewManagerModel viewManagerModel) {
         this.viewModel = viewModel;
@@ -29,14 +30,14 @@ public class SchedulePresenter implements ScheduleOutputBoundary {
      */
     @Override
     public void presentView(ScheduleOutputData outputData) {
-        ScheduleState state = viewModel.getState();
+        final ScheduleState state = viewModel.getState();
 
         // Clear previous state
         state.getEventButtonMap().clear();
 
         // Populate the state with new event data
         outputData.getEventNames().forEach(eventName -> {
-            String buttonId = "btn_" + eventName; // Generate unique button ID
+            final String buttonId = "btn_" + eventName;
             state.addEventButton(buttonId, eventName);
         });
 

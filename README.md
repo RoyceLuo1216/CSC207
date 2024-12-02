@@ -66,19 +66,15 @@ task would take using a Cohere API call.
 
 ## Features
 
-1. Schedule Event: Allows users to input fixed and repeated events. Conflicts with existing 
-events result in an error message.
+1. Schedule Event: Allows users to input fixed and repeated events. Conflicts with existing events result in an error message.
 
-2. Edit Event: Users can modify the time or details of an event, with the scheduler reflecting changes in real-time.
+2. Edit Event: Users can modify the time or details of an event, with the scheduler reflecting changes after update.
 
-3. Delete Event: Provides an option to remove an event from the schedule, 
-keeping the calendar accurate and clutter-free.
+3. Delete Event: Provides an option to remove an event from the schedule, keeping the calendar accurate and clutter-free.
 
-4. Repeat Event: Allows users to set recurring events, with an option to delete events either permanently 
-or temporarily if needed.
+4. Repeat Event: Allows users to set recurring events, simplifies repetitive scheduling and enhancing ease of use.
 
-5. Event Conflicts: A chatbot checks if a user can schedule an event by comparing it against existing events and 
-notifying the user of any conflicts.
+5. Event Conflicts: A chatbot checks if a user can schedule an event by comparing it against existing events and notifying the user of any conflicts.
 
 6. Time Estimation: A chatbot estimates how long tasks will take by inputting a user query, using a Cohere call.
 
