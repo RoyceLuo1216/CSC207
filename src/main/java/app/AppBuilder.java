@@ -32,6 +32,9 @@ import usecase.chatbot_time_estimation.TimeEstimationOutputBoundary;
 import usecase.edit.EditEventInputBoundary;
 import usecase.edit.EditEventInteractor;
 import usecase.edit.EditEventOutputBoundary;
+import usecase.event.AddEventInputBoundary;
+import usecase.event.AddEventInteractor;
+import usecase.event.AddEventOutputBoundary;
 import usecase.repeat.RepeatInputBoundary;
 import usecase.repeat.RepeatInteractor;
 import usecase.repeat.RepeatOutputBoundary;
@@ -218,7 +221,7 @@ public class AppBuilder {
 
     public AppBuilder addEditUseCase() {
         final EditEventOutputBoundary editOutputBoundary = new EditEventPresenter(
-                editViewModel);
+                viewManagerModel, editViewModel);
         final EditEventInputBoundary editInteractor = new EditEventInteractor(
                 inMemoryDataAccessObjectDataObject, editOutputBoundary);
 

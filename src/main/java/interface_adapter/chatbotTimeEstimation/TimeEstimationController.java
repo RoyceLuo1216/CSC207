@@ -25,4 +25,10 @@ public class TimeEstimationController {
         timeEstimationInteractor.execute(chatbotInputData);
     }
 
+    /**
+     * Switch back to schedule view.
+     */
+    public void backToSchedule() {
+        timeEstimationInteractor.backToSchedule();
+    }
 }
