@@ -13,3 +13,5 @@ main.iml
 /dataSources.local.xml
 
 /.idea
+
+/target/
