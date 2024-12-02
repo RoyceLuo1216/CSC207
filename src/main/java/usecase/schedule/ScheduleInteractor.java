@@ -1,5 +1,7 @@
 package usecase.schedule;
 
+import interface_adapter.schedule.ScheduleState;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;

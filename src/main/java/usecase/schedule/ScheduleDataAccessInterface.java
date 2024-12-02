@@ -1,5 +1,7 @@
 package usecase.schedule;
 
+import interface_adapter.schedule.ScheduleState;
+
 import java.util.List;
 
 /**
@@ -12,4 +14,5 @@ public interface ScheduleDataAccessInterface {
      * @return a list of all event names.
      */
     List<String> getAllEventNames();
+
 }
