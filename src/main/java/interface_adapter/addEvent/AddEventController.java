@@ -40,11 +40,4 @@ public class AddEventController {
 
         eventInteractor.execute(addEventInputData);
     }
-
-    /**
-     * Returns the back to main schedule view.
-     */
-    public void backToMainView() {
-        eventInteractor.backToMainView();
-    }
 }

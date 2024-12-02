@@ -59,8 +59,4 @@ public class AddEventInteractor implements AddEventInputBoundary {
         }
     }
 
-    @Override
-    public void backToMainView() {
-        presenter.backToMainView();
-    }
 }

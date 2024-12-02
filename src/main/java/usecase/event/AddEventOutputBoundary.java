@@ -18,7 +18,8 @@ public interface AddEventOutputBoundary {
     void prepareFailView(String errorMessage);
 
     /**
-     * Returns the back to main schedule view.
+     * Transitions back to the main view.
      */
     void backToMainView();
+
 }

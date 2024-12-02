@@ -3,11 +3,11 @@ package usecase.edit;
 /**
  * The Edit Use Case.
  */
-public interface EditInputBoundary {
+public interface EditEventInputBoundary {
     /**
      * Execute the Edit Use Case.
      *
-     * @param editInputData the input data for this use case
+     * @param editEventInputData the input data for this use case
      */
-    void execute(EditInputData editInputData);
+    void execute(EditEventInputData editEventInputData);
 }

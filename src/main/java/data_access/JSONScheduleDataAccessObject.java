@@ -21,7 +21,7 @@ public class JSONScheduleDataAccessObject {
      * @param schedule schedule
      * @return saved schedule
      */
-    public void saveSchedule(InMemoryChatbotDataAccessObject schedule) {
+    public void saveSchedule(InMemoryDataAccessObject schedule) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
@@ -39,24 +39,24 @@ public class JSONScheduleDataAccessObject {
      * Method to retrieve saved json schedule. If there is no events.json file, returns an empty schedule class.
      * @return saved schedule
      */
-    public InMemoryChatbotDataAccessObject getSchedule () {
+    public InMemoryDataAccessObject getSchedule () {
         File file = new File(SCHEDULE_FILE_PATH);
         if (!file.exists()) {
             System.out.println("No saved schedule found, returning empty schedule.");
-            return new InMemoryChatbotDataAccessObject();
+            return new InMemoryDataAccessObject();
         }
 
         final ObjectMapper objectMapper = new ObjectMapper();
 
         try {
 
-            return objectMapper.readValue(file, InMemoryChatbotDataAccessObject.class);
+            return objectMapper.readValue(file, InMemoryDataAccessObject.class);
 
         } catch (IOException e) {
             System.err.println("Error reading from file " + SCHEDULE_FILE_PATH + ": " + e.getMessage());
             e.printStackTrace();
         }
-        return new InMemoryChatbotDataAccessObject();
+        return new InMemoryDataAccessObject();
     }
 
 }

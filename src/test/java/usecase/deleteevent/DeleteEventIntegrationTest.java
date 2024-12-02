@@ -1,6 +1,6 @@
 package usecase.deleteevent;
 
-import data_access.InMemoryChatbotDataAccessObject;
+import data_access.InMemoryDataAccessObject;
 import entities.eventEntity.FixedEvent;
 import interface_adapter.delete.DeleteEventController;
 import interface_adapter.delete.DeleteEventPresenter;
@@ -17,7 +17,7 @@ import java.time.LocalTime;
 import static org.mockito.Mockito.*;
 
 class DeleteEventIntegrationTest {
-    private InMemoryChatbotDataAccessObject inMemoryDataAccessObject;
+    private InMemoryDataAccessObject inMemoryDataAccessObject;
     private DeleteEventViewModel viewModel;
     private DeleteEventPresenter presenter;
     private DeleteEventController controller;
@@ -25,8 +25,8 @@ class DeleteEventIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        // Mock the InMemoryChatbotDataAccessObject
-        inMemoryDataAccessObject = mock(InMemoryChatbotDataAccessObject.class);
+        // Mock the InMemoryDataAccessObject
+        inMemoryDataAccessObject = mock(InMemoryDataAccessObject.class);
 
         // Mock the presenter
         presenter = mock(DeleteEventPresenter.class);

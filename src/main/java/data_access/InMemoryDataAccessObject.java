@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import entities.eventEntity.Event;
 import usecase.chatbot_event_conflict.EventConflictChatbotDataAccessInterface;
 import usecase.delete.DeleteEventDataAccessInterface;
-import usecase.edit.EditDataAccessInterface;
+import usecase.edit.EditEventDataAccessInterface;
 import usecase.event.AddEventDataAccessInterface;
 import usecase.repeat.RepeatEventDataAccessInterface;
 import usecase.schedule.ScheduleDataAccessInterface;
@@ -20,8 +20,8 @@ import usecase.schedule.ScheduleDataAccessInterface;
  * creation, deletion, and retrieval of events, and also provides a framework
  * for scheduling flexible events around fixed ones.
  */
-public class InMemoryChatbotDataAccessObject implements DeleteEventDataAccessInterface,
-                                                        EditDataAccessInterface, ScheduleDataAccessInterface,
+public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
+        EditEventDataAccessInterface, ScheduleDataAccessInterface,
         AddEventDataAccessInterface,
                                                         RepeatEventDataAccessInterface,
         EventConflictChatbotDataAccessInterface {
@@ -30,7 +30,7 @@ public class InMemoryChatbotDataAccessObject implements DeleteEventDataAccessInt
     /**
      * Constructor for the ScheduleUseCase class.
      */
-    public InMemoryChatbotDataAccessObject() {
+    public InMemoryDataAccessObject() {
         this.events = new ArrayList<>();
     }
 

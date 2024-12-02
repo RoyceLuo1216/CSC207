@@ -1,20 +1,20 @@
 package interface_adapter.edit;
 
-import usecase.edit.EditOutputBoundary;
-import usecase.edit.EditOutputData;
+import usecase.edit.EditEventOutputBoundary;
+import usecase.edit.EditEventOutputData;
 
 /**
  * Presenter for the Edit Use Case.
  */
-public class EditEventPresenter implements EditOutputBoundary {
+public class EditEventEventPresenter implements EditEventOutputBoundary {
     private final EditViewModel editViewModel;
 
-    public EditEventPresenter(EditViewModel editViewModel) {
+    public EditEventEventPresenter(EditViewModel editViewModel) {
         this.editViewModel = editViewModel;
     }
 
     @Override
-    public void prepareSuccessView(EditOutputData outputData) {
+    public void prepareSuccessView(EditEventOutputData outputData) {
         // output data doesn't need to change, just need to let the view know,
         // so it can alert the user that their updated information was saved.
         final EditState editState = editViewModel.getState();

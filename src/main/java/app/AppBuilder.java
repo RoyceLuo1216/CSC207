@@ -1,9 +1,9 @@
 package app;
 
-import data_access.InMemoryChatbotDataAccessObject;
+import data_access.InMemoryDataAccessObject;
 import entities.eventEntity.EventFactory;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.addEvent.AddViewModel;
+import interface_adapter.addEvent.AddEventViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationController;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationPresenter;
@@ -41,7 +41,7 @@ public class AppBuilder {
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    private final InMemoryChatbotDataAccessObject inMemoryDataAccessObjectDataObject = new InMemoryChatbotDataAccessObject();
+    private final InMemoryDataAccessObject inMemoryDataAccessObjectDataObject = new InMemoryDataAccessObject();
 
     private EventConflictChatbotView eventConflictChatbotView;
     private EventConflictChatbotViewModel eventConflictChatbotViewModel;
@@ -49,13 +49,13 @@ public class AppBuilder {
     private TimeEstimationChatbotViewModel timeEstimationChatbotViewModel;
     private DeleteEventView deleteEventView;
     private DeleteEventViewModel deleteEventViewModel;
-    private AddView addView;
-    private AddViewModel addViewModel;
+    private AddEventView addEventView;
+    private AddEventViewModel addEventViewModel;
     private ScheduleView scheduleView;
     private ScheduleViewModel scheduleViewModel;
     private EditView editView;
     private EditViewModel editViewModel;
-    private repeatView repeatView;
+    private RepeatView repeatView;
     private RepeatViewModel repeatViewModel;
 //    private RepeatView
     //private ScheduleViewModel scheduleViewModel;
@@ -188,9 +188,9 @@ public class AppBuilder {
 //}
 //
 //public AppBuilder addEditUseCase() {
-//    final EditOutputBoundary editOutputBoundary = new EditEventPresenter(viewManagerModel,
+//    final EditEventOutputBoundary editOutputBoundary = new EditEventEventPresenter(viewManagerModel,
 //            editViewModel, loginViewModel);
-//    final EditInputBoundary editInteractor = new EditInteractor(
+//    final EditEventInputBoundary editInteractor = new EditEventInteractor(
 //            userDataAccessObject, editOutputBoundary, userFactory);
 //
 //    final EditController controller = new EditController(editInteractor);

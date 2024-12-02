@@ -1,6 +1,6 @@
 package usecase.chatbot_event_conflict;
 
-import data_access.InMemoryChatbotDataAccessObject;
+import data_access.InMemoryDataAccessObject;
 import entities.eventEntity.Event;
 import entities.eventEntity.FixedEvent;
 import entities.eventEntity.EventFactory;
@@ -22,13 +22,13 @@ import static org.mockito.Mockito.mock;
  * Test for the Chatbot Event Conflict Use Case
  */
 public class EventConflictUseCaseTest {
-    private InMemoryChatbotDataAccessObject inMemoryDataAccessObject;
+    private InMemoryDataAccessObject inMemoryDataAccessObject;
     private EventConflictInteractor interactor;
 
     @Before
     public void setUp() {
 
-        inMemoryDataAccessObject = new InMemoryChatbotDataAccessObject();
+        inMemoryDataAccessObject = new InMemoryDataAccessObject();
 
 
         // Mock dependencies
@@ -73,7 +73,7 @@ public class EventConflictUseCaseTest {
         // Verify there is an event conflict at specified time
         ArrayList<String> actual =  interactor.getTasksDuring(startDay,startTime, endTime, inMemoryDataAccessObject);
         ArrayList<String> result = new ArrayList<String>();
-        result.add("Naptime: Saturday 6:00 p.m - 8:00 p.m");
+        result.add("Naptime: Saturday 6:00 p.m. - 8:00 p.m.");
 
         assertEquals(result, actual);
     }

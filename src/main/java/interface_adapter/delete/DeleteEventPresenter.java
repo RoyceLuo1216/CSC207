@@ -26,7 +26,6 @@ public class DeleteEventPresenter implements DeleteEventOutputBoundary {
     public void presentFailure(String errorMessage) {
         // Updates the ViewModel to reflect failure
         final DeleteEventState deleteState = deleteviewModel.getState();
-
         deleteState.setMessage(errorMessage);
         deleteviewModel.firePropertyChanged();
     }
