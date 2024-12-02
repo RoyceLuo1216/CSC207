@@ -30,7 +30,7 @@ class DeleteEventIntegrationTest {
     @BeforeEach
     void setUp() {
         // Mock the InMemoryDataAccessObject
-        inMemoryDataAccessObject = Mockito.mock(InMemoryDataAccessObject.class);
+        inMemoryDataAccessObject = mock(InMemoryDataAccessObject.class);
 
         // Mock the presenter
         presenter = mock(DeleteEventPresenter.class);
@@ -38,13 +38,13 @@ class DeleteEventIntegrationTest {
         // Create the ViewModel
         viewModel = new DeleteEventViewModel("delete");
 
-        // Mock the interactor using a lambda for flexibility
+        // Create the interactor using the mocks
         DeleteEventInputBoundary interactor = inputData -> {
-            boolean success = inMemoryDataAccessObject.removeEvent(inputData.getEventName());
-            if (success) {
+            try {
+                inMemoryDataAccessObject.deleteEvent(inputData.getEventName());
                 presenter.presentSuccess(new DeleteEventOutputData(inputData.getEventName()));
-            } else {
-                presenter.presentFailure("Failed to delete event.");
+            } catch (Exception e) {
+                presenter.presentFailure("Failed to delete event: " + e.getMessage());
             }
         };
 
@@ -70,28 +70,31 @@ class DeleteEventIntegrationTest {
                 LocalTime.of(12, 0)
         );
 
-        when(inMemoryDataAccessObject.removeEvent("Christmas Brunch")).thenReturn(true);
+        // Mock deleteEvent to do nothing (void method)
+        doNothing().when(inMemoryDataAccessObject).deleteEvent("Christmas Brunch");
 
         // Act: Simulate user deleting the event
         viewModel.getState().setEventName("Christmas Brunch");
         controller.execute("Christmas Brunch");
 
         // Assert: Verify interactions and validate behavior
-        verify(inMemoryDataAccessObject, times(1)).removeEvent("Christmas Brunch");
-        verify(presenter, times(1)).presentSuccess(any(DeleteEventOutputData.class));
+        verify(inMemoryDataAccessObject, times(1)).deleteEvent("Christmas Brunch");
+        verify(presenter, times(1)).presentSuccess(argThat(outputData ->
+                outputData.getEventName().equals("Christmas Brunch")));
     }
 
     @Test
     void testFullDeletionProcess_Failure() {
-        // Arrange: Configure the mock DAO to fail
-        when(inMemoryDataAccessObject.removeEvent("Nonexistent Event")).thenReturn(false);
+        // Arrange: Configure the mock DAO to throw an exception
+        doThrow(new RuntimeException("Event not found"))
+                .when(inMemoryDataAccessObject).deleteEvent("Nonexistent Event");
 
         // Act: Attempt to delete a non-existent event
         viewModel.getState().setEventName("Nonexistent Event");
         controller.execute("Nonexistent Event");
 
         // Assert: Verify interactions and validate behavior
-        verify(inMemoryDataAccessObject, times(1)).removeEvent("Nonexistent Event");
-        verify(presenter, times(1)).presentFailure("Failed to delete event.");
+        verify(inMemoryDataAccessObject, times(1)).deleteEvent("Nonexistent Event");
+        verify(presenter, times(1)).presentFailure(contains("Failed to delete event: Event not found"));
     }
 }

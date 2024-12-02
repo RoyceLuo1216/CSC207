@@ -4,10 +4,6 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
 
-import entities.eventEntity.Event;
-import entities.eventEntity.FixedEvent;
-import entities.eventEntity.RepeatEvent;
-
 /**
  * EventFactory to create events.
  */

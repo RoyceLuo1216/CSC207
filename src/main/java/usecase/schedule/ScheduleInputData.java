@@ -19,6 +19,14 @@ public class ScheduleInputData {
     }
 
     /**
+     * No-argument constructor for ScheduleInputData.
+     * Defaults to an empty list of event names.
+     */
+    public ScheduleInputData() {
+        this.eventNames = Optional.empty();
+    }
+
+    /**
      * Gets the optional list of event names.
      *
      * @return the optional list of event names.
