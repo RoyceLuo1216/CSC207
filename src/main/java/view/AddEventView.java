@@ -97,8 +97,9 @@ public class AddEventView extends JPanel {
                 evt -> {
                     if (evt.getSource().equals(saveButton)) {
                         final AddEventState currentState = addEventViewModel.getState();
-                        System.out.println(currentState.getEventName() + currentState.getEventType() + currentState.getDayStart() +
-                                currentState.getDayEnd() + currentState.getTimeStart() + currentState.getTimeEnd());
+                        System.out.println(currentState.getEventName() + currentState.getEventType()
+                                + currentState.getDayStart() + currentState.getDayEnd() + currentState.getTimeStart()
+                                + currentState.getTimeEnd());
                         addEventController.execute(currentState.getEventName(), currentState.getDayStart(),
                                 currentState.getDayEnd(), currentState.getTimeStart(), currentState.getTimeEnd());
                     }

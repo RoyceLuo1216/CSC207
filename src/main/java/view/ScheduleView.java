@@ -142,58 +142,63 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
             DayOfWeek endDay = (DayOfWeek) details.get(2);
             LocalTime endTime = (LocalTime) details.get(3);
 
-            // Determine grid position based on event details.
+            // Determine grid position based on event details
+            int gridX = startDay.getValue() - 1;
             int startGridY = startTime.getHour();
             int endGridY = endTime.getHour();
-            int gridX = startDay.getValue() - 1;
+            int gridHeight = endGridY - startGridY;
 
-            constraints.gridx = gridX + 1;
-            constraints.gridy = startGridY;
-            constraints.gridheight = endGridY - startGridY;
+            constraints.gridx = gridX + 2;
+            constraints.gridy = startGridY + 1;
+            constraints.gridwidth = 1;
+            constraints.gridheight = gridHeight;
             constraints.insets = new Insets(CELL_PADDING, 10, CELL_PADDING, CELL_PADDING);
 
-            // Create event button.
+            // Create event button
             JButton eventButton = new JButton(eventName);
             eventButton.setFont(new Font("Arial", Font.PLAIN, LABEL_FONT_SIZE));
+            eventButton.setPreferredSize(new Dimension(100, ROW_HEIGHT));
             eventButton.addActionListener(e -> System.out.println("Event selected: " + eventName));
+
+            // Add the button to the panel
             panel.add(eventButton, constraints);
         });
     }
 
+
     private void addTimePanel(JPanel panel, GridBagConstraints constraints) {
-        final JPanel timePanel = new JPanel(new GridLayout(GRID_ROWS, 1, 0, CELL_PADDING));
-        timePanel.setPreferredSize(new Dimension(100, ROW_HEIGHT * GRID_ROWS));
+
         for (int i = 0; i < GRID_ROWS; i++) {
+            constraints.gridx = 0;
+            constraints.gridy = i + 1;
+            constraints.gridheight = 1;
+            constraints.gridwidth = 1;
+            constraints.insets = new Insets(0, DIMENSION_10, 0, 0);
+
             JLabel timeLabel = new JLabel(i + ":00", SwingConstants.CENTER);
             timeLabel.setFont(new Font("Arial", Font.BOLD, LABEL_FONT_SIZE));
             timeLabel.setPreferredSize(new Dimension(100, ROW_HEIGHT));
-            timePanel.add(timeLabel);
+            panel.add(timeLabel, constraints);
         }
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        constraints.gridheight = GRID_ROWS;
-        constraints.gridwidth = 1;
-        constraints.insets = new Insets(0, DIMENSION_10, 0, 0);
-        panel.add(timePanel, constraints);
+
     }
 
     private void addWeekdayPanel(JPanel panel, GridBagConstraints constraints) {
-        final JPanel weekdayPanel = new JPanel(new GridLayout(1, GRID_COLUMNS, CELL_PADDING, 0));
-        weekdayPanel.setPreferredSize(new Dimension(WEEKDAY_COLUMN_WIDTH * GRID_COLUMNS, ROW_HEIGHT));
+
         final String[] weekdays = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
-        for (String weekday : weekdays) {
-            JLabel weekdayLabel = new JLabel(weekday, SwingConstants.CENTER);
-            weekdayLabel.setFont(new Font("Arial", Font.BOLD, LABEL_FONT_SIZE));
-            weekdayPanel.add(weekdayLabel);
-        }
+        for (int i = 0; i < GRID_COLUMNS; i++) {
+            constraints.gridx = i + 1;
+            constraints.gridy = 0;
+            constraints.gridwidth = 1;
+            constraints.gridheight = 1;
+            constraints.insets = new Insets(0, DIMENSION_10, CELL_PADDING, 0);
 
-        constraints.gridx = 1;
-        constraints.gridy = 0;
-        constraints.gridwidth = GRID_COLUMNS;
-        constraints.gridheight = 1;
-        constraints.insets = new Insets(0, DIMENSION_10, CELL_PADDING, 0);
-        panel.add(weekdayPanel, constraints);
+            JLabel weekdayLabel = new JLabel(weekdays[i], SwingConstants.CENTER);
+            weekdayLabel.setFont(new Font("Arial", Font.BOLD, LABEL_FONT_SIZE));
+            weekdayLabel.setPreferredSize(new Dimension(100, ROW_HEIGHT));
+            panel.add(weekdayLabel, constraints);
+        }
     }
 
     @Override
