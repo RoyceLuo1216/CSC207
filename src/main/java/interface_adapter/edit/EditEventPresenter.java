@@ -6,10 +6,10 @@ import usecase.edit.EditEventOutputData;
 /**
  * Presenter for the Edit Use Case.
  */
-public class EditEventEventPresenter implements EditEventOutputBoundary {
+public class EditEventPresenter implements EditEventOutputBoundary {
     private final EditViewModel editViewModel;
 
-    public EditEventEventPresenter(EditViewModel editViewModel) {
+    public EditEventPresenter(EditViewModel editViewModel) {
         this.editViewModel = editViewModel;
     }
 
