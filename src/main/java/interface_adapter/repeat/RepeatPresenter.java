@@ -1,6 +1,7 @@
 package interface_adapter.repeat;
 
 import interface_adapter.ViewManagerModel;
+import usecase.event.AddEventOutputData;
 import usecase.repeat.RepeatOutputBoundary;
 import usecase.repeat.RepeatOutputData;
 
@@ -11,30 +12,44 @@ public class RepeatPresenter implements RepeatOutputBoundary {
     private final RepeatViewModel repeatViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public RepeatPresenter(RepeatViewModel editViewModel, ViewManagerModel viewManagerModel) {
-        this.repeatViewModel = editViewModel;
+    public RepeatPresenter(RepeatViewModel repeatViewModel, ViewManagerModel viewManagerModel) {
+        this.repeatViewModel = repeatViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
     @Override
     public void prepareSuccessView(RepeatOutputData outputData) {
+
+    }
+
+    /**
+     * Prepares the success view for the Edit use case.
+     *
+     * @param outputData the output data
+     */
+    @Override
+    public void prepareSuccessView(AddEventOutputData outputData) {
         // output data doesn't need to change, just need to let the view know,
-        // so it can alert the user that their updated information was saved.
-        repeatViewModel.firePropertyChanged("repeat");
+        // so it can alert the user that their new event was saved.
+        // On success, switch to main view.
+        // Transition to the main view
+        viewManagerModel.setState("schedule");
+        viewManagerModel.firePropertyChanged();
+
     }
 
     @Override
     public void prepareFailView(String errorMessage) {
         // returns an error message if the event was not updated properly
-        final RepeatState editState = repeatViewModel.getState();
-        editState.setEditError(errorMessage);
+        final RepeatState eventState = repeatViewModel.getState();
+        eventState.setRepeatError(errorMessage);
         repeatViewModel.firePropertyChanged();
     }
 
-
     @Override
     public void backToScheduleView() {
-        viewManagerModel.setState(repeatViewModel.getViewName());
+        // Transition to the main view
+        viewManagerModel.setState("schedule");
         viewManagerModel.firePropertyChanged();
     }
 }

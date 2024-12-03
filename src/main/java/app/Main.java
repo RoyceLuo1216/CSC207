@@ -20,6 +20,8 @@ public class Main {
                 .addTimeEstimationUseCase()
                 .addEventView()
                 .addEventUseCase()
+                .addRepeatView()
+                .addRepeatUseCase()
                 .addScheduleView()
                 .addScheduleUseCase()
                 .build();

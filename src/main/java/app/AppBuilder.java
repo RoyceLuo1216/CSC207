@@ -75,12 +75,12 @@ public class AppBuilder {
     private DeleteEventViewModel deleteEventViewModel;
     private AddEventView addEventView;
     private AddEventViewModel addEventViewModel;
+    private RepeatView repeatView;
+    private RepeatViewModel repeatViewModel;
     private ScheduleView scheduleView;
     private ScheduleViewModel scheduleViewModel;
     private EditView editView;
     private EditViewModel editViewModel;
-    private RepeatView repeatView;
-    private RepeatViewModel repeatViewModel;
 //    private RepeatView
     // TODO: ADD EDIT (NOT MERGED YET)
     // TODO: FIND WHERE SCHEDULE VIEW MODEL IS
@@ -145,6 +145,7 @@ public class AppBuilder {
                 addEventViewModel,
                 timeEstimationChatbotViewModel,
                 eventConflictChatbotViewModel,
+                repeatViewModel,
                 viewManagerModel
         );
         final ScheduleInputBoundary scheduleInteractor = new ScheduleInteractor(

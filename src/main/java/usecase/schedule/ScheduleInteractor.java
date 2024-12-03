@@ -49,6 +49,14 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
     }
 
     /**
+     * Executes the pop-up event view use case.
+     */
+    @Override
+    public void popUpRepeatView() {
+        presenter.popUpRepeatView();
+    }
+
+    /**
      * Executes the pop-up time estimation view use case.
      */
     @Override

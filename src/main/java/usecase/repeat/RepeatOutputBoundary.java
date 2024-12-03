@@ -1,5 +1,7 @@
 package usecase.repeat;
 
+import usecase.event.AddEventOutputData;
+
 /**
  * The output boundary for the Edit use case.
  */
@@ -9,6 +11,8 @@ public interface RepeatOutputBoundary {
      * @param outputData the output data
      */
     void prepareSuccessView(RepeatOutputData outputData);
+
+    void prepareSuccessView(AddEventOutputData outputData);
 
     /**
      * Prepares the failure view for the Edit use case.

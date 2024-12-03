@@ -63,7 +63,7 @@ public class RepeatState {
         this.timeEnd = timeEnd;
     }
 
-    public void setEditError(String repeatErrors) {
+    public void setRepeatError(String repeatErrors) {
         this.repeatError = repeatErrors;
     }
 

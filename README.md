@@ -95,7 +95,15 @@ To install and run,
 
 ## Usage Guide
 
-TODO
+Once donwloaded, run the program.
+
+The main panel contains your current schedule, while the side panel contains a list of options.
+
+To add an event, click the add event button and enter the paramters you want (the system will warn you if the event already exists or the times don't line up). Once done, press save and you will be redirected back to schedule. Press back at any time to return to schedule.
+
+To use the chatbots, press any of the chatbot buttons on the right side. Each will take you to their respective bots where you type questions and enter or press ask to ask the bot. Press back to return to the schedule at any time.
+
+To edit or delete an event, click on the event in the schedule. The event information will be printed out into the option panels. If you want to edit, simply change the paramters in each option panel and press update, or press delete to delete the event entirely.
 
 ## License
 

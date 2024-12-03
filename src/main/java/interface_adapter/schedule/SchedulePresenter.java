@@ -4,6 +4,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.addEvent.AddEventViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotViewModel;
 import interface_adapter.chatbot_event_conflict.EventConflictChatbotViewModel;
+import interface_adapter.repeat.RepeatViewModel;
 import usecase.schedule.ScheduleOutputBoundary;
 import usecase.schedule.ScheduleOutputData;
 import view.AddEventView;
@@ -17,6 +18,7 @@ public class SchedulePresenter implements ScheduleOutputBoundary {
 
     private final ScheduleViewModel viewModel;
     private final AddEventViewModel addEventViewModel;
+    private final RepeatViewModel repeatViewModel;
     private final TimeEstimationChatbotViewModel timeEstimationChatbotViewModel;
     private final EventConflictChatbotViewModel eventConflictChatbotViewModel;
     private final ViewManagerModel viewManagerModel;
@@ -32,10 +34,11 @@ public class SchedulePresenter implements ScheduleOutputBoundary {
      */
     public SchedulePresenter(ScheduleViewModel viewModel, AddEventViewModel addEventViewModel,
                              TimeEstimationChatbotViewModel timeEstimationChatbotViewModel,
-                             EventConflictChatbotViewModel eventConflictChatbotViewModel,
+                             EventConflictChatbotViewModel eventConflictChatbotViewModel, RepeatViewModel repeatViewModel,
                              ViewManagerModel viewManagerModel) {
         this.viewModel = viewModel;
         this.addEventViewModel = addEventViewModel;
+        this.repeatViewModel = repeatViewModel;
         this.timeEstimationChatbotViewModel = timeEstimationChatbotViewModel;
         this.eventConflictChatbotViewModel = eventConflictChatbotViewModel;
         this.viewManagerModel = viewManagerModel;
@@ -72,6 +75,16 @@ public class SchedulePresenter implements ScheduleOutputBoundary {
         viewManagerModel.setState(addEventViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
+
+    /**
+     * Executes the pop-up event view use case.
+     */
+    @Override
+    public void popUpRepeatView() {
+        viewManagerModel.setState(repeatViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
 
     /**
      * Executes the pop-up time estimation view use case.

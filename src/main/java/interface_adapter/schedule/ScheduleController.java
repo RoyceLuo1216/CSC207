@@ -37,6 +37,10 @@ public class ScheduleController {
         interactor.popUpAddEventView();
     }
 
+    public void popUpRepeatView() {
+        interactor.popUpRepeatView();
+    }
+
     /**
      * Executes the pop-up time estimation view use case.
      */

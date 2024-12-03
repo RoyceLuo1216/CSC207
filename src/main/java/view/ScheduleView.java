@@ -97,8 +97,18 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
 
         // Create buttons for Add Event, Time Estimation Chatbot, and Event Conflict Chatbot
         final JButton addEventButton = new JButton("Add Event");
+        final JButton addRepeatButton = new JButton("Add Repeat Event");
         final JButton timeEstimationChatbotButton = new JButton("<html>Time Estimation<br>Chatbot</html>");
         final JButton eventConflictChatbotButton = new JButton("<html>Event Conflict<br>Chatbot</html>");
+
+        // Add action listeners to the buttons
+        addRepeatButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        scheduleController.popUpRepeatView();
+                    }
+                }
+        );
 
         // Add action listeners to the buttons
         addEventButton.addActionListener(
@@ -127,6 +137,7 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
 
         // Add buttons to the sidePanel with vertical spacing
         sidePanel.add(addEventButton);
+        sidePanel.add(addRepeatButton);
         sidePanel.add(Box.createVerticalStrut(DIMENSION_20));
         sidePanel.add(timeEstimationChatbotButton);
         sidePanel.add(Box.createVerticalStrut(DIMENSION_20));

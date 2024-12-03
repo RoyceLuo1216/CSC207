@@ -16,6 +16,8 @@ public interface ScheduleOutputBoundary {
      */
     void popUpAddEventView();
 
+    void popUpRepeatView();
+
     /**
      * Executes the pop-up time estimation view use case.
      */
