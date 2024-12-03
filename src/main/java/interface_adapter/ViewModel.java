@@ -31,6 +31,7 @@ public class ViewModel<T> {
     }
 
     public void setState(T state) {
+        System.out.println(state);
         this.state = state;
         System.out.println("set state to " + this.state);
 
