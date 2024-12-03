@@ -7,6 +7,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 
 /**
  * Controller for the Add Event Use Case.
@@ -35,7 +36,7 @@ public class AddEventController {
         final DayOfWeek dayEnd = parseDayOfWeek(dayEndString, DayOfWeek.FRIDAY);
 
         // Set default values for timeStart and timeEnd if null or invalid
-        final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a");
+        final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a", Locale.ENGLISH);
         final LocalTime timeStart = parseLocalTime(timeStartString, "8:00 AM", timeFormatter);
         final LocalTime timeEnd = parseLocalTime(timeEndString, "5:00 PM", timeFormatter);
 
@@ -44,23 +45,32 @@ public class AddEventController {
 
         // Execute eventInteractor with input data
         eventInteractor.execute(addEventInputData);
+
+        backToScheduleView();
     }
 
     private DayOfWeek parseDayOfWeek(String dayString, DayOfWeek defaultDay) {
         try {
-            if (dayString == null) return defaultDay;
+            if (dayString == null) {
+                return defaultDay;
+            }
             return DayOfWeek.valueOf(dayString.toUpperCase());
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e) {
             return defaultDay;
         }
     }
 
     private LocalTime parseLocalTime(String timeString, String defaultTime, DateTimeFormatter formatter) {
         try {
-            if (timeString == null) return LocalTime.parse(defaultTime, formatter);
-            return LocalTime.parse(timeString, formatter);
-        } catch (DateTimeParseException e) {
-            return LocalTime.parse(defaultTime, formatter);
+            // Ensure input is trimmed and formatted correctly
+            final String trimmedTime = timeString.trim();
+            System.out.println("Parsing time: '" + trimmedTime + "'");
+            return LocalTime.parse(trimmedTime, formatter);
+        }
+        catch (DateTimeParseException e) {
+            System.err.println("Failed to parse time: " + timeString + ". Using default time: " + defaultTime);
+            return LocalTime.parse(defaultTime.trim(), formatter);
         }
     }
 

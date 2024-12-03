@@ -58,4 +58,10 @@ public class ScheduleController {
         interactor.popUpEventConflictChatbotView();
     }
 
+    /**
+     * Executes editview use case.
+     */
+    public void editView(String eventName) {
+        interactor.editView(eventName);
+    }
 }

@@ -66,6 +66,7 @@ public class AddEventInteractor implements AddEventInputBoundary {
      * Switch back to schedule view.
      */
     public void backToScheduleView() {
+
         presenter.backToScheduleView();
     }
 

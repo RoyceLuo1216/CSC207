@@ -93,18 +93,16 @@ public class AddEventView extends JPanel {
         this.add(mainPanel);
 
         // ActionListener for save button
-        saveButton.addActionListener(
-                evt -> {
-                    if (evt.getSource().equals(saveButton)) {
-                        final AddEventState currentState = addEventViewModel.getState();
-                        System.out.println(currentState.getEventName() + currentState.getEventType()
-                                + currentState.getDayStart() + currentState.getDayEnd() + currentState.getTimeStart()
-                                + currentState.getTimeEnd());
-                        addEventController.execute(currentState.getEventName(), currentState.getDayStart(),
-                                currentState.getDayEnd(), currentState.getTimeStart(), currentState.getTimeEnd());
-                    }
-                }
-        );
+        saveButton.addActionListener(evt -> {
+            if (evt.getSource().equals(saveButton)) {
+                final AddEventState currentState = addEventViewModel.getState();
+                System.out.println(currentState.getEventName() + currentState.getEventType()
+                        + currentState.getDayStart() + currentState.getDayEnd() + currentState.getTimeStart()
+                        + currentState.getTimeEnd());
+                addEventController.execute(currentState.getEventName(), currentState.getDayStart(),
+                        currentState.getDayEnd(), currentState.getTimeStart(), currentState.getTimeEnd());
+            }
+        });
 
         // ActionListener for cancel button
         cancelButton.addActionListener(

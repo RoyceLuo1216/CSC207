@@ -1,7 +1,6 @@
 package usecase.schedule;
 
 import entities.eventEntity.Event;
-import interface_adapter.schedule.ScheduleState;
 
 import java.util.Collections;
 import java.util.List;
@@ -63,5 +62,13 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
     @Override
     public void popUpEventConflictChatbotView() {
         presenter.popUpEventConflictChatbotView();
+    }
+
+    /**
+     * Executes the edit view use case.
+     */
+    @Override
+    public void editView(String eventName) {
+        presenter.editView(eventName);
     }
 }

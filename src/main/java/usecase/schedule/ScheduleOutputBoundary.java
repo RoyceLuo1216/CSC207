@@ -25,4 +25,10 @@ public interface ScheduleOutputBoundary {
      * Executes the pop-up event conflict view use case.
      */
     void popUpEventConflictChatbotView();
+
+    /**
+     *  Edit view use case.
+     * @param eventName event name to edit.
+     */
+    void editView(String eventName);
 }

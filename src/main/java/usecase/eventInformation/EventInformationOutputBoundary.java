@@ -11,4 +11,11 @@ public interface EventInformationOutputBoundary {
      * @param outputData the output data
      */
     void prepareView(EventInformationOutputData outputData);
+
+    /**
+     * Switch to edit event view.
+     */
+    void switchToEditEventView();
+
 }
+

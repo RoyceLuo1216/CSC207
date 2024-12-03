@@ -78,6 +78,7 @@ public class EditView extends JPanel implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("edit")) {
             final EditState state = (EditState) evt.getNewValue();
+
             JOptionPane.showMessageDialog(null, state.getOutputMessage());
         }
         else if (evt.getPropertyName().equals("eventInformation")) {
