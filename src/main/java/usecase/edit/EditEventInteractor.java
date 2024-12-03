@@ -1,118 +1,47 @@
 package usecase.edit;
 
 import java.util.List;
-import java.util.Optional;
 
 import entities.eventEntity.Event;
-import entities.eventEntity.RepeatEvent;
 
 /**
- *  Interactor for Edit Use Case. Implements abstraction defined in EditEventInputBoundary.
+ * Interactor for the Edit Use Case.
  */
 public class EditEventInteractor implements EditEventInputBoundary {
-    private final EditEventDataAccessInterface dataAccessObject;
+    private final EditEventDataAccessInterface dataAccess;
     private final EditEventOutputBoundary presenter;
 
-    public EditEventInteractor(EditEventDataAccessInterface dataAccessObject,
-                               EditEventOutputBoundary editEventOutputBoundary) {
-        this.dataAccessObject = dataAccessObject;
-        this.presenter = editEventOutputBoundary;
-    }
-
-    /**
-     * Updates fixed event data (dayStart, dayEnd, timeStart, timeEnd).
-     *
-     * @param editEventInputData the input data containing the updated information
-     * @param event         the event to edit
-     */
-    private static void updateFixedEventData(EditEventInputData editEventInputData, Event event) {
-        event.setDayStart(editEventInputData.getDayStart());
-        event.setDayEnd(editEventInputData.getDayEnd());
-        event.setTimeStart(editEventInputData.getTimeStart());
-        event.setTimeEnd(editEventInputData.getTimeEnd());
+    public EditEventInteractor(EditEventDataAccessInterface dataAccess, EditEventOutputBoundary presenter) {
+        this.dataAccess = dataAccess;
+        this.presenter = presenter;
     }
 
     @Override
-    public void execute(EditEventInputData editEventInputData) {
-        final String eventName = editEventInputData.getEventName();
-        final Optional<Event> optionalEvent = dataAccessObject.getEventByName(editEventInputData.getEventName());
+    public void execute(EditEventInputData inputData) {
+        Event event = dataAccess.getEventByName(inputData.getEventName())
+                .orElseThrow(() -> new IllegalArgumentException("Event not found"));
 
-        if (!optionalEvent.isPresent()) {
-            // event is not present, tell user that the event does not exist
-            presenter.prepareFailView("The event, " + eventName + " does not exist.");
+        // Update Event Data
+        event.setDayStart(inputData.getDayStart());
+        event.setDayEnd(inputData.getDayEnd());
+        event.setTimeStart(inputData.getTimeStart());
+        event.setTimeEnd(inputData.getTimeEnd());
 
-        }
-        else {
-            if (editEventInputData.getDayStart().compareTo(editEventInputData.getDayEnd()) > 0) {
-                // event fails for some reason, like duplicate event or incompatible times
-                presenter.prepareFailView("Event can't be added, due to incompatible times");
-            }
-
-            else if (editEventInputData.getDayEnd().compareTo(editEventInputData.getDayStart()) == 0
-                    && editEventInputData.getTimeStart().isAfter(editEventInputData.getTimeEnd())) {
-                presenter.prepareFailView("Event can't be added, due to incompatible times");
-            }
-            else {
-                final Event event = optionalEvent.get();
-                final String eventType = editEventInputData.getEventType() + "Event";
-
-                if (!eventType.equals(event.getClass().getSimpleName())) {
-                    // event type is being changed, tell user that the event type cannot be changed
-                    presenter.prepareFailView("The event type cannot be changed.");
-
-                }
-                else if ("RepeatEvent".equals(eventType)) {
-                    // event is a repeat event and thus has one extra parameter then fixed event
-                    updateFixedEventData(editEventInputData, event);
-                    final RepeatEvent repeatEvent = (RepeatEvent) event;
-                    repeatEvent.setDaysRepeated(editEventInputData.getDaysRepeated());
-
-                    final EditEventOutputData editEventOutputData = new EditEventOutputData(eventName, false,
-                            "Successfully updated repeat event!");
-                    presenter.prepareSuccessView(editEventOutputData);
-
-                }
-                else {
-                    // event is present and type has not been changed, so we can update
-                    updateFixedEventData(editEventInputData, event);
-
-                    final EditEventOutputData editEventOutputData = new EditEventOutputData(eventName, false,
-                            "successfully update event!");
-                    presenter.prepareSuccessView(editEventOutputData);
-                }
-            }
-        }
+        presenter.prepareSuccessView(new EditEventOutputData(
+                event.getEventName(), event.getEventType(),
+                inputData.getDayStart().toString(), inputData.getDayEnd().toString(),
+                inputData.getTimeStart().toString(), inputData.getTimeEnd().toString(),
+                "Successfully updated event."
+        ));
     }
 
-    /**
-     * Fetch raw event fields and notify the presenter.
-     */
+    @Override
     public void populateEventFields() {
-        List<Object> eventFields = getEventFields();
+        List<Object> eventFields = dataAccess.getCurrentEventDetails();
         if (eventFields.isEmpty()) {
-            presenter.prepareFailView("No event selected or event details missing.");
+            presenter.prepareFailView("No event selected.");
         } else {
-            presenter.prepareRawEventFields(eventFields, "Event details fetched successfully.");
+            presenter.prepareRawEventFields(eventFields, "Event details fetched.");
         }
-    }
-
-    /**
-     * returns the current event name.
-     *
-     * @return string of current event name.
-     */
-    @Override
-    public String getCurrentEventName() {
-        return dataAccessObject.getCurrentEventName();
-    }
-
-    /**
-     * Returns a list of the fields associated with the event.
-     *
-     * @return list of all event items needed.
-     */
-    @Override
-    public List<Object> getEventFields() {
-        return dataAccessObject.getCurrentEventDetails();
     }
 }

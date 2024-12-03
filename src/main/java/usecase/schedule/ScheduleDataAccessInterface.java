@@ -22,4 +22,12 @@ public interface ScheduleDataAccessInterface {
      * @param eventName name of the event we are using.
      */
     void setCurrentEventName(String eventName);
+
+    /**
+     * Deletes a specificied event from schedule.
+     *
+     * @param eventName (name of the event to be deleted).
+     */
+    void deleteEvent(String eventName);
+
 }

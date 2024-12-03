@@ -5,7 +5,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 /**
- * The input data for the Edit use case.
+ * Input Data for the Edit use case.
  */
 public class EditEventInputData {
     private final String eventName;
@@ -54,5 +54,4 @@ public class EditEventInputData {
     public List<DayOfWeek> getDaysRepeated() {
         return daysRepeated;
     }
-
 }

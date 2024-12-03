@@ -38,29 +38,14 @@ public class EditController {
      */
     public void execute(String eventName, String eventType, String dayStart, String dayEnd,
                         String timeStart, String timeEnd, List<String> daysRepeated) {
-        try {
-            // Convert input data into domain-friendly types
-            DayOfWeek startDay = DayOfWeek.valueOf(dayStart.toUpperCase());
-            DayOfWeek endDay = DayOfWeek.valueOf(dayEnd.toUpperCase());
-            LocalTime startTime = LocalTime.parse(timeStart);
-            LocalTime endTime = LocalTime.parse(timeEnd);
-
-            // Create input data for the interactor
-            EditEventInputData inputData = new EditEventInputData(
-                    eventName,
-                    eventType,
-                    startDay,
-                    endDay,
-                    startTime,
-                    endTime,
-                    daysRepeated.stream().map(DayOfWeek::valueOf).collect(Collectors.toList())
-            );
-
-            // Call the interactor to process the edit
-            interactor.execute(inputData);
-        } catch (Exception e) {
-            // Handle any parsing or conversion errors
-            throw new IllegalArgumentException("Invalid input data: " + e.getMessage(), e);
-        }
+        interactor.execute(new EditEventInputData(
+                eventName,
+                eventType,
+                DayOfWeek.valueOf(dayStart.toUpperCase()),
+                DayOfWeek.valueOf(dayEnd.toUpperCase()),
+                LocalTime.parse(timeStart),
+                LocalTime.parse(timeEnd),
+                daysRepeated.stream().map(DayOfWeek::valueOf).collect(Collectors.toList())
+        ));
     }
 }

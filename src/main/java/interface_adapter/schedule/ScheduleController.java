@@ -66,4 +66,8 @@ public class ScheduleController {
         interactor.setCurrentEvent(eventName);
         interactor.editView(eventName);
     }
+
+    public void showDeleteView(String eventName) {
+        
+    }
 }

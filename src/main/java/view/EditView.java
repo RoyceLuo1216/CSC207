@@ -40,7 +40,6 @@ public class EditView extends JPanel implements PropertyChangeListener {
     private final ArrayList<JCheckBox> checkBoxesMain = initialiseCheckBoxes();
 
     public EditView(EditViewModel editViewModel) {
-        System.out.println("EditView Constructor called");
 
         this.editViewModel = editViewModel;
         this.editViewModel.addPropertyChangeListener(this);
@@ -83,15 +82,12 @@ public class EditView extends JPanel implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println("Property changed: " + evt.getPropertyName());
         if ("edit".equals(evt.getPropertyName())) {
             EditState state = (EditState) evt.getNewValue();
-            System.out.println("EditState received: " + state);
             if (state.getOutputMessage() != null) {
                 JOptionPane.showMessageDialog(eventFrame, state.getOutputMessage());
             }
             setFields(state);
-            showView();
         }
     }
 

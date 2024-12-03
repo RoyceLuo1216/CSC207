@@ -83,4 +83,7 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
         dataAccess.setCurrentEventName(eventName);
     }
 
+    public void deleteEvent(String eventName) {
+        dataAccess.deleteEvent(eventName);
+    }
 }
