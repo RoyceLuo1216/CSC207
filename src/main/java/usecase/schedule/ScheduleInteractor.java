@@ -1,5 +1,7 @@
 package usecase.schedule;
 
+import entities.eventEntity.Event;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -25,17 +27,48 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
 
     @Override
     public void execute(ScheduleInputData inputData) {
-        final List<String> eventNames;
-        if (inputData.getEventNames().isPresent()) {
-            eventNames = inputData.getEventNames().get();
-        }
-        else {
-            // Handle potential null return value from dataAccess
-            eventNames = Optional.ofNullable(dataAccess.getAllEventNames()).orElse(Collections.emptyList());
-        }
-
-        // Prepare and send output data
-        final ScheduleOutputData outputData = new ScheduleOutputData(eventNames);
-        presenter.presentView(outputData);
     }
+
+    @Override
+    public void refreshSchedule() {
+        // Fetch all events from the data access object
+        List<Event> events = Optional.ofNullable(dataAccess.getAllEvents())
+                .orElse(Collections.emptyList());
+        // Prepare and send output data to the presenter
+        ScheduleOutputData outputData = new ScheduleOutputData(events);
+        presenter.presentView(outputData);
+        System.out.println("yo");
+    }
+
+    /**
+     * Executes the pop-up event view use case.
+     */
+    @Override
+    public void popUpAddEventView() {
+        presenter.popUpAddEventView();
+    }
+
+    /**
+     * Executes the pop-up time estimation view use case.
+     */
+    @Override
+    public void popUpTimeEstimationChatbotView() {
+        presenter.popUpTimeEstimationChatbotView();
+    }
+
+    /**
+     * Executes the pop-up event conflict view use case.
+     */
+    @Override
+    public void popUpEventConflictChatbotView() {
+        presenter.popUpEventConflictChatbotView();
+    }
+
+//    /**
+//     * Executes the edit view use case.
+//     */
+//    @Override
+//    public void editView(String eventName) {
+//        presenter.editView(eventName);
+//    }
 }

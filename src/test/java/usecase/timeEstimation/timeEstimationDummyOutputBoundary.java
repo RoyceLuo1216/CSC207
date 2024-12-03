@@ -19,13 +19,13 @@ public class timeEstimationDummyOutputBoundary implements TimeEstimationOutputBo
     @Override
     public void prepareFailView(String errorMessage) {
         System.out.println(errorMessage);
-    };
+    }
 
     /**
      * Switches back to the Main Schedule View.
      */
     @Override
-    public void backToMainView() {
-        System.out.println("back to main view");
-    };
+    public void backToScheduleView() {
+        System.out.println("back to schedule view");
+    }
 }

@@ -11,19 +11,22 @@ import entities.eventEntity.EventFactory;
 public class AddEventInteractor implements AddEventInputBoundary {
     private final AddEventDataAccessInterface dataAccessObject;
     private final AddEventOutputBoundary presenter;
+    private final EventFactory eventFactory;
 
-    public AddEventInteractor(AddEventDataAccessInterface userSchedule, AddEventOutputBoundary eventAddOutputBoundary) {
+    public AddEventInteractor(AddEventDataAccessInterface userSchedule, AddEventOutputBoundary eventAddOutputBoundary,
+                              EventFactory eventFactory) {
         this.dataAccessObject = userSchedule;
         this.presenter = eventAddOutputBoundary;
+        this.eventFactory = eventFactory;
     }
 
     /**
      * Execute class for the interactor.
      * @param eventAddInputData      the inputdata for the event
      */
-
     @Override
     public void execute(AddEventInputData eventAddInputData) {
+        System.out.println(eventAddInputData.getEventName());
         final String eventName = eventAddInputData.getEventName();
         final Optional<Event> optionalEvent = dataAccessObject.getEventByName(eventName);
 
@@ -53,10 +56,18 @@ public class AddEventInteractor implements AddEventInputBoundary {
                         eventAddInputData.getTimeEnd()));
 
                 final AddEventOutputData eventAddOutputData = new AddEventOutputData(eventName, false);
-
+                System.out.println("event added to database");
                 presenter.prepareSuccessView(eventAddOutputData);
             }
         }
+    }
+
+    /**
+     * Switch back to schedule view.
+     */
+    public void backToScheduleView() {
+
+        presenter.backToScheduleView();
     }
 
 }

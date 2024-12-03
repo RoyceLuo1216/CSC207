@@ -9,4 +9,10 @@ public interface AddEventInputBoundary {
      * @param eventAddInputData the input data for this use case
      */
     void execute(AddEventInputData eventAddInputData);
+
+    /**
+     * Switch back to schedule view.
+     */
+    void backToScheduleView();
+
 }

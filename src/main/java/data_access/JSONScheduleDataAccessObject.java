@@ -1,13 +1,12 @@
 package data_access;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.File;
 import java.io.IOException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-// TODO: ASK IF WE CAN DELETE EVENTSTORAGE
-
-// TODO: add whatever interfaces are needed in the dao here
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
  * Data Access Object for json storage.
@@ -19,18 +18,20 @@ public class JSONScheduleDataAccessObject {
     /**
      * Method to save schedule to events.json. Will override the previous events.json
      * @param schedule schedule
-     * @return saved schedule.
+     * @return saved schedule
      */
     public void saveSchedule(InMemoryDataAccessObject schedule) {
-        final ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
         try {
             final File file = new File(SCHEDULE_FILE_PATH);
 
             objectMapper.writeValue(file, schedule);
 
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.err.println("Error writing to file " + SCHEDULE_FILE_PATH + ": " + e.getMessage());
             e.printStackTrace();
         }
@@ -41,17 +42,18 @@ public class JSONScheduleDataAccessObject {
      * @return saved schedule
      */
     public InMemoryDataAccessObject getSchedule() {
-        final File file = new File(SCHEDULE_FILE_PATH);
+        File file = new File(SCHEDULE_FILE_PATH);
         if (!file.exists()) {
             System.out.println("No saved schedule found, returning empty schedule.");
             return new InMemoryDataAccessObject();
         }
 
         final ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
         try {
             return objectMapper.readValue(file, InMemoryDataAccessObject.class);
-
         }
         catch (IOException e) {
             System.err.println("Error reading from file " + SCHEDULE_FILE_PATH + ": " + e.getMessage());

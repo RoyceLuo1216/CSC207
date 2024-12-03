@@ -54,7 +54,7 @@ public class RepeatInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
         dataAccessObject = new InMemoryDataAccessObject();
         RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter, eventFactory);
@@ -93,7 +93,45 @@ public class RepeatInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
+        };
+
+        dataAccessObject = new InMemoryDataAccessObject();
+        RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter, eventFactory);
+        interactor.execute(repeatInputData);
+    }
+
+    @Test
+    public void failDayNotCompatibleAddRepeatEvent(){
+        List<DayOfWeek> repeatedDays = new ArrayList<DayOfWeek>();
+        repeatedDays.add(DayOfWeek.MONDAY);
+        repeatedDays.add(DayOfWeek.TUESDAY);
+        repeatedDays.add(DayOfWeek.WEDNESDAY);
+
+        RepeatInputData repeatInputData = new RepeatInputData("Study for CSC207 Exam", DayOfWeek.TUESDAY,
+                DayOfWeek.MONDAY,
+                LocalTime.of(12, 0),
+                LocalTime.of(14, 0),
+                repeatedDays);
+
+        RepeatOutputBoundary successPresenter = new RepeatOutputBoundary() {
+            @Override
+            public void prepareSuccessView(RepeatOutputData outputData) {
+                fail("Test failed");
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                assertEquals("Event can't be added, due to incompatible times", error);
+            }
+
+            /**
+             * Returns the back to main schedule view.
+             */
+            @Override
+            public void backToScheduleView() {
+                return;
+            }
         };
 
         dataAccessObject = new InMemoryDataAccessObject();
@@ -127,7 +165,7 @@ public class RepeatInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
         dataAccessObject = new InMemoryDataAccessObject();
         RepeatInputBoundary interactor = new RepeatInteractor(dataAccessObject, successPresenter, eventFactory);
@@ -156,7 +194,7 @@ public class RepeatInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
 
         RepeatInputBoundary newInteractor = new RepeatInteractor(dataAccessObject, newSuccessPresenter, eventFactory);
@@ -185,7 +223,7 @@ public class RepeatInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
 
         dataAccessObject = new InMemoryDataAccessObject();

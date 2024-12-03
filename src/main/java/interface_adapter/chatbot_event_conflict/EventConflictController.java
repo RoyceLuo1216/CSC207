@@ -28,7 +28,7 @@ public class EventConflictController {
     /**
      * Returns the back to main schedule view.
      */
-    public void backToMainView() {
-        eventConflictUseCaseInteractor.backToMainView();
+    public void backToScheduleView() {
+        eventConflictUseCaseInteractor.backToScheduleView();
     }
 }

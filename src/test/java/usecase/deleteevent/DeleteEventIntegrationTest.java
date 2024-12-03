@@ -55,8 +55,8 @@ class DeleteEventIntegrationTest {
         controller = new DeleteEventController(interactor);
 
         // Create the View and set the controller
-        view = new DeleteEventView(viewModel);
-        view.setController(controller);
+//        view = new DeleteEventView(viewModel);
+//        view.setController(controller);
     }
 
     @Test

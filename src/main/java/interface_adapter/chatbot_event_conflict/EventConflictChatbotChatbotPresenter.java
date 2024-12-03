@@ -1,6 +1,7 @@
 package interface_adapter.chatbot_event_conflict;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.schedule.ScheduleViewModel;
 import usecase.chatbot_event_conflict.EventConflictChatbotOutputBoundary;
 import usecase.chatbot_event_conflict.EventConflictChatbotOutputData;
 
@@ -9,11 +10,13 @@ import usecase.chatbot_event_conflict.EventConflictChatbotOutputData;
  */
 public class EventConflictChatbotChatbotPresenter implements EventConflictChatbotOutputBoundary {
     private final EventConflictChatbotViewModel chatbotViewModel;
+    private final ScheduleViewModel scheduleViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public EventConflictChatbotChatbotPresenter(ViewManagerModel viewManagerModel,
+    public EventConflictChatbotChatbotPresenter(ViewManagerModel viewManagerModel, ScheduleViewModel scheduleViewModel,
                                                 EventConflictChatbotViewModel chatbotViewModel) {
         this.viewManagerModel = viewManagerModel;
+        this.scheduleViewModel = scheduleViewModel;
         this.chatbotViewModel = chatbotViewModel;
     }
 
@@ -38,8 +41,8 @@ public class EventConflictChatbotChatbotPresenter implements EventConflictChatbo
     }
 
     @Override
-    public void backToMainView() {
-        viewManagerModel.setState(chatbotViewModel.getViewName());
+    public void backToScheduleView() {
+        viewManagerModel.setState("schedule");
         viewManagerModel.firePropertyChanged();
     }
 }

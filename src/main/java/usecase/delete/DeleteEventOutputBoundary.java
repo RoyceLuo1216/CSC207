@@ -22,6 +22,6 @@ public interface DeleteEventOutputBoundary {
     /**
      * Transitions back to the main view.
      */
-    void backToMainView();
+    void backToScheduleView();
 
 }

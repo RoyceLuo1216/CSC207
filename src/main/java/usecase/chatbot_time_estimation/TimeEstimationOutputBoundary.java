@@ -20,5 +20,5 @@ public interface TimeEstimationOutputBoundary {
     /**
      * Switches back to the Main Schedule View.
      */
-    void backToMainView();
+    void backToScheduleView();
 }

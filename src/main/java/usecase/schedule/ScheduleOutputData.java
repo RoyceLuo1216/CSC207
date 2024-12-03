@@ -1,18 +1,20 @@
 package usecase.schedule;
 
+import entities.eventEntity.Event;
+
 import java.util.List;
 
 /**
  * Output data containing event names for presentation.
  */
 public class ScheduleOutputData {
-    private final List<String> eventNames;
+    private final List<Event> events;
 
-    public ScheduleOutputData(List<String> eventNames) {
-        this.eventNames = eventNames;
+    public ScheduleOutputData(List<Event> events) {
+        this.events = events;
     }
 
-    public List<String> getEventNames() {
-        return eventNames;
+    public List<Event> getEventNames() {
+        return events;
     }
 }

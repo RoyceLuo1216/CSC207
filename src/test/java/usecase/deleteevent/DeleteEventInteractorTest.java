@@ -70,7 +70,7 @@ class DeleteEventInteractorTest {
          * Transitions back to the main view.
          */
         @Override
-        public void backToMainView() {
+        public void backToScheduleView() {
 
         }
 

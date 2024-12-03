@@ -42,4 +42,10 @@ public class EventInformationPresenter implements EventInformationOutputBoundary
 
         eventInformationViewModel.firePropertyChanged("eventInformation");
     }
+
+    @Override
+    public void switchToEditEventView() {
+        eventInformationViewModel.firePropertyChanged("edit");
+    }
+
 }

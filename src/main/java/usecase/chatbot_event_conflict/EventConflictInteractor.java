@@ -1,6 +1,7 @@
 package usecase.chatbot_event_conflict;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -86,8 +87,8 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
     }
 
     @Override
-    public void backToMainView() {
-        eventConflictPresenter.backToMainView();
+    public void backToScheduleView() {
+        eventConflictPresenter.backToScheduleView();
     }
 
     /**
@@ -98,25 +99,29 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
      * @throws IllegalArgumentException if the eventType is null
      */
     private Object[][] toLocalDateTimeList(String textResponse) {
+        System.out.println("EventConflictInteractor.toLocalDateTimeList(textResponse): " + textResponse);
+
         final String[] stringLocalDateTimeList = textResponse.split(",");
 
         if (stringLocalDateTimeList.length != 2) {
             throw new IllegalArgumentException("Text response must contain exactly two values.");
         }
 
-        final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-
-        final Object[][] result = new Object[2][2];
-
+        final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         final String splitter = "T";
 
-        result[0][0] = DayOfWeek.valueOf(stringLocalDateTimeList[0].split(splitter)[0].toUpperCase());
+        // Initialize the result as a 2D Object array
+        final Object[][] result = new Object[2][2];
+
+        // Process the start time
+        result[0][0] = LocalDate.parse(stringLocalDateTimeList[0].split(splitter)[0]).getDayOfWeek();
         result[0][1] = LocalTime.parse(stringLocalDateTimeList[0].split(splitter)[1], timeFormatter);
-        result[1][0] = DayOfWeek.valueOf(stringLocalDateTimeList[1].split(splitter)[0].toUpperCase());
+
+        // Process the end time
+        result[1][0] = LocalDate.parse(stringLocalDateTimeList[1].split(splitter)[0]).getDayOfWeek();
         result[1][1] = LocalTime.parse(stringLocalDateTimeList[1].split(splitter)[1], timeFormatter);
 
         return result;
-
     }
 
     /**
@@ -205,33 +210,6 @@ public class EventConflictInteractor implements EventConflictInputBoundary {
         final String formattedEndTime = endTime.format(timeFormatter).toLowerCase();
 
         return new String[]{formattedDay, formattedStartTime, formattedEndTime};
-    }
-
-    /**
-     * Convert two LocalDateTime objects (start and end) into a list of string representations.
-     * Example output: [Nov 27, 02:30 PM, 04:45 PM]
-     *
-     * @param start LocalDateTime object
-     * @param end   LocalDateTime object
-     * @return an array of string representation (Day, Start, End)
-     * @throws IllegalArgumentException if the eventType is null
-     */
-    public String[] toStringTime(LocalDateTime start, LocalDateTime end) {
-        // Validate input
-        if (start == null || end == null) {
-            throw new IllegalArgumentException("Input must be two non-null LocalDateTime objects.");
-        }
-
-        // Formatters
-        final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d");
-        final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a");
-
-        // Extract and format Date, Start, and End
-        final String date = start.format(dateFormatter);
-        final String startTime = start.format(timeFormatter);
-        final String endTime = end.format(timeFormatter);
-
-        return new String[]{date, startTime, endTime};
     }
     
 }

@@ -3,6 +3,9 @@ package interface_adapter.schedule;
 import usecase.schedule.ScheduleInputBoundary;
 import usecase.schedule.ScheduleInputData;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+
 /**
  * Controller for handling schedule-related actions.
  */
@@ -23,7 +26,42 @@ public class ScheduleController {
      * Triggers the schedule retrieval process.
      */
     public void getSchedule() {
-        final ScheduleInputData inputData = new ScheduleInputData(null);
+        ScheduleInputData inputData = new ScheduleInputData(null);
         interactor.execute(inputData);
     }
+
+    /**
+     * Refreshes the schedule.
+     */
+    public void refreshSchedule() {
+        interactor.refreshSchedule();
+    }
+
+    /**
+     * Executes the pop-up event view use case.
+     */
+    public void popUpAddEventView() {
+        interactor.popUpAddEventView();
+    }
+
+    /**
+     * Executes the pop-up time estimation view use case.
+     */
+    public void popUpTimeEstimationChatbotView() {
+        interactor.popUpTimeEstimationChatbotView();
+    }
+
+    /**
+     * Executes the pop-up event conflict view use case.
+     */
+    public void popUpEventConflictChatbotView() {
+        interactor.popUpEventConflictChatbotView();
+    }
+
+//    /**
+//     * Executes editview use case.
+//     */
+//    public void editView(String eventName) {
+//        interactor.editView(eventName);
+//    }
 }

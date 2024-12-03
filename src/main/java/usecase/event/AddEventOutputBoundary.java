@@ -20,6 +20,6 @@ public interface AddEventOutputBoundary {
     /**
      * Transitions back to the main view.
      */
-    void backToMainView();
+    void backToScheduleView();
 
 }

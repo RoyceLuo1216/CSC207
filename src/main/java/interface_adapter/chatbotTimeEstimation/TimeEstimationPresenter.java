@@ -1,6 +1,7 @@
 package interface_adapter.chatbotTimeEstimation;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.schedule.ScheduleViewModel;
 import usecase.chatbot_time_estimation.ChatbotOutputData;
 import usecase.chatbot_time_estimation.TimeEstimationOutputBoundary;
 
@@ -9,10 +10,13 @@ import usecase.chatbot_time_estimation.TimeEstimationOutputBoundary;
  */
 public class TimeEstimationPresenter implements TimeEstimationOutputBoundary {
     private final TimeEstimationChatbotViewModel chatbotViewModel;
+    private final ScheduleViewModel scheduleViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public TimeEstimationPresenter(ViewManagerModel viewManagerModel, TimeEstimationChatbotViewModel chatbotViewModel) {
+    public TimeEstimationPresenter(ViewManagerModel viewManagerModel, ScheduleViewModel scheduleViewModel,
+                                   TimeEstimationChatbotViewModel chatbotViewModel) {
         this.viewManagerModel = viewManagerModel;
+        this.scheduleViewModel = scheduleViewModel;
         this.chatbotViewModel = chatbotViewModel;
     }
 
@@ -36,9 +40,12 @@ public class TimeEstimationPresenter implements TimeEstimationOutputBoundary {
         chatbotViewModel.firePropertyChanged();
     }
 
+    /**
+     * Switches back to the Main Schedule View.
+     */
     @Override
-    public void backToMainView() {
-        viewManagerModel.setState(chatbotViewModel.getViewName());
+    public void backToScheduleView() {
+        viewManagerModel.setState("schedule");
         viewManagerModel.firePropertyChanged();
     }
 }

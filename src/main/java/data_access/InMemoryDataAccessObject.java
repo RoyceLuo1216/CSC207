@@ -12,6 +12,7 @@ import usecase.chatbot_event_conflict.EventConflictChatbotDataAccessInterface;
 import usecase.delete.DeleteEventDataAccessInterface;
 import usecase.edit.EditEventDataAccessInterface;
 import usecase.event.AddEventDataAccessInterface;
+import usecase.eventInformation.EventInformationDataAccessInterface;
 import usecase.repeat.RepeatEventDataAccessInterface;
 import usecase.schedule.ScheduleDataAccessInterface;
 
@@ -22,9 +23,8 @@ import usecase.schedule.ScheduleDataAccessInterface;
  */
 public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
         EditEventDataAccessInterface, ScheduleDataAccessInterface,
-        AddEventDataAccessInterface,
-                                                        RepeatEventDataAccessInterface,
-        EventConflictChatbotDataAccessInterface {
+        AddEventDataAccessInterface, RepeatEventDataAccessInterface,
+        EventConflictChatbotDataAccessInterface, EventInformationDataAccessInterface {
     private final List<Event> events;
 
     /**
@@ -62,23 +62,6 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
     public void deleteEvent(String name) {
         final Optional<Event> eventToRemove = getEventByName(name);
         eventToRemove.map(events::remove);
-    }
-
-    /**
-     * Method to automatically schedule flexible events around fixed events.
-     * This placeholder method could be expanded with API calls to Cohere or
-     * OR-Tools to handle flexible scheduling.
-     *
-     * @return true if the scheduling process completed successfully
-     */
-    public boolean scheduleEvents() {
-        // Placeholder for scheduling logic.
-        // Example: Use Cohere API to get potential time slots for flexible events.
-        // Then, apply OR-Tools for precise optimization.
-        System.out.println("Scheduling events...");
-
-        // Implement scheduling logic here
-        return true;
     }
 
     /**

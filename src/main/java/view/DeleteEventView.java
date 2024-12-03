@@ -1,15 +1,11 @@
 package view;
 
-import java.awt.*;
-
-import javax.swing.*;
-
 import interface_adapter.delete.DeleteEventController;
 import interface_adapter.delete.DeleteEventViewModel;
 
-/**
- * Delete Event View.
- */
+import javax.swing.*;
+import java.awt.*;
+
 public class DeleteEventView extends JDialog {
     private static final String CANCEL_BUTTON_TEXT = "Cancel";
     private static final String DELETE_BUTTON_TEXT = "Delete";
@@ -20,8 +16,6 @@ public class DeleteEventView extends JDialog {
     private static final int MESSAGE_FONT_SIZE = 12;
     private static final String TITLE_TEXT = "Delete Event";
     private static final int TITLE_FONT_SIZE = 18;
-    private static final int WIDTH = 400;
-    private static final int HEIGHT = 250;
 
     private final DeleteEventViewModel viewModel;
     private JLabel messageLabel;
@@ -29,10 +23,9 @@ public class DeleteEventView extends JDialog {
 
     public DeleteEventView(DeleteEventViewModel viewModel) {
         this.viewModel = viewModel;
-
         setupUi();
         setupListeners();
-        setSize(WIDTH, HEIGHT);
+        setSize(400, 250);
     }
 
     public void setController(DeleteEventController controller) {
@@ -40,22 +33,22 @@ public class DeleteEventView extends JDialog {
     }
 
     private void setupUi() {
-        final JPanel contentPanel = new JPanel(new BorderLayout());
+        JPanel contentPanel = new JPanel(new BorderLayout());
         this.setContentPane(contentPanel);
 
         // Title
-        final JLabel titleLabel = new JLabel(TITLE_TEXT, SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel(TITLE_TEXT, SwingConstants.CENTER);
         titleLabel.setFont(new Font(FONT_NAME, Font.BOLD, TITLE_FONT_SIZE));
         contentPanel.add(titleLabel, BorderLayout.NORTH);
 
         // Instruction Panel
-        final JPanel instructionPanel = new JPanel();
+        JPanel instructionPanel = new JPanel();
         instructionPanel.setLayout(new BoxLayout(instructionPanel, BoxLayout.Y_AXIS));
-        final JLabel instructionLabel = new JLabel(INSTRUCTION_TEXT);
+        JLabel instructionLabel = new JLabel(INSTRUCTION_TEXT);
         instructionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         instructionPanel.add(instructionLabel);
 
-        final JLabel eventNameLabel = new JLabel("Event: " + viewModel.getState().getEventName());
+        JLabel eventNameLabel = new JLabel("Event: " + viewModel.getState().getEventName());
         eventNameLabel.setFont(new Font(FONT_NAME, Font.BOLD, EVENT_NAME_FONT_SIZE));
         eventNameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         instructionPanel.add(eventNameLabel);
@@ -69,9 +62,9 @@ public class DeleteEventView extends JDialog {
         contentPanel.add(messageLabel, BorderLayout.SOUTH);
 
         // Button Panel
-        final JPanel buttonPanel = new JPanel();
-        final JButton deleteButton = new JButton(DELETE_BUTTON_TEXT);
-        final JButton backButton = new JButton(CANCEL_BUTTON_TEXT);
+        JPanel buttonPanel = new JPanel();
+        JButton deleteButton = new JButton(DELETE_BUTTON_TEXT);
+        JButton backButton = new JButton(CANCEL_BUTTON_TEXT);
 
         deleteButton.addActionListener(e -> {
             if (controller != null) {

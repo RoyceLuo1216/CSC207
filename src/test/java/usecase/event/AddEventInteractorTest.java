@@ -1,6 +1,7 @@
 package usecase.event;
 
 import data_access.InMemoryDataAccessObject;
+import entities.eventEntity.EventFactory;
 import entities.eventEntity.FixedEvent;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
@@ -11,12 +12,16 @@ import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import usecase.event.AddEventInputData;
+
 public class AddEventInteractorTest {
     private InMemoryDataAccessObject dataAccessObject;
+    private EventFactory eventFactory;
 
     @BeforeEach
     void setUp() {
         dataAccessObject = new InMemoryDataAccessObject();
+        eventFactory = new EventFactory();
     }
 
     @AfterEach
@@ -44,10 +49,10 @@ public class AddEventInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
         dataAccessObject = new InMemoryDataAccessObject();
-        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter);
+        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter, eventFactory);
         interactor.execute(eventAddInputData);
 
         FixedEvent updatedEvent = (FixedEvent) dataAccessObject.getEventByName("Study for CSC207 Exam").get();
@@ -76,12 +81,44 @@ public class AddEventInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
 
         dataAccessObject = new InMemoryDataAccessObject();
-        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter);
+        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter, eventFactory);
         interactor.execute(eventAddInputData);
+    }
+
+    @Test
+    public void failDayNotCompatibleAddEvent(){
+        AddEventInputData addEventInputData = new AddEventInputData("Study for CSC207 Exam", DayOfWeek.TUESDAY,
+                DayOfWeek.MONDAY,
+                LocalTime.of(12, 0),
+                LocalTime.of(14, 0));
+
+        AddEventOutputBoundary successPresenter = new AddEventOutputBoundary() {
+            @Override
+            public void prepareSuccessView(AddEventOutputData outputData) {
+                fail("Test failed");
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                assertEquals("Event can't be added, due to incompatible times", error);
+            }
+
+            /**
+             * Transitions back to the main view.
+             */
+            @Override
+            public void backToScheduleView() {
+
+            }
+        };
+
+        dataAccessObject = new InMemoryDataAccessObject();
+        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter, eventFactory);
+        interactor.execute(addEventInputData);
     }
 
     @Test
@@ -104,11 +141,11 @@ public class AddEventInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
 
         dataAccessObject = new InMemoryDataAccessObject();
-        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter);
+        AddEventInputBoundary interactor = new AddEventInteractor(dataAccessObject, successPresenter, eventFactory);
         interactor.execute(eventAddInputData);
 
 
@@ -129,10 +166,11 @@ public class AddEventInteractorTest {
             }
 
             @Override
-            public void backToMainView(){return;}
+            public void backToScheduleView(){return;}
         };
 
-        AddEventInputBoundary newInteractor = new AddEventInteractor(dataAccessObject, newSuccessPresenter);
+        AddEventInputBoundary newInteractor = new AddEventInteractor(dataAccessObject, newSuccessPresenter,
+                eventFactory);
         newInteractor.execute(newAddEventInputData);
     }
 }

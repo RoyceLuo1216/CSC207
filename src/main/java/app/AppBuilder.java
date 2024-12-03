@@ -1,24 +1,21 @@
 package app;
 
-import java.awt.*;
-
-import javax.swing.*;
-
 import data_access.InMemoryDataAccessObject;
+import data_access.JSONScheduleDataAccessObject;
 import entities.eventEntity.EventFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.addEvent.AddEventController;
+import interface_adapter.addEvent.AddEventPresenter;
 import interface_adapter.addEvent.AddEventViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationController;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationPresenter;
-import interface_adapter.chatbot_event_conflict.EventConflictChatbotChatbotPresenter;
 import interface_adapter.chatbot_event_conflict.EventConflictChatbotViewModel;
 import interface_adapter.chatbot_event_conflict.EventConflictController;
 import interface_adapter.chatbot_event_conflict.EventConflictChatbotChatbotPresenter;
-import interface_adapter.delete.DeleteEventController;
 import interface_adapter.delete.DeleteEventViewModel;
 import interface_adapter.edit.EditController;
-import interface_adapter.edit.EditEventEventPresenter;
+import interface_adapter.edit.EditEventPresenter;
 import interface_adapter.edit.EditViewModel;
 import interface_adapter.repeat.RepeatController;
 import interface_adapter.repeat.RepeatPresenter;
@@ -26,26 +23,34 @@ import interface_adapter.repeat.RepeatViewModel;
 import interface_adapter.schedule.ScheduleController;
 import interface_adapter.schedule.SchedulePresenter;
 import interface_adapter.schedule.ScheduleViewModel;
-
 import usecase.chatbot_event_conflict.EventConflictInputBoundary;
 import usecase.chatbot_event_conflict.EventConflictInteractor;
 import usecase.chatbot_event_conflict.EventConflictChatbotOutputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInteractor;
 import usecase.chatbot_time_estimation.TimeEstimationOutputBoundary;
-
 import usecase.edit.EditEventInputBoundary;
 import usecase.edit.EditEventInteractor;
 import usecase.edit.EditEventOutputBoundary;
+import usecase.event.AddEventInputBoundary;
+import usecase.event.AddEventInteractor;
+import usecase.event.AddEventOutputBoundary;
 import usecase.repeat.RepeatInputBoundary;
 import usecase.repeat.RepeatInteractor;
 import usecase.repeat.RepeatOutputBoundary;
-
 import usecase.schedule.ScheduleInputBoundary;
 import usecase.schedule.ScheduleInteractor;
 import usecase.schedule.ScheduleOutputBoundary;
-import view.EventConflictChatbotView;
 import view.*;
+import view.EventConflictChatbotView;
+
+import javax.swing.*;
+import java.awt.*;
+
+import java.awt.event.WindowAdapter;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.List;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -62,7 +67,8 @@ public class AppBuilder {
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    private final InMemo.ryDataAccessObject inMemoryDataAccessObjectDataObject = new InMemoryDataAccessObject();
+    private InMemoryDataAccessObject inMemoryDataAccessObjectDataObject;
+    private JSONScheduleDataAccessObject jsonScheduleDataAccessObject = new JSONScheduleDataAccessObject();
 
     private EventConflictChatbotView eventConflictChatbotView;
     private EventConflictChatbotViewModel eventConflictChatbotViewModel;
@@ -70,7 +76,7 @@ public class AppBuilder {
     private TimeEstimationChatbotViewModel timeEstimationChatbotViewModel;
     private DeleteEventView deleteEventView;
     private DeleteEventViewModel deleteEventViewModel;
-    private AddEventView    addEventView;
+    private AddEventView addEventView;
     private AddEventViewModel addEventViewModel;
     private ScheduleView scheduleView;
     private ScheduleViewModel scheduleViewModel;
@@ -83,7 +89,27 @@ public class AppBuilder {
     // TODO: FIND WHERE SCHEDULE VIEW MODEL IS
 
     public AppBuilder() {
+        this.jsonScheduleDataAccessObject = new JSONScheduleDataAccessObject();
+        this.inMemoryDataAccessObjectDataObject = jsonScheduleDataAccessObject.getSchedule();
         cardPanel.setLayout(cardLayout);
+    }
+
+    /**
+     * Dummy event
+     * @return app builder.
+     */
+    public AppBuilder initializeDummyEvent() {
+        if (scheduleViewModel == null) {
+            throw new IllegalStateException("ScheduleViewModel must be initialized before adding events.");
+        }
+
+        // Add the "Tea Time" event to the schedule
+        scheduleViewModel.getState().setEventDetails(
+                "Tea Time",
+                DayOfWeek.WEDNESDAY, LocalTime.of(14, 0), DayOfWeek.WEDNESDAY, LocalTime.of(15, 0)
+        );
+        scheduleViewModel.firePropertyChanged();
+        return this;
     }
 
     /**
@@ -118,7 +144,7 @@ public class AppBuilder {
     public AppBuilder addEventConflictUseCase() {
         final EventConflictChatbotOutputBoundary eventConflictChatbotOutputBoundary =
                 new EventConflictChatbotChatbotPresenter(
-                viewManagerModel, eventConflictChatbotViewModel);
+                viewManagerModel, scheduleViewModel, eventConflictChatbotViewModel);
         final EventConflictInputBoundary eventConflictInteractor = new EventConflictInteractor(
                 inMemoryDataAccessObjectDataObject, eventConflictChatbotOutputBoundary, eventFactory);
 
@@ -135,7 +161,12 @@ public class AppBuilder {
     }
 
     public AppBuilder addScheduleUseCase() {
-        final ScheduleOutputBoundary scheduleOutputBoundary = new SchedulePresenter(scheduleViewModel, viewManagerModel
+        final ScheduleOutputBoundary scheduleOutputBoundary = new SchedulePresenter(
+                scheduleViewModel,
+                addEventViewModel,
+                timeEstimationChatbotViewModel,
+                eventConflictChatbotViewModel,
+                viewManagerModel
         );
         final ScheduleInputBoundary scheduleInteractor = new ScheduleInteractor(
                 inMemoryDataAccessObjectDataObject, scheduleOutputBoundary);
@@ -152,7 +183,7 @@ public class AppBuilder {
      */
     public AppBuilder addTimeEstimationUseCase() {
         final TimeEstimationOutputBoundary timeEstimationOutputBoundary = new TimeEstimationPresenter(
-                viewManagerModel, timeEstimationChatbotViewModel);
+                viewManagerModel, scheduleViewModel, timeEstimationChatbotViewModel);
         final TimeEstimationInputBoundary timeEstimationInteractor = new TimeEstimationInteractor(timeEstimationOutputBoundary);
 
         final TimeEstimationController controller = new TimeEstimationController(timeEstimationInteractor);
@@ -160,20 +191,18 @@ public class AppBuilder {
         return this;
     }
 
-    /**
- * Adds the DeleteEvent View to the application.
- * @param frame frame currently being used.
- * @return this builder
- */
-    public AppBuilder addDeleteEventView(JFrame frame) {
-        deleteEventViewModel = new DeleteEventViewModel();
-        deleteEventView = new DeleteEventView(deleteEventViewModel);
-        cardPanel.add(deleteEventView, deleteEventView.getViewName());
-        return this;
-    }
-
+//    /**
+// * Adds the DeleteEvent View to the application.
+// * @return this builder
+// */
+//    public AppBuilder addDeleteEventView() {
+//        deleteEventViewModel = new DeleteEventViewModel();
+//        deleteEventView = new DeleteEventView(deleteEventViewModel);
+//        cardPanel.add(deleteEventView, deleteEventView.getViewName());
+//        return this;
+//    }
 //
-//
+///**
 // * Adds the DeleteEvent Use Case to the application.
 // * @return this builder
 // */
@@ -187,30 +216,24 @@ public class AppBuilder {
 //    deleteEventView.setDeleteEventController(controller);
 //    return this;
 //}
-    public AppBuilder addAddEventView() {
+    public AppBuilder addEventView() {
         addEventViewModel = new AddEventViewModel();
         addEventView = new AddEventView(addEventViewModel);
         cardPanel.add(addEventView, addEventView.getViewName());
         return this;
     }
-//
-//public AppBuilder addAddEventUseCase() {
-//    final AddEventOutputBoundary addEventOutputBoundary = new AddEventPresenter(viewManagerModel,
-//            addEventViewModel, loginViewModel);
-//    final AddEventInputBoundary addEventInteractor = new AddEventInteractor(
-//            userDataAccessObject, addEventOutputBoundary, userFactory);
-//
-//    final AddEventController controller = new AddEventController(addEventInteractor);
-//    addEventView.setAddEventController(controller);
-//    return this;
-//}
 
-    public AppBuilder addScheduleView() {
-        scheduleViewModel = new ScheduleViewModel();
-        scheduleView = new ScheduleView(scheduleViewModel);
-        cardPanel.add(scheduleView, scheduleView.getViewName());
+    public AppBuilder addEventUseCase() {
+        final AddEventOutputBoundary addEventOutputBoundary = new AddEventPresenter(addEventViewModel, scheduleViewModel,
+                viewManagerModel);
+        final AddEventInputBoundary addEventInteractor = new AddEventInteractor(
+                inMemoryDataAccessObjectDataObject, addEventOutputBoundary, eventFactory);
+
+        final AddEventController controller = new AddEventController(addEventInteractor);
+        addEventView.setAddEventController(controller);
+        return this;
     }
-  
+
     public AppBuilder addEditView() {
         editViewModel = new EditViewModel();
         editView = new EditView(editViewModel);
@@ -219,8 +242,8 @@ public class AppBuilder {
     }
 
     public AppBuilder addEditUseCase() {
-        final EditEventOutputBoundary editOutputBoundary = new EditEventPresenter(viewManagerModel,
-                editViewModel);
+        final EditEventOutputBoundary editOutputBoundary = new EditEventPresenter(
+                viewManagerModel, editViewModel);
         final EditEventInputBoundary editInteractor = new EditEventInteractor(
                 inMemoryDataAccessObjectDataObject, editOutputBoundary);
 
@@ -236,10 +259,6 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds repeat use case.
-     * @return app builder object.
-     */
     public AppBuilder addRepeatUseCase() {
         final RepeatOutputBoundary repeatOutputBoundary = new RepeatPresenter(repeatViewModel, viewManagerModel
                 );
@@ -251,43 +270,6 @@ public class AppBuilder {
         return this;
     }
 
- //   public AppBuilder addEditView() {
-//    editViewModel = new EditViewModel();
-//    editView = new EditView(editViewModel);
-//    cardPanel.add(editView, editView.getViewName());
-//    return this;
-//}
-//
-//public AppBuilder addEditUseCase() {
-//    final EditEventOutputBoundary editOutputBoundary = new EditEventEventPresenter(viewManagerModel,
-//            editViewModel, loginViewModel);
-//    final EditEventInputBoundary editInteractor = new EditEventInteractor(
-//            userDataAccessObject, editOutputBoundary, userFactory);
-//
-//    final EditController controller = new EditController(editInteractor);
-//    editView.setEditController(controller);
-//    return this;
-//}
-
-//    public AppBuilder addRepeatView() {
-//    repeatViewModel = new RepeatViewModel();
-//    repeatView = new RepeatView(repeatViewModel);
-//    cardPanel.add(repeatView, repeatView.getViewName());
-//    return this;
-//}
-//
-//public AppBuilder addRepeatUseCase() {
-//    final RepeatOutputBoundary repeatOutputBoundary = new RepeatPresenter(viewManagerModel,
-//            repeatViewModel, loginViewModel);
-//    final RepeatInputBoundary repeatInteractor = new RepeatInteractor(
-//            userDataAccessObject, repeatOutputBoundary, userFactory);
-//
-//    final RepeatController controller = new RepeatController(repeatInteractor);
-//    repeatView.setRepeatController(controller);
-//    return this;
-//}
-
-
     /**
      * Creates the JFrame for the application and initially sets the ChatbotView to be displayed.
      *
@@ -295,13 +277,25 @@ public class AppBuilder {
      */
     public JFrame build() {
         final JFrame application = new JFrame("Weekly Planner");
-        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         application.add(cardPanel);
 
-        viewManagerModel.setState("edit");
         viewManagerModel.setState(scheduleView.getViewName());
         viewManagerModel.firePropertyChanged();
+
+        application.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                jsonScheduleDataAccessObject.saveSchedule(inMemoryDataAccessObjectDataObject);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.exit(0);
+            }
+        });
 
         return application;
     }

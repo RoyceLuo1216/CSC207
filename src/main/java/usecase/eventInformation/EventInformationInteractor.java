@@ -36,6 +36,7 @@ public class EventInformationInteractor implements EventInformationInputBoundary
                     repeatEvent.getTimeStart(), repeatEvent.getTimeEnd(), repeatEvent.getDaysRepeated());
 
             presenter.prepareView(eventInformationOutputData);
+            presenter.switchToEditEventView();
 
         }
         else {
@@ -43,6 +44,7 @@ public class EventInformationInteractor implements EventInformationInputBoundary
                     event.getEventName(), "Fixed", event.getDayStart(), event.getDayEnd(), event.getTimeStart(),
                     event.getTimeEnd(), new ArrayList<>());
             presenter.prepareView(eventInformationOutputData);
+            presenter.switchToEditEventView();
         }
     }
 }

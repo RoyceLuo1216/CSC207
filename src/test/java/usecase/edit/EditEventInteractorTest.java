@@ -34,12 +34,12 @@ public class EditEventInteractorTest {
     @Test
     void successEditFixedEventTest() {
         event = EventFactory.createFixedEvent("Study for CSC207 Exam", DayOfWeek.MONDAY, DayOfWeek.TUESDAY,
-                                                    LocalTime.of(22, 0), LocalTime.of(0, 0));
+                LocalTime.of(22, 0), LocalTime.of(0, 0));
         dataAccessObject.addEvent(event);
 
         EditEventInputData inputData = new EditEventInputData("Study for CSC207 Exam", "Fixed",
-            DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, LocalTime.of(21, 0), LocalTime.of(1, 0),
-                                                                                                    new ArrayList<>());
+                DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, LocalTime.of(21, 0), LocalTime.of(1, 0),
+                new ArrayList<>());
 
         EditEventOutputBoundary successPresenter = new EditEventOutputBoundary() {
 
@@ -64,7 +64,7 @@ public class EditEventInteractorTest {
         assertEquals(LocalTime.of(1, 0), updatedEvent.getTimeEnd());
     }
 
-    // success test
+    // success repeat test
     @Test
     void successEditRepeatEventTest() {
         event = EventFactory.createRepeatEvent("Study for CSC207 Exam", DayOfWeek.MONDAY, DayOfWeek.TUESDAY,
@@ -73,8 +73,8 @@ public class EditEventInteractorTest {
         dataAccessObject.addEvent(event);
 
         EditEventInputData inputData = new EditEventInputData("Study for CSC207 Exam", "Repeat",
-               DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, LocalTime.of(21, 0), LocalTime.of(1, 0),
-               new ArrayList<>(List.of(DayOfWeek.TUESDAY, DayOfWeek.THURSDAY, DayOfWeek.SATURDAY)));
+                DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, LocalTime.of(21, 0), LocalTime.of(1, 0),
+                new ArrayList<>(List.of(DayOfWeek.TUESDAY, DayOfWeek.THURSDAY, DayOfWeek.SATURDAY)));
 
         EditEventOutputBoundary successPresenter = new EditEventOutputBoundary() {
 
@@ -82,6 +82,7 @@ public class EditEventInteractorTest {
             public void prepareSuccessView(EditEventOutputData outputData) {
                 assertEquals("Study for CSC207 Exam", outputData.getEventName());
                 assertFalse(outputData.isUseCaseFailed());
+                assertTrue(outputData.getOutputMessage().equals("Successfully updated repeat event!"));
             }
 
             @Override
@@ -104,8 +105,8 @@ public class EditEventInteractorTest {
     @Test
     void failureEventDoesNotExistTest() {
         EditEventInputData inputData = new EditEventInputData("Study for CSC207 Exam", "Fixed",
-               DayOfWeek.TUESDAY, DayOfWeek.TUESDAY, LocalTime.of(11, 0), LocalTime.of(13, 0),
-               new ArrayList<>());
+                DayOfWeek.TUESDAY, DayOfWeek.TUESDAY, LocalTime.of(11, 0), LocalTime.of(13, 0),
+                new ArrayList<>());
 
         EditEventOutputBoundary failurePresenter = new EditEventOutputBoundary() {
             @Override
@@ -126,11 +127,11 @@ public class EditEventInteractorTest {
     @Test
     void failureEventTypeChangeNotAllowedTest() {
         event = EventFactory.createFixedEvent("Study for CSC207 Exam", DayOfWeek.MONDAY, DayOfWeek.MONDAY,
-                                    LocalTime.of(10, 0), LocalTime.of(12, 0));
+                LocalTime.of(10, 0), LocalTime.of(12, 0));
         dataAccessObject.addEvent(event);
 
         EditEventInputData inputData = new EditEventInputData("Study for CSC207 Exam", "repeat",
-               DayOfWeek.TUESDAY, DayOfWeek.TUESDAY, LocalTime.of(11, 0), LocalTime.of(13, 0),
+                DayOfWeek.TUESDAY, DayOfWeek.TUESDAY, LocalTime.of(11, 0), LocalTime.of(13, 0),
                 new ArrayList<>());
 
         EditEventOutputBoundary failurePresenter = new EditEventOutputBoundary() {
@@ -150,13 +151,39 @@ public class EditEventInteractorTest {
     }
 
     @Test
-    void failEditFixedEvent(){
+    void failEditTimeFixedEvent(){
         event = EventFactory.createFixedEvent("Study for CSC207 Exam", DayOfWeek.MONDAY, DayOfWeek.TUESDAY,
                 LocalTime.of(22, 0), LocalTime.of(0, 0));
         dataAccessObject.addEvent(event);
 
         EditEventInputData inputData = new EditEventInputData("Study for CSC207 Exam", "Fixed",
                 DayOfWeek.TUESDAY, DayOfWeek.TUESDAY, LocalTime.of(21, 0), LocalTime.of(1, 0),
+                new ArrayList<>());
+
+        EditEventOutputBoundary successPresenter = new EditEventOutputBoundary() {
+
+            @Override
+            public void prepareSuccessView(EditEventOutputData outputData) {
+                fail("Use case failure is unexpected.");
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                assertEquals("Event can't be added, due to incompatible times", error);
+            }
+        };
+        EditEventInputBoundary interactor = new EditEventInteractor(dataAccessObject, successPresenter);
+        interactor.execute(inputData);
+    }
+
+    @Test
+    void failEditDayFixedEvent(){
+        event = EventFactory.createFixedEvent("Study for CSC207 Exam", DayOfWeek.MONDAY, DayOfWeek.TUESDAY,
+                LocalTime.of(22, 0), LocalTime.of(0, 0));
+        dataAccessObject.addEvent(event);
+
+        EditEventInputData inputData = new EditEventInputData("Study for CSC207 Exam", "Fixed",
+                DayOfWeek.TUESDAY, DayOfWeek.MONDAY, LocalTime.of(12, 0), LocalTime.of(13, 0),
                 new ArrayList<>());
 
         EditEventOutputBoundary successPresenter = new EditEventOutputBoundary() {

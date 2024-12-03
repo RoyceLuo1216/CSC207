@@ -68,7 +68,7 @@ public class RepeatInteractor implements RepeatInputBoundary {
     }
 
     @Override
-    public void backToMainView() {
-        presenter.backToMainView();
+    public void backToScheduleView() {
+        presenter.backToScheduleView();
     }
 }

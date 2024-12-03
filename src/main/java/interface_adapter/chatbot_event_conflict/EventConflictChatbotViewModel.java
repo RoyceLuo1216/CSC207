@@ -7,7 +7,7 @@ import interface_adapter.ViewModel;
  */
 public class EventConflictChatbotViewModel extends ViewModel<EventConflictChatbotState> {
 
-    public static final String TITLE_LABEL = "Schedule Chatbot View";
+    public static final String TITLE_LABEL = "Event Conflict Chatbot View";
     public static final String[] CHAT_INTRO = {
         "Welcome to the schedule chatbot! Ask me about your schedule.",
         "I can help you schedule events, estimate time for a task, and inform you about scheduling conflicts!",
@@ -24,7 +24,7 @@ public class EventConflictChatbotViewModel extends ViewModel<EventConflictChatbo
     public static final String USER_NAME_LABEL = "You: ";
 
     public EventConflictChatbotViewModel() {
-        super("chatbot");
+        super("eventConflictChatbot");
         setState(new EventConflictChatbotState());
     }
 
