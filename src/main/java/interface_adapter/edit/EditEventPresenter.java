@@ -1,23 +1,28 @@
 package interface_adapter.edit;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.delete.DeleteEventViewModel;
+import interface_adapter.schedule.ScheduleViewModel;
 import usecase.edit.EditEventOutputBoundary;
 import usecase.edit.EditEventOutputData;
 
-import java.time.DayOfWeek;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Presenter for the Edit Use Case.
  */
 public class EditEventPresenter implements EditEventOutputBoundary {
     private final EditViewModel editViewModel;
+    private final ScheduleViewModel scheduleViewModel;
+    private final DeleteEventViewModel deleteEventViewModel;
+    private final ViewManagerModel viewManagerModel;
 
-    public EditEventPresenter(ViewManagerModel viewManagerModel, EditViewModel editViewModel) {
+    public EditEventPresenter(ViewManagerModel viewManagerModel, EditViewModel editViewModel,
+                              ScheduleViewModel viewModel1, DeleteEventViewModel deleteEventViewModel1) {
         this.editViewModel = editViewModel;
+        this.viewManagerModel = viewManagerModel;
+        this.scheduleViewModel = viewModel1;
+        this.deleteEventViewModel = deleteEventViewModel1;
     }
 
     @Override
@@ -56,4 +61,23 @@ public class EditEventPresenter implements EditEventOutputBoundary {
         ));
     }
 
+    /**
+     * swap to schedule view.
+     */
+    @Override
+    public void scheduleView() {
+        System.out.println("Edit to Schedule");
+        viewManagerModel.setState(scheduleViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    /**
+     * swap to delete view.
+     */
+    @Override
+    public void deleteView() {
+        System.out.println("Edit to Delete");
+        viewManagerModel.setState(deleteEventViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
 }

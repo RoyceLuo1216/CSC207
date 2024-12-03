@@ -44,4 +44,20 @@ public class EditEventInteractor implements EditEventInputBoundary {
             presenter.prepareRawEventFields(eventFields, "Event details fetched.");
         }
     }
+
+    /**
+     * Switch to the event view.
+     */
+    @Override
+    public void scheduleView() {
+        presenter.scheduleView();
+    }
+
+    /**
+     * Switch to the delete view.
+     */
+    @Override
+    public void deleteView() {
+        presenter.deleteView();
+    }
 }

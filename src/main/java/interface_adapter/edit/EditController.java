@@ -2,7 +2,11 @@ package interface_adapter.edit;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import usecase.edit.EditEventInputBoundary;
@@ -38,14 +42,77 @@ public class EditController {
      */
     public void execute(String eventName, String eventType, String dayStart, String dayEnd,
                         String timeStart, String timeEnd, List<String> daysRepeated) {
+
+        DayOfWeek parsedDayStart = parseDayOfWeek(dayStart, DayOfWeek.MONDAY);
+        DayOfWeek parsedDayEnd = parseDayOfWeek(dayEnd, DayOfWeek.FRIDAY);
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a", Locale.ENGLISH);
+        LocalTime parsedTimeStart = parseLocalTime(timeStart, "8:00 AM", timeFormatter);
+        LocalTime parsedTimeEnd = parseLocalTime(timeEnd, "5:00 PM", timeFormatter);
+
+        List<DayOfWeek> parsedDaysRepeated = Collections.emptyList();
+        if (daysRepeated != null) {
+            parsedDaysRepeated = daysRepeated.stream()
+                    .map(day -> parseDayOfWeek(day, null))
+                    .filter(java.util.Objects::nonNull)
+                    .collect(Collectors.toList());
+        }
+
         interactor.execute(new EditEventInputData(
                 eventName,
                 eventType,
-                DayOfWeek.valueOf(dayStart.toUpperCase()),
-                DayOfWeek.valueOf(dayEnd.toUpperCase()),
-                LocalTime.parse(timeStart),
-                LocalTime.parse(timeEnd),
-                daysRepeated.stream().map(DayOfWeek::valueOf).collect(Collectors.toList())
+                parsedDayStart,
+                parsedDayEnd,
+                parsedTimeStart,
+                parsedTimeEnd,
+                parsedDaysRepeated
         ));
+    }
+
+    /**
+     * Parses a day of the week from a string, with a fallback to a default value if parsing fails.
+     *
+     * @param dayString  The string representation of the day.
+     * @param defaultDay The default value to use if parsing fails.
+     * @return The parsed DayOfWeek, or the default value if parsing fails.
+     */
+    private DayOfWeek parseDayOfWeek(String dayString, DayOfWeek defaultDay) {
+        try {
+            return DayOfWeek.valueOf(dayString.toUpperCase());
+        }
+        catch (IllegalArgumentException | NullPointerException e) {
+            return defaultDay;
+        }
+    }
+
+    /**
+     * Parses a time from a string, with a fallback to a default value if parsing fails.
+     *
+     * @param timeString    The string representation of the time.
+     * @param defaultTime   The default value to use if parsing fails.
+     * @param formatter     The DateTimeFormatter used for parsing the time.
+     * @return The parsed LocalTime, or the default value if parsing fails.
+     */
+    private LocalTime parseLocalTime(String timeString, String defaultTime, DateTimeFormatter formatter) {
+        try {
+            return LocalTime.parse(timeString.trim(), formatter);
+        }
+        catch (DateTimeParseException | NullPointerException e) {
+            return LocalTime.parse(defaultTime, formatter);
+        }
+    }
+
+
+    /**
+     * Delete view.
+     */
+    public void deleteView() {
+        interactor.deleteView();
+    }
+
+    /**
+     * Switch to schedule view.
+     */
+    public void scheduleView() {
+        interactor.scheduleView();
     }
 }

@@ -13,6 +13,8 @@ import interface_adapter.chatbotTimeEstimation.TimeEstimationPresenter;
 import interface_adapter.chatbot_event_conflict.EventConflictChatbotViewModel;
 import interface_adapter.chatbot_event_conflict.EventConflictController;
 import interface_adapter.chatbot_event_conflict.EventConflictChatbotChatbotPresenter;
+import interface_adapter.delete.DeleteEventController;
+import interface_adapter.delete.DeleteEventPresenter;
 import interface_adapter.delete.DeleteEventViewModel;
 import interface_adapter.edit.EditController;
 import interface_adapter.edit.EditEventPresenter;
@@ -29,6 +31,9 @@ import usecase.chatbot_event_conflict.EventConflictChatbotOutputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInputBoundary;
 import usecase.chatbot_time_estimation.TimeEstimationInteractor;
 import usecase.chatbot_time_estimation.TimeEstimationOutputBoundary;
+import usecase.delete.DeleteEventInputBoundary;
+import usecase.delete.DeleteEventInteractor;
+import usecase.delete.DeleteEventOutputBoundary;
 import usecase.edit.EditEventInputBoundary;
 import usecase.edit.EditEventInteractor;
 import usecase.edit.EditEventOutputBoundary;
@@ -50,7 +55,6 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.List;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -212,7 +216,7 @@ public class AppBuilder {
 
     public AppBuilder addEditView() {
         editViewModel = new EditViewModel();
-        editView = new EditView(editViewModel);
+        editView = new EditView(editViewModel, deleteEventViewModel);
         cardPanel.add(editView, editView.getViewName());
         System.out.println("EditView added to CardLayout with name: " + editView.getViewName());
 
@@ -221,12 +225,35 @@ public class AppBuilder {
 
     public AppBuilder addEditUseCase() {
         final EditEventOutputBoundary editOutputBoundary = new EditEventPresenter(
-                viewManagerModel, editViewModel);
+                viewManagerModel, editViewModel, scheduleViewModel, deleteEventViewModel);
         final EditEventInputBoundary editInteractor = new EditEventInteractor(
                 inMemoryDataAccessObjectDataObject, editOutputBoundary);
 
         final EditController controller = new EditController(editInteractor);
         editView.setEditController(controller);
+        return this;
+    }
+
+    public AppBuilder addDeleteView() {
+        deleteEventViewModel = new DeleteEventViewModel();
+        deleteEventView = new DeleteEventView();
+        deleteEventView.setController(new DeleteEventController(
+                new DeleteEventInteractor(
+                        new DeleteEventPresenter(deleteEventViewModel, viewManagerModel),
+                        inMemoryDataAccessObjectDataObject
+                )
+        ));
+        System.out.println("DeleteView created and configured.");
+        return this;
+    }
+
+    public AppBuilder addDeleteUseCase() {
+        final DeleteEventOutputBoundary deleteEventOutputBoundary = new DeleteEventPresenter(
+                deleteEventViewModel, viewManagerModel);
+        final DeleteEventInputBoundary deleteEventInteractor = new DeleteEventInteractor(
+                deleteEventOutputBoundary, inMemoryDataAccessObjectDataObject);
+        final DeleteEventController controller = new DeleteEventController(deleteEventInteractor);
+        deleteEventView.setController(controller);
         return this;
     }
 

@@ -26,4 +26,15 @@ public interface EditEventOutputBoundary {
      * @param successMessage string for success message.
      */
     void prepareRawEventFields(List<Object> eventFields, String successMessage);
+
+    /**
+     * swap to schedule view.
+     */
+    void scheduleView();
+
+    /**
+     * swap to delete view.
+     */
+    void deleteView();
+
 }

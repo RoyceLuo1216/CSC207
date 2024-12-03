@@ -17,4 +17,14 @@ public interface EditEventInputBoundary {
      * Populates the event fields.
      */
     void populateEventFields();
+
+    /**
+     * Switch to the event view.
+     */
+    void scheduleView();
+
+    /**
+     * Switch to the delete view.
+     */
+    void deleteView();
 }
