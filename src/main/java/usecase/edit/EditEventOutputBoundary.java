@@ -1,5 +1,7 @@
 package usecase.edit;
 
+import java.util.List;
+
 /**
  * The output boundary for the Edit use case.
  */
@@ -17,4 +19,11 @@ public interface EditEventOutputBoundary {
      * @param errorMessage the explanation of the failure
      */
     void prepareFailView(String errorMessage);
+
+    /**
+     * prepares the fields for states.
+     * @param eventFields fields inputted.
+     * @param successMessage string for success message.
+     */
+    void prepareRawEventFields(List<Object> eventFields, String successMessage);
 }

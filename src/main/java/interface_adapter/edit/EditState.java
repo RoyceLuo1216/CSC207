@@ -13,8 +13,23 @@ public class EditState {
     private String timeStart;
     private String timeEnd;
     private List<String> daysRepeated;
-
     private String outputMessage;
+
+    public EditState(String eventName, String eventType, String dayStart, String dayEnd, String timeStart,
+                     String timeEnd, List<String> daysRepeated, String outputMessage) {
+        this.eventName = eventName;
+        this.eventType = eventType;
+        this.dayStart = dayStart;
+        this.dayEnd = dayEnd;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.daysRepeated = daysRepeated;
+        this.outputMessage = outputMessage;
+    }
+
+    public EditState() {
+
+    }
 
     public String getEventName() {
         return eventName;

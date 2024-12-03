@@ -134,4 +134,14 @@ public class FixedEvent implements Event {
         this.timeEnd = timeEnd;
     }
 
+    /**
+     * Returns the event type.
+     *
+     * @return string representing the event type.
+     */
+    @Override
+    public String getEventType() {
+        return "Fised";
+    }
+
 }

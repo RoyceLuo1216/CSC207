@@ -16,5 +16,7 @@ public class EditViewModel extends ViewModel<EditState> {
     public EditViewModel() {
         super("edit");
         setState(new EditState());
+        System.out.println("Property changed: edit");
     }
+
 }

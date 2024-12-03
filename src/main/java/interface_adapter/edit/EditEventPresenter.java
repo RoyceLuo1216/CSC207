@@ -4,6 +4,8 @@ import interface_adapter.ViewManagerModel;
 import usecase.edit.EditEventOutputBoundary;
 import usecase.edit.EditEventOutputData;
 
+import java.util.List;
+
 /**
  * Presenter for the Edit Use Case.
  */
@@ -30,4 +32,18 @@ public class EditEventPresenter implements EditEventOutputBoundary {
         editState.setOutputMessage(errorMessage);
         editViewModel.firePropertyChanged();
     }
+
+    @Override
+    public void prepareRawEventFields(List<Object> eventFields, String successMessage) {
+        // Construct the output data object from the raw fields
+        final EditEventOutputData outputData = new EditEventOutputData(
+                (String) eventFields.get(0),
+                false,
+                successMessage
+        );
+
+        // Notify the view through the output data
+        prepareSuccessView(outputData);
+    }
+
 }

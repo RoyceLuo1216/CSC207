@@ -177,14 +177,15 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
             JButton eventButton = new JButton(eventName);
             eventButton.setFont(new Font("Arial", Font.PLAIN, LABEL_FONT_SIZE));
             eventButton.setPreferredSize(new Dimension(100, ROW_HEIGHT));
-            System.out.println("Event selected: " + eventName);
-//            scheduleController.editView(eventName);
+            eventButton.addActionListener(e -> {
+                System.out.println("Event selected: " + eventName);
+                scheduleController.editView(eventName);
+            });
 
             // Add the button to the panel
             panel.add(eventButton, constraints);
         });
     }
-
 
     private void addTimePanel(JPanel panel, GridBagConstraints constraints) {
 
@@ -224,6 +225,7 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("state".equals(evt.getPropertyName())) {
+            System.out.println("Switching to schedule view: " );
             scheduleController.getSchedule();
             refreshScheduleView();
         }

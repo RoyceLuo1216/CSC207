@@ -85,4 +85,9 @@ public interface Event {
      */
     void setTimeEnd(LocalTime timeEnd);
 
+    /**
+     * Returns the event type.
+     * @return string representing the event type.
+     */
+    String getEventType();
 }

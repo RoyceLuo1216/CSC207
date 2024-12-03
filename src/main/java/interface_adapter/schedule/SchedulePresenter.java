@@ -4,6 +4,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.addEvent.AddEventViewModel;
 import interface_adapter.chatbotTimeEstimation.TimeEstimationChatbotViewModel;
 import interface_adapter.chatbot_event_conflict.EventConflictChatbotViewModel;
+import interface_adapter.edit.EditViewModel;
 import usecase.schedule.ScheduleOutputBoundary;
 import usecase.schedule.ScheduleOutputData;
 
@@ -16,7 +17,7 @@ public class SchedulePresenter implements ScheduleOutputBoundary {
     private final AddEventViewModel addEventViewModel;
     private final TimeEstimationChatbotViewModel timeEstimationChatbotViewModel;
     private final EventConflictChatbotViewModel eventConflictChatbotViewModel;
-//    private final EditViewModel editViewModel;
+    private final EditViewModel editViewModel;
     private final ViewManagerModel viewManagerModel;
 
     /**
@@ -27,16 +28,19 @@ public class SchedulePresenter implements ScheduleOutputBoundary {
      * @param timeEstimationChatbotViewModel the ViewModel for the time estimation chatbot
      * @param eventConflictChatbotViewModel the ViewModel for the event conflict chatbot
      * @param viewManagerModel the viewManagerModel
+     * @param editViewModel view model for edit.
      */
     public SchedulePresenter(ScheduleViewModel viewModel, AddEventViewModel addEventViewModel,
                              TimeEstimationChatbotViewModel timeEstimationChatbotViewModel,
                              EventConflictChatbotViewModel eventConflictChatbotViewModel,
-                             ViewManagerModel viewManagerModel) {
+                             ViewManagerModel viewManagerModel, EditViewModel editViewModel) {
         this.viewModel = viewModel;
         this.addEventViewModel = addEventViewModel;
         this.timeEstimationChatbotViewModel = timeEstimationChatbotViewModel;
         this.eventConflictChatbotViewModel = eventConflictChatbotViewModel;
+        this.editViewModel = editViewModel;
         this.viewManagerModel = viewManagerModel;
+
     }
 
     /**
@@ -92,13 +96,14 @@ public class SchedulePresenter implements ScheduleOutputBoundary {
         viewManagerModel.firePropertyChanged();
     }
 
-//    /**
-//     * Edit view use case.
-//     */
-//    @Override
-//    public void editView(String eventName) {
-//        viewManagerModel.setState(editViewModel.getViewName());
-//        viewManagerModel.firePropertyChanged();
-//    }
+    /**
+     * Edit view use case.
+     */
+    @Override
+    public void editView(String eventName) {
+        System.out.println("Schedule to edit Presenter");
+        viewManagerModel.setState(editViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
 
 }

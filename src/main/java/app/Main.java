@@ -20,6 +20,8 @@ public class Main {
                 .addTimeEstimationUseCase()
                 .addEventView()
                 .addEventUseCase()
+                .addEditView()
+                .addEditUseCase()
                 .addScheduleView()
                 .addScheduleUseCase()
                 .initializeDummyEvent()

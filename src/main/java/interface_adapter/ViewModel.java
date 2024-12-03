@@ -32,6 +32,8 @@ public class ViewModel<T> {
 
     public void setState(T state) {
         this.state = state;
+        System.out.println("set state to " + this.state);
+
     }
 
     /**
@@ -39,6 +41,7 @@ public class ViewModel<T> {
      */
     public void firePropertyChanged() {
         this.support.firePropertyChange("state", null, this.state);
+        System.out.println("fire property changed to " + this.state);
     }
 
     /**

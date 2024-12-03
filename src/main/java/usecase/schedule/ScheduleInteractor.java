@@ -64,11 +64,23 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
         presenter.popUpEventConflictChatbotView();
     }
 
-//    /**
-//     * Executes the edit view use case.
-//     */
-//    @Override
-//    public void editView(String eventName) {
-//        presenter.editView(eventName);
-//    }
+    /**
+     * Executes the edit view use case.
+     */
+    @Override
+    public void editView(String eventName) {
+        presenter.editView(eventName);
+    }
+
+    /**
+     * Sets current event to desired event by name.
+     *
+     * @param eventName name of event.
+     */
+    @Override
+    public void setCurrentEvent(String eventName) {
+        System.out.println("eventName: " + eventName);
+        dataAccess.setCurrentEventName(eventName);
+    }
+
 }

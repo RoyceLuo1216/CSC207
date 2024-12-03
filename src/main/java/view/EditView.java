@@ -4,8 +4,6 @@ import static interface_adapter.edit.EditViewModel.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -19,7 +17,6 @@ import javax.swing.JTextField;
 import interface_adapter.edit.EditController;
 import interface_adapter.edit.EditState;
 import interface_adapter.edit.EditViewModel;
-import interface_adapter.eventInformation.EventInformationState;
 
 /**
  * The View for when the user is adding an event (i.e. its details) into the program.
@@ -40,32 +37,42 @@ public class EditView extends JPanel implements PropertyChangeListener {
     private final JComboBox<String> timeEndComboBox = new JComboBox<>(times);
     private final JButton updateButton = new JButton("Update");
 
-    private final ArrayList<JCheckBox> checkBoxes = initialiseCheckBoxes();
+    private final ArrayList<JCheckBox> checkBoxesMain = initialiseCheckBoxes();
 
     public EditView(EditViewModel editViewModel) {
+        System.out.println("EditView Constructor called");
 
         this.editViewModel = editViewModel;
         this.editViewModel.addPropertyChangeListener(this);
 
-        // ActionListener for save button
-        updateButton.addActionListener(
-            evt -> {
-                if (evt.getSource().equals(updateButton)) {
-                    final ArrayList<String> selectedItems = new ArrayList<>();
-                    for (JCheckBox checkBox : checkBoxes) {
-                        if (checkBox.isSelected()) {
-                            selectedItems.add(checkBox.getText());
-                        }
-                    }
+        setupUi();
+        setupListeners();
 
-                    final EditState currentState = editViewModel.getState();
+    }
 
-                    editController.execute(currentState.getEventName(), currentState.getEventType(),
-                            currentState.getDayStart(), currentState.getDayEnd(), currentState.getTimeStart(),
-                            currentState.getTimeEnd(), currentState.getDaysRepeated());
+    /**
+     * Sets up te listeners for the edit view.
+     */
+    private void setupListeners() {
+        // Listener for the Update button
+        updateButton.addActionListener(evt -> {
+            final ArrayList<String> selectedDays = new ArrayList<>();
+            for (JCheckBox checkBox : checkBoxesMain) {
+                if (checkBox.isSelected()) {
+                    selectedDays.add(checkBox.getText());
                 }
             }
-        );
+
+            editController.execute(
+                    eventNameField.getText(),
+                    (String) eventTypeComboBox.getSelectedItem(),
+                    (String) dayStartComboBox.getSelectedItem(),
+                    (String) dayEndComboBox.getSelectedItem(),
+                    (String) timeStartComboBox.getSelectedItem(),
+                    (String) timeEndComboBox.getSelectedItem(),
+                    selectedDays
+            );
+        });
     }
 
     /**
@@ -76,24 +83,27 @@ public class EditView extends JPanel implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("edit")) {
-            final EditState state = (EditState) evt.getNewValue();
-
-            JOptionPane.showMessageDialog(null, state.getOutputMessage());
-        }
-        else if (evt.getPropertyName().equals("eventInformation")) {
-            final EventInformationState state = (EventInformationState) evt.getNewValue();
+        System.out.println("Property changed: " + evt.getPropertyName());
+        if ("edit".equals(evt.getPropertyName())) {
+            EditState state = (EditState) evt.getNewValue();
+            System.out.println("EditState received: " + state);
+            if (state.getOutputMessage() != null) {
+                JOptionPane.showMessageDialog(eventFrame, state.getOutputMessage());
+            }
             setFields(state);
-            setupUi(state.getEventType());
+            showView();
         }
-        eventFrame.setVisible(true);
     }
 
     /**
      * Setting each of the fields with current event information.
      * @param state   the state from which to get the information from (must be EventInformationState)
      */
-    public void setFields(EventInformationState state) {
+    /**
+     * Setting each of the fields with current event information.
+     * @param state the state from which to get the information from (must be EditState)
+     */
+    public void setFields(EditState state) {
         eventNameField.setText(state.getEventName());
         eventTypeComboBox.setSelectedItem(state.getEventType());
         dayStartComboBox.setSelectedItem(state.getDayStart());
@@ -101,18 +111,17 @@ public class EditView extends JPanel implements PropertyChangeListener {
         timeStartComboBox.setSelectedItem(state.getTimeStart());
         timeEndComboBox.setSelectedItem(state.getTimeEnd());
 
-        if ("Repeat".equals(state.getEventType())) {
-            for (JCheckBox checkBox : checkBoxes) {
-                final String checkBoxName = checkBox.getText();
-                if (state.getDaysRepeated().contains(checkBoxName)) {
-                    checkBox.setSelected(true);
-                }
-            }
+        // Update checkboxes for repeat days
+        for (JCheckBox checkBox : checkBoxesMain) {
+            checkBox.setSelected(state.getDaysRepeated().contains(checkBox.getText()));
         }
     }
 
-    private JFrame setupUi(String eventType) {
+
+    private JFrame setupUi() {
         // Create the fixed frame (main)
+        System.out.println("EditView setupUi called");
+
         eventFrame = new JFrame("Event Page");
 
         eventFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -131,17 +140,17 @@ public class EditView extends JPanel implements PropertyChangeListener {
         final JPanel updatePanel = new JPanel();
         updatePanel.add(updateButton);
 
-        // checkbox panel
-        if ("Repeat".equals(eventType)) {
-            final JPanel checkboxPanel = new JPanel();
-            checkboxPanel.setLayout(new BoxLayout(checkboxPanel, BoxLayout.Y_AXIS));
-
-            for (JCheckBox checkBox : checkBoxes) {
-                checkboxPanel.add(checkBox);
-            }
-            final JPanel repeatDaysPanel = createPanel("Repeat Days:", checkboxPanel);
-            eventFrame.add(repeatDaysPanel);
-        }
+//        // checkbox panel
+//        if ("Repeat".equals(eventType)) {
+//            final JPanel checkboxPanel = new JPanel();
+//            checkboxPanel.setLayout(new BoxLayout(checkboxPanel, BoxLayout.Y_AXIS));
+//
+//            for (JCheckBox checkBox : checkBoxesMain) {
+//                checkboxPanel.add(checkBox);
+//            }
+//            final JPanel repeatDaysPanel = createPanel("Repeat Days:", checkboxPanel);
+//            eventFrame.add(repeatDaysPanel);
+//        }
 
         // Add panels to frame
         eventFrame.add(eventNamePanel);
@@ -161,24 +170,58 @@ public class EditView extends JPanel implements PropertyChangeListener {
         return panel;
     }
   
-  /**
+    /**
      * Initialise checkboxes with labels of daysOfWeek.
      * @return the list of checkboxes
      */
     private ArrayList<JCheckBox> initialiseCheckBoxes() {
-        final ArrayList<JCheckBox> newCheckBoxes = new ArrayList<>();
+        ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
         for (String day : daysOfWeek) {
-            final JCheckBox checkBox = new JCheckBox(day);
-            newCheckBoxes.add(checkBox);
+            checkBoxes.add(new JCheckBox(day));
         }
-        return newCheckBoxes;
+        return checkBoxes;
+    }
+
+    private JPanel createCheckboxPanel() {
+        JPanel checkboxPanel = new JPanel();
+        checkboxPanel.setLayout(new BoxLayout(checkboxPanel, BoxLayout.Y_AXIS));
+
+        for (JCheckBox checkBox : checkBoxesMain) {
+            checkboxPanel.add(checkBox);
+        }
+        return checkboxPanel;
+    }
+
+    /**
+     * Creats the panel for the updates button.
+     * @return JPanel to build on.
+     */
+    private JPanel createUpdatePanel() {
+        final JPanel updatePanel = new JPanel();
+        updatePanel.add(updateButton);
+        return updatePanel;
     }
 
     public String getViewName() {
         return viewName;
     }
 
-    public void setEditController(EditController editController) {
+    public void setEditController (EditController editController) {
         this.editController = editController;
     }
+
+    /**
+     * shows view.
+     */
+    public void showView() {
+        eventFrame.setVisible(true);
+    }
+
+    /**
+     * Hides view.
+     */
+    public void hideView() {
+        eventFrame.setVisible(false);
+    }
+
 }

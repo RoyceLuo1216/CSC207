@@ -1,5 +1,6 @@
 package usecase.edit;
 
+import java.util.List;
 import java.util.Optional;
 
 import entities.eventEntity.Event;
@@ -12,7 +13,8 @@ public class EditEventInteractor implements EditEventInputBoundary {
     private final EditEventDataAccessInterface dataAccessObject;
     private final EditEventOutputBoundary presenter;
 
-    public EditEventInteractor(EditEventDataAccessInterface dataAccessObject, EditEventOutputBoundary editEventOutputBoundary) {
+    public EditEventInteractor(EditEventDataAccessInterface dataAccessObject,
+                               EditEventOutputBoundary editEventOutputBoundary) {
         this.dataAccessObject = dataAccessObject;
         this.presenter = editEventOutputBoundary;
     }
@@ -80,5 +82,37 @@ public class EditEventInteractor implements EditEventInputBoundary {
                 }
             }
         }
+    }
+
+    /**
+     * Fetch raw event fields and notify the presenter.
+     */
+    public void populateEventFields() {
+        List<Object> eventFields = getEventFields();
+        if (eventFields.isEmpty()) {
+            presenter.prepareFailView("No event selected or event details missing.");
+        } else {
+            presenter.prepareRawEventFields(eventFields, "Event details fetched successfully.");
+        }
+    }
+
+    /**
+     * returns the current event name.
+     *
+     * @return string of current event name.
+     */
+    @Override
+    public String getCurrentEventName() {
+        return dataAccessObject.getCurrentEventName();
+    }
+
+    /**
+     * Returns a list of the fields associated with the event.
+     *
+     * @return list of all event items needed.
+     */
+    @Override
+    public List<Object> getEventFields() {
+        return dataAccessObject.getCurrentEventDetails();
     }
 }

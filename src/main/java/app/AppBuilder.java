@@ -166,7 +166,8 @@ public class AppBuilder {
                 addEventViewModel,
                 timeEstimationChatbotViewModel,
                 eventConflictChatbotViewModel,
-                viewManagerModel
+                viewManagerModel,
+                editViewModel
         );
         final ScheduleInputBoundary scheduleInteractor = new ScheduleInteractor(
                 inMemoryDataAccessObjectDataObject, scheduleOutputBoundary);
@@ -191,31 +192,6 @@ public class AppBuilder {
         return this;
     }
 
-//    /**
-// * Adds the DeleteEvent View to the application.
-// * @return this builder
-// */
-//    public AppBuilder addDeleteEventView() {
-//        deleteEventViewModel = new DeleteEventViewModel();
-//        deleteEventView = new DeleteEventView(deleteEventViewModel);
-//        cardPanel.add(deleteEventView, deleteEventView.getViewName());
-//        return this;
-//    }
-//
-///**
-// * Adds the DeleteEvent Use Case to the application.
-// * @return this builder
-// */
-//public AppBuilder addDeleteEventUseCase() {
-//    final DeleteEventOutputBoundary deleteEventOutputBoundary = new DeleteEventPresenter(viewManagerModel,
-//            deleteEventViewModel, loginViewModel);
-//    final DeleteEventInputBoundary deleteEventInteractor = new DeleteEventInteractor(
-//            userDataAccessObject, deleteEventOutputBoundary, userFactory);
-//
-//    final DeleteEventController controller = new DeleteEventController(deleteEventInteractor);
-//    deleteEventView.setDeleteEventController(controller);
-//    return this;
-//}
     public AppBuilder addEventView() {
         addEventViewModel = new AddEventViewModel();
         addEventView = new AddEventView(addEventViewModel);
@@ -238,6 +214,8 @@ public class AppBuilder {
         editViewModel = new EditViewModel();
         editView = new EditView(editViewModel);
         cardPanel.add(editView, editView.getViewName());
+        System.out.println("EditView added to CardLayout with name: " + editView.getViewName());
+
         return this;
     }
 

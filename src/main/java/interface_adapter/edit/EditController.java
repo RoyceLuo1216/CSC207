@@ -2,57 +2,65 @@ package interface_adapter.edit;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import usecase.edit.EditEventInputBoundary;
 import usecase.edit.EditEventInputData;
 
 /**
- * Controller for the Edit Use Case.
+ * The Controller for the Edit Use Case.
  */
 public class EditController {
-    private final EditEventInputBoundary editInteractor;
+    private final EditEventInputBoundary interactor;
 
-    public EditController(EditEventInputBoundary editInteractor) {
-        this.editInteractor = editInteractor;
+    public EditController(EditEventInputBoundary interactor) {
+        this.interactor = interactor;
     }
 
     /**
-     * Executes the Edit use case.
-     * @param eventName the name of the event
-     * @param eventType the type of the event
-     * @param dayStartString the start day of the event
-     * @param dayEndString the end day of the event
-     * @param timeStartString the start time of the event
-     * @param timeEndString the end time of the event
-     * @param daysRepeatedString an array of days that are repeated (for repeat events only)
+     * Fetches the current event details to populate the edit form.
      */
-    public void execute(String eventName, String eventType, String dayStartString, String dayEndString,
-                        String timeStartString, String timeEndString, List<String> daysRepeatedString) {
+    public void fetchEventDetails() {
+        interactor.populateEventFields();
+    }
 
-        final DayOfWeek dayStart = DayOfWeek.valueOf(dayStartString.toUpperCase());
-        final DayOfWeek dayEnd = DayOfWeek.valueOf(dayEndString.toUpperCase());
+    /**
+     * Executes the edit use case by passing updated data to the interactor.
+     *
+     * @param eventName    The name of the event.
+     * @param eventType    The type of the event (Fixed or Repeat).
+     * @param dayStart     The start day of the event.
+     * @param dayEnd       The end day of the event.
+     * @param timeStart    The start time of the event.
+     * @param timeEnd      The end time of the event.
+     * @param daysRepeated The list of repeated days for the event (if applicable).
+     */
+    public void execute(String eventName, String eventType, String dayStart, String dayEnd,
+                        String timeStart, String timeEnd, List<String> daysRepeated) {
+        try {
+            // Convert input data into domain-friendly types
+            DayOfWeek startDay = DayOfWeek.valueOf(dayStart.toUpperCase());
+            DayOfWeek endDay = DayOfWeek.valueOf(dayEnd.toUpperCase());
+            LocalTime startTime = LocalTime.parse(timeStart);
+            LocalTime endTime = LocalTime.parse(timeEnd);
 
-        final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a");
-        final LocalTime timeStart = LocalTime.parse(timeStartString, timeFormatter);
-        final LocalTime timeEnd = LocalTime.parse(timeEndString, timeFormatter);
+            // Create input data for the interactor
+            EditEventInputData inputData = new EditEventInputData(
+                    eventName,
+                    eventType,
+                    startDay,
+                    endDay,
+                    startTime,
+                    endTime,
+                    daysRepeated.stream().map(DayOfWeek::valueOf).collect(Collectors.toList())
+            );
 
-        final List<DayOfWeek> daysRepeated = new ArrayList<>();
-
-        // if the event is a repeat event, change each day into a DayOfWeek and add it to daysRepeated
-        // otherwise, leave daysRepeated an empty array
-        if ("REPEAT".equalsIgnoreCase(eventType)) {
-            for (String day: daysRepeatedString) {
-                daysRepeated.add(DayOfWeek.valueOf(day.toUpperCase()));
-            }
+            // Call the interactor to process the edit
+            interactor.execute(inputData);
+        } catch (Exception e) {
+            // Handle any parsing or conversion errors
+            throw new IllegalArgumentException("Invalid input data: " + e.getMessage(), e);
         }
-
-        final EditEventInputData editEventInputData = new EditEventInputData(eventName, eventType, dayStart, dayEnd, timeStart,
-                timeEnd, daysRepeated);
-
-        editInteractor.execute(editEventInputData);
     }
 }
-
