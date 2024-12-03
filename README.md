@@ -55,7 +55,7 @@ add the event every single week. If practice is missed, he can manually delete t
 permanent delete (he quits forever), or a one time delete.
 
 ### 5. [Event Conflicts - Elaine’s Story] 
-Jennie has a CSC207 assignment due on Friday, and she would like to know when she has time for completing this task. To do this, she asks the scheduler chatbot if she can inMemoryDataAccessObject a work period from 2-4 PM on Thursday. The chatbot then replies with whether or not Jennie if free during this time. If Jennie has already scheduled Lunch from 2-3 PM and a Math class from 3-4 PM, the chatbot will let Jennie know that she cannot put her studying event from 2-4 PM because she has Lunch and a Math class during that time.
+Jennie has a CSC207 assignment due on Friday, and she would like to know when she has time for completing this task. To do this, she asks the scheduler chatbot if she can schedule a work period from 2-4 PM on Thursday. The chatbot then replies with whether or not Jennie if free during this time. If Jennie has already scheduled Lunch from 2-3 PM and a Math class from 3-4 PM, the chatbot will let Jennie know that she cannot put her studying event from 2-4 PM because she has Lunch and a Math class during that time.
 
 ### 6. [Time Estimation - Chris’s Story]
 George is a single father of two who works from 9-5, needs to send the kids to soccer practice, buy groceries, and come 
