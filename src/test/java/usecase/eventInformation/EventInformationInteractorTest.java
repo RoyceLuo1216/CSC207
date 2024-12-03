@@ -52,6 +52,24 @@ public class EventInformationInteractorTest {
                 assertEquals(LocalTime.of(0, 0), outputData.getTimeEnd());
                 assertTrue(outputData.getDaysRepeated().isEmpty());
             }
+
+            /**
+             * Switch to edit event view.
+             */
+            @Override
+            public void switchToEditEventView() {
+
+            }
+
+            /**
+             * prepare failView
+             *
+             * @param message to be printed.
+             */
+            @Override
+            public void prepareFailView(String message) {
+
+            }
         };
         EventInformationInputBoundary interactor = new EventInformationInteractor(dataAccessObject, successPresenter);
         interactor.execute(inputData);
@@ -79,6 +97,24 @@ public class EventInformationInteractorTest {
                 assertEquals(LocalTime.of(0, 0), outputData.getTimeEnd());
                 assertEquals(new ArrayList<>(List.of(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY)),
                         outputData.getDaysRepeated());
+            }
+
+            /**
+             * Switch to edit event view.
+             */
+            @Override
+            public void switchToEditEventView() {
+
+            }
+
+            /**
+             * prepare failView
+             *
+             * @param message to be printed.
+             */
+            @Override
+            public void prepareFailView(String message) {
+
             }
         };
         EventInformationInputBoundary interactor = new EventInformationInteractor(dataAccessObject, successPresenter);

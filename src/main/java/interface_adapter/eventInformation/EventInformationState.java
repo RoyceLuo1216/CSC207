@@ -13,6 +13,7 @@ public class EventInformationState {
     private String timeStart;
     private String timeEnd;
     private List<String> daysRepeated;
+    private String responseError;
 
     public String getEventName() {
         return eventName;
@@ -68,5 +69,9 @@ public class EventInformationState {
 
     public void setDaysRepeated(List<String> daysRepeated) {
         this.daysRepeated = daysRepeated;
+    }
+
+    public void setResponseError(String responseError) {
+        this.responseError = responseError;
     }
 }

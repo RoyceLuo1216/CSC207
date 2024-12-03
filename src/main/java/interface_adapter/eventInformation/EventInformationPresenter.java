@@ -43,9 +43,26 @@ public class EventInformationPresenter implements EventInformationOutputBoundary
         eventInformationViewModel.firePropertyChanged("eventInformation");
     }
 
+    /**
+     * Switch to edit event view.
+     */
     @Override
     public void switchToEditEventView() {
-        eventInformationViewModel.firePropertyChanged("edit");
+        final EventInformationState eventState = eventInformationViewModel.getState();
+        eventInformationViewModel.setState(eventState);
+        eventInformationViewModel.firePropertyChanged("state");
+    }
+
+    /**
+     * prepare failView.
+     *
+     * @param message error message.
+     */
+    @Override
+    public void prepareFailView(String message) {
+        final EventInformationState eventState = eventInformationViewModel.getState();
+        eventState.setResponseError(message);
+        eventInformationViewModel.firePropertyChanged();
     }
 
 }

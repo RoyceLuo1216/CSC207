@@ -1,19 +1,11 @@
 package view;
 
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import interface_adapter.delete.DeleteEventController;
 import interface_adapter.delete.DeleteEventState;
@@ -250,23 +242,23 @@ public class EditView extends JPanel implements PropertyChangeListener {
         this.deleteEventController = deleteController;
     }
 
-    /**
-     * Main function for seeing the view layout
-     * @param args
-     */
-    public static void main(String[] args) {
-        // Create an instance of EditViewModel with a dummy "edit" state
-        EditViewModel editViewModel = new EditViewModel("edit");
-        DeleteEventViewModel deleteViewModel = new DeleteEventViewModel("delete");
-
-        // Create an instance of EditView
-        EditView editView = new EditView(editViewModel, deleteViewModel);
-
-        // Setup the UI with a dummy event type (e.g., "Repeat" or "Fixed")
-        JFrame frame = editView.setupUi("Fixed");
-
-        // Make the frame visible
-        frame.setVisible(true);
-    }
+//    /**
+//     * Main function for seeing the view layout
+//     * @param args
+//     */
+//    public static void main(String[] args) {
+//        // Create an instance of EditViewModel with a dummy "edit" state
+//        EditViewModel editViewModel = new EditViewModel("edit");
+//        DeleteEventViewModel deleteViewModel = new DeleteEventViewModel("delete");
+//
+//        // Create an instance of EditView
+//        EditView editView = new EditView(editViewModel, deleteViewModel);
+//
+//        // Setup the UI with a dummy event type (e.g., "Repeat" or "Fixed")
+//        JFrame frame = editView.setupUi("Fixed");
+//
+//        // Make the frame visible
+//        frame.setVisible(true);
+//    }
 
 }

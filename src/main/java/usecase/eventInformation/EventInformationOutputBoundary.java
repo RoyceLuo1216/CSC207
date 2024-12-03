@@ -17,5 +17,10 @@ public interface EventInformationOutputBoundary {
      */
     void switchToEditEventView();
 
+    /**
+     * prepare failView
+     * @param message to be printed.
+     */
+    void prepareFailView(String message);
 }
 
