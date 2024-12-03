@@ -166,8 +166,7 @@ public class AppBuilder {
                 addEventViewModel,
                 timeEstimationChatbotViewModel,
                 eventConflictChatbotViewModel,
-                viewManagerModel,
-                editViewModel
+                viewManagerModel
         );
         final ScheduleInputBoundary scheduleInteractor = new ScheduleInteractor(
                 inMemoryDataAccessObjectDataObject, scheduleOutputBoundary);

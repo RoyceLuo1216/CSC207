@@ -178,7 +178,7 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
             eventButton.setFont(new Font("Arial", Font.PLAIN, LABEL_FONT_SIZE));
             eventButton.setPreferredSize(new Dimension(100, ROW_HEIGHT));
             System.out.println("Event selected: " + eventName);
-            scheduleController.editView(eventName);
+//            scheduleController.editView(eventName);
 
             // Add the button to the panel
             panel.add(eventButton, constraints);
