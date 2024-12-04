@@ -1,43 +1,33 @@
 package view;
 
-import java.awt.*;
+import static interface_adapter.edit.EditViewModel.*;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 
-import interface_adapter.delete.DeleteEventController;
 import interface_adapter.delete.DeleteEventState;
 import interface_adapter.delete.DeleteEventViewModel;
 import interface_adapter.edit.EditController;
 import interface_adapter.edit.EditState;
 import interface_adapter.edit.EditViewModel;
-import interface_adapter.eventInformation.EventInformationState;
+import interface_adapter.delete.DeleteEventController;
 
 /**
- * The View for when the user is adding an event (i.e. its details) into the program.
+ * Represents the user interface for editing an event.
+ * The view displays event details and allows the user to modify and save updates.
  */
 public class EditView extends JPanel implements PropertyChangeListener {
-    private static final int DIMENSION_20 = 20;
-    private static final int DIMENSION_500 = 500;
 
     private final String viewName = "edit";
     private final EditViewModel editViewModel;
-    private final DeleteEventViewModel deleteEventViewModel;
-
     private EditController editController;
+
+    private final DeleteEventViewModel deleteEventViewModel;
     private DeleteEventController deleteEventController;
-
-
-    private JFrame eventFrame;
-
-    private final String[] eventTypes = {"Fixed", "Repeat"};
-    private final String[] daysOfWeek = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"};
-    private final String[] times = {"12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM",
-                                    "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM",
-                                    "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM",
-                                    "9:00 PM", "10:00 PM", "11:00 PM"};
 
     private final JTextField eventNameField = new JTextField(20);
     private final JComboBox<String> eventTypeComboBox = new JComboBox<>(eventTypes);
@@ -48,77 +38,95 @@ public class EditView extends JPanel implements PropertyChangeListener {
     private final JButton updateButton = new JButton("Update");
     private final JButton deleteButton = new JButton("Delete");
 
-    private final ArrayList<JCheckBox> checkBoxes = initialiseCheckBoxes();
+    private final ArrayList<JCheckBox> checkBoxesMain = initialiseCheckBoxes();
 
+    /**
+     * Constructs the EditView with the associated ViewModel.
+     *
+     * @param editViewModel        The ViewModel for the edit view.
+     * @param deleteEventViewModel
+     */
     public EditView(EditViewModel editViewModel, DeleteEventViewModel deleteEventViewModel) {
-
         this.editViewModel = editViewModel;
         this.editViewModel.addPropertyChangeListener(this);
         this.deleteEventViewModel = deleteEventViewModel;
         this.deleteEventViewModel.addPropertyChangeListener(this);
+        initializeUI();
+        addEventListeners();
+    }
 
-        // ActionListener for save button
-        updateButton.addActionListener(
-                evt -> {
-                    if (evt.getSource().equals(updateButton)) {
-                        final ArrayList<String> selectedItems = new ArrayList<>();
-                        for (JCheckBox checkBox : checkBoxes) {
-                            if (checkBox.isSelected()) {
-                                selectedItems.add(checkBox.getText());
-                            }
-                        }
+    /**
+     * Initializes the main UI components for the edit view.
+     */
+    private void initializeUI() {
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-                        final EditState currentState = editViewModel.getState();
+        this.add(createPanel("Event Name:", eventNameField));
+        this.add(createPanel("Event Type:", eventTypeComboBox));
+        this.add(createPanel("Day Start:", dayStartComboBox));
+        this.add(createPanel("Day End:", dayEndComboBox));
+        this.add(createPanel("Time Start:", timeStartComboBox));
+        this.add(createPanel("Time End:", timeEndComboBox));
+        this.add(createCheckboxPanel());
+        this.add(createActionPanel());
+    }
 
-                        editController.execute(currentState.getEventName(), currentState.getEventType(),
-                                currentState.getDayStart(), currentState.getDayEnd(), currentState.getTimeStart(),
-                                currentState.getTimeEnd(), currentState.getDaysRepeated());
-                    }
+    /**
+     * Adds event listeners to UI components.
+     */
+    private void addEventListeners() {
+        updateButton.addActionListener(evt -> {
+            List<String> selectedDays = new ArrayList<>();
+            for (JCheckBox checkBox : checkBoxesMain) {
+                if (checkBox.isSelected()) {
+                    selectedDays.add(checkBox.getText());
                 }
-        );
+            }
+            editController.execute(
+                    eventNameField.getText(),
+                    (String) eventTypeComboBox.getSelectedItem(),
+                    (String) dayStartComboBox.getSelectedItem(),
+                    (String) dayEndComboBox.getSelectedItem(),
+                    (String) timeStartComboBox.getSelectedItem(),
+                    (String) timeEndComboBox.getSelectedItem(),
+                    selectedDays
+            );
+            editController.scheduleView();
+        });
 
         // ActionListener for delete button
         deleteButton.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(deleteButton)) {
-                        final DeleteEventState currentState = deleteEventViewModel.getState();
-
-                        deleteEventController.execute(currentState.getEventName());
+                        System.out.println("swapping to delete view from edit.");
+                        editController.deleteView();
                     }
                 }
         );
     }
 
     /**
-     * This method gets called when a bound property is changed.
+     * Handles property changes from the ViewModel.
      *
-     * @param evt A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
+     * @param evt The property change event.
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("edit")) {
-            final EditState state = (EditState) evt.getNewValue();
-
-            JOptionPane.showMessageDialog(null, state.getOutputMessage());
+        if ("edit".equals(evt.getPropertyName())) {
+            EditState state = (EditState) evt.getNewValue();
+            if (state.getOutputMessage() != null) {
+                JOptionPane.showMessageDialog(this, state.getOutputMessage());
+            }
+            populateFields(state);
         }
-        else if (evt.getPropertyName().equals("eventInformation")) {
-            final EventInformationState state = (EventInformationState) evt.getNewValue();
-            setFields(state);
-            setupUi(state.getEventType());
-        }
-        else if (evt.getPropertyName().equals("delete")) {
-            final DeleteEventState state = (DeleteEventState) evt.getNewValue();
-            JOptionPane.showMessageDialog(null, state.getMessage());
-        }
-        eventFrame.setVisible(true);
     }
 
     /**
-     * Setting each of the fields with current event information.
-     * @param state   the state from which to get the information from (must be EventInformationState)
+     * Populates UI fields based on the provided state.
+     *
+     * @param state The current state containing event details.
      */
-    public void setFields(EventInformationState state) {
+    public void populateFields(EditState state) {
         eventNameField.setText(state.getEventName());
         eventTypeComboBox.setSelectedItem(state.getEventType());
         dayStartComboBox.setSelectedItem(state.getDayStart());
@@ -126,139 +134,105 @@ public class EditView extends JPanel implements PropertyChangeListener {
         timeStartComboBox.setSelectedItem(state.getTimeStart());
         timeEndComboBox.setSelectedItem(state.getTimeEnd());
 
-        if ("Repeat".equals(state.getEventType())) {
-            for (JCheckBox checkBox : checkBoxes) {
-                final String checkBoxName = checkBox.getText();
-                if (state.getDaysRepeated().contains(checkBoxName)) {
-                    checkBox.setSelected(true);
-                }
-            }
+        for (JCheckBox checkBox : checkBoxesMain) {
+            checkBox.setSelected(state.getDaysRepeated().contains(checkBox.getText()));
         }
     }
 
-    private JFrame setupUi(String eventType) {
-        // Create the fixed frame (main)
-        eventFrame = new JFrame("Event Page");
-
-        eventFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        eventFrame.setSize(DIMENSION_500, DIMENSION_500);
-
-        eventFrame.setLayout(new BoxLayout(eventFrame.getContentPane(), BoxLayout.Y_AXIS));
-
-        // LAYOUT
-        final JPanel eventNamePanel = createPanel("Event Name:", eventNameField);
-        final JPanel eventTypePanel = createPanel("Event Type:", eventTypeComboBox);
-        final JPanel dayStartPanel = createPanel("Day Start:", dayStartComboBox);
-        final JPanel dayEndPanel = createPanel("Day End:", dayEndComboBox);
-        final JPanel timeStartPanel = createPanel("Time Start:", timeStartComboBox);
-        final JPanel timeEndPanel = createPanel("Time End:", timeEndComboBox);
-
-        // Side by side day and time
-        final JPanel dayPanel = new JPanel();
-        dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.Y_AXIS));
-        dayPanel.add(dayStartPanel);
-        dayPanel.add(dayEndPanel);
-
-        final JPanel timePanel = new JPanel();
-        timePanel.setLayout(new BoxLayout(timePanel, BoxLayout.Y_AXIS));
-        timePanel.add(timeStartPanel);
-        timePanel.add(timeEndPanel);
-
-        final JPanel dayTimePanel = new JPanel();
-        dayTimePanel.setLayout(new BoxLayout(dayTimePanel, BoxLayout.X_AXIS));
-        dayTimePanel.add(dayPanel);
-        dayTimePanel.add(timePanel);
-
-        // Update Button
-        final JPanel updatePanel = new JPanel();
-        updatePanel.add(updateButton);
-
-        // Delete Button
-        final JPanel deletePanel = new JPanel();
-        deletePanel.add(deleteButton);
-
-        // Buttons
-        final JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
-        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, DIMENSION_20, 0));
-        buttonsPanel.add(updateButton);
-        buttonsPanel.add(Box.createRigidArea(new Dimension(DIMENSION_20, 0)));
-        buttonsPanel.add(deleteButton);
-
-        // checkbox panel
-        if ("Repeat".equals(eventType)) {
-            final JPanel checkboxPanel = new JPanel();
-            checkboxPanel.setLayout(new BoxLayout(checkboxPanel, BoxLayout.Y_AXIS));
-
-            for (JCheckBox checkBox : checkBoxes) {
-                checkboxPanel.add(checkBox);
-            }
-            final JPanel repeatDaysPanel = createPanel("Repeat Days:", checkboxPanel);
-            eventFrame.add(repeatDaysPanel);
-        }
-
-        // Add panels to frame
-        eventFrame.add(eventNamePanel);
-        eventFrame.add(eventTypePanel);
-        eventFrame.add(dayStartPanel);
-        eventFrame.add(dayEndPanel);
-        eventFrame.add(timeStartPanel);
-        eventFrame.add(timeEndPanel);
-        // Side by side Day and Time
-        // eventFrame.add(dayTimePanel);
-        eventFrame.add(buttonsPanel);
-        return eventFrame;
-    }
-
+    /**
+     * Creates a labeled panel for a specific UI component.
+     *
+     * @param label The label for the component.
+     * @param component The UI component to include.
+     * @return A JPanel containing the label and component.
+     */
     private JPanel createPanel(String label, JComponent component) {
-        final JPanel panel = new JPanel();
+        JPanel panel = new JPanel();
         panel.add(new JLabel(label));
         panel.add(component);
         return panel;
     }
 
     /**
-     * Initialise checkboxes with labels of daysOfWeek.
-     * @return the list of checkboxes
+     * Creates the checkbox panel for selecting repeated days.
+     *
+     * @return The JPanel containing checkboxes for repeated days.
      */
-    private ArrayList<JCheckBox> initialiseCheckBoxes() {
-        final ArrayList<JCheckBox> newCheckBoxes = new ArrayList<>();
-        for (String day : daysOfWeek) {
-            final JCheckBox checkBox = new JCheckBox(day);
-            newCheckBoxes.add(checkBox);
+    private JPanel createCheckboxPanel() {
+        JPanel checkboxPanel = new JPanel();
+        checkboxPanel.setLayout(new BoxLayout(checkboxPanel, BoxLayout.Y_AXIS));
+        for (JCheckBox checkBox : checkBoxesMain) {
+            checkboxPanel.add(checkBox);
         }
-        return newCheckBoxes;
+        return createPanel("Repeat Days:", checkboxPanel);
     }
 
+    /**
+     * Creates the action panel containing update and delete buttons.
+     *
+     * @return The JPanel containing the action buttons.
+     */
+    private JPanel createActionPanel() {
+        JPanel actionPanel = new JPanel();
+        actionPanel.add(updateButton);
+        actionPanel.add(deleteButton);
+        return actionPanel;
+    }
+
+    /**
+     * Initializes checkboxes for the days of the week.
+     *
+     * @return A list of checkboxes for each day of the week.
+     */
+    private ArrayList<JCheckBox> initialiseCheckBoxes() {
+        ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
+        for (String day : daysOfWeek) {
+            checkBoxes.add(new JCheckBox(day));
+        }
+        return checkBoxes;
+    }
+
+    /**
+     * Returns the unique name of this view.
+     *
+     * @return The name of this view.
+     */
     public String getViewName() {
         return viewName;
     }
 
+    /**
+     * Sets the controller for the edit view.
+     *
+     * @param editController The controller to handle edit actions.
+     */
     public void setEditController(EditController editController) {
         this.editController = editController;
     }
 
-    public void setDeleteController(DeleteEventController deleteController) {
-        this.deleteEventController = deleteController;
+    /**
+     * Main method for standalone testing of the EditView.
+     */
+    public static void main(String[] args) {
+        EditViewModel editViewModel = new EditViewModel();
+        EditState editState = new EditState();
+        DeleteEventViewModel deleteEventViewModel = new DeleteEventViewModel();
+
+        editState.setEventName("Test Event");
+        editState.setEventType("Repeat");
+        editState.setDayStart("MONDAY");
+        editState.setDayEnd("TUESDAY");
+        editState.setTimeStart("12:00");
+        editState.setTimeEnd("14:00");
+        editState.setDaysRepeated(List.of("MONDAY", "FRIDAY"));
+        editState.setOutputMessage("Edit event initialized.");
+
+        editViewModel.setState(editState);
+
+        JFrame frame = new JFrame("Edit Event Test");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 500);
+        frame.add(new EditView(editViewModel, deleteEventViewModel));
+        frame.setVisible(true);
     }
-
-//    /**
-//     * Main function for seeing the view layout
-//     * @param args
-//     */
-//    public static void main(String[] args) {
-//        // Create an instance of EditViewModel with a dummy "edit" state
-//        EditViewModel editViewModel = new EditViewModel("edit");
-//        DeleteEventViewModel deleteViewModel = new DeleteEventViewModel("delete");
-//
-//        // Create an instance of EditView
-//        EditView editView = new EditView(editViewModel, deleteViewModel);
-//
-//        // Setup the UI with a dummy event type (e.g., "Repeat" or "Fixed")
-//        JFrame frame = editView.setupUi("Fixed");
-//
-//        // Make the frame visible
-//        frame.setVisible(true);
-//    }
-
 }

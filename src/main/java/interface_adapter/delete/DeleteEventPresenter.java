@@ -32,4 +32,22 @@ public class DeleteEventPresenter implements DeleteEventOutputBoundary {
         viewManagerModel.setState("schedule");
         viewManagerModel.firePropertyChanged();
     }
+
+    /**
+     * Transition to edit view.
+     */
+    @Override
+    public void editView() {
+        viewManagerModel.setState("edit");
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareEventDetails(DeleteEventOutputData outputData) {
+        DeleteEventState state = viewModel.getState();
+        state.setEventName(outputData.getEventName());
+        state.setMessage(outputData.getMessage());
+        viewModel.firePropertyChanged("eventDetails");
+    }
+
 }

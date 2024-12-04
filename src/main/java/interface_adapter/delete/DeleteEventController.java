@@ -16,11 +16,37 @@ public class DeleteEventController {
     /**
      * Executes the Delete Event Use Case.
      *
-     * @param eventName the name of the event to delete
      */
-    public void execute(String eventName) {
-        final DeleteEventInputData inputData = new DeleteEventInputData(eventName);
-        deleteEventInteractor.execute(inputData);
+    public void execute() {
+        deleteEventInteractor.deleteEvent();
+    }
+
+    /**
+     * Swap back to schedule view.
+     */
+    public void scheduleView() {
+        deleteEventInteractor.scheduleView();
+    }
+
+    /**
+     * Back to edit view.
+     */
+    public void editView() {
+        deleteEventInteractor.editView();
+    }
+
+    /**
+     * Fetch event details.
+     */
+    public void fetchEventDetails() {
+        deleteEventInteractor.fetchEventDetails();
+    }
+
+    /**
+     * deletes an event.
+     */
+    public void deleteEvent() {
+        deleteEventInteractor.deleteEvent();
     }
 
 }

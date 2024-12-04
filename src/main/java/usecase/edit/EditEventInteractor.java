@@ -1,85 +1,83 @@
 package usecase.edit;
 
-import java.util.Optional;
+import java.util.List;
 
 import entities.eventEntity.Event;
-import entities.eventEntity.RepeatEvent;
+import usecase.delete.DeleteEventOutputData;
 
 /**
- *  Interactor for Edit Use Case. Implements abstraction defined in EditEventInputBoundary.
+ * Interactor for the Edit Use Case.
  */
 public class EditEventInteractor implements EditEventInputBoundary {
-    private final EditEventDataAccessInterface dataAccessObject;
+    private final EditEventDataAccessInterface dataAccess;
     private final EditEventOutputBoundary presenter;
 
-    public EditEventInteractor(EditEventDataAccessInterface dataAccessObject,
-                               EditEventOutputBoundary editEventOutputBoundary) {
-        this.dataAccessObject = dataAccessObject;
-        this.presenter = editEventOutputBoundary;
-    }
-
-    /**
-     * Updates fixed event data (dayStart, dayEnd, timeStart, timeEnd).
-     *
-     * @param editEventInputData the input data containing the updated information
-     * @param event         the event to edit
-     */
-    private static void updateFixedEventData(EditEventInputData editEventInputData, Event event) {
-        event.setDayStart(editEventInputData.getDayStart());
-        event.setDayEnd(editEventInputData.getDayEnd());
-        event.setTimeStart(editEventInputData.getTimeStart());
-        event.setTimeEnd(editEventInputData.getTimeEnd());
+    public EditEventInteractor(EditEventDataAccessInterface dataAccess, EditEventOutputBoundary presenter) {
+        this.dataAccess = dataAccess;
+        this.presenter = presenter;
     }
 
     @Override
-    public void execute(EditEventInputData editEventInputData) {
-        final String eventName = editEventInputData.getEventName();
-        final Optional<Event> optionalEvent = dataAccessObject.getEventByName(editEventInputData.getEventName());
+    public void execute(EditEventInputData inputData) {
+        // Get current event details
+        List<Object> eventDetails = dataAccess.getCurrentEventDetails();
 
-        if (!optionalEvent.isPresent()) {
-            // event is not present, tell user that the event does not exist
-            presenter.prepareFailView("The event, " + eventName + " does not exist.");
-
+        if (eventDetails.isEmpty()) {
+            presenter.prepareFailView("Event not found or no current event selected.");
+            return;
         }
-        else {
-            if (editEventInputData.getDayStart().compareTo(editEventInputData.getDayEnd()) > 0) {
-                // event fails for some reason, like duplicate event or incompatible times
-                presenter.prepareFailView("Event can't be added, due to incompatible times");
-            }
 
-            else if (editEventInputData.getDayEnd().compareTo(editEventInputData.getDayStart()) == 0
-                    && editEventInputData.getTimeStart().isAfter(editEventInputData.getTimeEnd())) {
-                presenter.prepareFailView("Event can't be added, due to incompatible times");
-            }
-            else {
-                final Event event = optionalEvent.get();
-                final String eventType = editEventInputData.getEventType() + "Event";
+        try {
+            // Extract event details in the expected order
+            String eventName = (String) eventDetails.get(0);
+            String eventType = (String) eventDetails.get(1);
+            String dayStart = eventDetails.get(2).toString();
+            String dayEnd = eventDetails.get(3).toString();
+            String timeStart = eventDetails.get(4).toString();
+            String timeEnd = eventDetails.get(5).toString();
 
-                if (!eventType.equals(event.getClass().getSimpleName())) {
-                    // event type is being changed, tell user that the event type cannot be changed
-                    presenter.prepareFailView("The event type cannot be changed.");
+            // Update fields based on inputData
+            eventName = inputData.getEventName() != null ? inputData.getEventName() : eventName;
+            eventType = inputData.getEventType() != null ? inputData.getEventType() : eventType;
+            dayStart = inputData.getDayStart() != null ? inputData.getDayStart().toString() : dayStart;
+            dayEnd = inputData.getDayEnd() != null ? inputData.getDayEnd().toString() : dayEnd;
+            timeStart = inputData.getTimeStart() != null ? inputData.getTimeStart().toString() : timeStart;
+            timeEnd = inputData.getTimeEnd() != null ? inputData.getTimeEnd().toString() : timeEnd;
 
-                }
-                else if ("RepeatEvent".equals(eventType)) {
-                    // event is a repeat event and thus has one extra parameter then fixed event
-                    updateFixedEventData(editEventInputData, event);
-                    final RepeatEvent repeatEvent = (RepeatEvent) event;
-                    repeatEvent.setDaysRepeated(editEventInputData.getDaysRepeated());
-
-                    final EditEventOutputData editEventOutputData = new EditEventOutputData(eventName, false,
-                            "Successfully updated repeat event!");
-                    presenter.prepareSuccessView(editEventOutputData);
-
-                }
-                else {
-                    // event is present and type has not been changed, so we can update
-                    updateFixedEventData(editEventInputData, event);
-
-                    final EditEventOutputData editEventOutputData = new EditEventOutputData(eventName, false,
-                            "successfully update event!");
-                    presenter.prepareSuccessView(editEventOutputData);
-                }
-            }
+            // Send updated data to the presenter
+            presenter.prepareSuccessView(new EditEventOutputData(
+                    eventName, eventType, dayStart, dayEnd, timeStart, timeEnd,
+                    "Successfully updated event."
+            ));
         }
+        catch (IndexOutOfBoundsException | ClassCastException e) {
+            presenter.prepareFailView("Error retrieving or processing event details.");
+        }
+    }
+
+    @Override
+    public void populateEventFields() {
+        List<Object> eventFields = dataAccess.getCurrentEventDetails();
+        if (eventFields.isEmpty()) {
+            presenter.prepareFailView("No event selected.");
+        } else {
+            presenter.prepareRawEventFields(eventFields, "Event details fetched.");
+        }
+    }
+
+    /**
+     * Switch to the event view.
+     */
+    @Override
+    public void scheduleView() {
+        presenter.scheduleView();
+    }
+
+    /**
+     * Switch to the delete view.
+     */
+    @Override
+    public void deleteView() {
+        presenter.deleteView();
     }
 }

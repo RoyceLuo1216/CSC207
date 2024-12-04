@@ -144,6 +144,16 @@ public class RepeatEvent implements Event {
     }
 
     /**
+     * Returns the event type.
+     *
+     * @return string representing the event type.
+     */
+    @Override
+    public String getEventType() {
+        return "Repeat";
+    }
+
+    /**
      * Returns a list of days that the event is repeated.
      * @return list of type DayOfWeek of days that the event repeats. 
      */

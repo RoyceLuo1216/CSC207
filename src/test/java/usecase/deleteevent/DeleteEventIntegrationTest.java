@@ -9,13 +9,14 @@ import interface_adapter.delete.DeleteEventViewModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import usecase.delete.DeleteEventInputBoundary;
+import usecase.delete.DeleteEventInteractor;
+import usecase.delete.DeleteEventOutputBoundary;
 import usecase.delete.DeleteEventOutputData;
-import view.DeleteEventView;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class DeleteEventIntegrationTest {
@@ -25,51 +26,41 @@ class DeleteEventIntegrationTest {
     private DeleteEventViewModel viewModel;
     private DeleteEventPresenter presenter;
     private DeleteEventController controller;
-    private DeleteEventView view;
 
     @BeforeEach
     void setUp() {
-        // Mock the InMemoryDataAccessObject
+        // Initialize mocks
         inMemoryDataAccessObject = mock(InMemoryDataAccessObject.class);
 
-        // Create the ViewManagerModel
+        // Initialize real objects
         viewManagerModel = new ViewManagerModel();
-
-        // Create the ViewModel
         viewModel = new DeleteEventViewModel();
 
-        // Create the Presenter
+        // Initialize presenter
         presenter = new DeleteEventPresenter(viewModel, viewManagerModel);
 
-        // Create the Interactor using the mocks
-        DeleteEventInputBoundary interactor = inputData -> {
-            try {
-                inMemoryDataAccessObject.deleteEvent(inputData.getEventName());
-                presenter.presentSuccess(new DeleteEventOutputData(inputData.getEventName()));
-            } catch (Exception e) {
-                presenter.presentFailure("Failed to delete event: " + e.getMessage());
-            }
-        };
+        // Create interactor with real presenter and mock DAO
+        DeleteEventInputBoundary interactor = new DeleteEventInteractor(presenter, inMemoryDataAccessObject);
 
-        // Create the Controller
+        // Initialize controller
         controller = new DeleteEventController(interactor);
-
-        // Create the View and set the controller
-//        view = new DeleteEventView(viewModel);
-//        view.setController(controller);
     }
 
     @Test
     void testFullDeletionProcess_Success() {
         // Arrange
-        doNothing().when(inMemoryDataAccessObject).deleteEvent("Christmas Brunch");
+        String eventName = "Christmas Brunch";
+
+        inMemoryDataAccessObject.setCurrentEventName(eventName);
+
+        // Mock deletion behavior
+        doNothing().when(inMemoryDataAccessObject).deleteEvent(eventName);
 
         // Act
-        viewModel.getState().setEventName("Christmas Brunch");
-        controller.execute("Christmas Brunch");
+        controller.deleteEvent();
 
         // Assert
-        verify(inMemoryDataAccessObject, times(1)).deleteEvent("Christmas Brunch");
+        verify(inMemoryDataAccessObject, times(1)).deleteEvent(eventName);
         assertEquals("schedule", viewManagerModel.getState());
         assertEquals("Event \"Christmas Brunch\" deleted successfully.", viewModel.getState().getMessage());
     }
@@ -77,15 +68,19 @@ class DeleteEventIntegrationTest {
     @Test
     void testFullDeletionProcess_Failure() {
         // Arrange
+        String eventName = "Nonexistent Event";
+
+        inMemoryDataAccessObject.setCurrentEventName(eventName);
+
+        // Mock failure behavior
         doThrow(new RuntimeException("Event not found"))
-                .when(inMemoryDataAccessObject).deleteEvent("Nonexistent Event");
+                .when(inMemoryDataAccessObject).deleteEvent(eventName);
 
         // Act
-        viewModel.getState().setEventName("Nonexistent Event");
-        controller.execute("Nonexistent Event");
+        controller.deleteEvent();
 
         // Assert
-        verify(inMemoryDataAccessObject, times(1)).deleteEvent("Nonexistent Event");
+        verify(inMemoryDataAccessObject, times(1)).deleteEvent(eventName);
         assertEquals("Failed to delete event: Event not found", viewModel.getState().getMessage());
         assertEquals("", viewManagerModel.getState());
     }

@@ -1,5 +1,6 @@
 package interface_adapter.edit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,8 +13,7 @@ public class EditState {
     private String dayEnd;
     private String timeStart;
     private String timeEnd;
-    private List<String> daysRepeated;
-
+    private List<String> daysRepeated = new ArrayList<>();
     private String outputMessage;
 
     public String getEventName() {

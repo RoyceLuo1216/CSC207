@@ -24,4 +24,14 @@ public interface DeleteEventOutputBoundary {
      */
     void backToScheduleView();
 
+    /**
+     * Transition to edit view.
+     */
+    void editView();
+
+    /**
+     * gets event details.
+     * @param deleteEventOutputData output data.
+     */
+    void prepareEventDetails(DeleteEventOutputData deleteEventOutputData);
 }

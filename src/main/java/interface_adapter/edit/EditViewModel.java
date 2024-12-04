@@ -11,4 +11,5 @@ public class EditViewModel extends ViewModel<EditState> {
         super("edit");
         setState(new EditState());
     }
+
 }

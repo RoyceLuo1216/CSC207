@@ -7,7 +7,6 @@ import interface_adapter.schedule.ScheduleViewModel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.DayOfWeek;
@@ -28,7 +27,6 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
     private static final int CELL_PADDING = 12;
     private static final Dimension FRAME_SIZE = new Dimension(1000, 800);
     private static final int ROW_HEIGHT = 60;
-    private static final int WEEKDAY_COLUMN_WIDTH = 150;
     private final String viewName = "schedule";
     private ScheduleController scheduleController;
     private final ScheduleViewModel scheduleViewModel;
@@ -41,11 +39,18 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
     public ScheduleView(ScheduleViewModel scheduleViewModel) {
         this.scheduleViewModel = scheduleViewModel;
         this.scheduleViewModel.addPropertyChangeListener(this);
-        this.setLayout(new GridBagLayout());
+        this.setLayout(new BorderLayout());
         initializeUserInterface();
     }
 
+    private void refreshScheduleFromDataAccess() {
+        // Fetch the updated list of events from memory via the controller
+        scheduleController.refreshSchedule();
+        refreshScheduleView(scheduleViewModel.getState());
+    }
+
     private void initializeUserInterface() {
+
         JPanel mainPanel = new JPanel(new BorderLayout());
 
         JPanel schedulePanel = new JPanel(new GridBagLayout());
@@ -62,8 +67,6 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
 
         // Add padding and scroll pane
         scrollPane.setBorder(BorderFactory.createEmptyBorder(0, DIMENSION_20, DIMENSION_20, DIMENSION_10));
-        this.setLayout(new BorderLayout());
-        this.add(scrollPane, BorderLayout.CENTER);
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
@@ -91,58 +94,18 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
     }
 
     private void addButtons(JPanel sidePanel) {
-        // Set the layout to BoxLayout with vertical orientation
-        sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
         sidePanel.setBorder(BorderFactory.createEmptyBorder(75, 5, 0, DIMENSION_20));
 
-        // Create buttons for Add Event, Time Estimation Chatbot, and Event Conflict Chatbot
         final JButton addEventButton = new JButton("Add Event");
         final JButton timeEstimationChatbotButton = new JButton("<html>Time Estimation<br>Chatbot</html>");
         final JButton eventConflictChatbotButton = new JButton("<html>Event Conflict<br>Chatbot</html>");
         final JButton refreshButton = new JButton("<html>Refresh</html>");
 
-        // Add action listeners to the buttons
-        addEventButton.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        scheduleController.popUpAddEventView();
-                    }
-                }
-        );
+        addEventButton.addActionListener(evt -> scheduleController.popUpAddEventView());
+        timeEstimationChatbotButton.addActionListener(evt -> scheduleController.popUpTimeEstimationChatbotView());
+        eventConflictChatbotButton.addActionListener(evt -> scheduleController.popUpEventConflictChatbotView());
+        refreshButton.addActionListener(evt -> scheduleController.refreshSchedule());
 
-        timeEstimationChatbotButton.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        scheduleController.popUpTimeEstimationChatbotView();
-                    }
-                }
-        );
-
-        eventConflictChatbotButton.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        scheduleController.popUpEventConflictChatbotView();
-                    }
-                }
-        );
-
-        eventConflictChatbotButton.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        scheduleController.popUpEventConflictChatbotView();
-                    }
-                }
-        );
-
-        refreshButton.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        scheduleController.refreshSchedule();
-                    }
-                }
-        );
-
-        // Add buttons to the sidePanel with vertical spacing
         sidePanel.add(addEventButton);
         sidePanel.add(Box.createVerticalStrut(DIMENSION_20));
         sidePanel.add(timeEstimationChatbotButton);
@@ -154,40 +117,37 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
 
     private void renderEventButtons(JPanel panel, GridBagConstraints constraints) {
         Map<String, List<Object>> events = scheduleViewModel.getState().getAllEventDetails();
+        System.out.println("Rendering Events: " + scheduleViewModel.getState().getAllEventDetails());
 
         events.forEach((eventName, details) -> {
             DayOfWeek startDay = (DayOfWeek) details.get(0);
             LocalTime startTime = (LocalTime) details.get(1);
-            DayOfWeek endDay = (DayOfWeek) details.get(2);
             LocalTime endTime = (LocalTime) details.get(3);
 
-            // Determine grid position based on event details
-            int gridX = startDay.getValue() - 1;
+            int gridX = startDay.getValue() % 7 + 1;
             int startGridY = startTime.getHour();
             int endGridY = endTime.getHour();
             int gridHeight = endGridY - startGridY;
 
-            constraints.gridx = gridX + 2;
+            constraints.gridx = gridX;
             constraints.gridy = startGridY + 1;
             constraints.gridwidth = 1;
             constraints.gridheight = gridHeight;
             constraints.insets = new Insets(CELL_PADDING, 10, CELL_PADDING, CELL_PADDING);
 
-            // Create event button
             JButton eventButton = new JButton(eventName);
             eventButton.setFont(new Font("Arial", Font.PLAIN, LABEL_FONT_SIZE));
             eventButton.setPreferredSize(new Dimension(100, ROW_HEIGHT));
-            System.out.println("Event selected: " + eventName);
-//            scheduleController.editView(eventName);
+            eventButton.addActionListener(e -> {
+                System.out.println("Event selected: " + eventName);
+                scheduleController.editView(eventName);
+            });
 
-            // Add the button to the panel
             panel.add(eventButton, constraints);
         });
     }
 
-
     private void addTimePanel(JPanel panel, GridBagConstraints constraints) {
-
         for (int i = 0; i < GRID_ROWS; i++) {
             constraints.gridx = 0;
             constraints.gridy = i + 1;
@@ -200,11 +160,9 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
             timeLabel.setPreferredSize(new Dimension(100, ROW_HEIGHT));
             panel.add(timeLabel, constraints);
         }
-
     }
 
     private void addWeekdayPanel(JPanel panel, GridBagConstraints constraints) {
-
         final String[] weekdays = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
         for (int i = 0; i < GRID_COLUMNS; i++) {
@@ -224,12 +182,13 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("state".equals(evt.getPropertyName())) {
-            scheduleController.getSchedule();
-            refreshScheduleView();
+            ScheduleState newState = (ScheduleState) evt.getNewValue();
+            refreshScheduleView(newState);
+            scheduleController.resetScheduleState();
         }
     }
 
-    private void refreshScheduleView() {
+    private void refreshScheduleView(ScheduleState state) {
         this.removeAll();
         initializeUserInterface();
         this.revalidate();
@@ -243,5 +202,4 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
     public void setScheduleController(ScheduleController controller) {
         this.scheduleController = controller;
     }
-
 }

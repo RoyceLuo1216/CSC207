@@ -31,9 +31,20 @@ public interface ScheduleInputBoundary {
      */
     void popUpEventConflictChatbotView();
 
-//    /**
-//     * Executes the edit view use case.
-//     * @param eventName name of event to edit.
-//     */
-//    void editView(String eventName);
+    /**
+     * Executes the edit view use case.
+     * @param eventName name of event to edit.
+     */
+    void editView(String eventName);
+
+    /**
+     * Sets current event to desired event by name.
+     * @param eventName name of event.
+     */
+    void setCurrentEvent(String eventName);
+
+    /**
+     * Resets the schedule state.
+     */
+    void refreshScheduleState();
 }

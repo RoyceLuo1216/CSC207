@@ -4,6 +4,7 @@ import entities.eventEntity.Event;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -37,7 +38,7 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
         // Prepare and send output data to the presenter
         ScheduleOutputData outputData = new ScheduleOutputData(events);
         presenter.presentView(outputData);
-        System.out.println("yo");
+        System.out.println("refresh schedule");
     }
 
     /**
@@ -64,11 +65,35 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
         presenter.popUpEventConflictChatbotView();
     }
 
-//    /**
-//     * Executes the edit view use case.
-//     */
-//    @Override
-//    public void editView(String eventName) {
-//        presenter.editView(eventName);
-//    }
+    /**
+     * Executes the edit view use case.
+     */
+    @Override
+    public void editView(String eventName) {
+        presenter.editView(eventName);
+    }
+
+    /**
+     * Sets current event to desired event by name.
+     *
+     * @param eventName name of event.
+     */
+    @Override
+    public void setCurrentEvent(String eventName) {
+        System.out.println("eventName: " + eventName);
+        dataAccess.setCurrentEventName(eventName);
+    }
+
+    /**
+     * Resets the schedule state.
+     */
+    @Override
+    public void refreshScheduleState() {
+        // Fetch the raw data from the memory object
+        Map<String, Map<String, Object>> eventDetailsMap = dataAccess.getAllEventInfo();
+
+        // Pass the events to the presenter
+        presenter.updateScheduleWithEvents(eventDetailsMap);
+    }
+
 }
