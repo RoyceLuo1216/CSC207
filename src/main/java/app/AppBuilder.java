@@ -99,24 +99,6 @@ public class AppBuilder {
     }
 
     /**
-     * Dummy event
-     * @return app builder.
-     */
-    public AppBuilder initializeDummyEvent() {
-        if (scheduleViewModel == null) {
-            throw new IllegalStateException("ScheduleViewModel must be initialized before adding events.");
-        }
-
-        // Add the "Tea Time" event to the schedule
-        scheduleViewModel.getState().setEventDetails(
-                "Tea Time",
-                DayOfWeek.WEDNESDAY, LocalTime.of(14, 0), DayOfWeek.WEDNESDAY, LocalTime.of(15, 0)
-        );
-        scheduleViewModel.firePropertyChanged();
-        return this;
-    }
-
-    /**
      * Adds the Event Conflict Chatbot View to the application.
      *
      * @return this builder

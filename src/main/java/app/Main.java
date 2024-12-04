@@ -26,7 +26,6 @@ public class Main {
                 .addEditUseCase()
                 .addScheduleView()
                 .addScheduleUseCase()
-                .initializeDummyEvent()
                 .build();
 
         application.pack();

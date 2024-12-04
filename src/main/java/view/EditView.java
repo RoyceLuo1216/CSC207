@@ -210,29 +210,4 @@ public class EditView extends JPanel implements PropertyChangeListener {
         this.editController = editController;
     }
 
-    /**
-     * Main method for standalone testing of the EditView.
-     */
-    public static void main(String[] args) {
-        EditViewModel editViewModel = new EditViewModel();
-        EditState editState = new EditState();
-        DeleteEventViewModel deleteEventViewModel = new DeleteEventViewModel();
-
-        editState.setEventName("Test Event");
-        editState.setEventType("Repeat");
-        editState.setDayStart("MONDAY");
-        editState.setDayEnd("TUESDAY");
-        editState.setTimeStart("12:00");
-        editState.setTimeEnd("14:00");
-        editState.setDaysRepeated(List.of("MONDAY", "FRIDAY"));
-        editState.setOutputMessage("Edit event initialized.");
-
-        editViewModel.setState(editState);
-
-        JFrame frame = new JFrame("Edit Event Test");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 500);
-        frame.add(new EditView(editViewModel, deleteEventViewModel));
-        frame.setVisible(true);
-    }
 }
