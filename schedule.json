@@ -1,1 +1,1 @@
-{"events":[],"currentEventName":"Tea Time","allEvents":[],"allEventNames":[],"currentEventDetails":[]}
+{"events":[{"eventType":"fixedEvent","eventType":"Fised","dayStart":"SUNDAY","dayEnd":"SUNDAY","eventName":"sun","timeStart":"03:00:00","timeEnd":"04:00:00"}],"currentEventName":"mon","allEventNames":["sun"],"allEvents":[{"eventType":"fixedEvent","eventType":"Fised","dayStart":"SUNDAY","dayEnd":"SUNDAY","eventName":"sun","timeStart":"03:00:00","timeEnd":"04:00:00"}],"currentEventDetails":[]}

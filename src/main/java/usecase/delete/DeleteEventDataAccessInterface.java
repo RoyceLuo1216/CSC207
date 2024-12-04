@@ -24,4 +24,8 @@ public interface DeleteEventDataAccessInterface {
      */
     Optional<Event> getEventByName(String name);
 
+    /**
+     * Method to get current event name.
+     */
+    String getCurrentEventName();
 }

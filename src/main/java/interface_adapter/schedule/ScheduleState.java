@@ -50,9 +50,11 @@ public class ScheduleState {
 
     /**
      * Adds or updates event details for a specific event name.
-     *
-     * @param eventName the name of the event
-     * @param details   a list containing start day, start time, end day, and end time.
+     * @param eventName name of event
+     * @param startDay start day
+     * @param startTime start time
+     * @param endDay end day
+     * @param endTime end time
      */
     public void setEventDetails(String eventName, DayOfWeek startDay, LocalTime startTime, DayOfWeek endDay, LocalTime endTime) {
         eventDetailsMap.put(eventName, List.of(startDay, startTime, endDay, endTime));

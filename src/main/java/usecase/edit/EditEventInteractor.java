@@ -3,6 +3,7 @@ package usecase.edit;
 import java.util.List;
 
 import entities.eventEntity.Event;
+import usecase.delete.DeleteEventOutputData;
 
 /**
  * Interactor for the Edit Use Case.
@@ -18,21 +19,40 @@ public class EditEventInteractor implements EditEventInputBoundary {
 
     @Override
     public void execute(EditEventInputData inputData) {
-        Event event = dataAccess.getEventByName(inputData.getEventName())
-                .orElseThrow(() -> new IllegalArgumentException("Event not found"));
+        // Get current event details
+        List<Object> eventDetails = dataAccess.getCurrentEventDetails();
 
-        // Update Event Data
-        event.setDayStart(inputData.getDayStart());
-        event.setDayEnd(inputData.getDayEnd());
-        event.setTimeStart(inputData.getTimeStart());
-        event.setTimeEnd(inputData.getTimeEnd());
+        if (eventDetails.isEmpty()) {
+            presenter.prepareFailView("Event not found or no current event selected.");
+            return;
+        }
 
-        presenter.prepareSuccessView(new EditEventOutputData(
-                event.getEventName(), event.getEventType(),
-                inputData.getDayStart().toString(), inputData.getDayEnd().toString(),
-                inputData.getTimeStart().toString(), inputData.getTimeEnd().toString(),
-                "Successfully updated event."
-        ));
+        try {
+            // Extract event details in the expected order
+            String eventName = (String) eventDetails.get(0);
+            String eventType = (String) eventDetails.get(1);
+            String dayStart = eventDetails.get(2).toString();
+            String dayEnd = eventDetails.get(3).toString();
+            String timeStart = eventDetails.get(4).toString();
+            String timeEnd = eventDetails.get(5).toString();
+
+            // Update fields based on inputData
+            eventName = inputData.getEventName() != null ? inputData.getEventName() : eventName;
+            eventType = inputData.getEventType() != null ? inputData.getEventType() : eventType;
+            dayStart = inputData.getDayStart() != null ? inputData.getDayStart().toString() : dayStart;
+            dayEnd = inputData.getDayEnd() != null ? inputData.getDayEnd().toString() : dayEnd;
+            timeStart = inputData.getTimeStart() != null ? inputData.getTimeStart().toString() : timeStart;
+            timeEnd = inputData.getTimeEnd() != null ? inputData.getTimeEnd().toString() : timeEnd;
+
+            // Send updated data to the presenter
+            presenter.prepareSuccessView(new EditEventOutputData(
+                    eventName, eventType, dayStart, dayEnd, timeStart, timeEnd,
+                    "Successfully updated event."
+            ));
+        }
+        catch (IndexOutOfBoundsException | ClassCastException e) {
+            presenter.prepareFailView("Error retrieving or processing event details.");
+        }
     }
 
     @Override

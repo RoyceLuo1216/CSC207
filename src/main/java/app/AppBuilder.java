@@ -220,6 +220,31 @@ public class AppBuilder {
         cardPanel.add(editView, editView.getViewName());
         System.out.println("EditView added to CardLayout with name: " + editView.getViewName());
 
+        // Bind EditView to ViewManagerModel
+        viewManagerModel.addPropertyChangeListener(evt -> {
+            if ("edit".equals(evt.getPropertyName())) {
+                CardLayout cl = (CardLayout) cardPanel.getLayout();
+                cl.show(cardPanel, "edit");
+            }
+        });
+
+        return this;
+    }
+
+    public AppBuilder addDeleteView() {
+        deleteEventViewModel = new DeleteEventViewModel();
+        deleteEventView = new DeleteEventView();
+        cardPanel.add(deleteEventView, deleteEventView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addDeleteUseCase() {
+        final DeleteEventOutputBoundary deleteEventOutputBoundary = new DeleteEventPresenter(
+                deleteEventViewModel, viewManagerModel, scheduleViewModel);
+        final DeleteEventInputBoundary deleteEventInteractor = new DeleteEventInteractor(
+                deleteEventOutputBoundary, inMemoryDataAccessObjectDataObject);
+        final DeleteEventController controller = new DeleteEventController(deleteEventInteractor);
+        deleteEventView.setController(controller);
         return this;
     }
 
@@ -231,29 +256,6 @@ public class AppBuilder {
 
         final EditController controller = new EditController(editInteractor);
         editView.setEditController(controller);
-        return this;
-    }
-
-    public AppBuilder addDeleteView() {
-        deleteEventViewModel = new DeleteEventViewModel();
-        deleteEventView = new DeleteEventView();
-        deleteEventView.setController(new DeleteEventController(
-                new DeleteEventInteractor(
-                        new DeleteEventPresenter(deleteEventViewModel, viewManagerModel),
-                        inMemoryDataAccessObjectDataObject
-                )
-        ));
-        System.out.println("DeleteView created and configured.");
-        return this;
-    }
-
-    public AppBuilder addDeleteUseCase() {
-        final DeleteEventOutputBoundary deleteEventOutputBoundary = new DeleteEventPresenter(
-                deleteEventViewModel, viewManagerModel);
-        final DeleteEventInputBoundary deleteEventInteractor = new DeleteEventInteractor(
-                deleteEventOutputBoundary, inMemoryDataAccessObjectDataObject);
-        final DeleteEventController controller = new DeleteEventController(deleteEventInteractor);
-        deleteEventView.setController(controller);
         return this;
     }
 

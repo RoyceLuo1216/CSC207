@@ -226,17 +226,99 @@ public class ScheduleView extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("state".equals(evt.getPropertyName())) {
-            System.out.println("Switching to schedule view: " );
+            ScheduleState newState = (ScheduleState) evt.getNewValue();
+            System.out.println("Switching to schedule view with updated state: " + newState);
+
+            // Fetch and use the updated state
             scheduleController.getSchedule();
-            refreshScheduleView();
+            refreshScheduleView(newState);
         }
     }
 
-    private void refreshScheduleView() {
+    private void refreshScheduleView(ScheduleState state) {
         this.removeAll();
-        initializeUserInterface();
+        this.setLayout(new BorderLayout());
+
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        JPanel schedulePanel = new JPanel(new GridBagLayout());
+        JPanel sidePanel = new JPanel();
+        sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
+
+        JScrollPane scrollPane = new JScrollPane(schedulePanel);
+
+        // Adjust scroll speed
+        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+        verticalScrollBar.setUnitIncrement(DIMENSION_12);
+        verticalScrollBar.setBlockIncrement(DIMENSION_20);
+        scrollPane.setVerticalScrollBar(verticalScrollBar);
+
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, DIMENSION_20, DIMENSION_20, DIMENSION_10));
+        this.add(scrollPane, BorderLayout.CENTER);
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
+
+        // Add buttons
+        addButtons(sidePanel);
+
+        // Add time panel
+        addTimePanel(schedulePanel, constraints);
+
+        // Add weekday panel
+        addWeekdayPanel(schedulePanel, constraints);
+
+        // Render event buttons using updated state
+        renderEventButtons(schedulePanel, constraints, state);
+
+        // Add schedulePanel to the center of mainPanel
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+
+        // Add sidePanel to the right of mainPanel
+        mainPanel.add(sidePanel, BorderLayout.EAST);
+
+        // Add mainPanel to the current view
+        this.add(mainPanel, BorderLayout.CENTER);
+
         this.revalidate();
         this.repaint();
+    }
+
+    private void renderEventButtons(JPanel panel, GridBagConstraints constraints, ScheduleState state) {
+        Map<String, List<Object>> events = state.getAllEventDetails();
+        System.out.println("Rendering events: " + events);
+
+        events.forEach((eventName, details) -> {
+            DayOfWeek startDay = (DayOfWeek) details.get(0);
+            LocalTime startTime = (LocalTime) details.get(1);
+            LocalTime endTime = (LocalTime) details.get(3);
+
+            // Adjust grid position calculation
+            int gridX = startDay.getValue();
+            gridX = (gridX % 7) + 1;
+
+            int startGridY = startTime.getHour();
+            int endGridY = endTime.getHour();
+            int gridHeight = endGridY - startGridY;
+
+            constraints.gridx = gridX;
+            constraints.gridy = startGridY + 1;
+            constraints.gridwidth = 1;
+            constraints.gridheight = gridHeight;
+            constraints.insets = new Insets(CELL_PADDING, 10, CELL_PADDING, CELL_PADDING);
+
+            // Create event button
+            JButton eventButton = new JButton(eventName);
+            eventButton.setFont(new Font("Arial", Font.PLAIN, LABEL_FONT_SIZE));
+            eventButton.setPreferredSize(new Dimension(100, ROW_HEIGHT));
+            eventButton.addActionListener(e -> {
+                System.out.println("Event selected: " + eventName);
+                scheduleController.editView(eventName);
+            });
+
+            // Add the button to the panel
+            panel.add(eventButton, constraints);
+        });
     }
 
     public String getViewName() {

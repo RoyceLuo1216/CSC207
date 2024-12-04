@@ -16,22 +16,24 @@ class DeleteEventInteractorTest {
     private static class MockDataAccessObject implements DeleteEventDataAccessInterface {
         private boolean eventExists;
         private boolean deleteCalled;
+        private String currentEventName;
 
-        public MockDataAccessObject(boolean eventExists) {
+        public MockDataAccessObject(boolean eventExists, String currentEventName) {
             this.eventExists = eventExists;
+            this.currentEventName = currentEventName;
             this.deleteCalled = false;
         }
 
         @Override
         public void deleteEvent(String eventName) {
-            if (eventExists) {
+            if (eventExists && eventName.equals(currentEventName)) {
                 deleteCalled = true;
             }
         }
 
         @Override
         public Optional<Event> getEventByName(String name) {
-            if (eventExists) {
+            if (eventExists && name.equals(currentEventName)) {
                 return Optional.of(new FixedEvent(
                         DayOfWeek.WEDNESDAY,        // Start day
                         DayOfWeek.WEDNESDAY,        // End day
@@ -41,6 +43,11 @@ class DeleteEventInteractorTest {
                 ));
             }
             return Optional.empty();
+        }
+
+        @Override
+        public String getCurrentEventName() {
+            return currentEventName;
         }
 
         public boolean isDeleteCalled() {
@@ -66,11 +73,33 @@ class DeleteEventInteractorTest {
             failureMessage = errorMessage;
         }
 
-        /**
-         * Transitions back to the main view.
-         */
         @Override
         public void backToScheduleView() {
+            // Simulate transition back to schedule view
+        }
+
+        @Override
+        public void editView() {
+            // Simulate transition back to edit view
+        }
+
+        /**
+         * gets event details.
+         *
+         * @param deleteEventOutputData output data.
+         */
+        @Override
+        public void prepareEventDetails(DeleteEventOutputData deleteEventOutputData) {
+
+        }
+
+        /**
+         * Notify view to remove event button
+         *
+         * @param eventName
+         */
+        @Override
+        public void removeEventFromView(String eventName) {
 
         }
 
@@ -95,13 +124,12 @@ class DeleteEventInteractorTest {
     void testDeleteEvent_Success() {
         // Arrange
         String eventName = "Christmas Brunch";
-        MockDataAccessObject mockDao = new MockDataAccessObject(true);
+        MockDataAccessObject mockDao = new MockDataAccessObject(true, eventName);
         MockPresenter mockPresenter = new MockPresenter();
         DeleteEventInputBoundary interactor = new DeleteEventInteractor(mockPresenter, mockDao);
-        DeleteEventInputData inputData = new DeleteEventInputData(eventName);
 
         // Act
-        interactor.execute(inputData);
+        interactor.deleteEvent();
 
         // Assert
         assertTrue(mockDao.isDeleteCalled(), "Event deletion should be called on DAO.");
@@ -111,21 +139,52 @@ class DeleteEventInteractorTest {
     }
 
     @Test
-    void testDeleteEvent_Failure_EventDoesNotExist() {
+    void testDeleteEvent_Failure_NoCurrentEvent() {
         // Arrange
-        String eventName = "Nonexistent Event";
-        MockDataAccessObject mockDao = new MockDataAccessObject(false);
+        MockDataAccessObject mockDao = new MockDataAccessObject(false, "");
         MockPresenter mockPresenter = new MockPresenter();
         DeleteEventInputBoundary interactor = new DeleteEventInteractor(mockPresenter, mockDao);
-        DeleteEventInputData inputData = new DeleteEventInputData(eventName);
 
         // Act
-        interactor.execute(inputData);
+        interactor.deleteEvent();
 
         // Assert
-        assertFalse(mockDao.isDeleteCalled(), "Event deletion should not be called on DAO when event does not exist.");
+        assertFalse(mockDao.isDeleteCalled(), "Event deletion should not be called on DAO when no event exists.");
         assertFalse(mockPresenter.isSuccessCalled(), "Success presenter method should not be called.");
         assertTrue(mockPresenter.isFailureCalled(), "Failure presenter method should be called.");
-        assertEquals("The event, Nonexistent Event does not exist.", mockPresenter.getFailureMessage(), "Correct failure message should be passed to presenter.");
+        assertEquals("No current event to delete.", mockPresenter.getFailureMessage(), "Correct failure message should be passed to presenter.");
+    }
+
+    @Test
+    void testFetchEventDetails_Success() {
+        // Arrange
+        String eventName = "Weekly Meeting";
+        MockDataAccessObject mockDao = new MockDataAccessObject(true, eventName);
+        MockPresenter mockPresenter = new MockPresenter();
+        DeleteEventInputBoundary interactor = new DeleteEventInteractor(mockPresenter, mockDao);
+
+        // Act
+        interactor.fetchEventDetails();
+
+        // Assert
+        assertFalse(mockPresenter.isFailureCalled(), "Failure presenter method should not be called.");
+        assertTrue(mockPresenter.isSuccessCalled(), "Success presenter method should be called.");
+        assertEquals(eventName, mockPresenter.getSuccessEventName(), "Correct event name should be fetched and passed to presenter.");
+    }
+
+    @Test
+    void testFetchEventDetails_Failure_NoCurrentEvent() {
+        // Arrange
+        MockDataAccessObject mockDao = new MockDataAccessObject(false, "");
+        MockPresenter mockPresenter = new MockPresenter();
+        DeleteEventInputBoundary interactor = new DeleteEventInteractor(mockPresenter, mockDao);
+
+        // Act
+        interactor.fetchEventDetails();
+
+        // Assert
+        assertTrue(mockPresenter.isFailureCalled(), "Failure presenter method should be called when no current event exists.");
+        assertEquals("No current event found.", mockPresenter.getFailureMessage(), "Correct failure message should be passed to presenter.");
+        assertFalse(mockPresenter.isSuccessCalled(), "Success presenter method should not be called.");
     }
 }

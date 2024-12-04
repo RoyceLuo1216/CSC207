@@ -14,4 +14,7 @@ public class DeleteEventOutputData {
         return eventName;
     }
 
+    public String getMessage() {
+        return "output";
+    }
 }

@@ -67,7 +67,7 @@ public class EditEventPresenter implements EditEventOutputBoundary {
     @Override
     public void scheduleView() {
         System.out.println("Edit to Schedule");
-        viewManagerModel.setState(scheduleViewModel.getViewName());
+        viewManagerModel.setState("schedule");
         viewManagerModel.firePropertyChanged();
     }
 
@@ -77,7 +77,7 @@ public class EditEventPresenter implements EditEventOutputBoundary {
     @Override
     public void deleteView() {
         System.out.println("Edit to Delete");
-        viewManagerModel.setState(deleteEventViewModel.getViewName());
+        viewManagerModel.setState("delete");
         viewManagerModel.firePropertyChanged();
     }
 }

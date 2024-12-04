@@ -1,6 +1,7 @@
 package interface_adapter.delete;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.schedule.ScheduleViewModel;
 import usecase.delete.DeleteEventOutputBoundary;
 import usecase.delete.DeleteEventOutputData;
 
@@ -10,10 +11,13 @@ import usecase.delete.DeleteEventOutputData;
 public class DeleteEventPresenter implements DeleteEventOutputBoundary {
     private final DeleteEventViewModel viewModel;
     private final ViewManagerModel viewManagerModel;
+    private final ScheduleViewModel scheduleViewModel;
 
-    public DeleteEventPresenter(DeleteEventViewModel viewModel, ViewManagerModel viewManagerModel) {
+    public DeleteEventPresenter(DeleteEventViewModel viewModel, ViewManagerModel viewManagerModel,
+                                ScheduleViewModel scheduleViewModel) {
         this.viewModel = viewModel;
         this.viewManagerModel = viewManagerModel;
+        this.scheduleViewModel = scheduleViewModel;
     }
 
     @Override
@@ -32,4 +36,22 @@ public class DeleteEventPresenter implements DeleteEventOutputBoundary {
         viewManagerModel.setState("schedule");
         viewManagerModel.firePropertyChanged();
     }
+
+    /**
+     * Transition to edit view.
+     */
+    @Override
+    public void editView() {
+        viewManagerModel.setState("edit");
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareEventDetails(DeleteEventOutputData outputData) {
+        DeleteEventState state = viewModel.getState();
+        state.setEventName(outputData.getEventName());
+        state.setMessage(outputData.getMessage());
+        viewModel.firePropertyChanged("eventDetails");
+    }
+
 }

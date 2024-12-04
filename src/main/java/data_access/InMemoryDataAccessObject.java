@@ -63,8 +63,12 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
      */
     @Override
     public void deleteEvent(String name) {
+        System.out.println("before deletion num of events: " + getEvents().size());
+
         final Optional<Event> eventToRemove = getEventByName(name);
         eventToRemove.map(events::remove);
+        System.out.println("Deleting event: " + name);
+        System.out.println("num of events: " + getEvents().size());
     }
 
     /**
@@ -73,7 +77,7 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
      * @return a list of all the events currently in the schedule
      */
     public List<Event> getAllEvents() {
-        return events;
+        return this.events;
     }
 
     /**
@@ -141,7 +145,8 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
             if ("Repeat".equalsIgnoreCase(currentEvent.getEventType())) {
                 final RepeatEvent repeatEvent = (RepeatEvent) currentEvent;
                 details.add(repeatEvent.getDaysRepeated());
-            } else {
+            }
+            else {
                 // For non-repeat events, include just the start day as the repeat day
                 details.add(List.of(currentEvent.getDayStart()));
             }

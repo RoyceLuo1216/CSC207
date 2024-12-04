@@ -37,7 +37,7 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
         // Prepare and send output data to the presenter
         ScheduleOutputData outputData = new ScheduleOutputData(events);
         presenter.presentView(outputData);
-        System.out.println("yo");
+        System.out.println("refresh schedule");
     }
 
     /**
