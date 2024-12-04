@@ -34,5 +34,4 @@ public interface DeleteEventOutputBoundary {
      * @param deleteEventOutputData output data.
      */
     void prepareEventDetails(DeleteEventOutputData deleteEventOutputData);
-
 }

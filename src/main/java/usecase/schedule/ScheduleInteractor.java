@@ -4,6 +4,7 @@ import entities.eventEntity.Event;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -83,7 +84,16 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
         dataAccess.setCurrentEventName(eventName);
     }
 
-    public void deleteEvent(String eventName) {
-        dataAccess.deleteEvent(eventName);
+    /**
+     * Resets the schedule state.
+     */
+    @Override
+    public void refreshScheduleState() {
+        // Fetch the raw data from the memory object
+        Map<String, Map<String, Object>> eventDetailsMap = dataAccess.getAllEventInfo();
+
+        // Pass the events to the presenter
+        presenter.updateScheduleWithEvents(eventDetailsMap);
     }
+
 }

@@ -1,5 +1,8 @@
 package usecase.schedule;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Output Boundary for presenting schedule data.
  */
@@ -31,4 +34,10 @@ public interface ScheduleOutputBoundary {
      * @param eventName event name to edit.
      */
     void editView(String eventName);
+
+    /**
+     * Update schedule state.
+     * @param eventDetailsMap event info.
+     */
+    void updateScheduleWithEvents(Map<String, Map<String, Object>> eventDetailsMap);
 }

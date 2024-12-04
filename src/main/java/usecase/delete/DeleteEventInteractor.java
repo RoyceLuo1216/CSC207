@@ -46,7 +46,6 @@ public class DeleteEventInteractor implements DeleteEventInputBoundary {
             System.out.println("Deleting event (interactor): " + eventName);
             dataAccessObject.deleteEvent(eventName);
             presenter.presentSuccess(new DeleteEventOutputData(eventName));
-
         }
     }
 

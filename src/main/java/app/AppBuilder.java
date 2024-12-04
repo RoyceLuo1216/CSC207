@@ -240,7 +240,8 @@ public class AppBuilder {
 
     public AppBuilder addDeleteUseCase() {
         final DeleteEventOutputBoundary deleteEventOutputBoundary = new DeleteEventPresenter(
-                deleteEventViewModel, viewManagerModel, scheduleViewModel);
+                deleteEventViewModel, viewManagerModel);
+
         final DeleteEventInputBoundary deleteEventInteractor = new DeleteEventInteractor(
                 deleteEventOutputBoundary, inMemoryDataAccessObjectDataObject);
         final DeleteEventController controller = new DeleteEventController(deleteEventInteractor);

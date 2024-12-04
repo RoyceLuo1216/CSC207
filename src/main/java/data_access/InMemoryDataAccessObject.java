@@ -2,9 +2,7 @@ package data_access;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import entities.eventEntity.Event;
@@ -117,6 +115,33 @@ public class InMemoryDataAccessObject implements DeleteEventDataAccessInterface,
     public String getCurrentEventName() {
         return this.currentEventName;
     }
+
+    /**
+     * Retrieves all events as a Map<String, List<Object>>.
+     *
+     * @return a map of event names to their details
+     */
+    @Override
+    public Map<String, Map<String, Object>> getAllEventInfo() {
+        // Assume `events` is a List<Event> containing all events in memory
+        List<Event> myEvents = this.events;
+
+        Map<String, Map<String, Object>> eventDetailsMap = new HashMap<>();
+
+        for (Event event : myEvents) {
+            Map<String, Object> eventDetails = new HashMap<>();
+            eventDetails.put("dayStart", event.getDayStart());
+            eventDetails.put("timeStart", event.getTimeStart());
+            eventDetails.put("dayEnd", event.getDayEnd());
+            eventDetails.put("timeEnd", event.getTimeEnd());
+            eventDetails.put("eventType", event.getEventType());
+
+            eventDetailsMap.put(event.getEventName(), eventDetails);
+        }
+
+        return eventDetailsMap;
+    }
+
 
     /**
      * Returns the details (time, day, etc.) associated with the current event stored in memory.

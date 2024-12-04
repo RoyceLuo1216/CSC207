@@ -83,4 +83,15 @@ public class ScheduleState {
         return eventDetailsMap;
     }
 
+    /**
+     * Removes an event by name.
+     *
+     * @param eventName The name of the event to remove.
+     */
+    public void removeEvent(String eventName) {
+        System.out.println("Removing event from schedule state: " + eventName);
+        if (eventDetailsMap.containsKey(eventName)) {
+            eventDetailsMap.remove(eventName);
+        }
+    }
 }

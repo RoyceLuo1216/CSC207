@@ -14,6 +14,8 @@ public class ViewModel<T> {
 
     private final String viewName;
 
+    private boolean suppressEvents = false;
+
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     private T state;
@@ -37,13 +39,25 @@ public class ViewModel<T> {
 
     }
 
+    public void setSuppressEvents(boolean suppressEvents) {
+        this.suppressEvents = suppressEvents;
+    }
+
     /**
      * Fires a property changed event for the state of this ViewModel.
      */
     public void firePropertyChanged() {
-        this.support.firePropertyChange("state", null, this.state);
-        System.out.println("fire property changed to " + this.state);
+        if (!suppressEvents) {
+            this.support.firePropertyChange("state", null, this.state);
+            System.out.println("fire property changed to " + this.state);
+        }
     }
+
+
+//    public void firePropertyChanged() {
+//        this.support.firePropertyChange("state", null, this.state);
+//        System.out.println("fire property changed to " + this.state);
+//    }
 
     /**
      * Fires a property changed event for the state of this ViewModel, which

@@ -8,6 +8,11 @@ import interface_adapter.edit.EditViewModel;
 import usecase.schedule.ScheduleOutputBoundary;
 import usecase.schedule.ScheduleOutputData;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Presenter for the Schedule Use Case.
  */
@@ -104,6 +109,41 @@ public class SchedulePresenter implements ScheduleOutputBoundary {
         System.out.println("Schedule to edit Presenter");
         viewManagerModel.setState(editViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void updateScheduleWithEvents(Map<String, Map<String, Object>> eventDetailsMap) {
+        // Convert event details map into a ScheduleState or equivalent format
+        viewModel.setSuppressEvents(true);
+
+        System.out.println("Upating schedule state" + eventDetailsMap);
+        ScheduleState updatedState = convertToScheduleState(eventDetailsMap);
+
+        // Only update if there is a meaningful change
+        if (!viewModel.getState().equals(updatedState)) {
+            viewModel.setState(updatedState);
+        }
+
+        // Reactivate property change events
+        viewModel.setSuppressEvents(false);
+
+    }
+
+    private ScheduleState convertToScheduleState(Map<String, Map<String, Object>> eventDetailsMap) {
+        ScheduleState state = new ScheduleState();
+
+        eventDetailsMap.forEach((eventName, details) -> {
+            DayOfWeek dayStart = (DayOfWeek) details.get("dayStart");
+            LocalTime timeStart = (LocalTime) details.get("timeStart");
+            DayOfWeek dayEnd = (DayOfWeek) details.get("dayEnd");
+            LocalTime timeEnd = (LocalTime) details.get("timeEnd");
+
+            state.setEventDetails(eventName, dayStart, timeStart, dayEnd, timeEnd);
+
+            System.out.println(eventName + " " + dayStart + " " + timeStart + " " + dayEnd + " " + timeEnd);
+        });
+
+        return state;
     }
 
 }

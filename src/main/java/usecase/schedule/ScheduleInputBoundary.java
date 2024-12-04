@@ -43,4 +43,8 @@ public interface ScheduleInputBoundary {
      */
     void setCurrentEvent(String eventName);
 
+    /**
+     * Resets the schedule state.
+     */
+    void refreshScheduleState();
 }

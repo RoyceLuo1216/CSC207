@@ -1,6 +1,5 @@
 package usecase.deleteevent;
 
-import interface_adapter.schedule.ScheduleViewModel;
 import org.junit.jupiter.api.Test;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.delete.DeleteEventPresenter;
@@ -15,7 +14,7 @@ class DeleteEventPresenterTest {
     void testPresentSuccess() {
         DeleteEventViewModel viewModel = new DeleteEventViewModel();
         ViewManagerModel viewManagerModel = new ViewManagerModel();
-        DeleteEventPresenter presenter = new DeleteEventPresenter(viewModel, viewManagerModel, new ScheduleViewModel());
+        DeleteEventPresenter presenter = new DeleteEventPresenter(viewModel, viewManagerModel);
 
         presenter.presentSuccess(new DeleteEventOutputData("Christmas Brunch"));
 
@@ -30,7 +29,7 @@ class DeleteEventPresenterTest {
     void testPresentFailure() {
         DeleteEventViewModel viewModel = new DeleteEventViewModel();
         ViewManagerModel viewManagerModel = new ViewManagerModel();
-        DeleteEventPresenter presenter = new DeleteEventPresenter(viewModel, viewManagerModel, new ScheduleViewModel());
+        DeleteEventPresenter presenter = new DeleteEventPresenter(viewModel, viewManagerModel);
 
         presenter.presentFailure("Failed to delete event.");
 

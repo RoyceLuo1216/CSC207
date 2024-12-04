@@ -67,4 +67,9 @@ public class ScheduleController {
         interactor.editView(eventName);
     }
 
+    public void resetScheduleState() {
+        interactor.refreshScheduleState();
+    }
+
+
 }
